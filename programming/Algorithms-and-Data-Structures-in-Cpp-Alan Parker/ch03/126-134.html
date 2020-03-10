@@ -1,0 +1,197 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=126-134//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="112-126.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="134-150.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="LEFT"><A NAME="Heading10"></A><FONT COLOR="#000077">3.4.1 Singly Linked Lists</FONT></H4>
+<P>A linked list with four entries is shown in Figure 3.6. As seen in the figure, there is a pointer which points to the head of the list. Each object in the list has associated data and a pointer to the next element in the list. The figure is shown with four objects. The final element contains a NULL pointer. This is common practice to indicate the end of the list. The data in the linked list can be a single element or a large collection of data.
+</P>
+<P>A C++ program to demonstrate the linked list is shown in Code List 3.17. program creates a linked lists of classes. The class template is declared as</P>
+<!-- CODE //-->
+<PRE>
+template &lt;class T&gt;
+
+class list {
+
+private:
+
+        list &lt;T&gt; * next;
+
+        friend class start_list&lt;T&gt;;
+
+        friend class iterator&lt;T&gt;;
+
+public:
+
+        T data;
+
+};
+</PRE>
+<!-- END CODE //-->
+<P>In this declaration <I>next</I> is declared as a pointer to the next element in the list. Two classes are declared as <I>friends</I> to the class, <I>start_list</I> and <I>iterator</I>. As a result these classes will have access to the functions and data of the class list. <I>data</I> is declared as public in the class. The data type T is declared later in the program.</P>
+<P>The next class declared in the program is <I>start_list</I> which is defined as</P>
+<!-- CODE //-->
+<PRE>
+class start_list
+
+        {
+
+        list&lt;T&gt; *start;
+
+        friend clas iterator&lt;T&gt;;
+
+        public:
+
+        start_list(void) { start=0;}
+
+        ~start_list(void);
+
+        void add(T t);
+
+        int isMember(T t);
+
+        }
+</PRE>
+<!-- END CODE //-->
+<P>For this class, a pointer to the start of a list is declared. The constructor function <I>start_list()</I> initializes start to zero when an item of class <I>start_list</I> is declared. The function <I>start_list()</I> is declared inline. The function <I>add</I> is used to add elements to the list. The destructor function ~<I>start_list()</I> is called when data of type <I>start_list</I> lose their scope. The function ~<I>start list()</I> is not declared inline. The function <I>isMember</I> is used to determine if a data element matches an element in any of the members of the linked list. Notice that in the program, <I>start_list</I> is used to instantiate a class of type <I>list</I>. The <I>add</I> function is declared next in the program This function creates an element of type <I>list</I> and appends it to the current list. If the list is empty then the function assigns <I>start</I> to the beginning of the new list.</P>
+<P>The <I>isMember</I> function is declared next in the program. The <I>isMember</I> function searches the list and tries to find a match to the data t that is passed. If a match is found the function returns I else the function returns 0.</P>
+<P>The destructor function for the class, ~<I>start_list</I>, is defined next. The destructor function begins at the start of the list and deletes the lists that are formed making up the entire linked list. The destructor function in turn assigns <I>start</I> to null. This function will be called in the program when any data of type <I>start_list</I> loses scope. This is a very powerful technique of C++. Typically the constructor functions are used to acquire memory upon the creation of a variable and the memory is freed up via the destructor function.</P>
+<P>The next class defined is the <I>iterator</I> class. The <I>iterator</I> class is used to traverse the linked list. The iterator class contains a pointer to the start of a list and a <I>cursor</I> to traverse the list. The class contains a function <I>reset</I> which sets the <I>cursor</I> back to the start of the list. The constructor function for the class accepts a parameter which is a pointer to a class of type <I>start_list</I>. The constructor function calls <I>reset</I> to initialize <I>cursor</I>. The function <I>next</I> is used to iterate the list. The function assigns the pointer <I>p</I> to <I>cursor</I> and <I>cursor</I> to <I>cursor</I>-&gt;<I>next</I> if <I>cursor</I> is not null.</P>
+<P>The program then initiates a number of <I>typedefs</I> which create lists and pointers to list for the data types of string, double, int, char.</P>
+<P>The <I>main()</I> routine creates a number of lists. The first list created, <I>number</I>, is declared with <I>list_double number</I>. This list will contain a list of data elements of type double. Upon the declaration of <I>list_double</I> room for the data has not been allocated and the list pointers have been set to null. The first time room for data is allocated is during the call <I>number.add(4.5)</I>. This adds 4.5 to the list. Subsequent calls to <I>number.add()</I> append the data to the list. To access the numbers in the newly formed list a <I>list_double_iterator</I> is declared with <I>list_-double_iterator x(&amp; number)</I>. The <I>list_double_ptr p</I> access the data via calls to the iterator function <I>x.next()</I>. The output for the program is shown in Code List 3.18.</P>
+<P><B>Code List 3.17</B> Linked List Source</P>
+<P><A NAME="Fig35"></A><A HREF="javascript:displayWindow('images/03-35.jpg',500,89)"><IMG SRC="images/03-35t.jpg"></A></P>
+<P><A NAME="Fig36"></A><A HREF="javascript:displayWindow('images/03-36.jpg',450,385)"><IMG SRC="images/03-36t.jpg"></A></P>
+<P><A NAME="Fig37"></A><A HREF="javascript:displayWindow('images/03-37.jpg',450,844)"><IMG SRC="images/03-37t.jpg"></A></P>
+<P><A NAME="Fig38"></A><A HREF="javascript:displayWindow('images/03-38.jpg',450,843)"><IMG SRC="images/03-38t.jpg"></A></P>
+<P><A NAME="Fig39"></A><A HREF="javascript:displayWindow('images/03-39.jpg',450,819)"><IMG SRC="images/03-39t.jpg"></A></P>
+<P><A NAME="Fig40"></A><A HREF="javascript:displayWindow('images/03-40.jpg',500,90)"><IMG SRC="images/03-40t.jpg"></A></P>
+<P><A NAME="Fig41"></A><A HREF="javascript:displayWindow('images/03-41.jpg',500,304)"><IMG SRC="images/03-41t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-41.jpg',500,304)"><FONT COLOR="#000077"><B>Figure 3.6</B></FONT></A>&nbsp;&nbsp;Linked List</P>
+<P><B>Code List 3.18</B> Output from Code List 3.17</P>
+<P><A NAME="Fig42"></A><A HREF="javascript:displayWindow('images/03-42.jpg',150,306)"><IMG SRC="images/03-42t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading11"></A><FONT COLOR="#000077">3.4.2 Circular Lists</FONT></H4>
+<P>A circular list with two entries is shown in Figure 3.7. A circular list contains a pointer from the last object in the list to the first. In a sense, the new list has no beginning or end. The circular list is common in use for storing the most recent data when limited to finite storage. A common technique is to allocate a fixed amount of storage for a particular database and after it fills up to write over the old data by looping back around to the beginning. Obviously, the application is limited to cases where data loss is not critical. An example might be a database used to store the last 20 issues of The Wall Street Journal.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading12"></A><FONT COLOR="#000077">3.4.3 Doubly Linked Lists</FONT></H4>
+<P>A doubly linked list with two elements is shown in Figure 3.8. Doubly linked lists are used to provide bidirectional access to the data in the list. For many searching techniques it might be useful to traverse data from both sides of the list. A good example of this is quicksort which is discussed in Section 3.8.
+</P>
+<P><A NAME="Fig43"></A><A HREF="javascript:displayWindow('images/03-43.jpg',500,177)"><IMG SRC="images/03-43t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-43.jpg',500,177)"><FONT COLOR="#000077"><B>Figure 3.7</B></FONT></A>&nbsp;&nbsp;Circular List</P>
+<P><A NAME="Fig44"></A><A HREF="javascript:displayWindow('images/03-44.jpg',500,208)"><IMG SRC="images/03-44t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-44.jpg',500,208)"><FONT COLOR="#000077"><B>Figure 3.8</B></FONT></A>&nbsp;&nbsp;Doubly Linked List<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="112-126.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="134-150.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

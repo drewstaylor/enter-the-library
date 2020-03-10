@@ -1,0 +1,180 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=134-150//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="126-134.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="150-165.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+</P>
+<H3><A NAME="Heading13"></A><FONT COLOR="#000077">3.5 Operations on Linked Lists</FONT></H3>
+<P>There are a number of operations on linked lists that are useful. These operations might be assigned to a class from which different types of linked lists are derived. Some common operations might be
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;add_object &#151; to add an object to the linked list
+<DD><B>&#149;</B>&nbsp;&nbsp;destroy_object &#151; to destroy an object of the linked list
+<DD><B>&#149;</B>&nbsp;&nbsp;find_Object &#151; to find an object in the list
+<DD><B>&#149;</B>&nbsp;&nbsp;find_member &#151; to search the whole list for a specific member
+<DD><B>&#149;</B>&nbsp;&nbsp;find_last-member &#151; finds the last object in the list which matches the specific member
+</DL>
+<P>A number operations including sorting might also be defined for the linked list.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading14"></A><FONT COLOR="#000077">3.5.1 A Linked List Example</FONT></H4>
+<P>This section presents a complete example in C++ which demonstrates the use of linked lists to search for the solution to a particular coffee-house game. The purpose of the game is to eliminate as many pegs as possible on a triangular board by jumping individual pegs. The board used for this example consists of ten slots and nine pegs. The board is numbered and initialized as shown in Figure 3.9. Initially, the nine pegs occupy slots one through nine and slot zero is unoccupied. A peg may jump an adjacent peg (horizontally, or diagonally) into an unoccupied slot. The peg that is jumped is removed from the board. This is similar to capturing a piece by jumping in the game of checkers.
+</P>
+<P>A valid move sequence produced by the program in Code List 3.19 is illustrated in Figure 3.9. The first move in the game is for peg number five to jump over peg number two landing in the empty slot zero. Peg number two is removed from the board and the game continues. The next move is to move peg number seven, jumping over peg number four, and landing in the unoccupied slot two. Peg number four is then removed from the board. The game continues in a similar fashion until there are no more possible moves. At the end of the game in Figure 3.9 three pieces remain on the board: piece number five, piece number six, and piece number eight.</P>
+<P>The output of the program is shown in Code List 3.20. The output presents an X if there is a peg remaining at a specific position and a 0 if there is no peg. As seen in the output file at the stage the search is printed out there are three pegs left for each combination. The output is the exhaustive list of all combinations which result in three pegs remaining after six moves. In all cases there are no more additional valid moves. The paths are printed for each solution. Multiple paths give rise to the same final peg distribution for instance</P>
+<P ALIGN="CENTER">[(5,0),(7,2),(0,5),(9,7),(6,8),(1,6)]</P>
+<P>and</P>
+<P ALIGN="CENTER">[(5,0),(7,2),(9,7),(6,8),(1,6), (0,5)]</P>
+<P>both result in 00000XX0X0.</P>
+<P>One of the problems with the program is the massive amount of data required to store all valid paths which lead to a fixed peg configuration. Consider the problem of expanding the game to the &#147;real&#148; coffee house game which really consists of 14 pegs initially placed on a triangle. If the program is modified to support the new triangle then it requires too much memory to run on most workstations. As a result if the desired problem is to find one path that is optimal a different approach described in the next section must be taken.</P>
+<P><A NAME="Fig45"></A><A HREF="javascript:displayWindow('images/03-45.jpg',450,714)"><IMG SRC="images/03-45t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-45.jpg',450,714)"><FONT COLOR="#000077"><B>Figure 3.9</B></FONT></A>&nbsp;&nbsp;A Particular Game Sequence</P>
+<H4 ALIGN="CENTER"><A NAME="Heading15"></A><FONT COLOR="#000077">3.5.1.1 Bounding a Search Space</FONT></H4>
+<P>In order to minimize the arbitrary expansion of paths for the coffee house game of size 15 the program can be modified to remove any entries in the linked list which duplicate a configuration obtainable via another path. If this approach is taken then only one path will be saved at each point in the iteration for a given intermediate position. This will bound the search space at each iteration and will result in a workable solution. Using a rather unsophisticated argument it is easy to see that the amount of memory is reduced significantly and is realistically bounded. Since each position is represented as a sequence of 15 0&#146;s and X&#146;s the maximum number of positions under consideration at any time is 215. For each position only one path is stored instead of the myriad of paths which result in the same position. This approach is used in Problem 3.6 to find a solution for the coffee house game.
+</P>
+<P><B>Code List 3.19</B> Source Code for Game Simulation</P>
+<P><A NAME="Fig46"></A><A HREF="javascript:displayWindow('images/03-46.jpg',500,478)"><IMG SRC="images/03-46t.jpg"></A></P>
+<P><A NAME="Fig47"></A><A HREF="javascript:displayWindow('images/03-47.jpg',450,745)"><IMG SRC="images/03-47t.jpg"></A></P>
+<P><A NAME="Fig48"></A><A HREF="javascript:displayWindow('images/03-48.jpg',500,825)"><IMG SRC="images/03-48t.jpg"></A></P>
+<P><A NAME="Fig49"></A><A HREF="javascript:displayWindow('images/03-49.jpg',500,825)"><IMG SRC="images/03-49t.jpg"></A></P>
+<P><A NAME="Fig50"></A><A HREF="javascript:displayWindow('images/03-50.jpg',500,829)"><IMG SRC="images/03-50t.jpg"></A></P>
+<P><A NAME="Fig51"></A><A HREF="javascript:displayWindow('images/03-51.jpg',500,830)"><IMG SRC="images/03-51t.jpg"></A></P>
+<P><A NAME="Fig52"></A><A HREF="javascript:displayWindow('images/03-52.jpg',500,819)"><IMG SRC="images/03-52t.jpg"></A></P>
+<P><A NAME="Fig53"></A><A HREF="javascript:displayWindow('images/03-53.jpg',500,825)"><IMG SRC="images/03-53t.jpg"></A></P>
+<P><A NAME="Fig54"></A><A HREF="javascript:displayWindow('images/03-54.jpg',500,827)"><IMG SRC="images/03-54t.jpg"></A></P>
+<P><A NAME="Fig55"></A><A HREF="javascript:displayWindow('images/03-55.jpg',500,259)"><IMG SRC="images/03-55t.jpg"></A></P>
+<P><B>Code List 3.20</B> Output of Program in Code List 3.19</P>
+<P><A NAME="Fig56"></A><A HREF="javascript:displayWindow('images/03-56.jpg',400,596)"><IMG SRC="images/03-56t.jpg"></A></P>
+<P><A NAME="Fig57"></A><A HREF="javascript:displayWindow('images/03-57.jpg',280,634)"><IMG SRC="images/03-57t.jpg"></A></P>
+<H3><A NAME="Heading16"></A><FONT COLOR="#000077">3.6 Linear Search</FONT></H3>
+<P>A linear search is a search which proceeds in a linear fashion through a list.
+</P>
+<P>The C++ code to perform a linear search on strings is shown in Code List 3.21. The output of the program is shown in Code List 3.22</P>
+<P><B>Code List 3.21</B> Linear Search Code for Strings</P>
+<P><A NAME="Fig58"></A><A HREF="javascript:displayWindow('images/03-58.jpg',400,589)"><IMG SRC="images/03-58t.jpg"></A></P>
+<P><A NAME="Fig59"></A><A HREF="javascript:displayWindow('images/03-59.jpg',500,143)"><IMG SRC="images/03-59t.jpg"></A></P>
+<P><B>Code List 3.22</B> Output of Program in Code List 3.21</P>
+<P><A NAME="Fig60"></A><A HREF="javascript:displayWindow('images/03-60.jpg',260,354)"><IMG SRC="images/03-60t.jpg"></A></P>
+<H3><A NAME="Heading17"></A><FONT COLOR="#000077">3.7 Binary Search</FONT></H3>
+<P>The binary search is used in a sorted array to search for an element. The search consists of comparing against the middle of the list and proceeding to search the higher or lower sublist in a recursive fashion.
+</P>
+<P>A binary search is shown in C++ in Code List 3.23. The output is shown in Code List 3.24. A binary search for strings is illustrated in Code List 3.25. The output of the program is shown in Code List 3.25.</P>
+<P><B>Code List 3.23</B> Binary Search for Integers</P>
+<P><A NAME="Fig61"></A><A HREF="javascript:displayWindow('images/03-61.jpg',300,74)"><IMG SRC="images/03-61t.jpg"></A></P>
+<P><A NAME="Fig62"></A><A HREF="javascript:displayWindow('images/03-62.jpg',360,631)"><IMG SRC="images/03-62t.jpg"></A></P>
+<P><B>Code List 3.24</B> Output of Program in Code List 3.23</P>
+<P><A NAME="Fig63"></A><A HREF="javascript:displayWindow('images/03-63.jpg',180,135)"><IMG SRC="images/03-63t.jpg"></A><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="126-134.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="150-165.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

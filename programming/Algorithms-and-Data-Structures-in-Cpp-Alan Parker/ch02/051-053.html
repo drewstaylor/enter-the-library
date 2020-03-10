@@ -1,0 +1,199 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=2//-->
+<!--PAGES=051-053//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="042-050.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="053-066.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="LEFT"><A NAME="Heading9"></A><FONT COLOR="#000077">2.3.4 Tower of Hanoi</FONT></H4>
+<P>The Tower of Hanoi problem is illustrated in Figure 2.1. The problem is to move <I>n</I> discs (in this case, three) from the first peg, <I>A</I>, to the third peg, <I>C</I>. The middle peg, <I>B</I>, may be used to store discs during the transfer. The discs have to be moved under the following condition: at no time may a disc on a peg have a wider disc above it on the same peg. As long as the condition is met all three pegs may be used to complete the transfer. For example the problem may be solved for the case of three by the following move sequence:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-32d.jpg"></P>
+<P>where the ordered pair, (<I>x</I>, <I>y</I>), indicates to take a disk from peg <I>x</I> and place it on peg <I>y</I>.</P>
+<P><A NAME="Fig12"></A><A HREF="javascript:displayWindow('images/02-12.jpg',498,199)"><IMG SRC="images/02-12t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-12.jpg',498,199)"><FONT COLOR="#000077"><B>Figure 2.1</B></FONT></A>&nbsp;&nbsp;Tower of Hanoi Problem</P>
+<P>The problem admits a nice recursive solution. The problem is solved in terms of <I>n</I> by noting that to move <I>n</I> discs from <I>A</I> to <I>C</I> one can move <I>n</I> - 1 discs from <I>A</I> to <I>B</I> move the remaining disc from <I>A</I> to <I>C</I> and then move the <I>n</I> - 1 discs from <I>B</I> to <I>C</I>. This results in the relation for the number of steps, <I>S</I> (<I>n</I>), required for size <I>n</I> as</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-33d.jpg"></P>
+<P>with the boundary conditions
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-34d.jpg"></P>
+<P>Eq. 2.25 admits a solution of the form
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-35d.jpg"></P>
+<P>and matching the boundary conditions in Eq. 2.26 one obtains
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-36d.jpg"></P>
+<P>A growing field of interest is the visualization of algorithms. For instance, one might want to animate the solution to the Tower of Hanoi problem. Each disc move results in a new picture in the animation. If one is to incorporate the pictures into a document then a suitable language for its representation is PostScript.<SUP><SMALL><B>1</B></SMALL></SUP> This format is supported by almost all word processors and as a result is encountered frequently. A program to create the PostScript&#174; description of the Tower of Hanoi is shown in Code List 2.6 The program creates an encapsulated postscript file shown in Code List 2.7. The word processor used to generate this book took the output of the program in Code List 2.7 and imported it to yield Figure 2.1! This program illustrates many features of C++.</P>
+
+<BLOCKQUOTE>
+<HR>
+<SUP><SMALL><B>1</B></SMALL></SUP><FONT SIZE="-1">PostScript&#174; is a trademark of Adobe Systems Inc.
+</FONT>
+<HR>
+</BLOCKQUOTE>
+
+<P>The program utilizes only a small set of the PostScript&#174; language. This primitive subset is described in Table 2.3.</P>
+<TABLE WIDTH="100%" BORDER><caption ALIGN=LEFT><B>Table 2.3</B> PostScript&#174; &#151; Primitive Subset
+<TR>
+<TH WIDTH="30%" ALIGN="LEFT">Command
+<TH WIDTH="70%" ALIGN="LEFT">Description
+<TR>
+<TD VALIGN="TOP"><I>x</I> setgray
+<TD>set the gray level to <I>x.x</I> = 1 is white and <I>x</I> = 0 is black. This will affect the fill operation.
+<TR>
+<TD><I>x y</I> scale
+<TD>scale the X dimension by <I>x</I> and scale the Y dimension by <I>y</I>.
+<TR>
+<TD><I>x</I> setlinewidth
+<TD>set the linewidth to <I>x</I>.
+<TR>
+<TD><I>x y</I> moveto
+<TD>start a subpath and move to location <I>x y</I> on the page.
+<TR>
+<TD VALIGN="TOP"><I>x y</I> rlineto
+<TD>draw a line from current location (<I>x</I><SUB><SMALL>1</SMALL></SUB>, <I>y</I><SUB><SMALL>1</SMALL></SUB>) to (<I>x</I><SUB><SMALL>1</SMALL></SUB> + <I>x</I>, <I>y</I><SUB><SMALL>1</SMALL></SUB> + <I>y</I>). Make the endpoint the current location. Appends the line to the subpath.
+<TR>
+<TD>fill
+<TD>close the subpath and fill the area enclosed.
+<TR>
+<TD>newpath
+<TD>create a new path with no current point.
+<TR>
+<TD>showpage
+<TD>displays the page to the output device.
+</TABLE>
+<P>The program uses a number of classes in C++ which are <I>derived</I> from one another. This is one of the most powerful concepts in object-oriented programming. The class structure is illustrated in Figure 2.2.</P>
+<P>In the figure there exists a high-level base class called the graphic context. In a typical application a number of subclasses might be derived from it. In this case the graphics context specifies the line width, gray scale, and scale for its subsidiary objects. A derived class from the graphics context is the object class. This class contains information about the position of the object. This attribute is common to objects whether they are rectangles, circles, etc. A derived class from the object class is the rectangle class. For this class, specific information about the object is kept which identifies it with a rectangle, namely the width and the height. The draw routine overrides the virtual draw function for the object. The <I>draw</I> function in the object class is <I>void</I> even though for more complex examples it might have a number of operations. The RECTANGLE class inherits all the functions from the GRAPHICS_CONTEXT class and the OBJECT class.</P>
+<P>In the program, the rectangle class instantiates the discs, the base, and the pegs. Notice in Figure 2.1 that the base and pegs are drawn in a different gray scale than the discs. This is accomplished by the two calls in <I>main():</I></P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.set_gray(0.6)</I>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>base.set_gray(0.6)</I>
+</DL>
+<P>Any object of type RECTANGLE defaults to a <I>set_gray</I> of 0.8 as defined in the constructor function for the rectangle. Notice that peg is declared as a RECTANGLE and has access to the <I>set_gray</I> function of the GRAPHICS_CONTEXT. The valid operations on <I>peg</I> are:</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.set_line_width()</I>, from the GRAPHICS_CONTEXT class
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.set_scale()</I>, from the GRAPHICS_CONTEXT class
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.set_gray()</I>, from the GRAPHICS_CONTEXT class
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.location()</I>, from the OBJECT class
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.set_location()</I>, from the RECTANGLE class
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.set_width()</I>, from the RECTANGLE class
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.set_height()</I>, from the RECTANGLE class
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.draw()</I>, from the RECTANGLE class
+</DL>
+<P>The virtual function <I>draw</I> in the OBJECT class is hidden from <I>peg</I> but it can be accessed in C++ using the scoping operator with the following call:</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>peg.object::draw()</I>, uses draw from the OBJECT class
+</DL>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="042-050.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="053-066.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

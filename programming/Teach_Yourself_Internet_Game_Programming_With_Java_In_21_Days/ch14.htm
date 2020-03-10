@@ -1,0 +1,645 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 14 -- Squishing Bugs in Java Games</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 14</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Squishing Bugs in Java Games</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#DebuggingBasics" >Debugging Basics</A>
+<UL>
+<LI><A HREF="#SingleSteppingCode" >Single-Stepping Code</A>
+<LI><A HREF="#WatchingVariables" >Watching Variables</A>
+<LI><A HREF="#UsingBreakpoints" >Using Breakpoints</A>
+</UL>
+<LI><A HREF="#DebuggingStrategies" >Debugging Strategies</A>
+<UL>
+<LI><A HREF="#BugPrevention" >Bug Prevention</A>
+</UL>
+<LI><A HREF="#ChoosingaDebugger" >Choosing a Debugger</A>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+Wow, you've now finished two complete Java games! You're probably
+feeling pretty good about your new Java game programming skills,
+as you should. Without putting a damper on things, keep in mind
+that you didn't have to worry much about bugs in those games.
+Actually, you did have to contend with scorpions and tarantulas,
+but I'm talking about programming bugs. As sobering as it might
+sound, I have to admit that the games had programming bugs in
+them prior to some heavy debugging sessions. Who knows, they might
+even have a few bugs now that managed to slip by. Knowing all
+this, it simply wouldn't be fair to teach you about game programming
+without covering the often dreaded issue of debugging.
+<P>
+Today's lesson focuses on debugging as it applies to Java game
+programming. As you go through today's lesson, keep in mind that
+bugs are a natural part of the development process; as humans,
+we simply are error prone. So you should embrace debugging as
+a necessary part of the development process and accept the fact
+that even your precious code will have bugs. I'll do what I can
+throughout today's lesson to help you develop skills that keep
+bugs to a minimum, but the rest is up to you.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>Debugging basics
+<LI>Choosing a debugger
+<LI>Debugging strategies
+</UL>
+<H2><A NAME="DebuggingBasics"><B><FONT SIZE=5 COLOR=#FF0000>Debugging
+Basics</FONT></B></A></H2>
+<P>
+Before getting into any type of discussion regarding game debugging,
+let's take a moment to define exactly what a bug is.
+<P>
+A <I>bug</I> is simply a coding error that results in some unwanted
+action taking place in your game.
+<P>
+This unwanted action can vary, from a score not being updated
+correctly, to the user's computer going down in flames. Although
+the latter case is admittedly a little exaggerated (especially
+in Java programming), you should take bugs very seriously because
+they speak volumes about the quality (or lack of quality) of your
+game.
+<P>
+The concept of bugs has been an accepted part of programming for
+a long time now. Although all programmers strive for perfection,
+few are ever able to attain it. Even those that do reach that
+nerd nirvana typically encounter significant numbers of bugs along
+the way. The difference is that these programmers anticipate bugs
+rather than suggest that their code is immune to bugs. Therefore,
+the first rule in regard to debugging is to assume that bugs are
+in your code and that it is your responsibility to hunt them down
+and fix them to the best of your ability.
+<P>
+The issue of finding and fixing bugs is especially important in
+games, because game players are often very fickle. If a game does
+something screwy like trashing a player's score, the player will
+probably get frustrated and toss your game. This makes it all
+the more important to be vigilant in finding bugs before you release
+your game. Sure, you can always distribute a patch to fix a bug
+in a release version, but it typically leaves game players with
+a less than high opinion of your development ethic.
+<P>
+Before getting into specific debugging strategies, let's go over
+a few debugging basics. If you are already familiar with debugging
+in Java or in another language, feel free to jump to the next
+section. The following are three fundamental debugging techniques
+that you will find indispensable when finding and fixing bugs
+in your games:
+<UL>
+<LI>Single-stepping code
+<LI>Watching variables
+<LI>Using breakpoints
+</UL>
+<H3><A NAME="SingleSteppingCode"><B>Single-Stepping Code</B></A>
+</H3>
+<P>
+A very common debugger feature is the capability to single-step
+through code.
+<P>
+<I>Single-stepping</I> is the process of executing your code one
+line at a time (in single steps).
+<P>
+The significance of single-stepping as a debugging technique is
+that it provides you with a means to see exactly what code is
+being executed, along with the ability to trace the flow of execution
+through your program. Typically, single-stepping in itself isn't
+entirely useful; you usually combine it with another technique
+known as <I>watching</I> to see what happens to variables as you
+step through code.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Incidentally, a <I>debugger</I> is a software tool specifically designed to help you find bugs by letting you analyze your code as it is running. The Java Developer's Kit ships with a debugger called jdb, which you learn about a little later today in the 
+&quot;Choosing a Debugger&quot; section.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="WatchingVariables"><B>Watching Variables</B></A>
+</H3>
+<P>
+<I>Watching</I> is a technique that involves specifying certain
+variables in your code as watch variables.
+<P>
+A <I>watch variable</I> is a variable whose contents you can see
+while code is executing in a debugger.
+<P>
+Of course, in the context of a program running at normal speed,
+watch variables don't help much. But if you watch variables as
+you single-step through code, you can gain lots of insight into
+what is happening. Very often, you will find that variables values
+are changing unexpectedly or being set to values that don't make
+sense in the context of what you thought the code was doing. This
+type of insight into the inner workings of your code can lead
+you directly to bugs. Single-stepping combined with watch variables
+is the standard approach to finding bugs using a debugger.
+<H3><A NAME="UsingBreakpoints"><B>Using Breakpoints</B></A></H3>
+<P>
+Another fundamental debugging technique is that of using breakpoints.
+<P>
+A <I>breakpoint</I> is a line of code that you specify, which
+halts the execution of a program.
+<P>
+To understand the usefulness of breakpoints, imagine that you
+are interested in a line of code in the middle of a program. To
+get to that line of code in the debugger, you would have to single-step
+for hours. Or you could set a breakpoint on that line and let
+the debugger run the program like normal. The program then runs
+in the debugger until it hits the breakpoint, in which case the
+program halts and leaves you sitting on the specified line of
+code. At this point, you can watch variables and even single-step
+through the code if you want. You also have the option of setting
+multiple breakpoints at key locations in your code, which is very
+useful when dealing with complex execution flow problems.
+<H2><A NAME="DebuggingStrategies"><B><FONT SIZE=5 COLOR=#FF0000>Debugging
+Strategies</FONT></B></A></H2>
+<P>
+Although debugging tools have come a long way since the early
+days of programming, the ultimate responsibility of eliminating
+bugs still rests squarely on your shoulders. Think of debuggers
+and standard debugging techniques simply as a means of helping
+you find bugs, but not as your sole line of bug defense. It takes
+a diversified arsenal of knowledge, programming practices, debugging
+tools, and even some luck to truly rid your games of bugs.
+<P>
+Debugging can almost be likened to a hunt: You know there is something
+out there, and you must go find it. For this reason, you need
+to approach debugging with a very definite strategy. Debugging
+strategies can be broken into two fundamental groupings: bug prevention
+and bug detection. Let's take a look at both and see how they
+can be used together to help make your games bug-free.
+<H3><A NAME="BugPrevention"><B>Bug Prevention</B></A></H3>
+<P>
+Bug prevention is the process of eliminating the occurrence of
+bugs before they have a chance to surface. Bug prevention might
+sound completely logical-and that's because it is. However, surprising
+numbers of programmers don't employ enough bug prevention strategies
+in their code, and they end up paying for it in the end. Keep
+in mind the simple fact that bug detection is a far more time-consuming
+and brain-aching task than bug prevention. If you haven't understood
+the point yet, I'm all for bug prevention as a primary way to
+eliminate bugs.
+<P>
+Think of bug prevention versus bug detection as roughly parallel
+to getting an immunization shot versus treating a disease after
+you've contracted it. Certainly, the short-term pain of getting
+the shot is much easier to deal with than the long-term treatment
+associated with a full-blown disease. This metaphor is dangerously
+on the money when it comes to debugging, because bugs can often
+act like code diseases; just when you think you've got a bug whipped,
+it rears its ugly head in a new way that you never anticipated.
+<P>
+Hopefully, I've closed the sale and you're set to employ some
+bug prevention in your code. Fortunately, most preventive bug
+measures are simple and take little extra time to implement. Unfortunately,
+compared to other languages, Java is fairly limited in regard
+to providing preventive debugging facilities. However, this fact
+is a little misleading because the nature of Java removes many
+of the bug creation opportunities available in other languages
+such as C and C++. For example, the <TT>assert</TT>
+mechanism is one of the most popular preventive debugging techniques
+in C/C++. <TT>assert</TT> allows you
+to check boolean conditions in debug versions of your programs.
+A primary usage of <TT>assert</TT>
+is to defend against the occurrence of null pointers. Because
+Java has no pointers, you can immediately eliminate the risks
+associated with this entire family of bugs. So, even though Java
+doesn't have a bug prevention facility similar to <TT>assert</TT>,
+there's no loss because in Java you can't create the bugs typically
+found using <TT>assert</TT>.
+<H4><B>Isolated Test Methods</B></H4>
+<P>
+A good way to prevent bugs early in the development cycle is to
+test your code heavily as it is being developed. Of course, most
+programmers do indeed try out their code as they are writing it,
+so you're probably thinking that you perform enough testing as
+it is. However, the type of testing I'm talking about is a thorough
+test of your classes in an isolated manner. Think about it like
+this: If you heavily test your classes in isolation from other
+classes, don't you think the odds of bugs appearing when you connect
+everything will be lower? Furthermore, think of how much easier
+it is to test your classes early without having to contend with
+a bunch of complex interactions taking place between different
+classes.
+<P>
+My suggestion is to build a single method into each one of your
+classes that puts the class through a series of tests. Call the
+method <TT>test</TT> if you like,
+and make sure that it handles creating instances of the class
+using various constructors (if you have more than one), as well
+as calling all the methods that can be called in isolation. I
+know that, practically speaking, certain aspects of the class
+can only be tested in the presence of other classes, but that's
+all right; just test whatever you can.
+<P>
+In your <TT>test</TT> method, you
+probably want to output the values of certain member variables.
+Just output the results to standard output. If you are unfamiliar
+with using standard output, don't worry. You learn about using
+it for debugging later in today's lesson.
+<H4><B>Exception Handling</B></H4>
+<P>
+One useful preventive debugging mechanism used in C++ is exception
+handling, which also shares very solid support in Java.
+<P>
+<I>Exception handling</I> is a technique focused on detecting
+and responding to unexpected events at runtime.
+<P>
+An <I>exception</I> is something (usually bad) that occurs in
+your program that you weren't expecting.
+<P>
+Unlike some other forms of preventive bug detection, however,
+exception handling also has a valuable place in release code.
+<P>
+To handle exceptions in your game code, you enclose potentially
+troublesome code within a <TT>try</TT>
+clause. A <TT>try</TT> clause is a
+special Java construct that tells the runtime system that a section
+of code could cause trouble. You then add another piece of code
+(a handler) in a corresponding <TT>catch</TT>
+clause that responds to errors caused by the code in the <TT>try</TT>
+clause. The error event itself is the exception, and the code
+in the <TT>catch</TT> clause is known
+as an exception handler.
+<P>
+The following is some exception handling code that you've seen
+a lot in the sample applets throughout this book:
+<BLOCKQUOTE>
+<TT>try {<BR>
+&nbsp;&nbsp;tracker.waitForID(0);<BR>
+}<BR>
+catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;return;<BR>
+}</TT>
+</BLOCKQUOTE>
+<P>
+In this code, the exception being handled is of type <TT>InterruptedException</TT>,
+which specifies that the current thread was interrupted by another
+thread. In some cases, this might not be a problem, but the code
+following this particular code is dependent on images successfully
+loading, which is indicated by the return from the <TT>waitForID</TT>
+method. Therefore, it's important that the thread is not interrupted.
+The only problem with this exception handler is that it doesn't
+output any information regarding the nature of the exception.
+Typically, you would have code here that prints information to
+standard output, which you learn about a little later today in
+the &quot;Standard Output&quot; section.
+<P>
+This discussion of exception handling really only scratches the
+surface of handling runtime errors (exceptions). I strongly encourage
+you to learn more about exception handling and how to effectively
+use it. Fortunately, a lot of information has been published about
+exception handling in Java, so you shouldn't have much trouble
+finding useful references.
+<H4><B>Parentheses and Precedence</B></H4>
+<P>
+One area prone to bugs is that of operator precedence. I've been
+busted plenty of times myself for thinking that I remembered the
+precedence of operators correctly when I didn't. Take a look at
+the following code:
+<BLOCKQUOTE>
+<TT>int a = 37, b = 26;<BR>
+int n = a % 3 + b / 7 ^ 8;</TT>
+</BLOCKQUOTE>
+<P>
+If you are a whiz at remembering things and you can immediately
+say without a shadow of a doubt what this expression is equal
+to, then good for you. For the rest of us, this is a pretty risky
+piece of code because it can yield a variety of different results
+depending on the precedence of the operators. Actually, it only
+yields one result, based on the correct order of operator precedence
+set forth by the Java language. But it's easy for programmers
+to mix up the precedence and write code that they think is doing
+one thing when it is doing something else.
+<P>
+What's the solution? The solution is to use parentheses even when
+you don't technically need them, just to be safe about the precedence.
+The following is the same code with extra parentheses added to
+make the precedence more clear:
+<BLOCKQUOTE>
+<TT>int a = 37, b = 26;<BR>
+int n = ((a % 3) + (b / 7)) ^ 8;</TT>
+</BLOCKQUOTE>
+<H4><B>Hidden Member Variables</B></H4>
+<P>
+Another potentially tricky bug that is common in object-oriented
+game programming is the hidden member variable. A hidden member
+variable is a variable that has become &quot;hidden&quot; due
+to a derived class implementing a new variable of the same name.
+Take a look at Listing 14.1, which contains two classes: <TT>Weapon</TT>
+and <TT>Bazooka</TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 14.1. The </B><TT><B><FONT FACE="Courier">Weapon</FONT></B></TT><B>
+and </B><TT><B><FONT FACE="Courier">Bazooka</FONT></B></TT><B>
+classes.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT>class Weapon {<BR>
+&nbsp;&nbsp;int power;<BR>
+&nbsp;&nbsp;int numShots;<BR>
+<BR>
+&nbsp;&nbsp;public Weapon() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;power = 5;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;numShots = 10;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void fire() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;numShots--;<BR>
+&nbsp;&nbsp;}<BR>
+}<BR>
+<BR>
+class Bazooka : extends Weapon {<BR>
+&nbsp;&nbsp;int numShots;<BR>
+<BR>
+&nbsp;&nbsp;public Bazooka() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super();<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public blastEm() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;power--;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;numShots -= 2;<BR>
+&nbsp;&nbsp;}<BR>
+}</TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT>Weapon</TT> class defines
+two member variables: <TT>power</TT>
+and <TT>numShots</TT>. The <TT>Bazooka</TT>
+class is derived from <TT>Weapon</TT>
+and also implements a <TT>numShots</TT>
+member variable, which effectively hides the original <TT>numShots</TT>
+inherited from <TT>Weapon</TT>. The
+problem with this code is that when the <TT>Weapon</TT>
+constructor is called by <TT>Bazooka</TT>
+(via the call to <TT>super</TT>),
+the hidden <TT>numShots</TT> variable
+defined in <TT>Weapon</TT> is initialized,
+not the one in <TT>Bazooka</TT>. Later,
+when the <TT>blastEm</TT> method is
+called in <TT>Bazooka</TT>, the visible
+(derived) <TT>numShots</TT> variable
+is used, which has been initialized by default to zero. As you
+can probably imagine, more complex classes with this problem can
+end up causing some seriously tricky and hard to trace bugs.
+<P>
+The solution to the problem is to simply make sure that you never
+hide variables. That doesn't mean that there aren't a few isolated
+circumstances in which you might want to use variable hiding on
+purpose; just keep in mind the risks involved in doing so.
+<a name="BugDetection"><H3><B>Bug Detection</B></H3>
+<P>
+Even if you rigorously employ bug avoidance techniques, you will
+still have to contend with a certain number of bugs. It's just
+a fact of life that programmers make mistakes, and the sheer complexity
+of large programming projects often causes problems that elude
+us. That's all right. Just embrace the notion that you're imperfect
+and focus your attention on tracking down the mistakes. The point
+is that in addition to applying bug prevention techniques as much
+as possible, you must learn how to track down the inevitable bugs
+that will surface when you start testing your game. Let's look
+at a few techniques for hunting down bugs.
+<H4><B>Standard Output</B></H4>
+<P>
+The age-old technique for tracking down bugs is to print information
+to standard output. This approach probably sounds pretty archaic-and
+in many ways it is-but if you want a quick and dirty look into
+what's going on in your game, it's often your best bet. This technique
+is especially useful now, because visual Java debuggers are still
+rough around the edges.
+<P>
+Employing the standard output technique is as simple as inserting
+calls to <TT>System.out.println</TT>
+at appropriate locations in your code. You can use standard output
+for anything from looking at the value of variables to determining
+whether a method is being called; just sprinkle those <TT>println</TT>
+calls wherever you need them! The primary caveat to this approach
+is that you should attempt to place the <TT>println</TT>
+call in an update loop, like the loop controlling the animation
+in games. In this case, the <TT>println</TT>
+call might slow the game to a crawl simply because of the overhead
+involved in printing text to the standard output device.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Speaking of standard output devices, you might be wondering exactly where standard output goes when you are running an applet inside a Web browser such as Netscape Navigator. The truth is that nobody knows! (Just kidding!) Netscape Navigator provides a 
+console window where you can see everything that is being sent to standard output. To display this window, just look under the Options menu in Navigator and select Show Java Console.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H4><B>Call Stack Trace</B></H4>
+<P>
+An indispensable tool in tracking down hard to find bugs is the
+method call stack. The method <I>call stack</I> is a list of the
+methods called to arrive at the currently executing code. By examining
+the call stack, you can see exactly which methods were called
+to get to the current piece of code in question. This information
+often sheds light on a problem regarding a method being called
+inadvertently.
+<P>
+You can view the call stack by calling the <TT>printStackTrace</TT>
+method, which is a member of the <TT>Throwable</TT>
+class. Because <TT>printStackTrace</TT>
+is a method in <TT>Throwable</TT>,
+you must have a <TT>Throwable</TT>
+object to look at the call stack. It just so happens that all
+exceptions are derived from <TT>Throwable</TT>,
+so any time you have an exception, you can view the call stack.
+Check out the following code:
+<BLOCKQUOTE>
+<TT>try {<BR>
+&nbsp;&nbsp;int nums[] = new int[5];<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 10; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;nums[i] = 6670;<BR>
+}<BR>
+catch (ArrayIndexOutOfBoundsException e) {<BR>
+&nbsp;&nbsp;System.out.println(&quot;**Exception** : &quot; +
+e.getMessage());<BR>
+&nbsp;&nbsp;e.printStackTrace();<BR>
+}</TT>
+</BLOCKQUOTE>
+<P>
+In this code, the array <TT>nums</TT>
+is indexed out of bounds in the <TT>for</TT>
+loop, generating an <TT>ArrayIndexOutOfBoundsException</TT>.
+The exception is logged to standard output in the <TT>catch</TT>
+clause, along with a call to <TT>printStackTrace</TT>.
+The resulting output follows:
+<BLOCKQUOTE>
+<TT>**Exception** : 5<BR>
+java.lang.ArrayIndexOutOfBoundsException: 5<BR>
+&nbsp;at TravelingGecko.init(TravelingGecko.java:32)<BR>
+&nbsp;at sun.applet.AppletPanel.run(AppletPanel.java:259)<BR>
+&nbsp;at java.lang.Thread.run(Thread.java:294)</TT>
+</BLOCKQUOTE>
+<P>
+Incidentally, I placed this example code in the <TT>init</TT>
+method in the Traveling Gecko game, which explains the call stack
+results.
+<H2><A NAME="ChoosingaDebugger"><B><FONT SIZE=5 COLOR=#FF0000>Choosing
+a Debugger</FONT></B></A></H2>
+<P>
+An important decision regarding how you finally decide to debug
+your game is that of choosing a debugger. A debugger is an invaluable
+tool in ridding your game of bugs, and it can directly determine
+how much time you spend debugging. Therefore, you should make
+sure to invest your resources wisely and choose a debugger that
+fits your development style. Unfortunately, the third-party Java
+debugger market is still in its infancy, so don't expect to have
+lots of debuggers to choose from at this point. Nevertheless,
+try to keep tabs on the latest Java development tools and how
+they might impact your debugging.
+<P>
+A few third-party integrated development environments that include
+built-in visual debuggers are available for Java. These are very
+nice and usually include lots of cool features beyond the ones
+you just learned about; definitely look into getting a full-featured
+debugger if at all possible. You learn much more about Java development
+environments, including debuggers, on Day 21, &quot;Assembling
+a Game Development Toolkit.&quot; For now, just keep in mind that
+choosing a debugger that fits your needs is important in determining
+how successfully you can rid your code of bugs. Fortunately, nearly
+all debuggers perform the basic debugging functions of single-stepping,
+supporting watch variables, and using breakpoints.
+<P>
+The Java Developer's Kit comes standard with a debugger (jdb)
+that performs basic debugging functions such as those you learned
+about earlier. It is a command-line debugger, which means that
+it has no fancy graphics or point-and-click features but it does
+get the job done. If you aren't ready to commit to a third-party
+tool, by all means try out jdb. After you get comfortable with
+jdb, you might find that it serves your purposes well enough.
+<P>
+Before you can use jdb, you need to compile your code so that
+it includes debugging information. The Java compiler switch for
+doing this is <TT>-g</TT>, which causes
+the compiler to generate debugging tables containing information
+about line numbers and variables.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Some distributions of the JDK also include an alternate Java compiler called <TT>javac_g</TT>. If you have this compiler in your distribution (look in the java/bin directory), use it, because it compiles code without using some of the internal 
+optimizations performed by the <TT>javac</TT> compiler.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Using the jdb debugger is a topic best left to the introductory
+books on Java. However, there is a nice online tutorial for using
+jdb to debug Java code on Sun's Java Web site, which is located
+at <TT><A HREF="http://www.javasoft.com">http://www.javasoft.com</A></TT>.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you learned about crushing bugs in Java code. You not only
+learned the importance of diagnosing and putting an end to bugs
+in games, you learned some valuable tips on how to help prevent
+bugs before they can even appear. You began the lesson with a
+somewhat formal definition of a bug, followed by some debugging
+basics. You then moved on to determining how to select a debugger,
+and you finished up with a look at some common debugging strategies.
+<P>
+The debugging strategies you learned about today are in no way
+comprehensive. The reality is that debugging is an art form involving
+a lot of practice, intuition, and even heartache. You will no
+doubt establish your own bag of debugging tricks far beyond those
+I've suggested here. I encourage you to be as crafty as possible
+when it comes to ferreting out pesky bugs!
+<P>
+If you think debugging puts a strain on your brain, try letting
+the computer think for you. Hey, that just happens to be the topic
+of your next lesson: artificial intelligence. But before you move
+on to that, there's some celebrating to do. You're finished with
+your second week of lessons!
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Where does the term &quot;bug&quot; come from?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The term &quot;bug&quot; was coined by programming pioneer Grace Hopper back in the days when programming was performed using rudimentary hardware switches. As the story goes, a computer malfunctioned and 
+someone noticed that a moth had gotten caught in one of the mechanical relays in the computer, keeping the relay from closing and making contact. From that time forward, programming errors were referred to as bugs.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Using watch variables, is it possible to watch an entire object at once?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Yes, most debuggers provide a means of watching an entire object at once, just like any other variable.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>How does Java's use of automatic garbage collection impact debugging?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The garbage collection mechanism employed by Java, coupled with the inability to use pointers, removes a wide range of bug creation opportunities. Aside from removing the problem of dealing with null pointers, 
+Java also alleviates having to contend with memory leaks, which are very common in C and C++. <I>Memory leaks</I> are chunks of memory that are allocated but inadvertently never deleted, effectively resulting in memory loss.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least go over the exercises before
+moving on to tomorrow's lesson. You'll find the answers to the
+questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What is the significance of single-stepping?
+<LI>What is an exception?
+<LI>How does a variable become &quot;hidden&quot;?
+<LI>What is a method call stack?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Learn how to use the jdb debugger that comes with the Java
+Developer's Kit.
+<LI>Try using breakpoints and single-stepping through some of
+the code in the Scorpion Roundup sample game.
+<LI>See whether you can find any bugs in Scorpion Roundup, or
+for that matter in any of the sample code in the book. If you
+manage to find anything, be sure to e-mail me and let me know
+how disappointed you are that I could be such a slacker to ship
+bug-ridden code! My e-mail address is located in the author bio
+at the front of the book.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch13.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch2rev.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

@@ -1,0 +1,2049 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 6 -- Sprite Animation</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 6</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Sprite Animation</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#WhatIsAnimation" >What Is Animation?</A>
+<LI><A HREF="#TypesofAnimation" >Types of Animation</A>
+<UL>
+<LI><A HREF="#FrameBasedAnimation" >Frame-Based Animation</A>
+<LI><A HREF="#CastBasedAnimation" >Cast-Based Animation</A>
+</UL>
+<LI><A HREF="#ImplementingSpriteAnimation" >Implementing Sprite Animation</A>
+<UL>
+<LI><A HREF="#TheSpriteClass" >The Sprite Class</A>
+<LI><A HREF="#TheSpriteVectorClass" >The SpriteVector Class</A>
+<LI><A HREF="#TheBackgroundClasses" >The Background Classes</A>
+</UL>
+<LI><A HREF="#SampleAppletAtoms" >Sample Applet: Atoms</A>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+The heart of graphics in almost all games is animation. Without
+animation, there would be no movement, and without movement, we'd
+all be stuck playing board games and card games. Today's lesson
+presents the fundamental concepts surrounding animation in games
+and, more specifically, sprite animation. As you'll soon learn,
+practically every game with animation employs some type of animation
+engine, typically involving sprites.
+<P>
+After learning the basics of animation and how it applies to games,
+you dig into building a set of sprite animation classes that are
+powerful and extensive enough to handle all of your Java game
+animation needs. As a matter of fact, you'll reuse the sprite
+classes in every game throughout the rest of the book. These sprite
+classes handle all the details of managing multiple animated sprite
+objects with support for transparency, Z-order, collision detection,
+and custom actions. You don't understand some of those last features?
+Well, don't worry; you will soon enough. Read on!
+<H2><A NAME="WhatIsAnimation"><B><FONT SIZE=5 COLOR=#FF0000>What
+Is Animation?</FONT></B></A></H2>
+<P>
+Before getting into animation as it relates to Java and games,
+it's important to understand the basics of what animation is and
+how it works. Let's begin by asking this fundamental question:
+What is animation? Put simply, animation is the illusion of movement.
+Am I saying that every animation you've ever seen is really just
+an illusion? That's exactly right! And probably the most surprising
+animated illusion is one that captured attentions long before
+computers-the television. When you watch television, you see lots
+of things moving around. But what you perceive as movement is
+really just a trick being played on your eyes.
+<P>
+<I>Animation</I> is the illusion of movement.
+<P>
+In the case of television, the illusion of movement is created
+by displaying a rapid succession of images with slight changes
+in content. The human eye perceives these changes as movement
+because of its low visual acuity, which means that your eyes are
+fairly easy to trick into believing the illusion of animation.
+More specifically, the human eye can be tricked into perceiving
+animated movement with as low as 12 frames of movement per second.
+It should come as no surprise that this animation speed is the
+minimum target speed for most computer games. Animation speed
+is measured in frames per second (fps).
+<P>
+<I>Frames per second</I> (fps) is the number of animation frames,
+or image changes, presented every second.
+<P>
+Although 12 fps is technically enough to fool your eyes into seeing
+animation, animations at speeds this low often end up looking
+somewhat jerky. Therefore, most professional animations use a
+higher frame rate. Television, for example, uses 30 fps. When
+you go to the movies, you see motion pictures at about 24 fps.
+It's pretty apparent that these frame rates are more than enough
+to captivate your attention and successfully create the illusion
+of movement.
+<P>
+Unlike television and motion pictures, computer games are much
+more limited when it comes to frame rate. Higher frame rates in
+games correspond to much higher processor overhead, so game developers
+are left to balance the frame rate against the system speed and
+resources. That is why some games provide different resolution
+and graphics quality options. By using a lower resolution and
+more simple graphics, a game can increase its frame rate and generate
+smoother animations. Of course, the trade-off is a lower resolution
+and more simple graphics.
+<P>
+When programming animation in Java, you typically have the ability
+to manipulate the frame rate a reasonable amount. The most obvious
+limitation on frame rate is the speed at which the computer can
+generate and display the animation frames. Actually, the same
+limitation must be dealt with by game developers, regardless of
+the programming language or platform. However, it is a little
+more crucial in Java because Java applets are currently much slower
+than native applications. Hopefully, the advent of just-in-time
+Java compilers will speed up Java applets and therefore give Java
+games a boost.
+<P>
+When determining the frame rate for a Java game, you usually have
+some give and take in establishing a low enough frame rate to
+yield a smooth animation, while not bogging down the processor
+and slowing the system down. But don't worry too much about this
+right now. For now, just keep in mind that when programming animation
+for Java games, you are acting as a magician creating the illusion
+of movement.
+<H2><A NAME="TypesofAnimation"><B><FONT SIZE=5 COLOR=#FF0000>Types
+of Animation</FONT></B></A></H2>
+<P>
+Although the focus of today's lesson is ultimately on sprite animation,
+it is important to understand the primary types of animation used
+in Java programming. Actually, a lot of different types of animation
+exist, all of which are useful in different instances. However,
+for the purposes of implementing animation in Java, I've broken
+animation down into two basic types: frame-based animation and
+cast-based animation.
+<H3><A NAME="FrameBasedAnimation"><B>Frame-Based Animation</B></A>
+</H3>
+<P>
+The most simple animation technique is frame-based animation,
+which finds a lot of usage in nongaming animations. Frame-based
+animation involves simulating movement by displaying a sequence
+of pregenerated, static frame images. A movie is a perfect example
+of frame-based animation: Each frame of the film is a frame of
+animation, and when the frames are shown in rapid succession,
+they create the illusion of movement.
+<P>
+<I>Frame-based animation</I> simulates movement by displaying
+a sequence of pregenerated, static frame images.
+<P>
+Frame-based animation has no concept of a graphical object distinguishable
+from the background; everything appearing in a frame is part of
+that frame as a whole. The result is that each frame image contains
+all the information necessary for that frame in a static form.
+This is an important point because it distinguishes frame-based
+animation from cast-based animation, which you learn about next.
+<H3><A NAME="CastBasedAnimation"><B>Cast-Based Animation</B></A>
+</H3>
+<P>
+A more powerful animation technique employed by many games is
+cast-based animation, which is also known as <I>sprite animation</I>.
+Cast-based animation involves graphical objects that move independently
+of a background. At this point, you might be a little confused
+by the usage of the term <I>graphical object</I> when referring
+to parts of an animation. In this case, a graphical object is
+something that logically can be thought of as a separate entity
+from the background of an animation image. For example, in the
+animation of a space shoot-em-up game, the aliens are separate
+graphical objects that are logically independent of the starfield
+background.
+<P>
+<I>Cast-based animation</I> simulates movement using graphical
+objects that move independently of a background.
+<P>
+Each graphical object in a cast-based animation is referred to
+as a <I>sprite</I>, and can have a position that varies over time.
+In other words, sprites have a velocity associated with them that
+determines how their position changes over time. Almost every
+video game uses sprites to some degree. For example, every object
+in the classic Asteroids game is a sprite that moves independently
+of the background.
+<P>
+A <I>sprite</I> is a graphical object that can move independently
+of a background or other objects.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+You might be wondering where the term <I>cast-based animation</I> comes from. It comes from the fact that sprites can be thought of as cast members moving around on a stage. This analogy of relating computer animation to theatrical performance is very 
+useful. By thinking of sprites as cast members and the background as a stage, you can take the next logical step and think of an animation as a theatrical performance. In fact, this isn't far from the mark, because the goal of theatrical performances is to 
+entertain the audience by telling a story through the interaction of the cast members. Likewise, cast-based animations use the interaction of sprites to entertain the user, while often telling a story.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Even though the fundamental principle behind sprite animation
+is the positional movement of a graphical object, there is no
+reason you can't incorporate frame-based animation into a sprite.
+Incorporating frame-based animation into a sprite enables you
+to change the image of the sprite as well as alter its position.
+This hybrid type of animation is actually what you will implement
+later in today's lesson in the Java sprite classes.
+<P>
+I mentioned in the frame-based animation discussion that television
+is a good example of frame-based animation. But can you think
+of something on television that is created in a manner similar
+to cast-based animation (other than animated movies and cartoons)?
+Have you ever wondered how weatherpeople magically appear in front
+of a computer-generated map showing the weather? The news station
+uses a technique known as <I>blue-screening</I>, which enables
+them to overlay the weatherperson on top of the weather map in
+real time. It works like this: The person stands in front of a
+blue backdrop, which serves as a transparent background. The image
+of the weatherperson is overlaid onto the weather map; the trick
+is that the blue background is filtered out when the image is
+overlaid so that it is effectively transparent. In this way, the
+weatherperson is acting exactly like a sprite!
+<H4><B>Transparency</B></H4>
+<P>
+The weatherperson example brings up a very important point regarding
+sprites: <I>transparency</I>. Because bitmapped images are rectangular
+by nature, a problem arises when sprite images aren't rectangular
+in shape. In sprites that aren't rectangular in shape, which is
+the majority of sprites, the pixels surrounding the sprite image
+are unused. In a graphics system without transparency, these unused
+pixels are drawn just like any others. The end result is sprites
+that have visible rectangular borders around them, which completely
+destroys the effectiveness of having sprites overlaid on a background
+image.
+<P>
+What's the solution? Well, one solution is to make all of your
+sprites rectangular. Because this solution isn't very practical,
+a more realistic solution is transparency, which allows you to
+define a certain color in an image as unused, or transparent.
+When pixels of this color are encountered by drawing routines,
+they are simply skipped, leaving the original background intact.
+Transparent colors in images act exactly like the weatherperson's
+blue screen in the example earlier.
+<P>
+<I>Transparency colors</I> are colors in an image that are unused,
+meaning that they aren't drawn when the rest of the colors in
+the image are drawn.
+<P>
+You're probably thinking that implementing transparency involves
+a lot of low-level bit twiddling and image pixel manipulation.
+In some programming environments, you would be correct in this
+assumption, but not in Java. Fortunately, transparency is already
+supported in Java by way of the GIF 89a image format. In the GIF
+89a image format, you simply specify a color of the GIF image
+that serves as the transparent color. When the image is drawn,
+pixels matching the transparent color are skipped and left undrawn,
+leaving the background pixels unchanged.
+<H4><B>Z-Order</B></H4>
+<P>
+In many instances, you will want some sprites to appear on top
+of others. For example, in a war game you might have planes flying
+over a battlefield dropping bombs on everything in sight. If a
+plane sprite happens to fly over a tank sprite, you obviously
+want the plane to appear above the tank and, therefore, hide the
+tank as it passes over. You handle this problem by assigning each
+sprite a screen depth, which is also referred to as <I>Z-order</I>.
+<P>
+<I>Z-order</I> is the relative depth of sprites on the screen.
+<P>
+The depth of sprites is called <I>Z-order</I> because it works
+sort of like another dimension-like a Z axis. You can think of
+sprites moving around on the screen in the XY axis. Similarly,
+the Z axis can be thought of as another axis projected into the
+screen that determines how the sprites overlap each other. To
+put it another way, Z-order determines a sprite's depth within
+the screen. By making use of a Z axis, you might think that Z-ordered
+sprites are 3D. The truth is that Z-ordered sprites can't be considered
+3D because the Z axis is a hypothetical axis that is only used
+to determine how sprite objects hide each other.
+<P>
+Just to make sure that you get a clear picture of how Z-order
+works, let's go back for a moment to the good old days of traditional
+animation. Traditional animators, such as those at Disney, used
+celluloid sheets to draw animated objects. They drew on celluloid
+sheets because the sheets could be overlaid on a background image
+and moved independently. This was known as <I>cel animation</I>
+and should sound vaguely familiar. (Cel animation is an early
+version of sprite animation.) Each cel sheet corresponds to a
+unique Z-order value, determined by where in the pile of sheets
+the sheet is located. If a sprite near the top of the pile happens
+to be in the same location on the cel sheet as any lower sprites,
+it conceals them. The location of each sprite in the stack of
+cel sheets is its Z-order, which determines its visibility precedence.
+The same thing applies to sprites in cast-based animations, except
+that the Z-order is determined by the order in which the sprites
+are drawn, rather than the cel sheet location. This concept of
+a pile of cel sheets representing all the sprites in a sprite
+system will be useful later today when you develop the sprite
+classes.
+<H4><B>Collision Detection</B></H4>
+<P>
+No discussion of animation as it applies to games would be complete
+without covering collision detection. <I>Collision detection</I>
+is simply the method of determining whether sprites have collided
+with each other. Although collision detection doesn't directly
+play a role in creating the illusion of movement, it is tightly
+linked to sprite animation and extremely crucial in games.
+<P>
+<I>Collision detection</I> is the process of determining whether
+sprites have collided with each other.
+<P>
+Collision detection is used to determine when sprites physically
+interact with each other. In an Asteroids game, for example, if
+the ship sprite collides with an asteroid sprite, the ship is
+destroyed. Collision detection is the mechanism employed to find
+out whether the ship collided with the asteroid. This might not
+sound like a big deal; just compare their positions and see whether
+they overlap, right? Correct, but consider how many comparisons
+must take place when lots of sprites are moving around; each sprite
+must be compared to every other sprite in the system. It's not
+hard to see how the overhead of effective collision detection
+can become difficult to manage.
+<P>
+Not surprisingly, there are many approaches to handling collision
+detection. The most simple approach is to compare the bounding
+rectangles of each sprite with the bounding rectangles of all
+the other sprites. This method is very efficient, but if you have
+objects that are not rectangular, a certain degree of error occurs
+when the objects brush by each other. This is because the corners
+might overlap and indicate a collision when really only the transparent
+areas are overlapping. The more irregular the shape of the sprites,
+the more error typically occurs. Figure 6.1 shows how simple rectangle
+collision works.
+<P>
+<A HREF="f6-1.gif" ><B>Figure 6.1 : </B><I>Collision detection using simple rectangle collision.</I></A>
+<P>
+In Figure 6.1, the areas determining the collision detection are
+shaded. You can see how simple rectangle collision detection isn't
+very accurate, unless you're dealing with sprites that are rectangular
+in shape. An improvement on this technique is to shrink the collision
+rectangles a little, which reduces the corner error. This method
+improves things a little, but it has the potential of causing
+error in the reverse direction by allowing sprites to overlap
+in some cases without signaling a collision. Figure 6.2 shows
+how shrinking the collision rectangles can improve the error on
+simple rectangle collision detection. Shrunken rectangle collision
+is just as efficient as simple rectangle collision because all
+you are doing is comparing rectangles for intersection.
+<P>
+<A HREF="f6-2.gif" ><B>Figure 6.2 : </B><I>Collision detection using shrunken rectangle collision.</I></A>
+<P>
+The most accurate collision detection technique is to detect collision
+based on the sprite image data, which involves actually checking
+to see whether transparent parts of the sprite or the sprite images
+themselves are overlapping. In this case, you get a collision
+only if the actual sprite images are overlapping. This is the
+ideal technique for detecting collisions because it is exact and
+allows objects of any shape to move by each other without error.
+Figure 6.3 shows collision detection using the sprite image data.
+<P>
+<A HREF="f6-3.gif" ><B>Figure 6.3 : </B><I>Collision detection using sprite image data.</I></A>
+<P>
+Unfortunately, the technique shown in Figure 6.3 requires far
+more overhead than rectangle collision detection and is often
+a major bottleneck in performance. Furthermore, implementing image
+data for collision detection can get very messy. Considering these
+facts, it's safe to say that you won't be worrying about image
+data collision detection in this book. It might be an avenue worth
+considering in the future if the just-in-time Java compilers can
+squeeze enough additional performance out of Java, and if you
+are willing to dig into the programming complexities involved
+in pulling it off.
+<H2><A NAME="ImplementingSpriteAnimation"><B><FONT SIZE=5 COLOR=#FF0000>Implementing
+Sprite Animation</FONT></B></A></H2>
+<P>
+As you learned earlier in today's lesson, sprite animation involves
+the movement of individual graphic objects called sprites. Unlike
+simple frame animation, sprite animation involves considerably
+more overhead. More specifically, it is necessary to develop not
+only a sprite class, but also a sprite management class for keeping
+up with all the sprites in the system. This is necessary because
+sprites need to be able to interact with each other through a
+common mechanism. Furthermore, it is useful to extract the background
+behind the sprites into a class of its own.
+<P>
+In this section, you learn how to implement sprite animation in
+Java by creating a suite of sprite classes. The primary sprite
+classes are <TT><FONT FACE="Courier">Sprite</FONT></TT> and <TT><FONT FACE="Courier">SpriteVector</FONT></TT>.
+However, there are also a few support classes that you will learn
+about as you get into the details of these two primary classes.
+The <TT><FONT FACE="Courier">Sprite</FONT></TT> class models a
+single sprite and contains all the information and methods necessary
+to get a single sprite up and running. However, the real power
+of sprite animation is harnessed by combining the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class with the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class, which is a container class that manages multiple sprites
+and their interaction with each other.
+<H3><A NAME="TheSpriteClass"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">Sprite</FONT></B></TT><B><FONT SIZE=4>
+Class</FONT></B></A></H3>
+<P>
+Although sprites can be implemented simply as moveable graphical
+objects, you saw earlier that the sprite class developed here
+will also contain support for frame animation. A frame- animated
+sprite is basically a sprite with multiple frame images that can
+be displayed in succession. The <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class you are about to see supports frame animation in the form
+of an array of frame images and some methods for setting the current
+frame image. Using this approach, you end up with a <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class that supports both fundamental types of animation and is
+much more suitable for Java games.
+<P>
+Before jumping into the details of how the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class is implemented, take a moment to think about the different
+pieces of information that a sprite must keep up with. When you
+understand the components of a sprite at a conceptual level, it
+will be much easier to understand the Java code. So, exactly what
+information should a <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class maintain? The following list contains the key information
+that the <TT><FONT FACE="Courier">Sprite</FONT></TT> class needs
+to include:
+<UL>
+<LI>Array of frame images
+<LI>Current frame
+<LI>XY position
+<LI>Velocity
+<LI>Z-order
+<LI>Boundary
+</UL>
+<P>
+The first component, an array of frame images, is necessary to
+carry out the frame animations. Even though this sounds like you
+are forcing a sprite to have multiple animation frames, a sprite
+can also use a single image. In this way, the frame animation
+aspects of the sprite are optional. The current frame keeps up
+with the current frame of animation. In a typical frame- animated
+sprite, the current frame is incremented to the next frame when
+the sprite is updated.
+<P>
+The XY position stores the position of the sprite. You can move
+the sprite simply by altering this position. Alternatively, you
+can set the velocity and let the sprite alter its position internally.
+<P>
+The Z-order represents the depth of the sprite in relation to
+other sprites. Ultimately, the Z-order of a sprite determines
+its drawing order (more on that a little later).
+<P>
+Finally, the boundary of a sprite refers to the bounded region
+in which the sprite can move. All sprites are bound by some region-usually
+the size of the applet window. The sprite boundary is important
+because it determines the limits of a sprite's movement.
+<P>
+Now that you understand the core information required by the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class, it's time to get into the specific Java implementation.
+Keep in mind that the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class contains all the features necessary to implement sprites
+in the sample games throughout the rest of the book. Let's begin
+with the <TT><FONT FACE="Courier">Sprite</FONT></TT> class's member
+variables, which follow:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static final int&nbsp;SA_KILL
+= 0,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SA_RESTOREPOS
+= 1,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SA_ADDSPRITE
+= 2;<BR>
+public static final int&nbsp;BA_STOP = 0,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BA_WRAP
+= 1,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BA_BOUncE
+= 2,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BA_DIE
+= 3;<BR>
+protected Component&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;component;<BR>
+protected Image[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image;
+<BR>
+protected int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frameInc,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frameDelay,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frameTrigger;
+<BR>
+protected Rectangle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collision;
+<BR>
+protected int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zOrder;
+<BR>
+protected Point&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity;
+<BR>
+protected Rectangle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bounds;<BR>
+protected int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;boundsAction;
+<BR>
+protected boolean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hidden
+= false;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The member variables include the important sprite information
+mentioned earlier, along with some other useful information. Most
+notably, you are probably curious about the static final members
+at the beginning of the listing. These members are constant identifiers
+that define actions for the sprite. Two different types of actions
+are supported by <TT><FONT FACE="Courier">Sprite</FONT></TT>:
+sprite actions and bounds actions. <I>Sprite actions</I> are general
+actions that a sprite can perform, such as killing itself or adding
+another sprite. <I>Bounds actions</I> are actions that a sprite
+takes in response to reaching a boundary, such as wrapping to
+the other side or bouncing. Unlike sprite actions, bounds actions
+are mutually exclusive, meaning that only one can be set at a
+time.
+<P>
+After the actions, the <TT><FONT FACE="Courier">Component</FONT></TT>
+member variable is the next member variable that you might be
+curious about. It is necessary because an <TT><FONT FACE="Courier">ImageObserver</FONT></TT>
+object is required to retrieve information about an image. But
+what does <TT><FONT FACE="Courier">Component</FONT></TT> have
+to do with <TT><FONT FACE="Courier">ImageObserver</FONT></TT>?
+The <TT><FONT FACE="Courier">Component</FONT></TT> class implements
+the <TT><FONT FACE="Courier">ImageObserver</FONT></TT> interface,
+and the <TT><FONT FACE="Courier">Applet</FONT></TT> class is derived
+from <TT><FONT FACE="Courier">Component</FONT></TT>. So, a <TT><FONT FACE="Courier">Sprite</FONT></TT>
+object gets its image information from the Java applet itself,
+which is used to initialize the <TT><FONT FACE="Courier">Component</FONT></TT>
+member variable.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">ImageObserver</FONT></TT> is an interface defined in the <TT><FONT FACE="Courier">java.awt.image</FONT></TT> package that provides a means for receiving information about an image.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">frameInc</FONT></TT> member variable
+is used to provide a means to change the way that the animation
+frames are updated. For example, in some cases you might want
+the frames to be displayed in the reverse order. You can easily
+do this by setting <TT><FONT FACE="Courier">frameInc</FONT></TT>
+to <TT><FONT FACE="Courier">-1</FONT></TT> (its typical value
+is <TT><FONT FACE="Courier">1</FONT></TT>). The <TT><FONT FACE="Courier">frameDelay</FONT></TT>
+and <TT><FONT FACE="Courier">frameTrigger</FONT></TT> member variables
+are used to provide a means of varying the speed of the frame
+animation. You'll see how the speed of animation is controlled
+when you learn about the <TT><FONT FACE="Courier">incFrame</FONT></TT>
+method later today.
+<P>
+Another member variable that you might be curious about is <TT><FONT FACE="Courier">collision</FONT></TT>,
+which is a <TT><FONT FACE="Courier">Rectangle</FONT></TT> object.
+This member variable is used to support rectangle collision detection,
+in which a rectangle is used in collision detection tests. You'll
+see how <TT><FONT FACE="Courier">collision</FONT></TT> is used
+later in today's lesson when you learn about the <TT><FONT FACE="Courier">setCollision</FONT></TT>
+and <TT><FONT FACE="Courier">testCollision</FONT></TT> methods.
+<P>
+The last member variable, <TT><FONT FACE="Courier">hidden</FONT></TT>,
+is a boolean flag that determines whether or not the sprite is
+hidden. When you set this variable to true, the sprite is hidden
+from view. Its default setting is true, meaning that the sprite
+is visible.
+<P>
+The <TT><FONT FACE="Courier">Sprite</FONT></TT> class has two
+constructors. The first constructor creates a <TT><FONT FACE="Courier">Sprite</FONT></TT>
+without frame animations, meaning that it uses a single image
+to represent the sprite. The code for this constructor is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Sprite(Component comp, Image img,
+Point pos, Point vel, int z,<BR>
+&nbsp;&nbsp;int ba) {<BR>
+&nbsp;&nbsp;component = comp;<BR>
+&nbsp;&nbsp;image = new Image[1];<BR>
+&nbsp;&nbsp;image[0] = img;<BR>
+&nbsp;&nbsp;setPosition(new Rectangle(pos.x, pos.y, img.getWidth(comp),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;img.getHeight(comp)));<BR>
+&nbsp;&nbsp;setVelocity(vel);<BR>
+&nbsp;&nbsp;frame = 0;<BR>
+&nbsp;&nbsp;frameInc = 0;<BR>
+&nbsp;&nbsp;frameDelay = frameTrigger = 0;<BR>
+&nbsp;&nbsp;zOrder = z;<BR>
+&nbsp;&nbsp;bounds = new Rectangle(0, 0, comp.size().width, comp.size().height);
+<BR>
+&nbsp;&nbsp;boundsAction = ba;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This constructor takes an image, position, velocity, Z-order,
+and boundary action as parameters. The second constructor takes
+an array of images and some additional information about the frame
+animations. The code for the second constructor is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Sprite(Component comp, Image[]
+img, int f, int fi, int fd,<BR>
+&nbsp;&nbsp;Point pos, Point vel, int z, int ba) {<BR>
+&nbsp;&nbsp;component = comp;<BR>
+&nbsp;&nbsp;image = img;<BR>
+&nbsp;&nbsp;setPosition(new Rectangle(pos.x, pos.y, img[f].getWidth(comp),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;img[f].getHeight(comp)));<BR>
+&nbsp;&nbsp;setVelocity(vel);<BR>
+&nbsp;&nbsp;frame = f;<BR>
+&nbsp;&nbsp;frameInc = fi;<BR>
+&nbsp;&nbsp;frameDelay = frameTrigger = fd;<BR>
+&nbsp;&nbsp;zOrder = z;<BR>
+&nbsp;&nbsp;bounds = new Rectangle(0, 0, comp.size().width, comp.size().height);
+<BR>
+&nbsp;&nbsp;boundsAction = ba;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The additional information required of this constructor includes
+the current frame, frame increment, and frame delay.
+<P>
+The <TT><FONT FACE="Courier">Sprite</FONT></TT> class contains
+a number of access methods, which are simply interfaces to get
+and set certain member variables. These methods consist of one
+or two lines of code and are pretty self-explanatory. Check out
+the code for the <TT><FONT FACE="Courier">getVelocity</FONT></TT>
+and <TT><FONT FACE="Courier">setVelocity</FONT></TT> access methods
+to see what I mean about the access methods being self-explanatory:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Point getVelocity() {<BR>
+&nbsp;&nbsp;return velocity;<BR>
+}<BR>
+<BR>
+public void setVelocity(Point vel)<BR>
+{&nbsp;<BR>
+&nbsp;&nbsp;velocity = vel;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+More access methods exist for getting and setting other member
+variables in <TT><FONT FACE="Courier">Sprite</FONT></TT>, but
+they are just as straightforward as <TT><FONT FACE="Courier">getVelocity</FONT></TT>
+and <TT><FONT FACE="Courier">setVelocity</FONT></TT>. Rather than
+spending time on those, let's move on to some more interesting
+methods!
+<P>
+The <TT><FONT FACE="Courier">incFrame</FONT></TT> method is the
+first <TT><FONT FACE="Courier">Sprite</FONT></TT> method with
+any real substance:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected void incFrame() {<BR>
+&nbsp;&nbsp;if ((frameDelay &gt; 0) &amp;&amp; (--frameTrigger
+&lt;= 0)) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Reset the frame trigger<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;frameTrigger = frameDelay;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Increment the frame<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;frame += frameInc;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (frame &gt;= image.length)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame = 0;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (frame &lt; 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame = image.length - 1;
+<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">incFrame</FONT></TT> is used to increment
+the current animation frame. It first checks the <TT><FONT FACE="Courier">frameDelay</FONT></TT>
+and <TT><FONT FACE="Courier">frameTrigger</FONT></TT> member variables
+to see whether the frame should actually be incremented. This
+check is what allows you to vary the frame animation speed for
+a sprite, which is done by changing the value of <TT><FONT FACE="Courier">frameDelay</FONT></TT>.
+Larger values for <TT><FONT FACE="Courier">frameDelay</FONT></TT>
+result in a slower animation speed. The current frame is incremented
+by adding <TT><FONT FACE="Courier">frameInc</FONT></TT> to <TT><FONT FACE="Courier">frame</FONT></TT>.
+<TT><FONT FACE="Courier">frame</FONT></TT> is then checked to
+make sure that its value is within the bounds of the image array,
+because it is used later to index into the array when the frame
+image is drawn.
+<P>
+The <TT><FONT FACE="Courier">setPosition</FONT></TT> methods set
+the position of the sprite. The following is their source code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void setPosition(Rectangle pos) {<BR>
+&nbsp;&nbsp;position = pos;<BR>
+&nbsp;&nbsp;setCollision();<BR>
+}<BR>
+<BR>
+public void setPosition(Point pos) {<BR>
+&nbsp;&nbsp;position.move(pos.x, pos.y);<BR>
+&nbsp;&nbsp;setCollision();<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Even though the sprite position is stored as a rectangle, the
+<TT><FONT FACE="Courier">setPosition</FONT></TT> methods allow
+you to specify the sprite position as either a rectangle or a
+point. In the latter version, the position rectangle is simply
+moved to the specified point. After the position rectangle is
+moved, the collision rectangle is set with a call to <TT><FONT FACE="Courier">setCollision</FONT></TT>.
+<TT><FONT FACE="Courier">setCollision</FONT></TT> is the method
+that sets the collision rectangle for the sprite. The source code
+for <TT><FONT FACE="Courier">setCollision</FONT></TT> is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected void setCollision() {<BR>
+&nbsp;&nbsp;collision = position;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Notice that <TT><FONT FACE="Courier">setCollision</FONT></TT>
+sets the collision rectangle equal to the position rectangle,
+which results in simple rectangle collision detection. Because
+there is no way to know what sprites will be shaped like, you
+leave it up to derived sprite classes to implement versions of
+<TT><FONT FACE="Courier">setCollision</FONT></TT> with specific
+shrunken rectangle calculations. Therefore, to implement shrunken
+rectangle collision, you just calculate a smaller collision rectangle
+in <TT><FONT FACE="Courier">setCollision</FONT></TT>.
+<P>
+This <TT><FONT FACE="Courier">isPointInside</FONT></TT> method
+is used to test whether a point lies inside the sprite. The source
+code for <TT><FONT FACE="Courier">isPointInside</FONT></TT> is
+as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">boolean isPointInside(Point pt) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return position.inside(pt.x, pt.y);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This method is very handy for determining whether the user has
+clicked on a certain sprite. A good example of this is a board
+game in which the user drags pieces around with the mouse. You
+could implement the pieces as sprites and use the <TT><FONT FACE="Courier">isPointInside</FONT></TT>
+method to see whether the mouse has clicked on one of the pieces.
+<P>
+The method that does most of the work in <TT><FONT FACE="Courier">Sprite</FONT></TT>
+is the <TT><FONT FACE="Courier">update</FONT></TT> method, which
+is shown in Listing 6.1.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.1. The </B><TT><B><FONT FACE="Courier">Sprite</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">update</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public BitSet update() {<BR>
+&nbsp;&nbsp;BitSet action = new BitSet();<BR>
+<BR>
+&nbsp;&nbsp;// Increment the frame<BR>
+&nbsp;&nbsp;incFrame();<BR>
+<BR>
+&nbsp;&nbsp;// Update the position<BR>
+&nbsp;&nbsp;Point pos = new Point(position.x, position.y);<BR>
+&nbsp;&nbsp;pos.translate(velocity.x, velocity.y);<BR>
+<BR>
+&nbsp;&nbsp;// Check the bounds<BR>
+&nbsp;&nbsp;// Wrap?<BR>
+&nbsp;&nbsp;if (boundsAction == Sprite.BA_WRAP) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((pos.x + position.width) &lt; bounds.x)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.x = bounds.x + bounds.width;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (pos.x &gt; (bounds.x + bounds.width))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.x = bounds.x - position.width;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((pos.y + position.height) &lt; bounds.y)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.y = bounds.y + bounds.height;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (pos.y &gt; (bounds.y + bounds.height))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.y = bounds.y - position.height;
+<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;// Bounce?<BR>
+&nbsp;&nbsp;else if (boundsAction == Sprite.BA_BOUncE) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;boolean bounce = false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Point&nbsp;&nbsp;&nbsp;vel = new Point(velocity.x,
+velocity.y);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (pos.x &lt; bounds.x) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bounce = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.x = bounds.x;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vel.x = -vel.x;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if ((pos.x + position.width) &gt;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bounds.x + bounds.width))
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bounce = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.x = bounds.x + bounds.width
+- position.width;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vel.x = -vel.x;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (pos.y &lt; bounds.y) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bounce = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.y = bounds.y;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vel.y = -vel.y;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if ((pos.y + position.height) &gt;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(bounds.y + bounds.height))
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bounce = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.y = bounds.y + bounds.height
+- position.height;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vel.y = -vel.y;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (bounce)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setVelocity(vel);<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;// Die?<BR>
+&nbsp;&nbsp;else if (boundsAction == Sprite.BA_DIE) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((pos.x + position.width) &lt; bounds.x
+||<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.x &gt; bounds.width ||
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pos.y + position.height)
+&lt; bounds.y ||<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.y &gt; bounds.height)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_KILL);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return action;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;// Stop (default)<BR>
+&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (pos.x&nbsp;&nbsp;&lt; bounds.x ||
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.x &gt; (bounds.x + bounds.width
+- position.width)) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.x = Math.max(bounds.x,
+Math.min(pos.x,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bounds.x + bounds.width
+- position.width));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setVelocity(new Point(0, 0));
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (pos.y&nbsp;&nbsp;&lt; bounds.y ||
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.y &gt; (bounds.y + bounds.height
+- position.height)) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pos.y = Math.max(bounds.y,
+Math.min(pos.y,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bounds.y + bounds.height
+- position.height));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setVelocity(new Point(0, 0));
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;setPosition(pos);<BR>
+<BR>
+&nbsp;&nbsp;return action;</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method handles
+the task of updating the animation frame and position of the sprite.
+<TT><FONT FACE="Courier">update</FONT></TT> begins by creating
+an empty set of action flags, which are stored in a <TT><FONT FACE="Courier">BitSet</FONT></TT>
+object. The animation frame is then updated with a call to <TT><FONT FACE="Courier">incFrame</FONT></TT>.
+The position of the sprite is updated by translating the position
+rectangle based on the velocity. You can think of the position
+rectangle as sliding a distance determined by the velocity.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">BitSet</FONT></TT> class is included in the standard Java package <TT><FONT FACE="Courier">java.util</FONT></TT> and provides a means of maintaining a set of boolean flags or bit fields.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The rest of the code in <TT><FONT FACE="Courier">update</FONT></TT>
+is devoted to handling the various bounds actions. The first bounds
+action flag, <TT><FONT FACE="Courier">BA_WRAP</FONT></TT>, causes
+the sprite to wrap around to the other side of the bounds rectangle.
+This flag is useful in an Asteroids type game, in which the asteroids
+float off one side of the screen and back from the other. The
+<TT><FONT FACE="Courier">BA_BOUncE</FONT></TT> flag causes the
+sprite to bounce if it encounters a boundary. This flag is useful
+in a Breakout or Pong type game, in which a ball bounces off the
+edges of the screen. The <TT><FONT FACE="Courier">BA_DIE</FONT></TT>
+flag causes the sprite to die if it encounters a boundary. This
+flag is useful for sprites such as bullets, which you often want
+destroyed when they travel beyond the edges of the screen. Finally,
+the default flag, <TT><FONT FACE="Courier">BA_STOP</FONT></TT>,
+causes the sprite to stop when it encounters a boundary.
+<P>
+Notice that <TT><FONT FACE="Courier">update</FONT></TT> finishes
+by returning a set of sprite action flags, <TT><FONT FACE="Courier">action</FONT></TT>.
+Derived sprite classes can return different sprite action values
+to trigger different actions. Judging by its size, it's not hard
+to figure out that the <TT><FONT FACE="Courier">update</FONT></TT>
+method is itself the bulk of the code in the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class. This is logical though, because the <TT><FONT FACE="Courier">update</FONT></TT>
+method is where all the action takes place; <TT><FONT FACE="Courier">update</FONT></TT>
+handles all the details of updating the animation frame and position
+of the sprite, along with carrying out different bounds actions.
+<P>
+Another important method in the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class is <TT><FONT FACE="Courier">draw</FONT></TT>, whose source
+code is as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void draw(Graphics g) {<BR>
+&nbsp;&nbsp;// Draw the current frame<BR>
+&nbsp;&nbsp;if (!hidden)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.drawImage(image[frame], position.x,
+position.y, component);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+After wading through the <TT><FONT FACE="Courier">update</FONT></TT>
+method, the <TT><FONT FACE="Courier">draw</FONT></TT> method looks
+like a piece of cake! It simply uses the <TT><FONT FACE="Courier">drawImage</FONT></TT>
+method to draw the current sprite frame image to the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object that is passed in. Notice that the <TT><FONT FACE="Courier">drawImage</FONT></TT>
+method requires the image, XY position, and component (<TT><FONT FACE="Courier">ImageObserver</FONT></TT>)
+to carry this out.
+<P>
+The <TT><FONT FACE="Courier">addSprite</FONT></TT> method is used
+to add sprites to the sprite list:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected Sprite addSprite(BitSet action)
+{<BR>
+&nbsp;&nbsp;return null;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The sprite list contains all the sprites and is maintained by
+the <TT><FONT FACE="Courier">SpriteVector</FONT></TT> class, which
+you'll learn about a little later today. The reason for having
+the <TT><FONT FACE="Courier">addSprite</FONT></TT> method is that
+a sprite occasionally needs to create and add another sprite to
+the sprite list. However, there is a big problem in that an individual
+sprite doesn't know anything about the sprite list. To get around
+this problem, you use sprite actions. Sprite actions work like
+this: A sprite notifies the sprite list that it wants to add a
+sprite by setting the <TT><FONT FACE="Courier">SA_ADDSPRITE</FONT></TT>
+action flag in the set of action flags returned by the <TT><FONT FACE="Courier">update</FONT></TT>
+method. The sprite list, in turn, calls the <TT><FONT FACE="Courier">addSprite</FONT></TT>
+method for the sprite and adds the new sprite to the list. I know
+this sounds like a convoluted way to handle sprite creation, but
+it actually works quite well and fits in with the object-oriented
+design of the sprite classes. The remaining question, then, is
+why does this implementation of <TT><FONT FACE="Courier">addSprite</FONT></TT>
+return <TT><FONT FACE="Courier">null</FONT></TT>? The answer is
+that it is up to derived sprites to provide a specific implementation
+for <TT><FONT FACE="Courier">addSprite</FONT></TT>. Knowing this,
+you could make <TT><FONT FACE="Courier">addSprite</FONT></TT>
+abstract, but then you would be forced to derive a new sprite
+class any time you want to create a sprite.
+<P>
+The last method in <TT><FONT FACE="Courier">Sprite</FONT></TT>
+is <TT><FONT FACE="Courier">testCollision</FONT></TT>, which is
+used to check for collisions between sprites:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected boolean testCollision(Sprite
+test) {<BR>
+&nbsp;&nbsp;// Check for collision with another sprite<BR>
+&nbsp;&nbsp;if (test != this)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return collision.intersects(test.getCollision());
+<BR>
+&nbsp;&nbsp;return false;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The sprite to test for collision is passed in the <TT><FONT FACE="Courier">test</FONT></TT>
+parameter. The test simply involves checking to see whether the
+collision rectangles intersect. If so, <TT><FONT FACE="Courier">testCollision</FONT></TT>
+returns <TT><FONT FACE="Courier">true</FONT></TT>. <TT><FONT FACE="Courier">testCollision</FONT></TT>
+isn't all that useful within the context of a single sprite, but
+it is very handy when you put together the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class, which you are going to do next.
+<H3><A NAME="TheSpriteVectorClass"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">SpriteVector</FONT></B></TT><B><FONT SIZE=4>
+Class</FONT></B></A></H3>
+<P>
+At this point, you have a <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class with some pretty impressive features, but you don't really
+have any way to manage it. Of course, you could go ahead and create
+an applet with some <TT><FONT FACE="Courier">Sprite</FONT></TT>
+objects, but how would they be able to interact with each other?
+The answer to this question is the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class, which handles all the details of maintaining a list of
+sprites and the handling of interactions between them.
+<P>
+The <TT><FONT FACE="Courier">SpriteVector</FONT></TT> class is
+derived from the <TT><FONT FACE="Courier">Vector</FONT></TT> class,
+which is a standard class provided in the <TT><FONT FACE="Courier">java.util</FONT></TT>
+package. The <TT><FONT FACE="Courier">Vector</FONT></TT> class
+models a growable array of objects. In this case, the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class is used as a container for a growable array of <TT><FONT FACE="Courier">Sprite</FONT></TT>
+objects.
+<P>
+The <TT><FONT FACE="Courier">SpriteVector</FONT></TT> class has
+only one member variable, <TT><FONT FACE="Courier">background</FONT></TT>,
+which is a <TT><FONT FACE="Courier">Background</FONT></TT> object:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected Background background;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This <TT><FONT FACE="Courier">Background</FONT></TT> object represents
+the background upon which the sprites appear. It is initialized
+in the constructor for <TT><FONT FACE="Courier">SpriteVector</FONT></TT>,
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public SpriteVector(Background back)
+{<BR>
+&nbsp;&nbsp;super(50, 10);<BR>
+&nbsp;&nbsp;background = back;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The constructor for <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+simply takes a <TT><FONT FACE="Courier">Background</FONT></TT>
+object as its only parameter. You'll learn about the <TT><FONT FACE="Courier">Background</FONT></TT>
+class a little later today. Notice that the constructor for <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+calls the <TT><FONT FACE="Courier">Vector</FONT></TT> parent class
+constructor and sets the default storage capacity (<TT><FONT FACE="Courier">50</FONT></TT>)
+and amount to increment the storage capacity (<TT><FONT FACE="Courier">10</FONT></TT>)
+if the vector needs to grow.
+<P>
+<TT><FONT FACE="Courier">SpriteVector</FONT></TT> contains the
+following two access methods for getting and setting the <TT><FONT FACE="Courier">background</FONT></TT>
+member variable:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Background getBackground() {<BR>
+&nbsp;&nbsp;return background;<BR>
+}<BR>
+<BR>
+public void setBackground(Background back) {<BR>
+&nbsp;&nbsp;background = back;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+These methods are useful in games in which the background changes
+based on the level of the game. To change the background, you
+simply call <TT><FONT FACE="Courier">setBackground</FONT></TT>
+and pass in the new <TT><FONT FACE="Courier">Background</FONT></TT>
+object.
+<P>
+The <TT><FONT FACE="Courier">getEmptyPosition</FONT></TT> method
+is used by the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class to help position new sprites. Listing 6.2 contains the source
+code for <TT><FONT FACE="Courier">getEmptyPosition</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.2. The </B><TT><B><FONT FACE="Courier">SpriteVector</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">getEmptyPosition</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Point getEmptyPosition(Dimension
+sSize) {<BR>
+&nbsp;&nbsp;Rectangle pos = new Rectangle(0, 0, sSize.width, sSize.height);
+<BR>
+&nbsp;&nbsp;Random&nbsp;&nbsp;&nbsp;&nbsp;rand = new Random(System.currentTimeMillis());
+<BR>
+&nbsp;&nbsp;boolean&nbsp;&nbsp;&nbsp;empty = false;<BR>
+&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numTries
+= 0;<BR>
+<BR>
+&nbsp;&nbsp;// Look for an empty position<BR>
+&nbsp;&nbsp;while (!empty &amp;&amp; numTries++ &lt; 50) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Get a random position<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;pos.x = Math.abs(rand.nextInt() %<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.getSize().width);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;pos.y = Math.abs(rand.nextInt() %<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;background.getSize().height);
+<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;Iterate through sprites, checking
+if position is empty<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;boolean collision = false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; size(); i++) {
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rectangle testPos = ((Sprite)elementAt(i)).getPosition();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pos.intersects(testPos))
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;collision = true;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;empty = !collision;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;return new Point(pos.x, pos.y);</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+<TT><FONT FACE="Courier">getEmptyPosition</FONT></TT> is a method
+whose importance might not be readily apparent to you right now;
+it is used to find an empty physical position in which to place
+a new sprite in the sprite list. This doesn't mean the position
+of the sprite in the list; rather, it means its physical position
+on the screen. This method is very useful when you want to randomly
+place multiple sprites on the screen. By using <TT><FONT FACE="Courier">getEmptyPosition</FONT></TT>,
+you eliminate the possibility of placing new sprites on top of
+existing sprites. For example, in an adventure game you could
+randomly place scenery objects such as trees using <TT><FONT FACE="Courier">getEmptyPosition</FONT></TT>
+to make sure none of them overlap each other.
+<P>
+The <TT><FONT FACE="Courier">isPointInside</FONT></TT> method
+in <TT><FONT FACE="Courier">SpriteVector</FONT></TT> is similar
+to the version of <TT><FONT FACE="Courier">isPointInside</FONT></TT>
+in <TT><FONT FACE="Courier">Sprite</FONT></TT>, except it goes
+through the entire sprite list checking each sprite. Check out
+the source code for it:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Sprite isPointInside(Point pt) {<BR>
+&nbsp;&nbsp;// Iterate backward through the sprites, testing each
+<BR>
+&nbsp;&nbsp;for (int i = (size() - 1); i &gt;= 0; i--) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Sprite s = (Sprite)elementAt(i);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (s.isPointInside(pt))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return s;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;return null;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If the point passed in the parameter <TT><FONT FACE="Courier">pt</FONT></TT>
+lies in a sprite, <TT><FONT FACE="Courier">isPointInside</FONT></TT>
+returns the sprite. Notice that the sprite list is searched in
+reverse, meaning that the last sprite is checked before the first.
+The sprites are searched in this order for a very important reason:
+Z-order. The sprites are stored in the sprite list sorted in ascending
+Z-order, which specifies their depth on the screen. Therefore,
+sprites near the beginning of the list are sometimes concealed
+by sprites near the end of the list. If you want to check for
+a point lying within a sprite, it only makes sense to check the
+topmost sprites first-that is, the sprites with larger Z-order
+values. If this sounds a little confusing, don't worry; you'll
+learn more about Z-order later today when you get to the <TT><FONT FACE="Courier">add</FONT></TT>
+method.
+<P>
+As in <TT><FONT FACE="Courier">Sprite</FONT></TT>, the <TT><FONT FACE="Courier">update</FONT></TT>
+method is the key method in <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+because it handles updating all the sprites. Listing 6.3 contains
+the source code for <TT><FONT FACE="Courier">update</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.3. The </B><TT><B><FONT FACE="Courier">SpriteVector</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">update</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void update() {<BR>
+&nbsp;&nbsp;// Iterate through sprites, updating each<BR>
+&nbsp;&nbsp;Sprite&nbsp;&nbsp;&nbsp;&nbsp;s, sHit;<BR>
+&nbsp;&nbsp;Rectangle lastPos;<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; size(); ) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Update the sprite<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;s = (Sprite)elementAt(i);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;lastPos = new Rectangle(s.getPosition().x,
+s.getPosition().y,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s.getPosition().width, s.getPosition().height);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;BitSet action = s.update();<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Check for the SA_ADDSPRITE action<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (action.get(Sprite.SA_ADDSPRITE)) {
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Add the sprite<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sprite sToAdd = s.addSprite(action);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (sToAdd != null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int iAdd = add(sToAdd);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (iAdd &gt;=
+0 &amp;&amp; iAdd &lt;= i)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Check for the SA_RESTOREPOS action
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (action.get(Sprite.SA_RESTOREPOS))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s.setPosition(lastPos);<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Check for the SA_KILL action<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (action.get(Sprite.SA_KILL)) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;removeElementAt(i);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Test for collision<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int iHit = testCollision(s);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (iHit &gt;= 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (collision(i, iHit))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s.setPosition(lastPos);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;i++;<BR>
+&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method iterates
+through the sprites, calling <TT><FONT FACE="Courier">Sprite</FONT></TT>'s
+<TT><FONT FACE="Courier">update</FONT></TT> method on each one.
+It then checks for the various sprite action flags returned by
+the call to <TT><FONT FACE="Courier">update</FONT></TT>. If the
+<TT><FONT FACE="Courier">SA_ADDSPRITE</FONT></TT> flag is set,
+the <TT><FONT FACE="Courier">addSprite</FONT></TT> method is called
+on the sprite and the returned sprite is added to the list. If
+the <TT><FONT FACE="Courier">SA_RESTOREPOS</FONT></TT> flag is
+set, the sprite position is set to the position of the sprite
+prior to being updated. If the <TT><FONT FACE="Courier">SA_KILL</FONT></TT>
+flag is set, the sprite is removed from the sprite list. Finally,
+<TT><FONT FACE="Courier">testCollision</FONT></TT> is called to
+see whether a collision has occurred between sprites. You get
+the whole scoop on <TT><FONT FACE="Courier">testCollision</FONT></TT>
+in this section. If a collision has occurred, the old position
+of the collided sprite is restored and the <TT><FONT FACE="Courier">collision</FONT></TT>
+method is called.
+<P>
+The <TT><FONT FACE="Courier">collision</FONT></TT> method is used
+to handle collisions between two sprites:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected boolean collision(int i, int
+iHit) {<BR>
+&nbsp;&nbsp;// Swap velocities (bounce)<BR>
+&nbsp;&nbsp;Sprite s = (Sprite)elementAt(i);<BR>
+&nbsp;&nbsp;Sprite sHit = (Sprite)elementAt(iHit);<BR>
+&nbsp;&nbsp;Point swap = s.getVelocity();<BR>
+&nbsp;&nbsp;s.setVelocity(sHit.getVelocity());<BR>
+&nbsp;&nbsp;sHit.setVelocity(swap);<BR>
+&nbsp;&nbsp;return true;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">collision</FONT></TT> method is responsible
+for handling any actions that result from a collision between
+sprites. The action in this case is to simply swap the velocities
+of the collided <TT><FONT FACE="Courier">Sprite</FONT></TT> objects,
+which results in a bouncing effect. This method is where you provide
+specific collision actions in derived sprites. For example, in
+a space game, you might want alien sprites to explode upon collision
+with a meteor sprite.
+<P>
+The <TT><FONT FACE="Courier">testCollision</FONT></TT> method
+is used to test for collisions between a sprite and the rest of
+the sprites in the sprite list:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected int testCollision(Sprite test)
+{<BR>
+&nbsp;&nbsp;// Check for collision with other sprites<BR>
+&nbsp;&nbsp;Sprite&nbsp;&nbsp;s;<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; size(); i++)<BR>
+&nbsp;&nbsp;{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;s = (Sprite)elementAt(i);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (s == test)&nbsp;&nbsp;// don't check
+itself<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (test.testCollision(s))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return i;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;return -1;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The sprite to be tested is passed in the <TT><FONT FACE="Courier">test</FONT></TT>
+parameter. The sprites are then iterated through and the <TT><FONT FACE="Courier">testCollision</FONT></TT>
+method in <TT><FONT FACE="Courier">Sprite</FONT></TT> is called
+for each. Notice that <TT><FONT FACE="Courier">testCollision</FONT></TT>
+isn't called on the test sprite if the iteration refers to the
+same sprite. To understand the significance of this code, consider
+the effect of passing <TT><FONT FACE="Courier">testCollision</FONT></TT>
+the same sprite on which the method is being called; you would
+be checking to see whether a sprite was colliding with itself,
+which would always return true. If a collision is detected, the
+<TT><FONT FACE="Courier">Sprite</FONT></TT> object that has been
+hit is returned from <TT><FONT FACE="Courier">testCollision</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">draw</FONT></TT> method handles drawing
+the background, as well as drawing all the sprites:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void draw(Graphics g) {<BR>
+&nbsp;&nbsp;// Draw the background<BR>
+&nbsp;&nbsp;background.draw(g);<BR>
+<BR>
+&nbsp;&nbsp;// Iterate through sprites, drawing each<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; size(); i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;((Sprite)elementAt(i)).draw(g);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The background is drawn with a simple call to the <TT><FONT FACE="Courier">draw</FONT></TT>
+method of the <TT><FONT FACE="Courier">Background</FONT></TT>
+object. The sprites are then drawn by iterating through the sprite
+list and calling the <TT><FONT FACE="Courier">draw</FONT></TT>
+method for each.
+<P>
+The <TT><FONT FACE="Courier">add</FONT></TT> method is probably
+the trickiest method in the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class. Listing 6.4 contains the source code for <TT><FONT FACE="Courier">add</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.4. The </B><TT><B><FONT FACE="Courier">SpriteVector</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">add</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public int add(Sprite s) {<BR>
+&nbsp;&nbsp;// Use a binary search to find the right location
+to insert the<BR>
+&nbsp;&nbsp;// new sprite (based on z-order)<BR>
+&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;l = 0, r = size(), i = 0;<BR>
+&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;z = s.getZOrder(),<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zTest = z + 1;
+<BR>
+&nbsp;&nbsp;while (r &gt; l) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;i = (l + r) / 2;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;zTest = ((Sprite)elementAt(i)).getZOrder();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (z &lt; zTest)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;r = i;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;l = i + 1;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (z == zTest)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;if (z &gt;= zTest)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;i++;<BR>
+<BR>
+&nbsp;&nbsp;insertElementAt(s, i);<BR>
+&nbsp;&nbsp;return i;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">add</FONT></TT> method handles adding
+new sprites to the sprite list. The catch is that the sprite list
+must always be sorted according to Z-order. Why is this? Remember
+that Z-order is the depth at which sprites appear on the screen.
+The illusion of depth is established by the order in which the
+sprites are drawn. This works because sprites drawn later are
+drawn on top of sprites drawn earlier, and therefore appear to
+be at a higher depth. Therefore, sorting the sprite list by ascending
+Z-order and then drawing them in that order is an effective way
+to provide the illusion of depth. The <TT><FONT FACE="Courier">add</FONT></TT>
+method uses a binary search to find the right spot to add new
+sprites so that the sprite list remains sorted by Z-order.
+<P>
+That wraps up the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class! You now have not only a powerful <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class, but also a <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class for managing and providing interactivity between sprites.
+All that's left is putting these classes to work in a real applet.
+<H3><A NAME="TheBackgroundClasses"><B>The Background Classes</B></A>
+</H3>
+<P>
+Actually, there is some unfinished business to deal with before
+you try out the sprite classes. I'm referring to the <TT><FONT FACE="Courier">Background</FONT></TT>
+class used in <TT><FONT FACE="Courier">SpriteVector</FONT></TT>.
+While you're at it, let's look at a few different background classes
+that will come in handy later in the book.
+<H4><TT><B><FONT FACE="Courier">Background</FONT></B></TT></H4>
+<P>
+If you recall, I mentioned earlier today that the <TT><FONT FACE="Courier">Background</FONT></TT>
+class provides the overhead of managing a background for the sprites
+to appear on top of. The source code for the <TT><FONT FACE="Courier">Background</FONT></TT>
+class is shown in Listing 6.5.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.5. The </B><TT><B><FONT FACE="Courier">Background</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class Background {<BR>
+&nbsp;&nbsp;protected Component component;<BR>
+&nbsp;&nbsp;protected Dimension size;<BR>
+<BR>
+&nbsp;&nbsp;public Background(Component comp) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;component = comp;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;size = comp.size();<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public Dimension getSize() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return size;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void draw(Graphics g) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Fill with component color<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.setColor(component.getBackground());
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.fillRect(0, 0, size.width, size.height);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.setColor(Color.black);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+As you can see, the <TT><FONT FACE="Courier">Background</FONT></TT>
+class is pretty simple. It basically provides a clean abstraction
+of the background for the sprites. The two member variables maintained
+by <TT><FONT FACE="Courier">Background</FONT></TT> are used to
+keep up with the associated component and dimensions for the background.
+The constructor for <TT><FONT FACE="Courier">Background</FONT></TT>
+takes a <TT><FONT FACE="Courier">Component</FONT></TT> object
+as its only parameter. This <TT><FONT FACE="Courier">Component</FONT></TT>
+object is typically the applet window, and it serves to provide
+the dimensions of the background and the default background color.
+<P>
+The <TT><FONT FACE="Courier">getSize</FONT></TT> method is an
+access method that simply returns the size of the background.
+The <TT><FONT FACE="Courier">draw</FONT></TT> method fills the
+background with the default background color, as defined by the
+<TT><FONT FACE="Courier">component</FONT></TT> member variable.
+<P>
+You're probably thinking that this <TT><FONT FACE="Courier">Background</FONT></TT>
+object isn't too exciting. Couldn't you just stick this drawing
+code directly into <TT><FONT FACE="Courier">SpriteVector</FONT></TT>'s
+draw method? Yes, you could, but then you would miss out on the
+benefits provided by the more derived background classes, <TT><FONT FACE="Courier">ColorBackground</FONT></TT>
+and <TT><FONT FACE="Courier">ImageBackground</FONT></TT>, which
+are explained next. The background classes are a good example
+of how object-oriented design makes Java code much cleaner and
+easier to extend.
+<H4><TT><B><FONT FACE="Courier">ColorBackground</FONT></B></TT>
+</H4>
+<P>
+The <TT><FONT FACE="Courier">ColorBackground</FONT></TT> class
+provides a background that can be filled with any color. Listing
+6.6 contains the source code for the <TT><FONT FACE="Courier">ColorBackground</FONT></TT>
+class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.6. The </B><TT><B><FONT FACE="Courier">ColorBackground</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class ColorBackground extends
+Background {<BR>
+&nbsp;&nbsp;protected Color color;<BR>
+<BR>
+&nbsp;&nbsp;public ColorBackground(Component comp, Color c) {
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(comp);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;color = c;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public Color getColor() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return color;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void setColor(Color c) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;color = c;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void draw(Graphics g) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Fill with color<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.setColor(color);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.fillRect(0, 0, size.width, size.height);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.setColor(Color.black);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+<TT><FONT FACE="Courier">ColorBackground</FONT></TT> adds a single
+member variable, <TT><FONT FACE="Courier">color</FONT></TT>, which
+is a <TT><FONT FACE="Courier">Color</FONT></TT> object. This member
+variable holds the color used to fill the background. The constructor
+for <TT><FONT FACE="Courier">ColorBackground</FONT></TT> takes
+<TT><FONT FACE="Courier">Component</FONT></TT> and <TT><FONT FACE="Courier">Color</FONT></TT>
+objects as parameters. There are two access methods for getting
+and setting the <TT><FONT FACE="Courier">color</FONT></TT> member
+variable. The <TT><FONT FACE="Courier">draw</FONT></TT> method
+for <TT><FONT FACE="Courier">ColorBackground</FONT></TT> is very
+similar to the <TT><FONT FACE="Courier">draw</FONT></TT> method
+in <TT><FONT FACE="Courier">Background</FONT></TT>, except that
+the <TT><FONT FACE="Courier">color</FONT></TT> member variable
+is used as the fill color.
+<H4><TT><B><FONT FACE="Courier">ImageBackground</FONT></B></TT>
+</H4>
+<P>
+A more interesting <TT><FONT FACE="Courier">Background</FONT></TT>
+derived class is <TT><FONT FACE="Courier">ImageBackground</FONT></TT>,
+which uses an image as the background. Listing 6.7 contains the
+source code for the <TT><FONT FACE="Courier">ImageBackground</FONT></TT>
+class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.7. The </B><TT><B><FONT FACE="Courier">ImageBackground</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class ImageBackground extends
+Background {<BR>
+&nbsp;&nbsp;protected Image image;<BR>
+<BR>
+&nbsp;&nbsp;public ImageBackground(Component comp, Image img)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(comp);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;image = img;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public Image getImage() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return image;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void setImage(Image img) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;image = img;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void draw(Graphics g) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Draw background image<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.drawImage(image, 0, 0, component);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">ImageBackground</FONT></TT> class
+adds a single member variable, <TT><FONT FACE="Courier">image</FONT></TT>,
+which is an <TT><FONT FACE="Courier">Image</FONT></TT> object.
+This member variable holds the image to be used as the background.
+Not surprisingly, the constructor for <TT><FONT FACE="Courier">ImageBackground</FONT></TT>
+takes <TT><FONT FACE="Courier">Component</FONT></TT> and <TT><FONT FACE="Courier">Image</FONT></TT>
+objects as parameters. There are two access methods for getting
+and setting the <TT><FONT FACE="Courier">image</FONT></TT> member
+variable. The <TT><FONT FACE="Courier">draw</FONT></TT> method
+for <TT><FONT FACE="Courier">ImageBackground</FONT></TT> simply
+draws the background image using the <TT><FONT FACE="Courier">drawImage</FONT></TT>
+method of the passed <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object.
+<H2><A NAME="SampleAppletAtoms"><B><FONT SIZE=5 COLOR=#FF0000>Sample
+Applet: Atoms</FONT></B></A></H2>
+<P>
+It's time to take all the hard work that you put into the sprite
+classes and see what it amounts to. You didn't come this far for
+nothing. Figure 6.4 shows a screen shot of the Atoms applet, which
+shows off the sprite classes you've toiled over for so long. The
+complete source code, images, and executable classes for the Atoms
+applet are on the accompanying CD-ROM.
+<P>
+<A HREF="f6-4.gif" ><B>Figure 6.4 : </B><I>The Atoms sample applet.</I></A>
+<P>
+The Atoms applet uses a <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+object to manage 12 atomic <TT><FONT FACE="Courier">Sprite</FONT></TT>
+objects. This object, <TT><FONT FACE="Courier">sv</FONT></TT>,
+is one of the <TT><FONT FACE="Courier">Atom</FONT></TT> applet
+class's member variables, which look like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private Image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offImage,
+back;<BR>
+private Image[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atom
+= new Image[6];<BR>
+private Graphics&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offGrfx;<BR>
+private Thread&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;animate;
+<BR>
+private MediaTracker&nbsp;&nbsp;tracker;<BR>
+private SpriteVector&nbsp;&nbsp;sv;<BR>
+private int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay
+= 83; // 12 fps<BR>
+private Random&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rand
+= new<BR>
+&nbsp;&nbsp;Random(System.currentTimeMillis());</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">Image</FONT></TT> member variables
+in the <TT><FONT FACE="Courier">Atoms</FONT></TT> class represent
+the offscreen buffer, the background image, and the atom images.
+The <TT><FONT FACE="Courier">Graphics</FONT></TT> member variable,
+<TT><FONT FACE="Courier">offGrfx</FONT></TT>, holds the graphics
+context for the offscreen buffer image. The <TT><FONT FACE="Courier">Thread</FONT></TT>
+member variable, <TT><FONT FACE="Courier">animate</FONT></TT>,
+is used to hold the thread where the animation takes place. The
+<TT><FONT FACE="Courier">MediaTracker</FONT></TT> member variable,
+<TT><FONT FACE="Courier">tracker</FONT></TT>, is used to track
+the various images as they are being loaded. The <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+member variable, <TT><FONT FACE="Courier">sv</FONT></TT>, holds
+the sprite vector for the applet. The integer member variable,
+<TT><FONT FACE="Courier">delay</FONT></TT>, determines the animation
+speed of the sprites. Finally, the <TT><FONT FACE="Courier">Random</FONT></TT>
+member variable, <TT><FONT FACE="Courier">rand</FONT></TT>, is
+used to generate random numbers throughout the applet.
+<P>
+Notice that the <TT><FONT FACE="Courier">delay</FONT></TT> member
+variable is set to <TT><FONT FACE="Courier">83</FONT></TT>. The
+<TT><FONT FACE="Courier">delay</FONT></TT> member variable specifies
+the amount of time (in milliseconds) that elapses between each
+frame of animation. You can determine the frame rate by inverting
+the value of <TT><FONT FACE="Courier">delay</FONT></TT>, which
+results in a frame rate of about 12 frames per second (fps) in
+this case. This frame rate is pretty much the minimum rate required
+for fluid animation, such as sprite animation. You'll see how
+<TT><FONT FACE="Courier">delay</FONT></TT> is used to establish
+the frame rate later in this lesson when you get into the details
+of the <TT><FONT FACE="Courier">run</FONT></TT> method.
+<P>
+The <TT><FONT FACE="Courier">Atoms</FONT></TT> class's <TT><FONT FACE="Courier">init</FONT></TT>
+method loads all the images and registers them with the media
+tracker:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void init() {<BR>
+&nbsp;&nbsp;// Load and track the images<BR>
+&nbsp;&nbsp;tracker = new MediaTracker(this);<BR>
+&nbsp;&nbsp;back = getImage(getCodeBase(), &quot;Res/Back.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(back, 0);<BR>
+&nbsp;&nbsp;atom[0] = getImage(getCodeBase(), &quot;Res/Red.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(atom[0], 0);<BR>
+&nbsp;&nbsp;atom[1] = getImage(getCodeBase(), &quot;Res/Green.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(atom[1], 0);<BR>
+&nbsp;&nbsp;atom[2] = getImage(getCodeBase(), &quot;Res/Blue.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(atom[2], 0);<BR>
+&nbsp;&nbsp;atom[3] = getImage(getCodeBase(), &quot;Res/Yellow.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(atom[3], 0);<BR>
+&nbsp;&nbsp;atom[4] = getImage(getCodeBase(), &quot;Res/Purple.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(atom[4], 0);<BR>
+&nbsp;&nbsp;atom[5] = getImage(getCodeBase(), &quot;Res/Orange.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(atom[5], 0);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Tracking the images is necessary because you want to wait until
+all the images have been loaded before you start the animation.
+The <TT><FONT FACE="Courier">start</FONT></TT> and <TT><FONT FACE="Courier">stop</FONT></TT>
+methods are standard thread handler methods:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void start() {<BR>
+&nbsp;&nbsp;if (animate == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;animate = new Thread(this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;animate.start();<BR>
+&nbsp;&nbsp;}<BR>
+}<BR>
+<BR>
+public void stop() {<BR>
+&nbsp;&nbsp;if (animate != null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;animate.stop();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;animate = null;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">start</FONT></TT> method is responsible
+for initializing and starting the animation thread. Likewise,
+the <TT><FONT FACE="Courier">stop</FONT></TT> method stops the
+animation thread and cleans up after it.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Warning</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+If for some reason you think that stopping the animation thread in the <TT><FONT FACE="Courier">stop</FONT></TT> method isn't really that big of a deal, think again. The <TT><FONT FACE="Courier">stop</FONT></TT> method is called whenever a user leaves the 
+Web page containing an applet, in which case it is of great importance that you stop all threads executing in the applet. So always make sure to stop threads in the <TT><FONT FACE="Courier">stop</FONT></TT> method of your applets.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">run</FONT></TT> method is the heart
+of the animation thread. Listing 6.8 shows the source code <BR>
+for <TT><FONT FACE="Courier">run</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.8. The </B><TT><B><FONT FACE="Courier">Atom</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">run</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void run() {<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tracker.waitForID(0);<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Create and add the sprites<BR>
+&nbsp;&nbsp;sv = new SpriteVector(new ImageBackground(this, back));
+<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 12; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Point pos = sv.getEmptyPosition(new Dimension(
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atom[0].getWidth(this), atom[0].getHeight(this)));
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;sv.add(createAtom(pos, i % 6));<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Update everything<BR>
+&nbsp;&nbsp;long t = System.currentTimeMillis();<BR>
+&nbsp;&nbsp;while (Thread.currentThread() == animate) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;sv.update();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t += delay;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(Math.max(0, t
+- System.currentTimeMillis()));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">run</FONT></TT> method first waits
+for the images to finish loading by calling the <TT><FONT FACE="Courier">waitForID</FONT></TT>
+method of the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+object. After the images have finished loading, the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+is created. Twelve different atom <TT><FONT FACE="Courier">Sprite</FONT></TT>
+objects are then created using the <TT><FONT FACE="Courier">createAtom</FONT></TT>
+method, which you'll learn about a little later today. These atom
+sprites are then added to the sprite vector. Notice that the position
+for each sprite is found by using the <TT><FONT FACE="Courier">getEmptyPosition</FONT></TT>
+method of <TT><FONT FACE="Courier">SpriteVector</FONT></TT>. This
+guarantees that the sprites won't be placed on top of each other.
+<P>
+After creating and adding the sprites, a <TT><FONT FACE="Courier">while</FONT></TT>
+loop is entered that handles updating the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+and forcing the applet to repaint itself. By forcing a repaint,
+you are causing the applet to redraw the sprites in their newly
+updated states.
+<P>
+Before you move on, it's important to understand how the frame
+rate is controlled in the <TT><FONT FACE="Courier">run</FONT></TT>
+method. The call to <TT><FONT FACE="Courier">currentTimeMillis</FONT></TT>
+returns the current system time in milliseconds. You aren't really
+concerned with what absolute time this method is returning you,
+because you are only using it here to measure relative time. After
+updating the sprites and forcing a redraw, the <TT><FONT FACE="Courier">delay</FONT></TT>
+value is added to the time you just retrieved. At this point,
+you have updated the frame and calculated a time value that is
+<TT><FONT FACE="Courier">delay</FONT></TT> milliseconds into the
+future. The next step is to tell the animation thread to sleep
+an amount of time equal to the difference between the future time
+value you just calculated and the present time.
+<P>
+This probably sounds pretty confusing, so let me clarify things
+a little. The <TT><FONT FACE="Courier">sleep</FONT></TT> method
+is used to make a thread sleep for a number of milliseconds, as
+determined by the value passed in its only parameter. You might
+think that you could just pass <TT><FONT FACE="Courier">delay</FONT></TT>
+to <TT><FONT FACE="Courier">sleep</FONT></TT> and things would
+be fine. This approach technically would work, but it would have
+a certain degree of error. The reason is that a finite amount
+of time passes between updating the sprites and putting the thread
+to sleep. Without accounting for this lost time, the actual delay
+between frames wouldn't be equal to the value of <TT><FONT FACE="Courier">delay</FONT></TT>.
+The solution is to check the time before and after the sprites
+are updated, and then reflect the difference in the delay value
+passed to the <TT><FONT FACE="Courier">sleep</FONT></TT> method.
+And that's how the frame rate is managed! This frame rate technique
+is so useful that you'll use it throughout the rest of the book.
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method is where
+the sprites are actually drawn to the applet window:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void update(Graphics g) {<BR>
+&nbsp;&nbsp;// Create the offscreen graphics context<BR>
+&nbsp;&nbsp;if (offGrfx == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offImage = createImage(size().width, size().height);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offGrfx = offImage.getGraphics();<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Draw the sprites<BR>
+&nbsp;&nbsp;sv.draw(offGrfx);<BR>
+<BR>
+&nbsp;&nbsp;// Draw the image onto the screen<BR>
+&nbsp;&nbsp;g.drawImage(offImage, 0, 0, null);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method uses double
+buffering to eliminate flicker in the sprite animation. By using
+double buffering, you eliminate flicker and allow for speedier
+animations. The <TT><FONT FACE="Courier">offImage</FONT></TT>
+member variable contains the offscreen buffer image used for drawing
+the next animation frame. The <TT><FONT FACE="Courier">offGrfx</FONT></TT>
+member variable contains the graphics context associated with
+the offscreen buffer image.
+<P>
+In <TT><FONT FACE="Courier">update</FONT></TT>, the offscreen
+buffer is first created as an <TT><FONT FACE="Courier">Image</FONT></TT>
+object whose dimensions match those of the applet window. It is
+important that the offscreen buffer be exactly the same size as
+the applet window. The graphics context associated with the buffer
+is then retrieved using the <TT><FONT FACE="Courier">getGraphics</FONT></TT>
+method of <TT><FONT FACE="Courier">Image</FONT></TT>. After the
+offscreen buffer is initialized, all you really have to do is
+tell the <TT><FONT FACE="Courier">SpriteVector</FONT></TT> object
+to draw itself to the buffer. Remember that the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+object takes care of drawing the background and all the sprites.
+This is accomplished with a simple call to <TT><FONT FACE="Courier">SpriteVector</FONT></TT>'s
+<TT><FONT FACE="Courier">draw</FONT></TT> method. The offscreen
+buffer is then drawn to the applet window using the <TT><FONT FACE="Courier">drawImage</FONT></TT>
+method.
+<P>
+Even though the <TT><FONT FACE="Courier">update</FONT></TT> method
+takes care of drawing everything, it is still important to implement
+the <TT><FONT FACE="Courier">paint</FONT></TT> method. As a matter
+of fact, the <TT><FONT FACE="Courier">paint</FONT></TT> method
+is very useful in providing the user visual feedback regarding
+the state of the images used by the applet. Listing 6.9 shows
+the source code for paint.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 6.9. The </B><TT><B><FONT FACE="Courier">Atom</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">paint</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void paint(Graphics g) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((tracker.statusID(0, true) &amp; MediaTracker.ERRORED)
+!= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw the error rectangle
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.setColor(Color.red);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.fillRect(0, 0, size().width,
+size().height);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((tracker.statusID(0, true) &amp; MediaTracker.COMPLETE)
+!= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw the offscreen image
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.drawImage(offImage, 0, 0,
+null);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Draw the title message
+(while the images load)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f1
+= new Font(&quot;TimesRoman&quot;, Font.BOLD, 28),<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f2
+= new Font(&quot;Helvetica&quot;, Font.PLAIN, 16);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontMetrics fm1 = g.getFontMetrics(f1),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fm2
+= g.getFontMetrics(f2);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s1
+= new String(&quot;Atoms&quot;),<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s2
+= new String(&quot;Loading images...&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.setFont(f1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.drawString(s1, (size().width
+- fm1.stringWidth(s1)) / 2,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((size().height
+- fm1.getHeight()) / 2) + fm1.getAscent());<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.setFont(f2);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.drawString(s2, (size().width
+- fm2.stringWidth(s2)) / 2,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size().height
+- fm2.getHeight() - fm2.getAscent());<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Using the media tracker, <TT><FONT FACE="Courier">paint</FONT></TT>
+notifies the user that the images are still loading, or that an
+error has occurred while loading them. This <TT><FONT FACE="Courier">paint</FONT></TT>
+method is very similar to the one you saw yesterday in the <TT><FONT FACE="Courier">Tarantulas</FONT></TT>
+class. The primary difference is the addition of drawing the title
+text in the <TT><FONT FACE="Courier">Atom</FONT></TT> version.
+Check out Figure 6.5, which shows the Atoms applet while the images
+are loading.
+<P>
+<A HREF="f6-5.gif" ><B>Figure 6.5 : </B><I>The Atoms sample applet while the images are loading.</I></A>
+<P>
+If an error occurs while loading one of the images, the <TT><FONT FACE="Courier">paint</FONT></TT>
+method displays a red rectangle over the entire applet window
+area. If the images have finished loading, <TT><FONT FACE="Courier">paint</FONT></TT>
+just draws the latest offscreen buffer to the applet window. If
+the images haven't finished loading, <TT><FONT FACE="Courier">paint</FONT></TT>
+displays the title of the applet and a message stating that the
+images are still loading (see Figure 6.5). Displaying the title
+and status message consists of creating the appropriate fonts
+and centering the text within the applet window.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Warning</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+You might think that the time spent waiting for images to load is an ideal time to display a flashy title screen for a game. Although this is a good time to present information to the user, remember that the whole point here is that the game images haven't 
+finished loading, which includes any title images. Therefore, it's important to design any type of title displayed at this point as straight text and not try to display any images.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The last method in Atoms is <TT><FONT FACE="Courier">createAtom</FONT></TT>,
+which handles creating a single atom sprite:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private Sprite createAtom(Point pos,
+int i) {<BR>
+&nbsp;&nbsp;return new Sprite(this, atom[i], pos, new Point(rand.nextInt()
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;% 5, rand.nextInt() % 5), 0, Sprite.BA_BOUncE);
+<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">createAtom</FONT></TT> takes a <TT><FONT FACE="Courier">Point</FONT></TT>
+as its first parameter, <TT><FONT FACE="Courier">pos</FONT></TT>,
+which determines the sprite's initial position. The second parameter,
+<TT><FONT FACE="Courier">i</FONT></TT>, is an integer that specifies
+which atom image to use. <TT><FONT FACE="Courier">createAtom</FONT></TT>
+then calculates a random velocity for the sprite using the <TT><FONT FACE="Courier">rand</FONT></TT>
+member variable. Each velocity component for the sprite (X and
+Y) is given a random value between <TT><FONT FACE="Courier">-5</FONT></TT>
+and <TT><FONT FACE="Courier">5</FONT></TT>. The sprite is given
+a Z-order value of <TT><FONT FACE="Courier">0</FONT></TT>. Finally,
+the sprite is assigned the <TT><FONT FACE="Courier">BA_BOUncE</FONT></TT>
+bounds action, which means that it will bounce when it encounters
+the edge of the applet window.
+<P>
+That's all it takes to get the sprite classes working together.
+It might seem like a lot of code at first, but think about all
+that the applet is undertaking. The applet is responsible for
+loading and keeping track of all the images used by the sprites,
+as well as the background and offscreen buffer. If the images
+haven't finished loading, or if an error occurs while loading,
+the applet has to notify the user accordingly. Additionally, the
+applet is responsible for maintaining a consistent frame rate
+and drawing the sprites using double buffering. Even with these
+responsibilities, the applet is still benefiting a great deal
+from the functionality provided by the sprite classes.
+<P>
+You can use this applet as a template applet for other applets
+you create that use the sprite classes. You now have all the functionality
+required to manage both cast- and frame-based animation, as well
+as provide support for interactivity among sprites via collision
+detection and sprite actions.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+In today's lesson, you learned all about animation, including
+the two major types of animation: frame-based and cast-based.
+Adding to this theory, you learned that sprite animation is where
+the action is really at. You saw firsthand how to develop a powerful
+duo of sprite classes for implementing sprite animation, including
+a few support classes to make things easier. You then put the
+sprite classes to work in a sample applet that involved relatively
+little additional overhead.
+<P>
+Although it covered a lot of material, today's lesson laid the
+groundwork for the graphics used throughout the rest of the book.
+Without sprite animation, most games just wouldn't be that exciting.
+And without reusable Java sprite classes, implementing sprite
+animation in Java games would be much more difficult.
+<P>
+Most importantly, you learned today the fundamental animation
+concepts that underlie almost every Java game you'll write. Armed
+with the knowledge and code developed today, you are ready to
+move on to more advanced techniques that take you closer to writing
+cool Java games. More specifically, the next topic you need to
+cover is that of deriving your own sprite objects and working
+with interactions between them. You're in luck, because tomorrow's
+lesson covers exactly that topic by way of a really neat sample
+applet.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>What's the big deal with sprites?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The big deal is that sprites provide a very flexible approach to implementing animation. This is important because almost every game has its own unique animation requirements. By designing a powerful sprite 
+engine, you have a base level of animation support that can be extended to provide game-specific features.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>What exactly is Z-order, and do I really need it?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Z-order is the depth of a sprite relative to other sprites; sprites with higher Z-order values appear to be on top of sprites with lower Z-order values. You only need Z-order when two or more sprites overlap 
+each other, which is in most games.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why bother with the different types of collision detection?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The different types of collision detection (rectangle, shrunken rectangle, and image data) provide different trade-offs in regard to performance and accuracy. Rectangle and shrunken rectangle collision detection 
+provide a very high-performance solution, but with moderate to poor accuracy. Image data collision detection is perfect when it comes to accuracy, but it can bring your game to its knees in the performance department.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why do I need the <TT><B><FONT FACE="Courier">SpriteVector</FONT></B></TT> class? Isn't the <TT><B><FONT FACE="Courier">Sprite</FONT></B></TT> class enough?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The <TT><FONT FACE="Courier">Sprite</FONT></TT> class is nice, but it only represents a single sprite. To enable multiple sprites to interact with each other, which most games require, you must have a second 
+entity that acts as a storage unit for the sprites. The <TT><FONT FACE="Courier">SpriteVector</FONT></TT> class solves this problem by doubling as a container for all the sprites as well as a communication medium between sprites.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to give
+you a firmer grasp on the material you learned today. Try to answer
+the questions and at least think about the exercises before moving
+on to tomorrow's lesson. You'll find the answers to the questions
+in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What is animation?
+<LI>What are the two main types of animation?
+<LI>What is transparency?
+<LI>What is flicker?
+<LI>What is double buffering?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Watch some cartoons and think about how each type of animation
+is being used.
+<LI>Go see a movie and marvel at how well the illusion of movement
+works. I can't help it; I'm into entertainment!
+<LI>Modify the Atoms applet so that the sprites wrap around the
+edges of the screen rather than bouncing.
+<LI>Modify the Atoms applet so that the atom sprites don't bounce
+off each other.
+<LI>Substitute frame animated sprites for the single frame atom
+sprites.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch5.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch7.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

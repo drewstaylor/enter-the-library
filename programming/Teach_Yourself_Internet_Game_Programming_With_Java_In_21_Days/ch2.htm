@@ -1,0 +1,535 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 2 -- Java Game Programming</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 2</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Java Game Programming</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#JavaandWebGames" >Java and Web Games</A>
+<LI><A HREF="#JavaFeaturesforGames" >Java Features for Games</A>
+<UL>
+<LI><A HREF="#GraphicsandAnimation" >Graphics and Animation</A>
+<LI><A HREF="#UserInput" >User Input</A>
+<LI><A HREF="#Sound" >Sound</A>
+<LI><A HREF="#Networking" >Networking</A>
+<LI><A HREF="#MediaManagement" >Media Management</A>
+</UL>
+<LI><A HREF="#GameDesign" >Game Design</A>
+<UL>
+<LI><A HREF="#BasicIdea" >Basic Idea</A>
+<LI><A HREF="#Storyline" >Storyline</A>
+<LI><A HREF="#PlayModes" >Play Modes</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+On <A HREF="ch1.htm" >Day 1</A>, you learned what the Web has
+to offer in terms of games. Most of the games you learned about
+were not developed in Java because Java is a new technology and
+programmers haven't had time to gain enough proficiency to turn
+out interesting games. For the aspiring Java game developer like
+yourself, this is very good news; the game market is wide open!
+This level playing field in Java game development should give
+you the energy to get busy thinking about your own game designs
+as you go through today's lesson and the rest of the book.
+<P>
+Today's lesson follows up on <A HREF="ch1.htm" >Day 1</A>'s general
+discussion of Web games to focus on programming Web games in Java.
+Today you learn about the specific features of Java that make
+it a very good language for game development. This lesson lays
+the groundwork for much of the material that you cover throughout
+the rest of the book. You finish up today's lesson with a brief
+look at conceptual game design.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>Java and Web games
+<LI>Java features for games
+<LI>Game design
+</UL>
+<H2><A NAME="JavaandWebGames"><B><FONT SIZE=5 COLOR=#FF0000>Java
+and Web Games</FONT></B></A></H2>
+<P>
+With all the hype surrounding Java and what it will do for the
+Internet, it should come as no surprise that games are being hyped
+as one of the most interesting applications of Java. Indeed, that's
+probably why you bought this book to begin with! Even though Java
+includes many useful features for games, it still isn't quite
+the ideal gaming language for the Internet.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Just because Java isn't an ideal Internet gaming language doesn't mean that it doesn't deliver on many accounts. In reality there probably will never be an ideal gaming language because games have such unique programming challenges and languages tend to be 
+designed for general use.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Although it's not the ideal language, Java does have much to offer
+for mixing games with the Web equation. Java as a technology is
+poised to bring interactivity to the Web in a general sense. Java
+games are only one aspect of this &quot;interactive revolution.&quot;
+Java provides a level of platform independence, security, and
+network support that is still unattainable in any other language.
+All these issues are of utmost importance in any technology that
+is to bring interactive games to the Web.
+<P>
+<I>Platform independence</I> refers to the capability of a single
+executable program to run on a variety of different computer systems.
+<P>
+This discussion might make a little more sense in the context
+of an example, so let's look at one. Consider an educational Web
+page attempting to discuss desert animals and how they interact
+with one another. Before Java, without using complex platform-dependent
+programming languages, the Web presentation would have been limited
+to text and inlined graphics. Now imagine a Java game inserted
+right into the Web pages, which allows students to play the role
+of a desert animal contending with other desert predators. This
+level of interactivity combined with the accessibility of the
+Web can't be matched by any other media. Web games written in
+Java will truly change the way you perceive the Web as a whole.
+By the way, this example isn't just something I made up for the
+purposes of this discussion; you will actually develop a game
+on <A HREF="ch10.htm" >Day 10</A> that is very similar to this
+example.
+<H2><A NAME="JavaFeaturesforGames"><B><FONT SIZE=5 COLOR=#FF0000>Java
+Features for Games</FONT></B></A></H2>
+<P>
+You've seen some of the aspects of Java that are beneficial in
+making Web games a reality. It's now time to look at the specifics
+of the functionality that Java provides for developing games for
+the Web. The primary areas of importance for game programming
+are the following:
+<UL>
+<LI>Graphics and animation
+<LI>User input
+<LI>Sound
+<LI>Networking
+<LI>Media management
+</UL>
+<P>
+As you learn about each of these different areas of game programming,
+I want to help put them into perspective by explaining how they
+would impact the development of a Java Space Invaders game. This
+will help you to see how each of these areas impacts a real game,
+and it might also help you get ideas about designing a real game.
+<H3><A NAME="GraphicsandAnimation"><B>Graphics and Animation</B></A>
+</H3>
+<P>
+What good is a game without graphics? In most cases, not much!
+Fortunately, Java delivers the goods when it comes to graphics.
+The standard Java API includes wide support for all kinds of neat
+graphics features such as images, color models, and 2D graphics
+primitives. Although Java as a whole is still largely limited
+by its relatively slow performance, the support is in place for
+very powerful graphics. As future releases of Java address the
+speed concerns, game programmers will be able to more fully exploit
+the graphics capabilities Java provides. You get the whole scoop
+on graphics later this week on <A HREF="ch5.htm" >Day 5</A>, &quot;Java
+Graphics Techniques.&quot;
+<P>
+What about animation? Most games would be pretty boring without
+it! Although the standard Java API doesn't provide any specific
+animation support, it is riddled with features that make implementing
+animation very easy. One of the most important aspects of Java
+is its multithreaded design, which provides a powerful framework
+for establishing the all-important timing necessary for animations.
+You learn all about implementing animation in Java later this
+week on <A HREF="ch6.htm" >Day 6</A>, &quot;Sprite Animation.&quot;
+<P>
+In the context of a real game, the graphics and animation form
+the majority of the look of the game. In a Space Invaders game,
+for example, the graphics and animation account for the aliens,
+the player's ship, any barriers that the player can hide behind,
+the missiles being fired back and forth, and any explosions that
+take place when a missile collides with something. Furthermore,
+the display of the title screen and score would also fall under
+the area of graphics programming.
+<H3><A NAME="UserInput"><B>User Input</B></A></H3>
+<P>
+User input is a very critical area of game development because
+it dictates how a game &quot;feels&quot; to the game player. User
+input is also important because it establishes the primary interface
+between the player and the game. Java provides support for the
+two major input devices in use on most computer systems these
+days-the keyboard and mouse. When programming in Java, you monitor
+these input devices by responding to user input events generated
+when the user manipulates one of the devices.
+<P>
+Although it would certainly be nice if Java supported other input
+devices such as joysticks and flight yokes, the reality is that
+these devices aren't available on a wide variety of platforms.
+Hopefully a future version of Java will provide some degree of
+support for these gaming devices, because they are typically used
+in addition to the keyboard and mouse.
+<P>
+Even without the support for game-specific input devices, the
+support for the keyboard and mouse is enough to provide an effective
+user interface to most games. If you're skeptical, you can judge
+for yourself next week on <A HREF="ch9.htm" >Day 9</A>, &quot;Handling
+User Input with Java.&quot;
+<P>
+Using the Space Invaders example again, the user input requirements
+of the game consist of the inputs necessary to control the player's
+ship and fire missiles. For a game like this in which the ship
+simply moves from side to side, the best approach is probably
+to just use the left and right arrow keys to handle the ship's
+movement. You could also detect side to side mouse movement and
+use it to control the ship. You would designate another key, such
+as the spacebar, as the fire button. Likewise, a mouse click could
+also serve as the fire button for the mouse interface.
+<H3><A NAME="Sound"><B>Sound</B></A></H3>
+<P>
+Rounding out the &quot;big three&quot; areas of game development
+is sound. Sound is currently the weakest area of Java's support
+for gaming. Release 1.0 of Java supports playing sound waves only
+in the ULAW format, which is popular on Sun workstations. Although
+the current Java sound support provides built-in sound mixing
+and the capability to play looped sounds, it is pretty limited
+because all sounds must be in the ULAW format (which is a low-quality
+sound format). Furthermore, there is no support for manipulating
+sounds at a lower level, which is often useful in games. A future
+release of Java will no doubt remedy many of the current limitations
+in regard to sound.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Sun is already busy at work on a future add-on to Java that will provide lots of neat sound features such as MIDI (Musical Instrument Digital Interface) music and support for other sound formats.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Even with its limitations, the current Java sound support is enough
+to add simple sound effects and music to Java games. Actually,
+the fact that Java provides a built-in sound mixer in the first
+release is a big deal. Contrast this situation with that of Windows
+3.1, which didn't have any sound mixing support until very late
+in the product cycle.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+It might seem strange that I'm comparing Java to an operating system (or shell, at least) in Windows 3.1. This brings up an interesting point regarding what Java really is. Java is not just a language; it is also a runtime system that acts very much like 
+an operating system at times.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+You learn all about sound programming in Java, as well as the
+ULAW sound format, next week on <A HREF="ch12.htm" >Day 12</A>,
+&quot;Playing Sound with Java.&quot;
+<P>
+Going back to the Space Invaders example, the sound programming
+aspect of the game consists of writing code to handle all the
+sound effects in the game, as well as the background music. You
+might wonder how to add music considering the fact that Java doesn't
+yet support the popular MIDI music standard. The truth is that
+the original Space Invaders arcade game was developed well before
+the MIDI standard, so someone improvised back then! Similarly,
+you have to improvise music in Java by playing looped wave sounds
+repeatedly. Admittedly, this isn't the ideal approach, but it's
+the only approach you have-for now.
+<H3><A NAME="Networking"><B>Networking</B></A></H3>
+<P>
+Now that the concept of a &quot;computer in every home&quot; is
+inching closer to reality, game developers can no longer ignore
+the potential of multiplayer network games. The desire of game
+players to connect and play games with other real people is just
+too strong to ignore. This is evident in the recent surge of commercial
+games that support network play. CivNet comes to mind as an example
+of a popular single player game (Civilization) that has been revamped
+for network play.
+<P>
+Networking is the one area where Java really shines because it
+is such an integral part of the Java runtime system. Unlike other
+popular game programming languages such as C and C++, Java was
+designed from the ground up to support networking over the Internet.
+For this reason, the networking support in Java is much easier
+to use and a lot more secure than add-on networking libraries
+for C/C++.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Network programming has long been a very complex and highly specialized area of software development. Prior to Java, most programmers had to focus all their efforts on network programming alone just to develop enough skills to do anything useful. Java has 
+changed all that and made network programming a realistic pursuit for the rest of us.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Combine Java's extensive network support with its platform independence
+and you have a gaming platform that crosses all boundaries for
+availability to users. With a networked Java game, you could be
+sitting in front of a Windows 95 machine playing a game of Poker
+with players in other parts of the world using completely different
+machines, such as Sun workstations or Macintoshes. That's about
+as good as it gets when it comes to distributed game play! You
+learn all about network programming in Java on <A HREF="ch18.htm" >Day 18</A>,
+&quot;Networking with Java.&quot;
+<P>
+Using the Space Invaders example again, there isn't a very clear
+way to add network support because the original game was basically
+a single player game. However, nothing is stopping you from adding
+a mode in which two players join forces and battle the aliens.
+Using this approach, you have to define a means of sending data
+back and forth between the players so that each player's game
+is up to date with the other player's actions. This technique
+is known as synchronization and is a key topic on <A HREF="ch17.htm" >Day 17</A>,
+&quot;The Basics of Multiplayer Gaming.&quot;
+<H3><A NAME="MediaManagement"><B>Media Management</B></A></H3>
+<P>
+The last issue in regard to Java's support for games is <I>media</I>
+<I>management</I>. Media management refers to the tracking of
+media objects (graphics, sounds, and so on) as they are being
+transferred across the Internet. If you didn't guess, the whole
+issue of media management is unique to Web games because traditional
+games reside on a single machine and get all their data from a
+CD-ROM or hard drive.
+<P>
+To understand why media management is an issue, think about where
+the data comes from when a game is playing. In a traditional game,
+the data comes straight from the hard drive or CD-ROM. When you
+consider distributed Java games, it becomes difficult to nail
+down exactly where the game's content is coming from. Of course,
+a Java game executes locally on the end user's machine, but it
+is initially transferred from whatever Web server it is installed
+on. Java games could certainly still be shipped on a CD-ROM like
+traditional games, but doing so would bypass the whole point of
+incorporating Java games into online Web content. For this reason,
+most Java games transfer their data (media objects) over an Internet
+connection.
+<P>
+Because transferring data over the Internet takes a finite amount
+of time (often too finite!), it becomes necessary for Java games
+to keep up with the time at which certain data is available for
+use. In other words, you don't have the luxury of speedy hard
+drive access, so you have to take into account the amount of time
+it takes to transfer data over an Internet connection. For example,
+it would be a bad thing to display a game screen when you have
+the graphics for only half of the objects being displayed. Java
+provides a feature for keeping up with which media objects have
+been transferred, and therefore which ones are available for use.
+Unfortunately, the current release of Java only supports the tracking
+of images, and not sounds. You learn the details about tracking
+images later this week on <A HREF="ch5.htm" >Day 5</A>, &quot;Java
+Graphics Techniques.&quot; Media tracking support for sounds and
+other types of media has been promised in a future release of
+Java.
+<P>
+Returning to the trusted Space Invaders example, it's not too
+difficult to determine what media objects the game is composed
+of. Basically, each graphic element in the game is stored as an
+image, which has to be transferred for the game to run correctly.
+In addition to the images, you also have to deal with the individual
+sound effects and the looped music sound. These elements are equally
+important media content that have to be transferred along with
+the images.
+<H2><A NAME="GameDesign"><B><FONT SIZE=5 COLOR=#FF0000>Game Design</FONT></B></A>
+</H2>
+<P>
+Now that you understand some of the reasons that Java is cool
+for writing games, let's take a conceptual look at game design.
+The rest of today's lesson focuses on the flow of thought necessary
+to come up with a game plan. This thought should take place before
+you begin to write any Java code. I know you're probably itching
+to get into the technical side of things, but please be patient.
+You'll get a good dose of Java code in due time!
+<P>
+Do you have some ideas of games you would like to write? If so,
+you probably already realize that coming up with a good game idea
+is often the easy part. Taking a game concept and making it reality
+is where most of us fall short. That's okay; you just have to
+take it a step at a time and think through the development process.
+<P>
+The first step in taking a game from concept to reality is to
+get a solid idea of what you want the game to be. This doesn't
+need to be an itemized list of every scene and every little creature
+and interaction. It simply needs to state some minimal ground
+rules about what your goal is for the final game.
+<P>
+Here are the key items you should address when beginning the game
+development process:
+<UL>
+<LI>Basic idea
+<LI>Storyline
+<LI>Play modes
+</UL>
+<H3><A NAME="BasicIdea"><B>Basic Idea</B></A></H3>
+<P>
+The first thing you should do is determine the basic idea behind
+your game. Is it a shoot-em-up, a maze game, a role-playing adventure
+game, or some mixed combination? Or do you have an idea of a game
+that doesn't really fit in an existing category? Is the object
+to rescue good guys, kill bad guys, or just explore a strange
+environment? What time frame is your game set in, or does it even
+have a time frame? Write all this stuff down. Whatever comes to
+mind, write it down, because brainstorms come and go and you don't
+want to forget anything. Forcing yourself to formalize your ideas
+causes you to think more about the game and clears up a lot of
+things.
+<P>
+If you are having trouble coming up with a basic game idea, think
+about the influences of a lot of the popular computer games. Many
+games are based on movies, some on historical events, and others
+on sports. Ultimately, computer games are models of the world
+around us, whether fantasy or real, so look no farther when dreaming
+up your game. Movies in particular can provide a lot of good creative
+settings and storylines for games.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Currently, there are even a few cases in which a game idea has served as the basis for a movie, which is pretty surprising. The really strange thing is that some of the movies are based on games with a very limited plot. For example, the immensely popular 
+Mortal Kombat game, which is basically a straight-up fighting game with no plot, was made into a movie.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Regardless of your inspiration, just remember that your game has
+to be fun. Actually, that's why I think computer games are so
+alluring to programmers. The overriding design goal is always
+to maximize fun! Who wouldn't want to spend all day trying to
+figure out the best way to have fun? If your game isn't fun to
+play, the most dazzling graphics and sound won't be able to save
+it. The point I'm trying to make is that you must make fun the
+priority when designing your game. After you have a basic idea
+of what your game will be and you've decided that you're going
+to make it fun at all costs, you can develop a storyline.
+<H3><A NAME="Storyline"><B>Storyline</B></A></H3>
+<P>
+Even if your game is a simple action game, developing a storyline
+helps you to establish the landscape and think up creatures to
+populate your game world. Putting your game in <BR>
+the context of a story also brings the game player closer to your
+world. For games in which the story is a more integral part, it
+is often useful to develop a storyboard along with the storyline.
+A <I>storyboard</I> tells the story scene by scene by using rough
+sketches of each scene. A storyboard basically enables you to
+create a visual layout of the entire game, based on the story.
+Having a storyboard to reference helps ensure that you don't lose
+sight of the story when you get into heavy development.
+<H3><A NAME="PlayModes"><B>Play Modes</B></A></H3>
+<P>
+The final thing to consider when laying out your initial game
+design is what play modes you will support. Will it be single
+player, two player, networked, or some combination? This might
+sound like a fairly simple decision, but it can have huge repercussions
+on the game logic later. Even though Java provides a lot of support
+for networking, network games typically incur a significantly
+more complex design.
+<P>
+On the other hand, many single-player games will require some
+degree of artificial intelligence to make the computer opponent
+challenging to play against. Artificial intelligence can easily
+get complicated and difficult to implement, so you need to weigh
+your resources heavily into your game design when deciding on
+play modes. Speaking of artificial intelligence, you learn all
+about it on <A HREF="ch15.htm" >Day 15</A>, &quot;Teaching Games
+to Think.&quot;
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you learned what Java has to offer games on the Web. Some
+of the requirements of Web games were discussed, along with how
+Java addresses many of the problems inherent in moving games to
+the Web. You learned about the primary features of Java that directly
+impact game development, along with their benefits and limitations.
+In short, you learned today that Java, although not perfect (yet),
+is positioned to be an extremely viable development tool for games
+on the Web.
+<P>
+You finished up today's lesson with a discussion of general game
+design ideas. Although not etched in stone, these ideas and suggestions
+serve as good guidelines when you start working out your masterpiece.
+This discussion also serves as a good ending to today's lesson,
+because you will continue with more theory on <A HREF="ch3.htm" >Day 3</A>.
+Tomorrow's lesson focuses on object-oriented programming in Java,
+a topic you won't want to miss!
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Does Java provide support for 3D graphics?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>No, not yet. The standard Java 1.0 API has no support for 3D graphics, but a future release of Java could well fix this. Also, there are some third-party Java graphics libraries in the works that might make 
+viable alternatives to writing your own 3D graphics code.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>How do you play music in Java?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Currently, the only way to play music is to loop a sampled sound clip stored in the ULAW sound format. There is talk of MIDI extensions for Java, but nothing real has surfaced yet. Keep your eyes open, though!
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Are there any limitations to how Java games can be networked?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Not really. As long as you stay within the network security bounds imposed by Java, which you are forced to do anyway, the options available for network games are wide open. You can theoretically have as many 
+players as you want, interacting however you choose to allow them.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+solidify the material you learned today. Try to answer the questions
+and at least go over the exercises before moving on to tomorrow's
+lesson. You'll find the answers to the questions in appendix A,
+&quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What user input devices does Java currently support?
+<LI>What are some limitations of the sound support in Java 1.0?
+<LI>What is a media object?
+<LI>What is a storyboard used for?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Get on the Web and check out some Java games. Hint: A good
+place to start is the Gamelan Web site, which is located at <TT><A HREF="http://www.gamelan.com<">http://www.gamelan.com<</A></TT>.
+Gamelan has an entire section devoted to Java games.
+<LI>Perform the preliminary design for a game of your own, addressing
+each of the issues mentioned at the end of today's lesson.
+<LI>Check out Javasoft's Web site at <TT><A HREF="http://www.javasoft.com<">http://www.javasoft.com<</A></TT>
+for the latest news on Java; who knows, by the time you read this
+there could be new enhancements to Java such as more advanced
+sound support.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch1.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch3.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

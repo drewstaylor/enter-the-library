@@ -1,0 +1,246 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms for Computer Arithmetic</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=4//-->
+<!--PAGES=232-240//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="223-232.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="240-253.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+</P>
+<H3><A NAME="Heading12"></A><FONT COLOR="#000077">4.4 Fixed Point Division</FONT></H3>
+<P>This section presents algorithms for fixed point division. For fixed point division a 2<I>n</I> bit number, the dividend, is divided by an <I>n</I> bit number, the divisor, to yield an <I>n</I> bit quotient and an <I>n</I> bit remainder. Overflow can occur in the division process (see Problem 4.7).</P>
+<H4 ALIGN="LEFT"><A NAME="Heading13"></A><FONT COLOR="#000077">4.4.1 Restoring Division</FONT></H4>
+<P>Restoring division is similar to the process of grade school addition. After aligning the bits appropriately the pseudocode is shown in Table 4.8.
+</P>
+<CENTER>
+<TABLE WIDTH="90%"><CAPTION ALIGN=LEFT><B>Table 4.8</B> Division PsedudoCode
+<TR>
+<TD COLSPAN="2"><HR>
+<TR>
+<TD COLSPAN="2">if <I>divisor</I> &lt; <I>dividend</I>
+<TR>
+<TD WIDTH="8%">
+<TD WIDTH="92%">{
+<TR>
+<TD>
+<TD><I>dividend = dividend - divisor</I>
+<TR>
+<TD>
+<TD>place a 1 in quotient field
+<TR>
+<TD>
+<TD>shift <I>dividend</I> over
+<TR>
+<TD>
+<TD>}
+<TR>
+<TD COLSPAN="2">else
+<TR>
+<TD>
+<TD>{
+<TR>
+<TD>
+<TD>place a 0 in <I>quotient</I>
+<TR>
+<TD>
+<TD>shift <I>dividend</I> over
+<TR>
+<TD>
+<TD>}
+</TABLE>
+</CENTER>
+<P>The pseudocode in Table 4.8 is repeated until the desired precision is reached. At which point the final dividend becomes the remainder. When this simple algorithm is executed on a computer in order for it to test whether <I>divisor</I> &lt; <I>dividend</I> it performs the subtraction</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-35d.jpg"></P>
+<P>If the result is nonnegative then it places a 1 in the <I>quotient</I> field. If the result is less than zero then the subtraction should not have occurred so the computer performs</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-36d.jpg"></P>
+<P>to <I>restore</I> the dividend to the correct result and places a zero in the <I>quotient</I> field. The computer then shifts the dividend and proceeds. This results in the pseudocode in Table 4.9.</P>
+<CENTER>
+<TABLE WIDTH="90%"><CAPTION ALIGN=LEFT><B>Table 4.9</B> Restoring Division PseudoCode
+<TR>
+<TD COLSPAN="2"><HR>
+<TR>
+<TD COLSPAN="2"><I>dividend = dividend - divisor</I>
+<TR>
+<TD COLSPAN="2">if <I>dividend</I> &#8805; 0
+<TR>
+<TD WIDTH="9%">
+<TD WIDTH="91%">{
+<TR>
+<TD>
+<TD>place a 1 in <I>quotient</I> field
+<TR>
+<TD>
+<TD>}
+<TR>
+<TD COLSPAN="2">else
+<TR>
+<TD>
+<TD>{
+<TR>
+<TD>
+<TD><I>dividend = dividend + divisor</I>
+<TR>
+<TD>
+<TD>place a 0 in the <I>quotient</I> field
+<TR>
+<TD>
+<TD>}
+<TR>
+<TD>
+<TD>shift over <I>dividend</I>
+</TABLE>
+</CENTER>
+<P>Problem 4.3 develops a C++ program to simulate restoring division.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading14"></A><FONT COLOR="#000077">4.4.2 Nonrestoring Division</FONT></H4>
+<P>Nonrestoring division is a technique which avoids the need to restore on each formation of the quotient bit. In effect, the need to restore is delayed until the final quotient bit is formed. The algorithm avoids this by noting that if a subtraction occurred that should not have then the next step in the algorithm would be to restore, then shift, then subtract.
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-37d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/04-38d.jpg"></P>
+<P>so that
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-39d.jpg"></P>
+<P>It can be seen that the (restore, shift,subtract) is equivalent to a (shift,add). This is used to avoid the restore operation and is thus called nonrestoring division. The computer does continuous shift-subtract operations until the result is negative at which point the next operation becomes a shift-add. If on the final cycle the result is negative the computer will add the divisor back to restore the dividend (which on the final cycle is the remainder).
+</P>
+<P>The program to perform nonrestoring division is shown in Code List 4.15. The output of the program is shown in Code List 4.16. The program uses a similar register-saving technique to the Booth algorithm. The program performs the division of a 2<I>n</I> bit number by an <I>n</I> bit number</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-40d.jpg"></P>
+<P>At the termination of the program the remainder is in R and the quotient is in Q. The program illustrates the division of 37/14 which yields 2 with a remainder of 9.
+</P>
+<P>The program demonstrates a number of features in C++. The program introduces a class called <I>number</I> which defines the operations for the data. The class includes data and functions:</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>number</I>: this is the constructor function for the class which is called when a variable of type <I>number</I> is created
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>get_value</I>: the get_value function is used to return bit number <I>x</I> of the number. This is used to access the private data of the class which is hidden from the user.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>shift_left</I>: the shift_left function is used to perform a logical left shift on the data. This operation is used extensively in the nonrestoring division algorithm.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>print_value</I>: the function print_value is used to print the number and accepts a character string to be printed before prior to the value.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>ones_complement</I>: the ones_complement function performs the ones_complement which is used to calculate the negative of a <I>number</I> in the addition process.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>operator</I>&gt;=: this overloads the greater than or equal operator in the program. When comparing two objects of type <I>number</I> this function is called.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>operator</I>&lt;: this operator overloads the less than operator when comparing objects of type <I>number</I>.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>operator</I>+: this operator overloads the plus operator when comparing objects of type <I>number</I>.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>operator</I>-: this operator overloads the minus operator when comparing objects of type <I>number</I>.
+</DL>
+<P>The + operator is defined first and is used in subsequent definitions of other overloaded operators. The + operator performs a ripple-carry (see Section 4.1.2) addition of the two numbers passed and returns the result as a number.
+</P>
+<P>Rather than calculate the algorithm for the - operator it uses the newly overloaded + operator to calculate the subtraction by noting that <I>x-y</I> = <I>x</I> + (-<I>y</I>) .</P>
+<P>The &gt;= operator uses the newly formed - operator to return the difference in x and y as a number and accesses the most significant bit (the sign) of it to see if the difference is less than zero. It returns a value according to the test.</P>
+<P>The &lt; operator performs in a similar fashion.</P>
+<P>The <I>left_shift_add</I> function introduces a feature of C++ not present in C. The first parameter in the function argument list is declared as <I>number&amp; B</I>. As a result <I>B</I> is passed to the function as a pointer and is automatically dereferenced on use. See Section 3.1 for a more detailed description of pointers in C++.</P>
+<P><B>Code List 4.15</B> Nonrestoring Division</P>
+<P><A NAME="Fig55"></A><A HREF="javascript:displayWindow('images/04-55.jpg',500,697)"><IMG SRC="images/04-55t.jpg"></A></P>
+<P><A NAME="Fig56"></A><A HREF="javascript:displayWindow('images/04-56.jpg',490,940)"><IMG SRC="images/04-56t.jpg"></A></P>
+<P><A NAME="Fig57"></A><A HREF="javascript:displayWindow('images/04-57.jpg',500,963)"><IMG SRC="images/04-57t.jpg"></A></P>
+<P><A NAME="Fig58"></A><A HREF="javascript:displayWindow('images/04-58.jpg',500,961)"><IMG SRC="images/04-58t.jpg"></A></P>
+<P><A NAME="Fig59"></A><A HREF="javascript:displayWindow('images/04-59.jpg',400,444)"><IMG SRC="images/04-59t.jpg"></A></P>
+<P><B>Code List 4.16</B> Output of Program in Code List 4.15</P>
+<P><A NAME="Fig60"></A><A HREF="javascript:displayWindow('images/04-60.jpg',300,187)"><IMG SRC="images/04-60t.jpg"></A><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="223-232.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="240-253.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

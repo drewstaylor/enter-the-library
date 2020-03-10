@@ -1,0 +1,233 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms for Computer Arithmetic</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=4//-->
+<!--PAGES=240-253//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="232-240.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="253-254.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading15"></A><FONT COLOR="#000077">4.4.3 Shifting over 1&#146;s and 0&#146;s</FONT></H4>
+<P>If the divisor is normalized so that it begins with a 1 then the technique of the previous sections can be improved to skip over 1&#146;s and 0&#146;s. Shifting over 0&#146;s is simple to see. If 0.000010101 is divided by 0.10111 It is easy to see that the first four quotient bits are zero. So rather than performing the subtraction, the dividend is renormalized each time a string of zero&#146;s is encountered. Similarly, if after each subtraction the result is a string of 1&#146;s, then the 1&#146;s can be skipped over placing 1&#146;s in the quotient bit. This technique is derived in Problem 4.5.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading16"></A><FONT COLOR="#000077">4.4.4 Newton&#146;s Method</FONT></H4>
+<P>In Newton&#146;s method the quotient to be formed is the product <I>A</I> (1 / <I>B</I>). For this case, once 1 / <I>B</I> is determined a single multiplication cycle generates the desired result. Newton&#146;s method yields the iteration</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-41d.jpg"></P>
+<P>which for the function
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-42d.jpg"></P>
+<P>gives
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-43d.jpg"></P>
+<P>Under suitable well known conditions <I>x<SUB><SMALL>i</SMALL></SUB></I> will converge to the inverse. Hence using Newton&#146;s algorithm the process of division is achieved via addition and multiplication operations. The C++ source code illustrating this technique is shown in Code List 4.17. The output of the program is shown in Code List 4.18.</P>
+<P><B>Code List 4.17</B> Floating Point Division</P>
+<P><A NAME="Fig61"></A><A HREF="javascript:displayWindow('images/04-61.jpg',400,232)"><IMG SRC="images/04-61t.jpg"></A></P>
+<P><A NAME="Fig62"></A><A HREF="javascript:displayWindow('images/04-62.jpg',500,919)"><IMG SRC="images/04-62t.jpg"></A></P>
+<P><A NAME="Fig63"></A><A HREF="javascript:displayWindow('images/04-63.jpg',500,90)"><IMG SRC="images/04-63t.jpg"></A></P>
+<P><B>Code List 4.18</B> Output of Program in Code List 4.17</P>
+<P><A NAME="Fig64"></A><A HREF="javascript:displayWindow('images/04-64.jpg',290,776)"><IMG SRC="images/04-64t.jpg"></A></P>
+<P><A NAME="Fig65"></A><A HREF="javascript:displayWindow('images/04-65.jpg',290,232)"><IMG SRC="images/04-65t.jpg"></A></P>
+<H3><A NAME="Heading17"></A><FONT COLOR="#000077">4.5 Residue Number System</FONT></H3>
+<H4 ALIGN="LEFT"><A NAME="Heading18"></A><FONT COLOR="#000077">4.5.1 Representation in the Residue Number System</FONT></H4>
+<P>The residue number systems is a system which uses an alternate way to represent numbers. For integers, in 2&#146;s complement notation, the representation for a number was
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-44d.jpg"></P>
+<P>with a value of
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-45d.jpg"></P>
+<P>For this case, a number <I>A</I> is represented with n binary bits. The value is relatively easy to calculate via Eq. 4.41. A natural problem occurred with this representation for the process of addition. When <I>n</I> is large the calculation of the carry-in to each stage is the dominating factor with regard to the performance of the addition operation as noted in Section 4.1.2. Using methodologies in number theory, an alternate representation can be used which reduces the problems of with regard to the carry-in calculation.</P>
+<P>The residue number system uses a set of relatively prime numbers:</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-46d.jpg"></P>
+<P>and represents a number <I>A</I> with respect to these moduli by the n-tuple:</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-47d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/04-48d.jpg"></P>
+<P>Two numbers are relatively prime if their greatest common divisor is one. Using the standard notation with
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-49d.jpg"></P>
+<P>to denote the greatest common divisor of <I>x</I> and <I>y</I>. The requirement on the set <I>M</I> is that each of the members be pairwise relatively prime:</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-50d.jpg"></P>
+<P>For example, a representation with the moduli
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-51d.jpg"></P>
+<P>the number 12 is represented as
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-52d.jpg"></P>
+<P>and 14 is represented as
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-53d.jpg"></P>
+<P>The addition of 12 and 14 can be accomplished by adding the vector representation and performing the modulus operation:
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-54d.jpg"></P>
+<P>Notice that the result is the same obtained when representing 26 in the notation.
+</P>
+<P><B>The Range of the Residue Number Systems</B></P>
+<P>The residue number system can represent N distinct numbers with</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-55d.jpg"></P>
+<P>For example, the moduli in Eq. 4.47,
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-56d.jpg"></P>
+<P>The result stated in Eq. 4.51 is established in Problem 4.15.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading19"></A><FONT COLOR="#000077">4.5.2 Data Conversion &#151; Calculating the Value of a Number</FONT></H4>
+<P>This section derives a method for calculating the value of a number given only its representation in terms of the moduli. It is necessary to introduce some quantities in number theory. The Euler totient function, &#966; (<I>n</I>) , is defined for a number, <I>n</I>, as the number of positive integers satisfying</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-57d.jpg"></P>
+<P>For example,
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-58d.jpg"></P>
+<P>If <I>n</I> is a prime number then</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-59d.jpg"></P>
+<P>defining the weights, <I>w<SUB><SMALL>i</SMALL></SUB></I>, as</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-60d.jpg"></P>
+<P>The vector <I>W</I> as</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-61d.jpg"></P>
+<P>and a number <I>A</I>, as</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-62d.jpg"></P>
+<P>The value of <I>A</I> is given as</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-63d.jpg"></P>
+<P>This result is established in Problem 4.17. Consider the example in Eq. 4.47. For this case:
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-64d.jpg"></P>
+<P>Similarly, <I>W</I> becomes</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-65d.jpg"></P>
+<P>To calculate the number 26 from its representation in Eq. 4.50 one has
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-66d.jpg"></P>
+<H4 ALIGN="LEFT"><A NAME="Heading20"></A><FONT COLOR="#000077">4.5.3 C++ Implementation</FONT></H4>
+<P>A program to simulate the Residue Number System is shown in Code List 4.19. The output of the program is shown in Code List 4.20.
+</P>
+<P>In the program a class <I>data</I> is declared which has the following data and functions:</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>unsigned moduli[N]:</I> this data item is used to hold the representation of each of the moduli.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>data</I>: this is the constructor function for <I>data</I> which is called any time a variable is declared.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>set:</I> this function is used to set the data&#146;s value.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>print:</I> this function is used to print out the <I>moduli</I> and the value by calling the <I>value</I> function.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>value:</I> this function calculates the value of the number from its residue representation.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>operator</I>+: the + operator has been overloaded to perform the required addition in the residue number system.
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>operator*:</I> the * operator has been overloaded to perform multiplication in the residue number system.
+</DL>
+<P>This program is a natural example for the use of the overloading operators in C++. Since the addition of the two numbers in the residue systems consists of the respective additions of their moduli it is natural to replace this operator for addition.
+</P>
+<P>The output supplies all the moduli and prints out the relatively prime numbers at the top. Notice that the print function takes in an optional char * to print out a small string. If the string is not supplied it defaults to an empty string.</P>
+<P><B>Code List 4.19</B> Residue Number System</P>
+<P><A NAME="Fig66"></A><A HREF="javascript:displayWindow('images/04-66.jpg',500,769)"><IMG SRC="images/04-66t.jpg"></A></P>
+<P><A NAME="Fig67"></A><A HREF="javascript:displayWindow('images/04-67.jpg',500,793)"><IMG SRC="images/04-67t.jpg"></A></P>
+<P><A NAME="Fig68"></A><A HREF="javascript:displayWindow('images/04-68.jpg',500,796)"><IMG SRC="images/04-68t.jpg"></A></P>
+<P><A NAME="Fig69"></A><A HREF="javascript:displayWindow('images/04-69.jpg',450,220)"><IMG SRC="images/04-69t.jpg"></A></P>
+<P><B>Code List 4.20</B> Output of Program in Code List 4.19</P>
+<P><A NAME="Fig70"></A><A HREF="javascript:displayWindow('images/04-70.jpg',350,378)"><IMG SRC="images/04-70t.jpg"></A></P>
+<P><B>Code List 4.21</B> Euler Totient Function</P>
+<P><A NAME="Fig71"></A><A HREF="javascript:displayWindow('images/04-71.jpg',450,573)"><IMG SRC="images/04-71t.jpg"></A></P>
+<P><B>Code List 4.22</B> Output of Program in Code List 4.21</P>
+<P><A NAME="Fig72"></A><A HREF="javascript:displayWindow('images/04-72.jpg',200,167)"><IMG SRC="images/04-72t.jpg"></A><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="232-240.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="253-254.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

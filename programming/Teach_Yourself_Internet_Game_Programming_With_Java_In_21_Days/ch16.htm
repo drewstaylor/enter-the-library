@@ -1,0 +1,1370 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 16 -- Connect4: Human versus Machine</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 16</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Connect4: Human versus Machine</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+<UL>
+<LI><A HREF="#DesigningConnect4" >Designing Connect4</A>
+<UL>
+<LI><A HREF="#HowtoPlaytheGame" >How to Play the Game</A>
+<LI><A HREF="#TheElementsoftheGame" >The Elements of the Game</A>
+<LI><A HREF="#TheAIStrategy" >The AI Strategy</A>
+</UL>
+<LI><A HREF="#SampleAppletConnect4" >Sample Applet: Connect4</A>
+<UL>
+<LI><A HREF="#TheGameEngineClasses" >The Game Engine Classes</A>
+<LI><A HREF="#TheConnect4Class" >The Connect4 Class</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+Yesterday you broke away from Java code for a little while and
+spent some time learning about artificial intelligence (AI) and
+how it is used in games. I promised you yesterday that you would
+spend today's lesson implementing a game complete with a computer
+opponent using strategic AI. I've been known to keep most of my
+promises, and today's lesson is no exception.
+<P>
+Today you develop a complete Connect4 game from scratch. Along
+the way, you learn about the type of AI strategy used by a game
+like Connect4, and then you get to work implementing it. By the
+end of today, you will have created your own worst nightmare:
+a computer opponent that can consistently beat you in a game of
+Connect4. You might be thinking that no stupid computer player
+could ever match wits with you. At this point, I'm not going to
+making any guarantees, but let me just say that if any money were
+involved, mine would be on the player with the silicon brain!
+Still skeptical? Well, read on and find out for yourself.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>Designing Connect4
+<LI>Sample applet: Connect4
+</UL>
+<H2><A NAME="DesigningConnect4"><B><FONT SIZE=5 COLOR=#FF0000>Designing
+Connect4</FONT></B></A></H2>
+<P>
+Today's entire focus is on creating a Connect4 game with a computer
+player that can at least give a human player a good game. After
+you finish the game, I think you'll agree that the computer player
+can do a lot more than give you a good game. In fact, I've already
+mentioned that the computer player will be able to beat most human
+players pretty consistently. But enough of that for now; you'll
+have plenty of time to go head-to-head against the computer later.
+<H3><A NAME="HowtoPlaytheGame"><B>How to Play the Game</B></A>
+</H3>
+<P>
+In case you've never played Connect4, let's briefly go over the
+basic rules. It is a simple game that is similar to tic-tac-toe
+in that the goal is to complete a continuous row, column, or diagonal
+series. The game is played on a rectangular &quot;board&quot;
+that contains a 7<FONT FACE="Symbol">&#165;</FONT>6 array of positions.
+You use round pieces, similar to checker pieces, to represent
+each move. Figure 16.1 shows what a Connect4 board looks like.
+<P>
+<A HREF="f16-1.gif" ><B>Figure 16. : </B><I>A Connect4 board, complete with pieces.</I></A>
+<P>
+The main catch to Connect4 is that the board stands upright, with
+each column being slotted. So a move consists of selecting a column
+to drop your piece in, and then gravity takes care of the rest.
+This means that instead of explicitly choosing the vertical position
+of each move, you can only stack up the pieces vertically. This
+fact impacts the strategy greatly.
+<P>
+The game is won when one of the players manages to connect a horizontal,
+vertical, or diagonal series of four pieces. There is the chance
+for a tie, as in tic-tac-toe, but it is less likely, simply because
+of the number of ways in which the game can be won.
+<H3><A NAME="TheElementsoftheGame"><B>The Elements of the Game</B></A>
+</H3>
+<P>
+Before moving into the meat of today's lesson-studying the AI
+necessary to create an engaging computer opponent-let's take a
+look at what Connect4 requires in terms of the basic game. First
+of all, you know that it is a board game, or at least the play
+is similar to that of a board game. The style of play involves
+the players dropping pieces into columns of the board on alternating
+turns. Thus, you apparently don't have much need for the sprite
+animation code you've relied on so heavily throughout the book.
+Well, technically you could animate the pieces falling down the
+columns, but because that would involve a decent amount of extra
+work, let's leave it as an exercise for later!
+<P>
+Because you're not going to fool with any animation, the graphics
+for the game are simplified a little. This is a good thing, because
+implementing the AI alone will keep you busy enough. The graphics
+for the game basically consist of drawing the board and pieces.
+Not bad so far. Because the computer player is likely to take
+time calculating its next move, it might also be nice to have
+a status line. The status line simply indicates the current state
+of the game, with a message something like &quot;Thinking...&quot;
+or &quot;Your Turn.&quot;
+<P>
+Because you're not going to implement animation, there is one
+neat little extra you can add without too much extra work: a column
+selector hand. The column selector hand is displayed over the
+currently selected column so that the human player can tell exactly
+which column a piece will be dropped in. Each time the player
+moves the mouse, the hand is updated to reflect the selected column.
+The selector hand is simple to implement, and it gives the game
+a nice touch.
+<P>
+So far, the graphics requirements of the game consist of four
+elements:
+<UL>
+<LI>Board
+<LI>Pieces
+<LI>Status line
+<LI>Hand selector
+</UL>
+<P>
+Now, let's take a look at what type of user input the game needs.
+Because you've already decided to go with a mouse-controlled hand
+selector to pick the column to drop a piece in, it only makes
+sense to make the entire user interface for the game mouse-driven.
+So moving the mouse selects a column, and clicking the mouse button
+drops a piece in that column.
+<H3><A NAME="TheAIStrategy"><B>The AI Strategy</B></A></H3>
+<P>
+The only other area to cover is the type of AI strategy used by
+the game and how it connects to the general play of the game.
+As you might recall from yesterday's lesson, the most popular
+type of AI used in games like Connect4 is strategic AI that makes
+use of a depth search algorithm linked to a fixed table of rule
+information. This is exactly the AI strategy you use when developing
+the Connect4 code, but you'll learn the details of that later
+in this lesson.
+<P>
+For now, let's think of the AI in terms of the logical components
+required to make it work. Basically, the AI algorithm should come
+up with the best possible column for the computer player to drop
+the next piece into. Keeping that in mind, a good approach would
+be to break the game into two components: the AI engine that calculates
+the computer player's next move, and the higher-level applet itself,
+which uses this move to update the graphics in the game.
+<P>
+In this way, the human and computer players' moves are handled
+very similarly, which makes things much easier to deal with; each
+move just results in a piece being placed in a position on the
+game board. Another important benefit of this arrangement is that
+the AI engine handles all the details of figuring out whether
+moves are valid, along with determining whether there is a winner
+in the game. In this way, the engine is actually more of a general
+Connect4 game engine, rather than just an AI engine. Figure 16.2
+shows the two Connect4 components and what kind of information
+they transfer to each other.
+<P>
+<A HREF="f16-2.gif" ><B>Figure 16.2 : </B><I>The logical Connect4 game components.</I></A>
+<P>
+This approach results in a complete separation of the low-level
+algorithms necessary to drive the game from the high-level applet
+issues. But you still haven't learned anything about the details
+of the AI itself. How can the computer player possibly know what
+moves to make and be able to actually compete with a human player?
+To answer this question, you must first be able to assess the
+state of the game from a particular player's perspective. More
+specifically, you need to be able to calculate a score for a player
+that determines how he is faring in the game.
+<P>
+A player's score reflects his status in the game and basically
+how close he is to victory. So to calculate the score, you first
+need to be able to know when a game has been won. This might at
+first seem trivial; just look for a series of four pieces in a
+row, column, or diagonal, right? That's right for you or me, but
+teaching the computer how to look at the board and figure this
+out isn't quite so simple. One approach is to keep up with every
+possible combination of piece positions that constitutes a victory.
+These combinations could be stored in a table and then used as
+a basis to determine how close each player is to winning the game.
+Although this approach sounds fairly cumbersome, it's actually
+not too hard to implement.
+<P>
+With the scoring system in place, you can then use a look-ahead
+depth search to try out different moves for the computer player
+and determine the best one. The combination of the table of winning
+moves and the look-ahead search is what gives the computer player
+its &quot;brains.&quot; Although a few more details are involved
+in implementing the AI for the game, this covers the major points
+of interest. I don't know about you, but I'm getting tired of
+talking about the game in general terms; let's start writing it!
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Incidentally, a look-ahead depth search is a technique that involves looking into the future of a game and trying out every possible move to determine the best one. A look-ahead depth search is a computer AI version of the common human strategy of planning 
+moves in a game based on what the other player might do in each situation; the primary difference being that the computer is much more efficient and can evaluate a lot more possibilities.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H2><A NAME="SampleAppletConnect4"><B><FONT SIZE=5 COLOR=#FF0000>Sample
+Applet: Connect4</FONT></B></A></H2>
+<P>
+The Connect4 applet is a complete Java Connect4 game including
+strategic AI for a computer player good enough to give most people
+fits. Figure 16.3 shows a screen shot of a game of Connect4-and,
+yes, I'm the one losing! The complete source code, executable,
+images, and sounds for Connect4 are located on the accompanying
+CD-ROM.
+<P>
+<A HREF="f16-3.gif" ><B>Figure 16.3 : </B><I>The Connect4 sample applet.</I></A>
+<P>
+Connect4 starts out by setting up an empty game board and giving
+the human player the first turn. After the human player makes
+a move, the status message &quot;Thinking...&quot; is displayed
+while the AI engine determines the computer player's move. Figure
+16.4 shows the game while the computer player is &quot;thinking.&quot;
+<P>
+<A HREF="f16-4.gif" ><B>Figure 16.4 : </B><I>The Connect4 sample applet during the computer player's turn.</I></A>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Study has revealed that it is technically possible to always win at Connect4 if you are the player to make the first move, regardless of the other player's strategy.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The computer makes its move and the play shifts back to the human
+player. This exchange of turns continues until there is a win,
+loss, or tie. When the game ends, you can start a new one by clicking
+in the applet window. Sound effects are played during the course
+of the game to indicate who made which move. Sound effects are
+also played for making an invalid move, starting a new game, winning,
+and losing.
+<P>
+If you're curious about how well the computer player plays the
+game, load it up and give it a try. You might be a Connect4 whiz
+and teach the computer a lesson, or you might end up learning
+a few things!
+<H3><A NAME="TheGameEngineClasses"><B>The Game Engine Classes</B></A>
+</H3>
+<P>
+The heart of the AI in Connect4 is the Connect4 game engine. The
+Connect4 game engine is composed of two classes: <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+and <TT><FONT FACE="Courier">Connect4State</FONT></TT>. The <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+class provides the framework for the game engine itself, while
+the <TT><FONT FACE="Courier">Connect4State</FONT></TT> class models
+the current state of a Connect4 game. Together, these two classes
+provide the overhead necessary to conduct a two-player game of
+Connect4 with either player being a human or computer player.
+<P>
+These engine classes implement a computer player using look-ahead
+depth searching AI. The intelligence of the computer player is
+determined by the depth of the search. Higher depth searches result
+in a more intelligent computer player, but at the cost of more
+processing time. But enough theory, let's go ahead and look into
+how all this stuff is implemented in the <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+and <TT><FONT FACE="Courier">Connect4State</FONT></TT> classes!
+<P>
+The <TT><FONT FACE="Courier">Connect4Engine</FONT></TT> class
+models the game engine, including the computer player AI, for
+the Connect4 game; it is based on implementations originally developed
+by Keith Pomakis and Sven Wiebus. The following are the member
+variables defined in <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private static Random rand = new Random(System.currentTimeMillis());
+<BR>
+private Connect4State state;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">Connect4Engine</FONT></TT> class
+contains a member variable, <TT><FONT FACE="Courier">state</FONT></TT>,
+which is of type <TT><FONT FACE="Courier">Connect4State</FONT></TT>.
+It turns out that <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+delegates much of the dirty work of the AI and game state upkeep
+to the <TT><FONT FACE="Courier">Connect4State</FONT></TT> class.
+Even without knowing the details of the <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+class, you'll find that it's not too hard to figure out what the
+<TT><FONT FACE="Courier">Connect4State</FONT></TT> class is doing
+by examining how <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+uses it. Nevertheless, you'll learn all the messy details of the
+<TT><FONT FACE="Courier">Connect4State</FONT></TT> class in a
+little while.
+<P>
+<TT><FONT FACE="Courier">Connect4Engine</FONT></TT> implements
+two methods for handling each player making a move: <TT><FONT FACE="Courier">makeMove</FONT></TT>
+and <TT><FONT FACE="Courier">computerMove</FONT></TT>. The following
+is the source code for <TT><FONT FACE="Courier">makeMove</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Point makeMove(int player, int
+xPos) {<BR>
+&nbsp;&nbsp;int yPos = state.dropPiece(player, xPos);<BR>
+&nbsp;&nbsp;return (new Point(xPos, yPos));<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">makeMove</FONT></TT> method is called
+when the human player makes a move. <TT><FONT FACE="Courier">makeMove</FONT></TT>
+takes a player number (<TT><FONT FACE="Courier">player</FONT></TT>),
+which can be <TT><FONT FACE="Courier">0</FONT></TT> or <TT><FONT FACE="Courier">1</FONT></TT>,
+and a column to drop the piece in (<TT><FONT FACE="Courier">xPos</FONT></TT>)
+as parameters. The game state is updated to reflect the move,
+and the XY position of the move on the board is returned as a
+<TT><FONT FACE="Courier">Point</FONT></TT> object. If the move
+is invalid (for example, the column might already be full), the
+<TT><FONT FACE="Courier">y</FONT></TT> member of the <TT><FONT FACE="Courier">Point</FONT></TT>
+object is set to <TT><FONT FACE="Courier">-1</FONT></TT>. Otherwise,
+it has a value in the range of <TT><FONT FACE="Courier">0</FONT></TT>
+to <TT><FONT FACE="Courier">6</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">computerMove</FONT></TT> method is
+called for the computer player to make a move. Listing 16.1 shows
+the source code for the <TT><FONT FACE="Courier">computerMove</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.1. The </B><TT><B><FONT FACE="Courier">Connect4Engine</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">computerMove</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Point computerMove(int player,
+int level) {<BR>
+&nbsp;&nbsp;int bestXPos = -1, goodness = 0, bestWorst = -30000;
+<BR>
+&nbsp;&nbsp;int numOfEqual = 0;<BR>
+<BR>
+&nbsp;&nbsp;// Simulate a drop in each of the columns<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 7; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Connect4State tempState = new Connect4State(state);
+<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// If column is full, move on<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (tempState.dropPiece(player, i) &lt;
+0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// If this drop wins the game, then cool
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (tempState.isWinner(player)) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestWorst = 25000;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestXPos = i;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Otherwise, look ahead to see how good
+it is<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;goodness = tempState.evaluate(player,
+level, 1, -30000,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-bestWorst);<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// If this move looks better than previous
+moves, remember it<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (goodness &gt; bestWorst) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestWorst = goodness;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestXPos = i;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numOfEqual = 1;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// If two moves are equally good, make
+a random choice<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (goodness == bestWorst) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numOfEqual++;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (Math.abs(rand.nextInt())
+% 10000 &lt;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(10000 / numOfEqual))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bestXPos = i;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Drop the piece in the best column<BR>
+&nbsp;&nbsp;if (bestXPos &gt;= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int yPos = state.dropPiece(player, bestXPos);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (yPos &gt;= 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (new Point(bestXPos,
+yPos));<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;return null;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">computerMove</FONT></TT> method handles
+all the details of determining the best move for the computer
+player given the current state of the game. It takes a player
+number (<TT><FONT FACE="Courier">player</FONT></TT>) and a level
+(<TT><FONT FACE="Courier">level</FONT></TT>) as parameters. The
+<TT><FONT FACE="Courier">level</FONT></TT> parameter specifies
+the depth of the look-ahead search and directly affects both the
+intelligence of the computer player and the amount of time it
+takes the computer player to figure out its move. All this is
+carried out by determining how each possible move affects the
+computer player's score. Most of the low-level AI work is handled
+by the <TT><FONT FACE="Courier">evaluate</FONT></TT> method in
+<TT><FONT FACE="Courier">Connect4State</FONT></TT>, which is called
+by <TT><FONT FACE="Courier">computerMove</FONT></TT>. Notice that
+if <TT><FONT FACE="Courier">computerMove</FONT></TT> isolates
+the best move down to two equal choices, it randomly chooses one
+or the other. This gives a little more human feel to the computer
+player.
+<P>
+The other three methods in <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+are <TT><FONT FACE="Courier">getBoard</FONT></TT>, <TT><FONT FACE="Courier">getWinner</FONT></TT>,
+and <TT><FONT FACE="Courier">isTie</FONT></TT>, whose source code
+follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public int[][] getBoard() {<BR>
+&nbsp;&nbsp;return state.board;<BR>
+}<BR>
+<BR>
+public boolean isWinner(int player) {<BR>
+&nbsp;&nbsp;return state.isWinner(player);<BR>
+}<BR>
+<BR>
+public boolean isTie() {<BR>
+&nbsp;&nbsp;return state.isTie();<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">getBoard</FONT></TT> method simply
+returns a 7<FONT FACE="Symbol">&#165;</FONT>6 array of integers
+representing the current state of the game board. <TT><FONT FACE="Courier">getWinner</FONT></TT>
+and <TT><FONT FACE="Courier">isTie</FONT></TT> check with the
+game state member object, <TT><FONT FACE="Courier">state</FONT></TT>,
+to see whether the game has been won or tied.
+<P>
+That pretty much sums up the <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+class. With the exception of the <TT><FONT FACE="Courier">computerMove</FONT></TT>
+method, which was a little tricky, it was pretty painless, don't
+you think? Well, brace yourself, because <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+is a little messier. Here are the member variables defined in
+the <TT><FONT FACE="Courier">Connect4State</FONT></TT> class:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static final int winPlaces = 69,
+maxPieces = 42, Empty = 2;<BR>
+public static boolean[][][] map;<BR>
+public int[][]  board = new int[7][6];<BR>
+public int[][]  score = new int[2][winPlaces];<BR>
+public int      numPieces;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first step in figuring out <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+is to understand what the member variables represent. The first
+three members (<TT><FONT FACE="Courier">winPlaces</FONT></TT>,
+<TT><FONT FACE="Courier">maxPieces</FONT></TT>, and <TT><FONT FACE="Courier">Empty</FONT></TT>)
+are static final integers, which simply means that they are all
+constant. <TT><FONT FACE="Courier">winPlaces</FONT></TT>, which
+specifies the number of possible winning combinations on the board,
+is calculated using the following equation:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">winPlaces = 4*w*h - 3*w*n - 3*h*n + 3*w
++ 3*h - 4*n + 2*n*n;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This is a general equation that can be applied to any ConnectX-type
+game. In the equation, <TT><FONT FACE="Courier">w</FONT></TT>
+and <TT><FONT FACE="Courier">h</FONT></TT> represent the width
+and height of the game board, and <TT><FONT FACE="Courier">n</FONT></TT>
+represents the number of pieces that must be in a series to constitute
+a victory. Because Connect4 uses a 7<FONT FACE="Symbol">&#165;</FONT>6
+game board with a four-piece series constituting a win, you can
+simply calculate <TT><FONT FACE="Courier">winPlaces</FONT></TT>
+beforehand, which is exactly what is done in <TT><FONT FACE="Courier">Connect4State</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">maxPieces</FONT></TT> member specifies
+the maximum number of pieces that can be placed on the board.
+It is calculated using the following equation:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">maxPieces = w*h;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This calculation is pretty straightforward. The result is used
+to detect whether there is a tie; a tie occurs when nobody has
+won and the number of pieces in the game equals <TT><FONT FACE="Courier">maxPieces</FONT></TT>.
+<P>
+The other constant member, <TT><FONT FACE="Courier">Empty</FONT></TT>,
+represents an empty space on the board. Each space on the board
+can contain a player number (<TT><FONT FACE="Courier">0</FONT></TT>
+or <TT><FONT FACE="Courier">1</FONT></TT>) or the <TT><FONT FACE="Courier">Empty</FONT></TT>
+constant, which is set to <TT><FONT FACE="Courier">2</FONT></TT>.
+<P>
+Moving right along, the <TT><FONT FACE="Courier">map</FONT></TT>
+member variable is a three-dimensional array of booleans that
+holds the lookup table of winning combinations. To better understand
+how the map is laid out, first think of it as a two-dimensional
+array with the same dimensions as the board for the game; in other
+words, think of it as a 7<FONT FACE="Symbol">&#165;</FONT>6 two-dimensional
+array. Now, add the third dimension by attaching an array of winning
+positions onto each two-dimensional array entry. Each different
+winning combination in the game is given a unique position within
+this array (the winning position array is <TT><FONT FACE="Courier">winPlaces</FONT></TT>
+in length). Each location in this array is set to <TT><FONT FACE="Courier">true</FONT></TT>
+or <TT><FONT FACE="Courier">false</FONT></TT> based on whether
+the winning series intersects the associated board position.
+<P>
+Let's go over a quick example to make sure you understand how
+the map works. Take a look at the upper-left space on the game
+board back in Figure 16.1; let's call this position 0,0 on the
+board. Now, think about which different winning series of pieces
+would include this position. Give up? Check out Figure 16.5.
+<P>
+<A HREF="f16-5.gif" ><B>Figure 16.5 : </B><I>Winning series possibilities for position 0,0.</I></A>
+<P>
+As you can see, position 0,0 on the board is a part of three different
+winning scenarios. Therefore, the winning position array for position
+0,0 would have these three entries set to <TT><FONT FACE="Courier">true</FONT></TT>,
+and all the others would be set to <TT><FONT FACE="Courier">false</FONT></TT>.
+If the winning moves shown in Figure 16.5 were at positions 11-13
+in the winning series array, you would initialize position 0,0
+in the map like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">...<BR>
+map[0][0][9] = false;<BR>
+map[0][0][10] = false;<BR>
+map[0][0][11] = true;<BR>
+map[0][0][12] = true;<BR>
+map[0][0][13] = true;<BR>
+map[0][0][14] = false;<BR>
+map[0][0][15] = false;<BR>
+...</FONT></TT>
+</BLOCKQUOTE>
+<P>
+After the entire map is constructed, the AI algorithms can use
+it to look up winning combinations and determine how close each
+player is to winning.
+<P>
+The <TT><FONT FACE="Courier">board</FONT></TT> member variable
+is simply a 7<FONT FACE="Symbol">&#165;</FONT>6 two-dimensional
+array of integers that represents the state of the game. Each
+integer entry can be set to either <TT><FONT FACE="Courier">0</FONT></TT>
+or <TT><FONT FACE="Courier">1</FONT></TT> (for a player occupying
+that position on the board) or <TT><FONT FACE="Courier">Empty</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">score</FONT></TT> member variable
+contains a two-dimensional array of integers representing the
+&quot;score&quot; for the players. The main array in <TT><FONT FACE="Courier">score</FONT></TT>
+contains a subarray for each player that is <TT><FONT FACE="Courier">winPlaces</FONT></TT>
+in length. These subarrays contain information describing how
+close the player is to completing a winning series. It works like
+this: Each subarray entry corresponds to a potential winning series
+and contains a count of how many of the player's pieces occupy
+the series. If a series is no longer a winning possibility for
+the player, its entry in the array is set to 0. Otherwise, the
+entry is set to <TT><FONT FACE="Courier">2</FONT></TT><FONT SIZE=1 FACE="MCPdigital">p</FONT>,
+where <TT><FONT FACE="Courier">p</FONT></TT> is the number of
+the player's pieces occupying the series. So if one of these entries
+is set to <TT><FONT FACE="Courier">16</FONT></TT> (<TT><FONT FACE="Courier">2</FONT></TT><FONT SIZE=1 FACE="MCPdigital">4</FONT>),
+that player has won.
+<P>
+Rounding out the member variables for <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+is <TT><FONT FACE="Courier">numPieces</FONT></TT>, which is just
+a count of how many pieces have been played in the game. <TT><FONT FACE="Courier">numPieces</FONT></TT>
+is really used only in determining whether the game is a tie;
+in the event of a tie, <TT><FONT FACE="Courier">numPieces</FONT></TT>
+is equal to <TT><FONT FACE="Courier">maxPieces</FONT></TT>.
+<P>
+That covers the member variables for the <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+class. You might have realized by now that by understanding the
+member variables and what they model, you already understand a
+great deal about how the AI works in the game. Let's move on to
+the methods in <TT><FONT FACE="Courier">Connect4State</FONT></TT>,
+because that's where the fun really begins.
+<P>
+The default constructor for <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+takes on the role of initializing the <TT><FONT FACE="Courier">map</FONT></TT>,
+<TT><FONT FACE="Courier">board</FONT></TT>, and <TT><FONT FACE="Courier">score</FONT></TT>
+arrays. This constructor is shown in Listing 16.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.2. The </B><TT><B><FONT FACE="Courier">Connect4State</FONT></B></TT><B>
+class's default constructor.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Connect4State() {<BR>
+&nbsp;&nbsp;// Initialize the map<BR>
+&nbsp;&nbsp;int i, j, k, count = 0;<BR>
+&nbsp;&nbsp;if (map == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;map = new boolean[7][6][winPlaces];<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; 7; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j = 0; j &lt; 6; j++)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (k = 0; k
+&lt; winPlaces; k++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[i][j][k]
+= false;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Set the horizontal win positions<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; 6; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j = 0; j &lt; 4; j++)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (k = 0; k
+&lt; 4; k++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[j
++ k][i][count] = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Set the vertical win positions<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; 7; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j = 0; j &lt; 3; j++)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (k = 0; k
+&lt; 4; k++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[i][j
++ k][count] = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Set the forward diagonal win positions
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; 3; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j = 0; j &lt; 4; j++)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (k = 0; k
+&lt; 4; k++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[j
++ k][i + k][count] = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Set the backward diagonal win positions
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (i = 0; i &lt; 3; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (j = 6; j &gt;= 3; j--)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (k = 0; k
+&lt; 4; k++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map[j
+- k][i + k][count] = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;count++;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Initialize the board<BR>
+&nbsp;&nbsp;for (i = 0; i &lt; 7; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (j = 0; j &lt; 6; j++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;board[i][j] = Empty;<BR>
+<BR>
+&nbsp;&nbsp;// Initialize the scores<BR>
+&nbsp;&nbsp;for (i = 0; i &lt; 2; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (j = 0; j &lt; winPlaces; j++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score[i][j] = 1;<BR>
+<BR>
+&nbsp;&nbsp;numPieces = 0;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The default constructor also sets the number of pieces to zero.
+There is also a copy constructor for <TT><FONT FACE="Courier">Connect4State</FONT></TT>,
+whose source code follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Connect4State(Connect4State state)
+{<BR>
+&nbsp;&nbsp;// Copy the board<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 7; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j &lt; 6; j++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;board[i][j] = state.board[i][j];
+<BR>
+<BR>
+&nbsp;&nbsp;// Copy the scores<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 2; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j &lt; winPlaces; j++)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score[i][j] = state.score[i][j];
+<BR>
+<BR>
+&nbsp;&nbsp;numPieces = state.numPieces;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If you aren't familiar with copy constructors, they enable you
+to create new objects that are copies of existing objects. It
+is necessary to have a copy constructor for <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+because the AI algorithms use temporary state objects a great
+deal, as you'll see in a moment. The copy constructor for <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+just copies the contents of each member variable.
+<P>
+The <TT><FONT FACE="Courier">isWinner</FONT></TT> method in <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+checks to see whether either player has won the game:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean isWinner(int player) {
+<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; winPlaces; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (score[player][i] == 16)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<BR>
+&nbsp;&nbsp;return false;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">isWinner</FONT></TT> method looks
+for a winner by checking to see whether any member in the <TT><FONT FACE="Courier">score</FONT></TT>
+array is equal to <TT><FONT FACE="Courier">16</FONT></TT> (<TT><FONT FACE="Courier">2</FONT></TT><FONT SIZE=1 FACE="MCPdigital">4</FONT>).
+This indicates victory because it means that four pieces occupy
+the series.
+<P>
+The <TT><FONT FACE="Courier">isTie</FONT></TT> method checks for
+a tie by simply seeing whether <TT><FONT FACE="Courier">numPieces</FONT></TT>
+equals <TT><FONT FACE="Courier">maxPieces</FONT></TT>, which indicates
+that the board is full. The source code for <TT><FONT FACE="Courier">isTie</FONT></TT>
+follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean isTie() {<BR>
+&nbsp;&nbsp;return (numPieces == maxPieces);<BR>
+}<BR>
+The dropPiece method handles dropping a new piece onto the board:
+<BR>
+public int dropPiece(int player, int xPos) {<BR>
+&nbsp;&nbsp;int yPos = 0;<BR>
+&nbsp;&nbsp;while ((board[xPos][yPos] != Empty) &amp;&amp; (++yPos
+&lt; 6))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;;<BR>
+<BR>
+&nbsp;&nbsp;// The column is full<BR>
+&nbsp;&nbsp;if (yPos == 6)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return -1;<BR>
+<BR>
+&nbsp;&nbsp;// The move is OK<BR>
+&nbsp;&nbsp;board[xPos][yPos] = player;<BR>
+&nbsp;&nbsp;numPieces++;<BR>
+&nbsp;&nbsp;updateScore(player, xPos, yPos);<BR>
+<BR>
+&nbsp;&nbsp;return yPos;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">dropPiece</FONT></TT> method takes
+a player and an X position (column) as its only parameters. It
+first checks to make sure there is room in the specified column
+to drop a new piece. Incidentally, you might have noticed from
+this code that the board is stored upside down in the <TT><FONT FACE="Courier">board</FONT></TT>
+member variable. Having the board inverted simplifies the process
+of adding a new piece a little. If the move is valid, the entry
+in the <TT><FONT FACE="Courier">board</FONT></TT> array is set
+to <TT><FONT FACE="Courier">player</FONT></TT>, and <TT><FONT FACE="Courier">numPieces</FONT></TT>
+is incremented. Then the score is updated to reflect the move
+with a call to <TT><FONT FACE="Courier">updateScore</FONT></TT>.
+You'll learn about <TT><FONT FACE="Courier">updateScore</FONT></TT>
+in a moment.
+<P>
+The <TT><FONT FACE="Courier">evaluate</FONT></TT> method is where
+the low-level AI in the game takes place. The source code for
+the <TT><FONT FACE="Courier">evaluate</FONT></TT> method is shown
+in Listing 16.3.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.3. The </B><TT><B><FONT FACE="Courier">Connect4State</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">evaluate</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public int evaluate(int player, int level,
+int depth, int alpha,<BR>
+&nbsp;&nbsp;int beta) {<BR>
+&nbsp;&nbsp;int goodness, best, maxab = alpha;<BR>
+<BR>
+&nbsp;&nbsp;if (level != depth) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;best = -30000;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for(int i = 0; i &lt; 7; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Connect4State tempState =
+new Connect4State(this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (tempState.dropPiece(getOtherPlayer(player),
+i) &lt; 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (tempState.isWinner(getOtherPlayer(player)))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;goodness = 25000
+- depth;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;goodness = tempState.evaluate(getOtherPlayer(player),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;level,
+depth + 1, -beta, -maxab);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (goodness &gt; best) {
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;best = goodness;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (best &gt;
+maxab)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxab
+= best;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (best &gt; beta)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// What's good for the other player is
+bad for this one<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return -best;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;return (calcScore(player) - calcScore(getOtherPlayer(player)));
+<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+It is the <TT><FONT FACE="Courier">evaluate</FONT></TT> method's
+job to come up with the best move for the computer player given
+the parameters for the depth search algorithm. The algorithm used
+by <TT><FONT FACE="Courier">evaluate</FONT></TT> determines the
+best move based on the calculated &quot;goodness&quot; of each
+possible move. The <TT><FONT FACE="Courier">alpha</FONT></TT>
+and <TT><FONT FACE="Courier">beta</FONT></TT> parameters specify
+cutoffs that enable the algorithm to eliminate some moves entirely,
+thereby speeding things up. It is a little beyond today's focus
+to go any further into the low-level theory behind the algorithm.
+If, however, you want to learn more about how it works, look into
+the Web sites mentioned at the end of yesterday's lesson.
+<P>
+The <TT><FONT FACE="Courier">calcScore</FONT></TT> method in <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+is responsible for calculating the score for a player:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private int calcScore(int player) {<BR>
+&nbsp;&nbsp;int s = 0;<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; winPlaces; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;s += score[player][i];<BR>
+&nbsp;&nbsp;return s;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In <TT><FONT FACE="Courier">calcScore</FONT></TT>, the score of
+a player is calculated by summing each element in the <TT><FONT FACE="Courier">score</FONT></TT>
+array. The <TT><FONT FACE="Courier">updateScore</FONT></TT> method
+handles updating the score for a player after a move:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private void updateScore(int player,
+int x, int y) {<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; winPlaces; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (map[x][y][i]) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score[player][i] &lt;&lt;=
+1;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;score[getOtherPlayer(player)][i]
+= 0;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">updateScore</FONT></TT> method sets
+the appropriate entries in the <TT><FONT FACE="Courier">score</FONT></TT>
+array to reflect the move; the move is specified in the <TT><FONT FACE="Courier">x</FONT></TT>
+and <TT><FONT FACE="Courier">y</FONT></TT> parameters. The last
+method in <TT><FONT FACE="Courier">Connect4State</FONT></TT> is
+<TT><FONT FACE="Courier">getOtherPlayer</FONT></TT>, which simply
+returns the number of the other player:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private int getOtherPlayer(int player)
+{<BR>
+&nbsp;&nbsp;return (1 - player);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+That wraps up the game engine. You now have a complete Connect4
+game engine with AI support for a computer player. Keep in mind
+that although you've been thinking in terms of a human versus
+the computer, the game engine is structured so that you could
+have any combination of human and computer players. Yes, this
+means you could set up a game so that two computer players duke
+it out! Pretty neat, huh?
+<H3><A NAME="TheConnect4Class"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">Connect4</FONT></B></TT><B><FONT SIZE=4>
+Class</FONT></B></A></H3>
+<P>
+The game engine classes are cool, but they aren't all that useful
+by themselves; they need an applet class with some graphics and
+a user interface. The <TT><FONT FACE="Courier">Connect4</FONT></TT>
+class is exactly what they need. The <TT><FONT FACE="Courier">Connect4</FONT></TT>
+class takes care of all the high-level game issues such as drawing
+the graphics and managing human moves through mouse event handlers.
+Even though it doesn't rely on the sprite classes, the <TT><FONT FACE="Courier">Connect4</FONT></TT>
+applet class is still similar to other applet classes you've developed.
+Let's look at its member variables first:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private Image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offImage,
+boardImg, handImg;<BR>
+private Image[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg
+= new Image[2];<BR>
+private AudioClip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newGameSnd,
+sadSnd, applauseSnd,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;badMoveSnd,
+redSnd, blueSnd;<BR>
+private Graphics&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offGrfx;
+<BR>
+private Thread&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thread;
+<BR>
+private MediaTracker&nbsp;&nbsp;&nbsp;&nbsp;tracker;<BR>
+private int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;delay
+= 83; // 12 fps<BR>
+private Connect4Engine&nbsp;&nbsp;gameEngine;<BR>
+private boolean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove;
+<BR>
+private int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;level
+= 2, curXPos;<BR>
+private String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;Your turn.&quot;);<BR>
+private Font&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusFont
+= new Font(&quot;Helvetica&quot;, Font.PLAIN, 20);<BR>
+private FontMetrics&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;statusMetrics;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first member variables you probably noticed are the ones for
+all the graphics and sound in the game. The most important member
+variable, however, is <TT><FONT FACE="Courier">gameEngine</FONT></TT>,
+which is a <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+object. There are also two boolean member variables that keep
+up with whether the game is over (<TT><FONT FACE="Courier">gameOver</FONT></TT>)
+and whose move it is (<TT><FONT FACE="Courier">myMove</FONT></TT>).
+The <TT><FONT FACE="Courier">level</FONT></TT> member variable
+specifies the current level of the game, and the <TT><FONT FACE="Courier">curXPos</FONT></TT>
+member keeps up with which column the hand selector is currently
+over. Finally, there are a few member variables for managing the
+status line text and its associated font and font metrics. Let's
+move on to the methods.
+<P>
+The <TT><FONT FACE="Courier">init</FONT></TT> method in <TT><FONT FACE="Courier">Connect4</FONT></TT>
+is pretty standard; it just loads the images and audio clips:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void init() {<BR>
+&nbsp;&nbsp;// Load and track the images<BR>
+&nbsp;&nbsp;tracker = new MediaTracker(this);<BR>
+&nbsp;&nbsp;boardImg = getImage(getCodeBase(), &quot;Res/Board.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(boardImg, 0);<BR>
+&nbsp;&nbsp;handImg = getImage(getCodeBase(), &quot;Res/Hand.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(handImg, 0);<BR>
+&nbsp;&nbsp;pieceImg[0] = getImage(getCodeBase(), &quot;Res/RedPiece.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(pieceImg[0], 0);<BR>
+&nbsp;&nbsp;pieceImg[1] = getImage(getCodeBase(), &quot;Res/BluPiece.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(pieceImg[1], 0);<BR>
+<BR>
+&nbsp;&nbsp;// Load the audio clips<BR>
+&nbsp;&nbsp;newGameSnd = getAudioClip(getCodeBase(), &quot;Res/NewGame.au&quot;);
+<BR>
+&nbsp;&nbsp;sadSnd = getAudioClip(getCodeBase(), &quot;Res/Sad.au&quot;);
+<BR>
+&nbsp;&nbsp;applauseSnd = getAudioClip(getCodeBase(), &quot;Res/Applause.au&quot;);
+<BR>
+&nbsp;&nbsp;badMoveSnd = getAudioClip(getCodeBase(), &quot;Res/BadMove.au&quot;);
+<BR>
+&nbsp;&nbsp;redSnd = getAudioClip(getCodeBase(), &quot;Res/RedMove.au&quot;);
+<BR>
+&nbsp;&nbsp;blueSnd = getAudioClip(getCodeBase(), &quot;Res/BlueMove.au&quot;);
+<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Although <TT><FONT FACE="Courier">init</FONT></TT> is certainly
+important, the <TT><FONT FACE="Courier">run</FONT></TT> method
+is where things get interesting, because the computer player's
+move is handled in the main update loop inside it. Listing 16.4
+contains the source code for the <TT><FONT FACE="Courier">run</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.4. The </B><TT><B><FONT FACE="Courier">Connect4</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">run</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void run() {<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tracker.waitForID(0);<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Start a new game<BR>
+&nbsp;&nbsp;newGame();<BR>
+<BR>
+&nbsp;&nbsp;// Update everything<BR>
+&nbsp;&nbsp;long t = System.currentTimeMillis();<BR>
+&nbsp;&nbsp;while (Thread.currentThread() == thread) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Make the computer's move<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (!gameOver &amp;&amp; !myMove) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point pos = gameEngine.computerMove(1,
+level);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (pos.y &gt;= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!gameEngine.isWinner(1))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(!gameEngine.isTie()) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;Your turn.&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sadSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;It's a tie!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sadSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;You lost!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t += delay;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(Math.max(0, t
+- System.currentTimeMillis()));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+If it is the computer player's turn, the <TT><FONT FACE="Courier">run</FONT></TT>
+method attempts a move using the current level by calling <TT><FONT FACE="Courier">computerMove</FONT></TT>
+on the <TT><FONT FACE="Courier">gameEngine</FONT></TT> object.
+If the move is successful, <TT><FONT FACE="Courier">run</FONT></TT>
+checks for a win or tie, and then it plays the appropriate sound
+and updates the status text.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+The <TT><FONT FACE="Courier">level</FONT></TT> member variable ultimately determines how smart the computer player is by affecting the depth of the look-ahead search. This is carried out by <TT><FONT FACE="Courier">level</FONT></TT> being passed as the 
+second parameter of <TT><FONT FACE="Courier">computerMove</FONT></TT>. If you find the game too easy or too difficult, feel free to tinker with the <TT><FONT FACE="Courier">level</FONT></TT> member variable, or even supply your own calculation as the 
+second parameter to <TT><FONT FACE="Courier">computerMove</FONT></TT>.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method handles
+the details of drawing the game graphics. Listing 16.5 shows the
+source code for the <TT><FONT FACE="Courier">update</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.5. The </B><TT><B><FONT FACE="Courier">Connect4</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">update</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void update(Graphics g) {<BR>
+&nbsp;&nbsp;// Create the offscreen graphics context<BR>
+&nbsp;&nbsp;if (offGrfx == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offImage = createImage(size().width, size().height);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offGrfx = offImage.getGraphics();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;statusMetrics = offGrfx.getFontMetrics(statusFont);
+<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Draw the board<BR>
+&nbsp;&nbsp;offGrfx.drawImage(boardImg, 0, 0, this);<BR>
+<BR>
+&nbsp;&nbsp;// Draw the pieces<BR>
+&nbsp;&nbsp;int[][] board = gameEngine.getBoard();<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 7; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j &lt; 6; j++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(board[i][j]) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 0:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.drawImage(pieceImg[0],
+(i + 1) * 4 + i *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[0].getWidth(this),
+(6 - j) * 4 + (5 - j) *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[0].getHeight(this)
++ 67, this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 1:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.drawImage(pieceImg[1],
+(i + 1) * 4 + i *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[1].getWidth(this),
+(6 - j) * 4 + (5 - j) *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[1].getHeight(this)
++ 67, this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;default:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.setColor(Color.white);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.fillOval((i
++ 1) * 4 + i *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[0].getWidth(this),
+(6 - j) * 4 + (5 - j) *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[0].getHeight(this)
++ 67,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[0].getWidth(this),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[0].getHeight(this));
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Draw the hand selector<BR>
+&nbsp;&nbsp;if (!gameOver &amp;&amp; myMove)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.drawImage(handImg, (curXPos +
+1) * 4 + curXPos *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;pieceImg[0].getWidth(this) + (pieceImg[0].getWidth(this)
+-<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;handImg.getWidth(this)) / 2, 63 - handImg.getHeight(this),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;this);<BR>
+<BR>
+&nbsp;&nbsp;// Draw the game status<BR>
+&nbsp;&nbsp;offGrfx.setColor(Color.black);<BR>
+&nbsp;&nbsp;offGrfx.setFont(statusFont);<BR>
+&nbsp;&nbsp;offGrfx.drawString(status, (size().width -<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;statusMetrics.stringWidth(status)) / 2,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;statusMetrics.getHeight());<BR>
+<BR>
+&nbsp;&nbsp;// Draw the image onto the screen<BR>
+&nbsp;&nbsp;g.drawImage(offImage, 0, 0, null);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method draws the
+board, the pieces, the hand selector, and the status text. The
+only tricky part of <TT><FONT FACE="Courier">update</FONT></TT>
+is in drawing the pieces in the correct locations, which takes
+a few calculations. Other than that, <TT><FONT FACE="Courier">update</FONT></TT>
+is pretty straightforward.
+<P>
+The <TT><FONT FACE="Courier">mouseMove</FONT></TT> method is used
+to update the hand selector via the <TT><FONT FACE="Courier">curXPos</FONT></TT>
+member variable:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean mouseMove(Event evt, int
+x, int y) {<BR>
+&nbsp;&nbsp;// Update the current X position (for the hand selector)
+<BR>
+&nbsp;&nbsp;if (!gameOver &amp;&amp; myMove) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;curXPos = x / 28;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;return true;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In <TT><FONT FACE="Courier">mouseMove</FONT></TT>, <TT><FONT FACE="Courier">curXPos</FONT></TT>
+is set to the currently selected column (0-6), based on the position
+of the mouse. The <TT><FONT FACE="Courier">mouseDown</FONT></TT>
+method is a little more interesting in that it handles making
+moves for the human player. Listing 16.6 contains the source code
+for the <TT><FONT FACE="Courier">mouseDown</FONT></TT> method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 16.6. The </B><TT><B><FONT FACE="Courier">Connect4</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">mouseDown</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean mouseDown(Event evt, int
+x, int y) {<BR>
+&nbsp;&nbsp;if (gameOver) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Start a new game<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;newGame();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return true;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;else if (myMove) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Make sure the move is valid<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Point pos = gameEngine.makeMove(0, x /
+28);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (pos.y &gt;= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!gameEngine.isWinner(0))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!gameEngine.isTie())
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;Thinking...&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sadSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;It's a tie!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;applauseSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = new String(&quot;You
+won!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;level++;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver = true;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;badMoveSnd.play();<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;badMoveSnd.play();<BR>
+&nbsp;&nbsp;return true;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">mouseDown</FONT></TT> method first
+checks to see whether the game is over, in which case a mouse
+click starts a new game. If the game is not over, <TT><FONT FACE="Courier">mouseDown</FONT></TT>
+attempts to make the human player's move in the specified column.
+If the move is valid, <TT><FONT FACE="Courier">mouseDown</FONT></TT>
+checks for a win or tie, and then it plays the appropriate sound
+and updates the status text. Notice that if the human player has
+won, the level of the game is increased.
+<P>
+The last method in Connect4 is <TT><FONT FACE="Courier">newGame</FONT></TT>,
+which (surprise!) sets up a new game:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void newGame() {<BR>
+&nbsp;&nbsp;// Setup a new game<BR>
+&nbsp;&nbsp;newGameSnd.play();<BR>
+&nbsp;&nbsp;gameEngine = new Connect4Engine();<BR>
+&nbsp;&nbsp;gameOver = false;<BR>
+&nbsp;&nbsp;myMove = true;<BR>
+&nbsp;&nbsp;status = new String(&quot;Your turn.&quot;);<BR>
+&nbsp;&nbsp;repaint();<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In <TT><FONT FACE="Courier">newGame</FONT></TT>, the game engine
+is re-created and all the game status member variables are reinitialized,
+except for <TT><FONT FACE="Courier">level</FONT></TT>. This is
+important, because it results in the level increasing after each
+win by the human player. The only drawback is that the computer
+player plays considerably slower (because of the increased depth
+search) with each increasing level. On the other hand, the computer
+player gets much smarter after each human player victory, so don't
+expect to win more than a couple of games.
+<P>
+That concludes the dissection of the Connect4 applet. You now
+have a complete Java AI strategy game to add to your growing list
+of Java game accomplishments!
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+In today's lesson, you learned how to apply the AI theory from
+yesterday's lesson toward a real game. You began by developing
+a preliminary design for a Connect4 game and then progressed into
+implementing the support classes as well as the main applet class.
+You learned how to use strategic AI to implement a very capable
+computer player for the Connect4 game. You also used much of the
+experience acquired during the past two weeks to add creative
+graphics and sound to the game.
+<P>
+Today's lesson focused primarily on implementing a computer player
+for a Connect4 game using AI techniques. But what if you want
+to play against another real person rather than the computer?
+Well, you could try to connect two mice to your computer and figure
+out a way to convince Java to recognize the two. After that approach
+failed, you would probably come to the conclusion that multiplayer
+games require an entirely different approach to game design. Over
+the next few days, you'll learn all about multiplayer network
+game development, culminating in a network version of Connect4
+that enables you to play other people over the Internet. Can you
+feel the suspense building? I sure can!
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Could a similar AI approach be used in another board game, such as Checkers?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Yes, but the technique of calculating a score for each player would differ, because winning Checkers is based on jumping pieces instead of lining them up in a row.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Is this the best AI approach to take for implementing the Connect4 computer player?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Probably not, but it depends on how you define &quot;best.&quot; In terms of simplicity, this approach might well be one of the best. I found a few other Connect4 AI strategies on the Web, but I settled on this 
+one because it is relatively easy to implement and understand. No doubt smarter AI strategies exist, but they are almost certainly more difficult to implement. Keep in mind, however, that most other AI strategies in games like Connect4 still use a 
+conceptually similar approach involving look-ahead depth searching. The primary difference usually lies in how the scores are calculated.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Will the Connect4 engine work with a larger board or a different number of pieces to connect in a series?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Absolutely. You just need to alter the sizes of the game state arrays as well as all the loops that work with them, along with recalculating the values of the <TT><FONT FACE="Courier">winPlaces</FONT></TT> and 
+<TT><FONT FACE="Courier">maxPieces</FONT></TT> member variables in the <TT><FONT FACE="Courier">Connect4State</FONT></TT> class.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least ponder the exercises before
+moving on to tomorrow's lesson. You'll find the answers to the
+questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What is the map used for?
+<LI>Why is the game engine broken into two classes?
+<LI>Why does the hand selector disappear when the computer player
+is thinking?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Integrate the sprite classes to animate dropping the pieces.
+<LI>Modify the game engine so that the AI algorithms are executed
+in a thread.
+<LI>Modify the applet so that two computer players battle it out.
+<LI>In the computer-versus-computer version you just created,
+try out different values for the level used by each player, and
+watch the results.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch15.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch17.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

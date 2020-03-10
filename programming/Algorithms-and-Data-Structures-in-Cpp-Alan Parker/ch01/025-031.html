@@ -1,0 +1,174 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Representations</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=1//-->
+<!--PAGES=025-031//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="016-025.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="031-036.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading17"></A><FONT COLOR="#000077">1.2.3 Examples</FONT></H4>
+<P>This section presents examples of IEEE 32-bit and 64-bit floating point representations. Converting 100.5 to IEEE 32-bit notation is demonstrated in Example 1.1.
+</P>
+<P>Determining the value of an IEEE 64-bit number is shown in Example 1.2. In many cases for problems as in Example 1.1 the difficulty lies in the actual conversion from decimal to binary. The next section presents a simple methodology for such a conversion.</P>
+<H4 ALIGN="LEFT"><A NAME="Heading18"></A><FONT COLOR="#000077">1.2.4 Conversion from Decimal to Binary</FONT></H4>
+<P>This section presents a simple methodology to convert a decimal number, <I>A</I>, to its corresponding binary representation. For the sake of simplicity, it is assumed the number satisfies</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-51d.jpg"></P>
+<P>in which case we are seeking the <I>a<SUB><SMALL>k</SMALL></SUB></I> such that</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-52d.jpg"></P>
+<P><A NAME="Fig18"></A><A HREF="javascript:displayWindow('images/01-18.jpg',400,429)"><IMG SRC="images/01-18t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/01-18.jpg',400,429)"><FONT COLOR="#000077"><B>Example 1.1</B></FONT></A>&nbsp;&nbsp;IEEE 32-Bit Format</P>
+<P>The simple procedure is illustrated in <TT>Code List 1.12.</TT> The C Code performing the decimal to binary conversion is shown in Code List 1.13. The output of the program is shown in Code List 1.14. This program illustrates the use of the default value. When a variable is declared as <I>z</I> is by <I>data z</I>, <I>z</I> is assigned 0.0 and <I>precision</I> is assigned 32. This can be seen as in the program <I>z.prec(</I>) is never called and the output results in 32 bits of precision. The paper conversion for 0.4 is illustrated in Example 1.3.</P>
+<H3><A NAME="Heading19"></A><FONT COLOR="#000077">1.3 Character Formats&#151;ASCII</FONT></H3>
+<P>To represent keyboard characters, a standard has been adopted to ensure compatibility across many different machines. The most widely used standard is the ASCII (American Standard Code for Information Interchange) character set. This set has a one byte format and is shown in Table 1.8. It allows for 256 distinct characters and specifies the first 128. The lower ASCII characters are control characters which were derived from their common use in earlier machines.Although the ASCII standard is widely used, different operating systems use different file formats to represent data, even when the data files contain only characters. Two of the most popular systems, DOS and Unix differ in their file format. For example, the text file shown in Table 1.9 has a DOS format shown in Table 1.10 and a Unix format shown in Table 1.11. Notice that the DOS file use a carriage return, cr, followed by a new line, nl, while the Unix file uses only a new line. As a result Unix text files will be smaller than DOS text files. In the DOS and Unix tables, underneath each character is its ASCII representation in hex. The numbering on the left of each table is the offset in octal of the line in the file.
+</P>
+<P><A NAME="Fig19"></A><A HREF="javascript:displayWindow('images/01-19.jpg',450,503)"><IMG SRC="images/01-19t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/01-19.jpg',450,503)"><FONT COLOR="#000077"><B>Example 1.2</B></FONT></A>&nbsp;&nbsp;Calculating the Value of an IEEE 64-Bit Number</P>
+<P><A NAME="Fig20"></A><A HREF="javascript:displayWindow('images/01-20.jpg',400,484)"><IMG SRC="images/01-20t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/01-20.jpg',400,484)"><FONT COLOR="#000077"><B>Example 1.3</B></FONT></A>&nbsp;&nbsp;Converting 0.4 from Decimal to Binary</P>
+<P><B>Code List 1.12</B> Decimal to Binary Conversion</P>
+<P><A NAME="Fig21"></A><A HREF="javascript:displayWindow('images/01-21.jpg',400,236)"><IMG SRC="images/01-21t.jpg"></A></P>
+<P><B>Code List 1.13</B> Decimal to Conversion C++ Program</P>
+<P><A NAME="Fig22"></A><A HREF="javascript:displayWindow('images/01-22.jpg',500,887)"><IMG SRC="images/01-22t.jpg"></A></P>
+<P><A NAME="Fig23"></A><A HREF="javascript:displayWindow('images/01-23.jpg',500,300)"><IMG SRC="images/01-23t.jpg"></A></P>
+<P><B>Code List 1.14</B> Output of Program in Code List 1.13</P>
+<P><A NAME="Fig24"></A><A HREF="javascript:displayWindow('images/01-24.jpg',400,250)"><IMG SRC="images/01-24t.jpg"></A></P>
+<CENTER>
+<TABLE WIDTH="90%" BORDER>
+<CAPTION ALIGN=LEFT><B>Table 1.8</B> ASCII Listing
+<TR>
+<TH COLSPAN="8" ALIGN="LEFT">ASCII Listing
+<TR>
+<TD ALIGN="CENTER">oo nul<BR>08 bs<BR>10 dle<BR>18 can<BR>20 sp<BR>28 (<BR>30 0<BR>38 8<BR>40 @<BR>48 H<BR>50 P<BR>58 X<BR>60<BR>68 h<BR>70 p<BR>78 x
+<TD ALIGN="CENTER">01 soh<BR>09 ht<BR>11 dc1<BR>19 em<BR>21 !<BR>29 )<BR>31 1<BR>39 9<BR>41 A<BR>49 I<BR>51 Q<BR>59 Y<BR>61 a<BR>69 i<BR>71 q<BR>79 y
+<TD ALIGN="CENTER">02 stx<BR>0a nl<BR>12 dc2<BR>1a sub<BR>22 &#147;<BR>2a *<BR>32 2<BR>3a :<BR>42 B<BR>4a J<BR>52 R<BR>5a Z<BR>62 b<BR>6a j<BR>72 r<BR>7a z
+<TD ALIGN="CENTER">03 etx<BR>0b vt<BR>13 dc3<BR>1b esc<BR>23 #<BR>2b +<BR>33 3<BR>3b ;<BR>43 C<BR>4b K<BR>53 S<BR>5b [<BR>63 c<BR>6b k<BR>73 s<BR>7b {
+<TD ALIGN="CENTER">04 eot<BR>0c np<BR>14 dc4<BR>1c fs<BR>24 $<BR>2c ,<BR>34 4<BR>3c &lt;<BR>44 D<BR>4c L<BR>54 T<BR>5c \<BR>64 d<BR>6c l<BR>74 t<BR>7c |
+<TD ALIGN="CENTER">05 enq<BR>0d cr<BR>15 nak<BR>1d gs<BR>25 %<BR>2d -<BR>35 5<BR>3d =<BR>45 E<BR>4d M<BR>55 U<BR>5d ]<BR>65 e<BR>6d m<BR>75 u<BR>7d }
+<TD ALIGN="CENTER">06 ack<BR>0e so<BR>16 syn<BR>1e rs<BR>26 &amp;<BR>2e .<BR>36 6<BR>3e &gt;<BR>46 F<BR>4e N<BR>56 V<BR>5e ^<BR>66 f<BR>6e n<BR>76 v<BR>7e ~
+<TD ALIGN="CENTER">07 bel<BR>0f si<BR>17 etb<BR>1f us<BR>27 &#145;<BR>2f /<BR>37 7<BR>3f ?<BR>47 G<BR>4f O<BR>57 W<BR>5f _<BR>67 g<BR>6f o<BR>77 w<BR>7f del
+</TABLE>
+</CENTER>
+<P>
+</P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER><CAPTION ALIGN=LEFT><B>Table 1.9</B> Text File
+<TR>
+<TH WIDTH="60%" ALIGN="LEFT">Test File
+<TR>
+<TD>This is a test file<BR>We will look at this file under Unix and DOS
+</TABLE>
+</CENTER>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="016-025.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="031-036.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

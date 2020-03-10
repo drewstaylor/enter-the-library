@@ -1,0 +1,226 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=2//-->
+<!--PAGES=074-080//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="066-074.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="081-097.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="CENTER"><A NAME="Heading16"></A><FONT COLOR="#000077">2.5.3.1 Full Crossbar</FONT></H4>
+<P>A full crossbar topology provides connections between any two processors. This is the most complex connection topology and requires (<I>n</I> (<I>n</I> - 1) / 2 connections. A full crossbar is shown in Figure 2.15.</P>
+<P>In the graphical representation the crossbar has the set, <I>V</I>, and <I>E</I> with</P>
+<P><A NAME="Fig36"></A><A HREF="javascript:displayWindow('images/02-36.jpg',448,182)"><IMG SRC="images/02-36t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-36.jpg',448,182)"><FONT COLOR="#000077"><B>Figure 2.15</B></FONT></A>&nbsp;&nbsp;Full Crossbar Topology</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-67d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/02-68d.jpg"></P>
+<P>Because of the large number of edges the topology is impractical in design for large <I>n</I>.</P>
+<H4 ALIGN="CENTER"><A NAME="Heading17"></A><FONT COLOR="#000077">2.5.3.2 Rectangular Mesh</FONT></H4>
+<P>A rectangular mesh topology is illustrated in Figure 2.16. From an implementation aspect the topology is easily scalable. The degree of each node in a rectangular mesh is at most four. A processor on the interior of the mesh has neighbors to the north, east, south, and west. There are several ways to implement the exterior nodes if it is desired to maintain that all nodes have the same degree. For an example of the external edge connection see Problem 2.5.
+</P>
+<H4 ALIGN="CENTER"><A NAME="Heading18"></A><FONT COLOR="#000077">2.5.3.3 Hypercube</FONT></H4>
+<P>A hypercube topology is shown in Figure 2.17. If the number of nodes, <I>n</I>, in the hypercube satisfies <I>n</I> = 2<I><SUP><SMALL>d</SMALL></SUP></I> then the degree of each node is <I>d</I> or log (<I>n</I>). As a result, as <I>n</I> becomes large the number of edges of each node increases. The magnitude of the increase is clearly more manageable than that of the full crossbar but it can still be a significant problem with hypercube architectures containing 64K nodes. As a result the cube-connected cycles, described in the next section, becomes more attractive due to its fixed degree.</P>
+<P>The vertices of an <I>n</I> dimensional hypercube are readily described by the binary ordered pair</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-69d.jpg"></P>
+<P><A NAME="Fig37"></A><A HREF="javascript:displayWindow('images/02-37.jpg',446,206)"><IMG SRC="images/02-37t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-37.jpg',446,206)"><FONT COLOR="#000077"><B>Figure 2.16</B></FONT></A>&nbsp;&nbsp;Rectangular Mesh</P>
+<P>With this description two nodes are neighbors if they differ in their representation in one location only. For example for an 8 node hypercube with nodes enumerated
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-70d.jpg"></P>
+<P>processor (0, 1, 0) has three neighbors:
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-71d.jpg"></P>
+<P><A NAME="Fig38"></A><A HREF="javascript:displayWindow('images/02-38.jpg',446,266)"><IMG SRC="images/02-38t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-38.jpg',446,266)"><FONT COLOR="#000077"><B>Figure 2.17</B></FONT></A>&nbsp;&nbsp;Hypercube Topology</P>
+<H4 ALIGN="CENTER"><A NAME="Heading19"></A><FONT COLOR="#000077">2.5.3.4 Cube-Connected Cycles</FONT></H4>
+<P>A cube-connected cycles topology is shown in Figure 2.18. This topology is easily formed from the hypercube topology by replacing each hypercube node with a cycle of nodes. As a result, the new topology has nodes, each of which, has degree 3. This has the look and feel of a hypercube yet without the high degree. The cube-connected cycles topology has <I>n</I>log<I> n</I> nodes.</P>
+<P><A NAME="Fig39"></A><A HREF="javascript:displayWindow('images/02-39.jpg',447,315)"><IMG SRC="images/02-39t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-39.jpg',447,315)"><FONT COLOR="#000077"><B>Figure 2.18</B></FONT></A>&nbsp;&nbsp;Cube-Connected Cycles</P>
+<H3><A NAME="Heading20"></A><FONT COLOR="#000077">2.6 The Hypercube Topology</FONT></H3>
+<P>This section presents algorithms and issues related to the hypercube topology. The hypercube is important due to its flexibility to efficiently simulate topologies of a similar size.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading21"></A><FONT COLOR="#000077">2.6.1 Definitions</FONT></H4>
+<P>Processors in a hypercube are numbered 0, ..., <I>n</I> - 1. The dimension, d, of a hypercube, is given as</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-72d.jpg"></P>
+<P>where at this point it is assumed that <I>n</I> is a power of 2. A processor, <I>x</I>, in a hypercube has a representation of</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-73d.jpg"></P>
+<P>For a simple example of the enumeration scheme see Section 2.5.3.3 on page 75. The distance, <I>d</I> (<I>x</I>, <I>y</I>), between two nodes x and y in a hypercube is given as</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-74d.jpg"></P>
+<P>The distance between two nodes is the length of the shortest path connecting the nodes. Two processors, x and y are neighbors if <I>d</I> (<I>x</I>, <I>y</I>) = 1. The hypercubes of dimension two and three are shown in Figure 2.19.</P>
+<H4 ALIGN="LEFT"><A NAME="Heading22"></A><FONT COLOR="#000077">2.6.2 Message Passing</FONT></H4>
+<P>A common requirement of a parallel processing topology is the ability to support broadcast and message passing algorithms between processors. A broadcast operation is an operation which supports a single processor communicating information to all other processors. A message passing algorithm supports a single message transfer from one processor to the next. In all cases the messages are required to traverse the edges of the topology.
+</P>
+<P>To illustrate message passing consider the case of determining the path to send a message from processor 0 to processor 7 in a 3-dimensional hypercube as shown in Figure 2.19. If the message is to traverse a path which is of minimal length, that is <I>d</I> (0, 7), then it should travel over three edges. For this case there are six possible paths:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-75d.jpg"></P>
+<P><A NAME="Fig40"></A><A HREF="javascript:displayWindow('images/02-40.jpg',444,503)"><IMG SRC="images/02-40t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-40.jpg',444,503)"><FONT COLOR="#000077"><B>Figure 2.19</B></FONT></A>&nbsp;&nbsp;Hypercube Architecture</P>
+<P>In general, in a hypercube of dimension <I>d</I>, a message travelling from processor <I>x</I> to processor <I>y</I> has <I>d</I> (<I>x</I>, <I>y</I>) ! distinct paths (see Problem 2.11). One simple algorithm is to compute the exclusive-or of the source and destination processors and traverse the edge corresponding to complementing the first bit that is set. This is illustrated in Table 2.4 for left to right complementing and in Table 2.5 for right to left complementing.</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 2.4</B> Calculating the Message Path &#151; Left to Right
+<TR>
+<TH WIDTH="25%">Processor Source
+<TH WIDTH="25%">ProcessorDestination
+<TH WIDTH="25%">Exclusive-Or
+<TH WIDTH="25%">Next Processor
+<TR>
+<TD ALIGN="CENTER">000
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">100
+<TR>
+<TD ALIGN="CENTER">100
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">011
+<TD ALIGN="CENTER">110
+<TR>
+<TD ALIGN="CENTER">110
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">001
+<TD ALIGN="CENTER">111
+</TABLE>
+<P>
+</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 2.5</B> Calculating the Message Path &#151; Right to Left
+<TR>
+<TH>Processor Source
+<TH>Processor Destination
+<TH>Exclusive-Or
+<TH>Next Processor
+<TR>
+<TD ALIGN="CENTER">000
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">001
+<TR>
+<TD ALIGN="CENTER">001
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">110
+<TD ALIGN="CENTER">011
+<TR>
+<TD ALIGN="CENTER">011
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">100
+<TD ALIGN="CENTER">111
+</TABLE>
+<P>The message passing algorithm still works under certain circumstances even when the hypercube has nodes that are faulty. This is discussed in the next section.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading23"></A><FONT COLOR="#000077">2.6.3 Efficient Hypercubes</FONT></H4>
+<P>This section presents the analysis of the class of hypercubes for which the message passing routines of the previous section are valid. Examples are presented in detail for an 8-node hypercube.
+</P>
+<H4 ALIGN="CENTER"><A NAME="Heading24"></A><FONT COLOR="#000077">2.6.3.1 Transitive Closure</FONT></H4>
+<P><B>Definition 2.23</B></P>
+<P>The adjacency matrix, <I>A</I>, of a graph, <I>G</I>, is the matrix with elements <I>a</I><I><SUB><SMALL>ij</SMALL></SUB></I> such that <I>a<SUB><SMALL>ij</SMALL></SUB></I> = 1 implies there is an edge from <I>i</I> to <I>j</I>. If there is no edge then <I>a<SUB><SMALL>ij</SMALL></SUB></I> = 0.</P>
+<IMG SRC="images/02-27i.jpg"><P>The adjacency matrix, <I>A</I>, of the transitive closure of the 8-node hypercube is simply the matrix</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-76d.jpg"></P>
+<P>For a hypercube with all functional nodes every processor is reachable.
+</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="066-074.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="081-097.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

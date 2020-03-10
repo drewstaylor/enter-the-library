@@ -1,0 +1,267 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Representations</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=1//-->
+<!--PAGES=001-005//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ewtoc.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="005-011.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H2><A NAME="Heading1"></A><FONT COLOR="#000077">Chapter 1<BR>Data Representations
+</FONT></H2>
+<P>This chapter introduces the various formats used by computers for the representation of integers, floating point numbers, and characters. Extensive examples of these representations within the C++ programming language are provided.
+</P>
+<H3><A NAME="Heading2"></A><FONT COLOR="#000077">1.1 Integer Representations</FONT></H3>
+<P>The tremendous growth in computers is partly due to the fact that physical devices can be built inexpensively which distinguish and manipulate two states at very high speeds. Since computers are devices which primarily act on two states (0 and 1), binary, octal, and hex representations are commonly used for the representation of computer data. The representation for each of these bases is shown in Table 1.1.
+</P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER><CAPTION ALIGN=LEFT><B>Table 1.1</B> Number Systems
+<TR>
+<TH WIDTH="25%">Binary
+<TH WIDTH="20%">Octal
+<TH WIDTH="30%">Hexadecimal
+<TH WIDTH="25%">Decimal
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">10
+<TD ALIGN="CENTER">2
+<TD ALIGN="CENTER">2
+<TD ALIGN="CENTER">2
+<TR>
+<TD ALIGN="CENTER">11
+<TD ALIGN="CENTER">3
+<TD ALIGN="CENTER">3
+<TD ALIGN="CENTER">3
+<TR>
+<TD ALIGN="CENTER">100
+<TD ALIGN="CENTER">4
+<TD ALIGN="CENTER">4
+<TD ALIGN="CENTER">4
+<TR>
+<TD ALIGN="CENTER">101
+<TD ALIGN="CENTER">5
+<TD ALIGN="CENTER">5
+<TD ALIGN="CENTER">5
+<TR>
+<TD ALIGN="CENTER">110
+<TD ALIGN="CENTER">6
+<TD ALIGN="CENTER">6
+<TD ALIGN="CENTER">6
+<TR>
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">7
+<TD ALIGN="CENTER">7
+<TD ALIGN="CENTER">7
+<TR>
+<TD ALIGN="CENTER">1000
+<TD ALIGN="CENTER">10
+<TD ALIGN="CENTER">8
+<TD ALIGN="CENTER">8
+<TR>
+<TD ALIGN="CENTER">1001
+<TD ALIGN="CENTER">11
+<TD ALIGN="CENTER">9
+<TD ALIGN="CENTER">9
+<TR>
+<TD ALIGN="CENTER">1010
+<TD ALIGN="CENTER">12
+<TD ALIGN="CENTER">A
+<TD ALIGN="CENTER">10
+<TR>
+<TD ALIGN="CENTER">1011
+<TD ALIGN="CENTER">13
+<TD ALIGN="CENTER">B
+<TD ALIGN="CENTER">11
+<TR>
+<TD ALIGN="CENTER">1100
+<TD ALIGN="CENTER">14
+<TD ALIGN="CENTER">C
+<TD ALIGN="CENTER">12
+<TR>
+<TD ALIGN="CENTER">1101
+<TD ALIGN="CENTER">15
+<TD ALIGN="CENTER">D
+<TD ALIGN="CENTER">13
+<TR>
+<TD ALIGN="CENTER">1110
+<TD ALIGN="CENTER">16
+<TD ALIGN="CENTER">E
+<TD ALIGN="CENTER">14
+<TR>
+<TD ALIGN="CENTER">1111
+<TD ALIGN="CENTER">17
+<TD ALIGN="CENTER">F
+<TD ALIGN="CENTER">15
+<TR>
+<TD ALIGN="CENTER">10000
+<TD ALIGN="CENTER">20
+<TD ALIGN="CENTER">10
+<TD ALIGN="CENTER">16
+</TABLE>
+</CENTER>
+<P>Operations in each of these bases is analogous to base 10. In base 10, for example, the decimal number 743.57 is calculated as
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-01d.jpg"></P>
+<P>In a more precise form, if a number, <I>X</I>, has <I>n</I> digits in front of the decimal and <I>m</I> digits past the decimal</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-02d.jpg"></P>
+<P>Its base 10 value would be
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-03d.jpg"></P>
+<P>For hexadecimal,
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-04d.jpg"></P>
+<P>For octal,
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-05d.jpg"></P>
+<P>In general for base <I>r</I></P>
+<P ALIGN="CENTER"><IMG SRC="images/01-06d.jpg"></P>
+<P>When using a theoretical representation to model an entity one can introduce a tremendous amount of bias into the thought process associated with the implementation of the entity. As an example, consider Eq. 1.6 which gives the value of a number in base <I>r</I>. In looking at Eq. 1.6, if a system to perform the calculation of the value is built, the natural approach is to subdivide the task into two subtasks: a subtask to calculate the integer portion and a subtask to calculate the fractional portion; however, this bias is introduced by the theoretical model. Consider, for instance, an equally valid model for the value of a number in base r. The number <I>X</I> is represented as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-07d.jpg"></P>
+<P>where the decimal point appears after the <I>k</I>th element. <I>X</I> then has the value:</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-08d.jpg"></P>
+<P>Based on this model a different implementation might be chosen. While theoretical models are nice, they can often lead one astray.
+</P>
+<P>As a first C++ programming example let&#146;s compute the representation of some numbers in decimal, octal, and hexadecimal for the integer type. A program demonstrating integer representations in decimal, octal, and hex is shown in Code List 1.1.</P>
+<P><B>Code List 1.1</B> Integer Example</P>
+<P><A NAME="Fig1"></A><A HREF="javascript:displayWindow('images/01-01.jpg',400,248)"><IMG SRC="images/01-01t.jpg"></A></P>
+<P><A NAME="Fig2"></A><A HREF="javascript:displayWindow('images/01-02.jpg',400,126)"><IMG SRC="images/01-02t.jpg"></A></P>
+<P>In this sample program there are a couple of C++ constructs. The <I>#include</I> &lt;<I>iostream.h</I>&gt; includes the header files which allow the use of <I>cout</I>, a function used for output. The second line of the program declares an array of integers. Since the list is initialized the size need not be provided. This declaration is equivalent to</P>
+<DL>
+<DD>int a[7]; &#151; declaring an array of seven integers 0-6
+<DD>a[0]=45; &#151; initializing each entry
+<DD>a[1]=245;
+<DD>a[2]=567;
+<DD>a[3]=1014;
+<DD>a[4]=-45;
+<DD>a[5]=-1;
+<DD>a[6]=256;
+</DL>
+<P>The <I>void main()</I> declaration declares that the main program will not return a value. The <I>sizeof</I> operator used in the loop for <I>i</I> returns the size of the array <I>a</I> in bytes. For this case</P>
+<DL>
+<DD><I>sizeof</I>(a)=28
+<DD><I>sizeof</I>(int)=4
+</DL>
+<P>The <I>cout</I> statement in C++ is used to output the data. It is analogous to the <I>printf</I> statement in C but without some of the overhead. The <I>dec</I>, <I>hex</I>, and <I>oct</I> keywords in the <I>cout</I> statement set the output to decimal, hexadecimal, and octal respectively. The default for <I>cout</I> is in decimal.</P>
+<P>At this point, the output of the program should not be surprising except for the representation of negative numbers. The computer uses a 2&#146;s complement representation for numbers which is discussed in Section 1.1.3 on page 7.</P>
+<P><B>Code List 1.2</B> Program Output of Code List 1.1</P>
+<P><A NAME="Fig3"></A><A HREF="javascript:displayWindow('images/01-03.jpg',157,504)"><IMG SRC="images/01-03t.jpg"></A><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ewtoc.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="005-011.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

@@ -1,0 +1,635 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 18 -- Networking with Java</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 18</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Networking with Java</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#NetworkBasics" >Network Basics</A>
+<UL>
+<LI><A HREF="#Addresses" >Addresses</A>
+<LI><A HREF="#Protocols" >Protocols</A>
+<LI><A HREF="#Ports" >Ports</A>
+</UL>
+<LI><A HREF="#TheClientServerParadigm" >The Client/Server Paradigm</A>
+<LI><A HREF="#Sockets" >Sockets</A>
+<UL>
+<LI><A HREF="#StreamSockets" >Stream Sockets</A>
+<LI><A HREF="#DatagramSockets" >Datagram Sockets</A>
+</UL>
+<LI><A HREF="#AReusableSocketClass" >A Reusable Socket Class</A>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+Yesterday you learned what multiplayer games are and why they
+are so important. Today you take one more step toward creating
+a networked multiplayer game that can be played over the Internet.
+I know, you're probably itching to move on and see a full-blown
+network game. However, you still need to cover some ground in
+regard to what is required behind the scenes to facilitate network
+communication in a real game. Trust me, you'll be dealing with
+the intricacies of network game programming soon enough.
+<P>
+In today's lesson, you learn specifically what Java has to offer
+in regard to communicating over an Internet network connection.
+You begin the lesson by taking a look at some basic concepts surrounding
+the structure of the Internet itself. You then move on to what
+specific support is provided by the standard Java networking API.
+Finally, you conclude the lesson by writing a reusable socket
+class that will prove invaluable tomorrow when you write a complete
+network game.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>Network basics
+<LI>The client/server paradigm
+<LI>Sockets
+<LI>A reusable socket class
+</UL>
+<H2><A NAME="NetworkBasics"><B><FONT SIZE=5 COLOR=#FF0000>Network
+Basics</FONT></B></A></H2>
+<P>
+Before you look at what type of network support Java provides,
+it's important that you understand some fundamentals about the
+structure of the Internet as a network. As you are no doubt already
+aware, the Internet is itself a global network of many different
+types of computers connected in various ways. With this wide diversity
+of both hardware and software all connected together, it's pretty
+amazing that the Internet is even functional. The functionality
+of the Internet is no accident and has come at no small cost in
+terms of planning.
+<P>
+The only way to guarantee compatibility and reliable communication
+across a wide range of different computer systems is to lay out
+very strict standards that must be conformed to rigorously. Now,
+please understand that I'm not the type of person who typically
+preaches conformity, but conformity in one's personal life is
+very different from conformity in complex computer networks. When
+it comes to computers and communication, I make a pretty big exception
+and embrace conformity for all its worth!
+<P>
+The point is that the only way to allow a wide range of computer
+systems to coexist and communicate with each other effectively
+is to hammer out some standards. Fortunately, plenty of standards
+abound for the Internet, and they share wide support across many
+different computer systems. Now that I have (I hope) sold you
+on the importance of communication standards, let's take a look
+at a few of them.
+<H3><A NAME="Addresses"><B>Addresses</B></A></H3>
+<P>
+One of the first areas of standardization on the Internet was
+in establishing a means to uniquely identify each connected computer.
+It's not surprising that a technique logically equivalent to traditional
+mailing addresses is the one that was adopted; each computer physically
+connected to the Internet is assigned an <I>address</I> that uniquely
+identifies it. These addresses, also referred to as <I>IP addresses,</I>
+come in the form of a 32-bit number that looks like this: <TT><FONT FACE="Courier">243.37.126.82</FONT></TT>.
+You're probably more familiar with the symbolic form of IP addresses,
+which looks like this: <TT><FONT FACE="Courier">sincity.com</FONT></TT>.
+<P>
+An <I>IP address</I> is a 32-bit number that uniquely identifies
+each computer physically attached to the Internet.
+<P>
+Addresses provide a unique identifier for each computer connected
+to the Internet. Each Internet computer has an address for the
+same reason you have a mailing address and a phone number at your
+home: to facilitate communication. It might sound simple, and
+that's because conceptually it is. As long as you can guarantee
+that each computer is uniquely identifiable, you can easily communicate
+with any computer without worry. Well, almost. The truth is that
+addresses are only a small part of the Internet communication
+equation, but an important part nevertheless. Without addresses,
+there would be no way to distinguish among different computers.
+<H3><A NAME="Protocols"><B>Protocols</B></A></H3>
+<P>
+The idea of communicating among different computers on the Internet
+might not sound like a big deal now that you understand that they
+use addresses similar to mailing addresses. The problem is that
+there are many different types of communication that can take
+place on the Internet, meaning that there must be an equal number
+of mechanisms for facilitating them. It's at this point that the
+mailing-address comparison to Internet addressing breaks down.
+The reason for this is that each type of communication taking
+place on the Internet requires a unique protocol. Your mail address
+essentially revolves around one type of communication: the mailman
+driving up to your mailbox and placing the mail inside.
+<P>
+A <I>protocol</I> is a set of rules and standards defining a certain
+type of Internet communication.
+<P>
+A protocol specifies the format of data being sent over the Internet,
+along with how and when it is sent. On the other end of the communication,
+the protocol also defines how the data is received along with
+its structure and what it means. You've probably heard mention
+of the Internet just being a bunch of bits flying back and forth
+in cyberspace. That's a very true statement, and without protocols
+those bits wouldn't mean anything.
+<P>
+The concept of a protocol is not groundbreaking or even new; you
+use protocols all the time in everyday situations, but you just
+don't call them protocols. Think about how many times you've been
+involved in this type of dialog:
+<P>
+&quot;Hi, may I take your order?&quot;
+<P>
+&quot;Yes, I'd like the shrimp special and a soda.&quot;
+<P>
+&quot;Thanks, I'll put your order in and bring you your drink.&quot;
+<P>
+&quot;Thank you, I sure am hungry.&quot;
+<P>
+Although this conversation might not look like anything special,
+it is a very definite social protocol used to place orders for
+food at a restaurant. Conversational protocol is important because
+it gives us familiarity and confidence in knowing what to do in
+certain situations. Haven't you ever been nervous when entering
+a new social situation in which you don't quite know how to act?
+In these cases, you don't really have confidence in the protocol,
+so you worry about a communication problem that could easily result
+in embarrassment. For computers and networks, protocol breakdown
+translates into errors and information transfer failure rather
+than embarrassment.
+<P>
+Now that you understand the importance of protocols, let's take
+a look at a couple of the more important ones used on the Internet.
+Without a doubt, the protocol getting the most attention these
+days is HTTP, which stands for hypertext transfer protocol. HTTP
+is the protocol used to transfer HTML documents on the Web. Another
+important protocol is FTP, which stands for file transfer protocol.
+FTP is a more general protocol used to transfer binary files over
+the Internet. These two protocols both have their own unique set
+of rules and standards defining how information is transferred,
+and Java provides support for both of them.
+<P>
+<I>HTTP</I>, which stands for Hypertext Transfer Protocol, is
+the protocol used to transfer HTML documents on the Web.
+<H3><A NAME="Ports"><B>Ports</B></A></H3>
+<P>
+Internet protocols make sense only in the context of a service.
+For example, the HTTP protocol comes into play when you are providing
+Web content (HTML pages) through an HTTP service. Each computer
+on the Internet has the capability to provide a variety of services
+through the various protocols supported. There is a problem, however,
+in that the type of service must be known before information can
+be transferred. This is where ports come in. A <I>port</I> is
+a software abstraction that provides a means to differentiate
+between different services. More specifically, a port is a 16-bit
+number identifying the different services offered by a network
+server.
+<P>
+A <I>port</I> is a 16-bit number that identifies each service
+offered by a network server.
+<P>
+Each computer on the Internet has a bunch of ports that can be
+assigned different services. To use a particular service and therefore
+establish a line of communication via a particular protocol, you
+must connect to the correct port. Ports are numbered, and some
+of the numbers are specifically associated with a type of service.
+Ports with specific service assignments are known as standard
+ports, meaning that you can always count on a particular port
+corresponding to a certain service. For example, the FTP service
+is located on port 21, so any other computer wanting to perform
+an FTP file transfer would connect to port 21 of the host computer.
+Likewise, the HTTP service is located on port 80, so any time
+you access a Web site, you are really connecting to port 80 of
+the host using the HTTP protocol behind the scenes. Figure 18.1
+illustrates how ports and protocols work.
+<P>
+<A HREF="f18-1.gif" ><B>Figure 18.1 : </B><I>A conceptual look at protocols and ports.</I></A>
+<P>
+All standard service assignments are given port values below 1024.
+This means that ports above 1024 are considered available for
+custom communications, such as those required by a network game
+implementing its own protocol. Keep in mind, however, that other
+types of custom communication also take place above port 1024,
+so you might have to try a few different ports to find an unused
+one.
+<H2><A NAME="TheClientServerParadigm"><B><FONT SIZE=5 COLOR=#FF0000>The
+Client/Server Paradigm</FONT></B></A></H2>
+<P>
+So far, I've managed to explain a decent amount of Internet networking
+fundamentals while dodging a major issue: the client/server paradigm.
+You've no doubt heard of clients and servers before, but you might
+not fully understand their importance in regard to the Internet.
+Well, it's time to remedy that situation, because you won't be
+able to get much done in Java without understanding how clients
+and servers work.
+<P>
+The client/server paradigm involves thinking of computing in terms
+of a client, who is essentially in need of some type of information,
+and a server, who has lots of information and is just waiting
+to hand it out. Typically, a client connects to a server and queries
+for certain information. The server goes off and finds the information
+and then returns it to the client. It might sound as though I'm
+oversimplifying things here, but for the most part I'm not; conceptually,
+client/server computing is as simple as a client asking for information
+and a server returning it.
+<P>
+In the context of the Internet, clients are typically computers
+attached to the Internet looking for information, whereas servers
+are typically larger computers with certain types of information
+available for the clients to retrieve. The Web itself is made
+up of a bunch of computers that act as Web servers; they have
+vast amounts of HTML pages and related data available for people
+to retrieve and browse. Web clients are those of us who connect
+to the Web servers and browse through the Web pages. In this way,
+Netscape Navigator is considered client Web software. Take a look
+at Figure 18.2 to get a better idea of the client/server arrangement.
+<P>
+<A HREF="f18-2.gif" ><B>Figure 18.2 : </B><I>A Web server with multiple clients.</I></A>
+<P>
+At this point, you might be wondering how the client/server strategy
+impacts Java game programming. Well, Java games run within the
+confines of a Web page, which is accessed via client Web browser
+software such as Netscape Navigator. Each player in a network
+Java game is running the game within a Web browser, which means
+that each player is acting as a client. When the players attempt
+to communicate with each other, you are left with Web clients
+trying to transfer information among themselves, which can't happen
+directly. The solution is for the clients (players) to communicate
+with each other through the server; the server effectively acts
+as a middleman routing information among the clients. Don't worry
+if this sounds kind of strange; you'll learn the details later
+today.
+<H2><A NAME="Sockets"><B><FONT SIZE=5 COLOR=#FF0000>Sockets</FONT></B></A>
+</H2>
+<P>
+One of Java's major strong suits as a programming language is
+its wide range of network support. Java has this advantage because
+it was developed with the Internet in mind. The result is that
+you have lots of options in regard to network programming in Java.
+Even though there are many network options, Java network game
+programming uses a particular type of network communication known
+as sockets.
+<P>
+A <I>socket</I> is a software abstraction for an input or output
+medium of communication.
+<P>
+Java performs all of its low-level network communication through
+sockets. Logically, sockets are one step lower than ports; you
+use sockets to communicate through a particular port. So a socket
+is a communication channel enabling you to transfer data through
+a certain port. Check out Figure 18.3, which shows communication
+taking place through multiple sockets on a port.
+<P>
+<A HREF="f18-3.gif" ><B>Figure 18.3 : </B><I>Socket communication on a port.</I></A>
+<P>
+This figure brings up an interesting point about sockets: data
+can be transferred through multiple sockets for a single port.
+Java provides socket classes to make programming with sockets
+much easier. Java sockets are broken down into two types: stream
+sockets and datagram sockets.
+<H3><A NAME="StreamSockets"><B>Stream Sockets</B></A></H3>
+<P>
+A <I>stream socket</I>, or connected socket, is a socket over
+which data can be transmitted continuously.
+<P>
+By continuously, I don't necessarily mean that data is being sent
+all the time, but that the socket itself is active and ready for
+communication all the time. Think of a stream socket as a dedicated
+network connection, in which a communication medium is always
+available for use. The benefit of using a stream socket is that
+information can be sent with less worry about when it will arrive
+at its destination. Because the communication link is always &quot;live,&quot;
+data is generally transmitted immediately after you send it. This
+method of communication is the method you will use tomorrow to
+write a sample network game, NetConnect4.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+A practical example of data being sent through a streaming mechanism is RealAudio, a technology that provides a way to listen to audio on the Web as it is being transmitted in real time.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Java supports streamed socket programming primarily through two
+classes: <TT><FONT FACE="Courier">Socket</FONT></TT> and <TT><FONT FACE="Courier">ServerSocket</FONT></TT>.
+The <TT><FONT FACE="Courier">Socket</FONT></TT> class provides
+the necessary overhead to facilitate a streamed socket client,
+and the <TT><FONT FACE="Courier">ServerSocket</FONT></TT> class
+provides the core functionality for a server. Here is a list of
+some of the more important methods implemented in the <TT><FONT FACE="Courier">Socket</FONT></TT>
+class:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Socket(String host, int port)<BR>
+Socket(InetAddress address, int port)<BR>
+synchronized void close()<BR>
+InputStream getInputStream()<BR>
+OutputStream getOutputStream()</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first two methods listed are actually constructors for the
+<TT><FONT FACE="Courier">Socket</FONT></TT> class. The host computer
+you are connecting the socket to is specified in the first parameter
+of each constructor; the difference between the two constructors
+is whether you specify the host using a string name or an <TT><FONT FACE="Courier">InetAddress</FONT></TT>
+object. The second parameter is an integer specifying the port
+you want to connect to. The <TT><FONT FACE="Courier">close</FONT></TT>
+method is used to close a socket. The <TT><FONT FACE="Courier">getInputStream</FONT></TT>
+and <TT><FONT FACE="Courier">getOutputStream</FONT></TT> methods
+are used to retrieve the input and output streams associated with
+the socket.
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">The ServerSocket class handles the other
+end of socket communication in a client/server scenario. Here
+are a few of the more useful methods defined in the ServerSocket
+class:<BR>
+ServerSocket(int port)<BR>
+ServerSocket(int port, int count)<BR>
+Socket accept()<BR>
+void close()</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first two methods are the constructors for <TT><FONT FACE="Courier">ServerSocket</FONT></TT>,
+which both take a port number as the first parameter. The <TT><FONT FACE="Courier">count</FONT></TT>
+parameter in the second constructor specifies a timeout period
+for the server to automatically &quot;listen&quot; for a client
+connection. This is the distinguishing factor between the two
+constructors; the first version doesn't listen for a client connection,
+whereas the second version does. If you use the first constructor,
+you must specifically tell the server to wait for a client connection.
+You do this by calling the <TT><FONT FACE="Courier">accept</FONT></TT>
+method, which blocks program flow until a connection is made.
+The <TT><FONT FACE="Courier">close</FONT></TT> method simply closes
+the server socket.
+<P>
+You might be thinking that the socket classes seem awfully simple.
+In fact, they are simple, which is a good thing. Most of the actual
+code facilitating communication via sockets is handled through
+the input and output streams connected to a socket. In this way,
+the communication itself is handled independently of the network
+socket connection. This might not seem like a big deal at first,
+but it is crucial in the design of the socket classes; after you've
+created a socket, you connect an input or output stream to it
+and then forget about the socket.
+<P>
+The <TT><FONT FACE="Courier">Socket</FONT></TT> and <TT><FONT FACE="Courier">ServerSocket</FONT></TT>
+classes are the classes you'll use a little later today to build
+a simple networking applet. You'll get to see how easy it is to
+communicate using Java and sockets.
+<H3><A NAME="DatagramSockets"><B>Datagram Sockets</B></A></H3>
+<P>
+The other type of socket supported by Java is the datagram socket.
+Unlike stream sockets, in which the communication is akin to a
+live network, a datagram socket is more akin to a dial-up network,
+in which the communication link isn't continuously active.
+<P>
+A <I>datagram socket</I> is a socket over which data is bundled
+into packets and sent without requiring a &quot;live&quot; connection
+to the destination computer.
+<P>
+Because of the nature of the communication medium involved, datagram
+sockets aren't guaranteed to transmit information at a particular
+time, or even in any particular order. The reason datagram sockets
+perform this way is that they don't require an actual connection
+to another computer; the address of the target computer is just
+bundled with the information being sent. This bundle is then sent
+out over the Internet, leaving the sender to hope for the best.
+<P>
+On the receiving end, the bundles of information can be received
+in any order and at any time. For this reason, datagrams also
+include a sequence number that specifies which piece of the puzzle
+each bundle corresponds to. The receiver waits to receive the
+entire sequence, in which case it puts them back together to form
+a complete information transfer. As you might be thinking, datagram
+sockets are less than ideal for network game programming, simply
+because of the implied time delays and sequencing complexities.
+<H2><A NAME="AReusableSocketClass"><B><FONT SIZE=5 COLOR=#FF0000>A
+Reusable Socket Class</FONT></B></A></H2>
+<P>
+You've now learned enough about network theory and the Java networking
+support to write some code. Before you can think in terms of writing
+network game code, however, you need to develop some code that
+helps facilitate the core communications necessary for a game.
+In doing so, you'll have reliable, reusable code that can easily
+be applied to provide functionality specific to a particular game
+communication protocol.
+<P>
+As you learned earlier, the primary purpose of sockets is to provide
+a channel of communication through a particular port. You also
+learned that sockets have associated input and output streams
+that actually handle the details of transferring information via
+the socket. Even though the standard Java socket classes provide
+much of this support, some code still must be handled on your
+end; this is the code you're going to focus on at this point.
+<P>
+The first layer of code necessary to facilitate network communications
+comes in the form of a socket helper class that handles the details
+of initializing a socket and managing the associated data streams.
+The <TT><FONT FACE="Courier">SocketAction</FONT></TT> class was
+developed by Greg Turner to help ease the pain in establishing
+a communication channel using Java sockets. The <TT><FONT FACE="Courier">SocketAction</FONT></TT>
+class is derived from <TT><FONT FACE="Courier">Thread</FONT></TT>
+so that it has its own thread of execution. Let's start by looking
+at the member variables of <TT><FONT FACE="Courier">SocketAction</FONT></TT>,
+which follow:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private DataInputStream inStream = null;
+<BR>
+protected PrintStream&nbsp;&nbsp;&nbsp;outStream = null;<BR>
+private Socket&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;socket
+= null;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first two members, <TT><FONT FACE="Courier">inStream</FONT></TT>
+and <TT><FONT FACE="Courier">outStream</FONT></TT>, are the input
+and output streams used to receive and send data through the socket.
+The third member variable, <TT><FONT FACE="Courier">socket</FONT></TT>,
+is the socket object itself.
+<P>
+The constructor for <TT><FONT FACE="Courier">SocketAction</FONT></TT>
+takes a <TT><FONT FACE="Courier">Socket</FONT></TT> object as
+its only parameter:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public SocketAction(Socket sock) {<BR>
+&nbsp;&nbsp;super(&quot;SocketAction&quot;);<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;inStream = new DataInputStream(new<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedInputStream(sock.getInputStream(),
+1024));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;outStream = new PrintStream(new<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BufferedOutputStream(sock.getOutputStream(),
+1024), true);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;socket = sock;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Couldn't initialize
+SocketAction: &quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The constructor creates the buffered data streams and initializes
+the <TT><FONT FACE="Courier">socket</FONT></TT> member variable
+with the <TT><FONT FACE="Courier">Socket</FONT></TT> object passed
+in. If there was a problem in initializing the streams, the constructor
+detects it by using the <TT><FONT FACE="Courier">catch</FONT></TT>
+clause. Note that if there is an error in creating the streams,
+something is seriously wrong, which explains why the entire program
+exits.
+<P>
+The <TT><FONT FACE="Courier">send</FONT></TT> and <TT><FONT FACE="Courier">receive</FONT></TT>
+methods are possibly the most useful methods in <TT><FONT FACE="Courier">SocketAction</FONT></TT>,
+even though they contain very little code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void send(String s) {<BR>
+&nbsp;&nbsp;outStream.println(s);<BR>
+}<BR>
+<BR>
+public String receive() throws IOException {<BR>
+&nbsp;&nbsp;return inStream.readLine();<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">send</FONT></TT> method simply sends
+a string out over the socket connection by using the output data
+stream. Similarly, the <TT><FONT FACE="Courier">receive</FONT></TT>
+method receives a string by using the input data stream.
+<P>
+The <TT><FONT FACE="Courier">closeConnections</FONT></TT> method
+simply closes the socket:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void closeConnections() {<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;socket.close();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;socket = null;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Couldn't close
+socket: &quot; + e);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">isConnected</FONT></TT> method verifies
+that the input and output streams, as well as the <TT><FONT FACE="Courier">socket</FONT></TT>
+object, are valid:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean isConnected() {<BR>
+&nbsp;&nbsp;return ((inStream != null) &amp;&amp; (outStream !=
+null) &amp;&amp; (socket != null));<BR>
+}<BR>
+Finally, the finalize method closes the socket as an added safety
+precaution:<BR>
+protected void finalize () {<BR>
+&nbsp;&nbsp;if (socket != null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;socket.close();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Couldn't
+close socket: &quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;socket = null;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+And that's all there is to the <TT><FONT FACE="Courier">SocketAction</FONT></TT>
+class. That wasn't too bad, was it? As you saw, the <TT><FONT FACE="Courier">SocketAction</FONT></TT>
+class is pretty elementary. Nevertheless, its simple function
+of providing a clean management class for sockets and their associated
+streams will make life much easier tomorrow when you build a complete
+network game.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you broke away from the confines of programming for a single
+user and moved into the world of network programming. You learned
+that Java makes network programming surprisingly easy by providing
+standard classes that hide most of the nastiness typically associated
+with network programming. You began the lesson with some network
+fundamentals, progressing onward to learn all about sockets and
+how to use them. You then finished the lesson by developing a
+reusable socket class that provides much of the overhead involved
+in network communications.
+<P>
+Even though little of today's lesson had anything to do with game
+programming specifically, you learned enough about Java network
+programming to move on to tomorrow's lesson, which does deal with
+game programming. In fact, tomorrow's lesson is entirely devoted
+to converting the Connect4 game from <A HREF="ch16.htm" >Day 16</A>'s
+lesson into a multiplayer network game playable over the Internet.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why is the client/server paradigm so important in Java network programming?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The client/server model was integrated into Java because it has proven time and again to be superior to other networking approaches. By dividing the act of serving data from the act of viewing and working with 
+data, the client/server approach provides network developers with the freedom to implement a wide range of solutions to common network problems.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Does the client/server strategy really make sense for games?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Based on the traditional role of a server strictly providing information to a &quot;dumb&quot; client, the answer is no. When it comes to games, however, the concept of what the clients and server are 
+responsible for changes somewhat. For example, a game server is responsible for receiving client player events and dispatching them to the other players. In turn, the clients are responsible for generating and sending the events to the server, as well as 
+updating themselves based on other player events received from the server. When you view the client/server model from this admittedly altered perspective, it makes complete sense for games.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why aren't datagram sockets suitable for network game communications?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The primary reason is speed, because you have no way of knowing when information transferred through a datagram socket will reach its destination. Admittedly, you don't really know for sure when stream socket 
+data will get to its destination either, but you can rest assured it will be faster than with the datagram socket. Also, datagram socket transfers have the additional complexity of requiring you to reorganize the incoming data, which is an unnecessary and 
+time-consuming annoyance for games.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a firmer grasp on the material you learned today. Try
+to answer the questions and at least think about the exercises
+before moving on to tomorrow's lesson. You'll find the answers
+to the questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What is a port?
+<LI>What is the significance of using sockets for network communications?
+<LI>What is the difference between stream sockets and datagram
+sockets?
+<LI>What's the big deal about writing a reusable socket class?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>If you have a dedicated Internet connection, find out what
+your numeric IP address is.
+<LI>Try out some networked Java applets and see if you can figure
+out how they are using Java sockets. Note: You can find many networked
+Java applets at the Gamelan Web site (<TT><A HREF="http://www.gamelan.com">http://www.gamelan.com</A></TT>).
+<LI>Spend some time relaxing, because tomorrow's lesson dives
+straight into developing a complete network game.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch17.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch19.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

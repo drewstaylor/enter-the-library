@@ -1,0 +1,280 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms for Computer Arithmetic</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=4//-->
+<!--PAGES=187-197//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ch03/168-186.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="197-213.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H2><A NAME="Heading1"></A><FONT COLOR="#000077">Chapter 4<BR>Algorithms for Computer Arithmetic
+</FONT></H2>
+<H3><A NAME="Heading2"></A><FONT COLOR="#000077">4.1 2&#146;s Complement Addition</FONT></H3>
+<P>This section presents the principles of addition, multiplication and division for fixed point 2&#146;s complement numbers. Examples are provided for a selection of important fixed point algorithms.
+</P>
+<P>Two&#146;s complement addition generates the sum, <I>S</I>, for the addition of two n-bit numbers <I>A</I> and <I>B</I> with</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-01d.jpg"></P>
+<P>A C++ program simulating 8-bit two&#146;s complement addition is shown in Code List 4.1. The output of the program is shown in Code List 4.2
+</P>
+<P><B>Code List 4.1</B> 2&#146;s Complement Addition</P>
+<P><A NAME="Fig1"></A><A HREF="javascript:displayWindow('images/04-01.jpg',500,231)"><IMG SRC="images/04-01t.jpg"></A></P>
+<P><A NAME="Fig2"></A><A HREF="javascript:displayWindow('images/04-02.jpg',500,910)"><IMG SRC="images/04-02t.jpg"></A></P>
+<P><B>Code List 4.2</B> Output of Program in Code List 4.1</P>
+<P><A NAME="Fig3"></A><A HREF="javascript:displayWindow('images/04-03.jpg',500,457)"><IMG SRC="images/04-03t.jpg"></A></P>
+<P>The programs do not check for overflow but simply simulate the additon as performed by hardware.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading3"></A><FONT COLOR="#000077">4.1.1 Full and Half Adder</FONT></H4>
+<P>In order to develop some fast algorithms for multiplication and addition it is necessary to analyze the process of addition and multiplication at the bit level. Full and half adders are bit-level building blocks that are used to perform addition.
+</P>
+<P>A half adder is a module which inputs two signals, <I>a<SUB><SMALL>i</SMALL></SUB></I> and <I>b<SUB><SMALL>i</SMALL></SUB></I>, and generates a sum, <I>s<SUB><SMALL>i</SMALL></SUB></I>, and a carry-out <I>c<SUB><SMALL>i</SMALL></SUB></I>. A half adder does not support a carry-in. The outputs are as in Table 4.1.</P>
+<CENTER>
+<TABLE WIDTH="50%" BORDER><CAPTION ALIGN=LEFT><B>Table 4.1</B> Half Adder Truth Table
+<TR>
+<TH WIDTH="50%" COLSPAN="2">Input
+<TH WIDTH="50%" COLSPAN="2">Output
+<TR>
+<TH WIDTH="25%" ALIGN="CENTER"><I>a<SUB><SMALL>i</SMALL></SUB></I>
+<TH WIDTH="25%" ALIGN="CENTER"><I>b<SUB><SMALL>i</SMALL></SUB></I>
+<TH WIDTH="25%" ALIGN="CENTER"><I>s<SUB><SMALL>i</SMALL></SUB></I>
+<TH WIDTH="25%" ALIGN="CENTER"><I>c<SUB><SMALL>i</SMALL></SUB></I>
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+</TABLE>
+</CENTER>
+<P>A full adder has a carry-in input, <I>c<SUB><SMALL>i</SMALL></SUB></I>. A full adder is shown in Table 4.2.</P>
+<CENTER>
+<TABLE WIDTH="50%" BORDER><CAPTION ALIGN=LEFT><B>Table 4.2</B> Full Adder Truth Table
+<TR>
+<TH WIDTH="70%" COLSPAN="3">Input
+<TH WIDTH="30%" COLSPAN="2">Output
+<TR>
+<TH WIDTH="17%"><I>a<SUB><SMALL>i</SMALL></SUB></I>
+<TH WIDTH="17%"><I>b<SUB><SMALL>i</SMALL></SUB></I>
+<TH WIDTH="30%"><I>c<SUB><SMALL>i-1</SMALL></SUB></I>
+<TH WIDTH="18%"><I>s<SUB><SMALL>i</SMALL></SUB></I>
+<TH WIDTH="18%"><I>c<SUB><SMALL>i</SMALL></SUB></I>
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+</TABLE>
+</CENTER>
+<P>The full adder and half adder modules are shown in Figure 4.1. The boolean equation for the output of the full adder is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-02d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/04-03d.jpg"></P>
+<P>The boolean equation for the output of the half adder is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-04d.jpg"></P>
+<P>where &#8853; denotes the exclusive-or operation.
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-05d.jpg"></P>
+<P>The output delay of each module can be expressed in terms of the gate delay, &#916;, of the technology used to implement the boolean expression. The sum, <I>s<SUB><SMALL>i</SMALL></SUB></I>, for the full adder can be implemented as in Eq. 4.1 using four 3-input NAND gates in parallel followed by a 4-input NAND gate. The gate delay of a k-input NAND gate is &#916; so the sum is calculated in 2&#916;. This is illustrated in Figure 4.2. For the half-adder the sum is calculated within I &#916; and the carry is generated within I &#916;.The Output Delay for the Half Adder is shown in Figure 4.2.</P>
+<P><A NAME="Fig4"></A><A HREF="javascript:displayWindow('images/04-04.jpg',500,256)"><IMG SRC="images/04-04t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-04.jpg',500,256)"><FONT COLOR="#000077"><B>Figure 4.1</B></FONT></A>&nbsp;&nbsp;Full and Half Adder Modules</P>
+<H4 ALIGN="LEFT"><A NAME="Heading4"></A><FONT COLOR="#000077">4.1.2 Ripple Carry Addition</FONT></H4>
+<P>2&#146;s complement addition of n-bit numbers can be performed by cascading Full Adder modules and a Half Adder module together as shown with a 4-bit example in Figure 4.3. The carry-out of each module is passed to the carry-in of the subsequent module. The output delay for an n-bit ripple-carry adder using a Half Adder module in the first stage is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-06d.jpg"></P>
+<P>For many applications this delay is unacceptable and can be improved dramatically.
+</P>
+<P>A C++ program to perform ripple carry addition is shown in Code List 4.3. The output of the program is shown in Code List 4.4. The program demonstrates the addition of 1 + (-1). As can be seen in the output the carry ripples through the result at each simulation until it has passed over N bits.</P>
+<P><A NAME="Fig5"></A><A HREF="javascript:displayWindow('images/04-05.jpg',500,333)"><IMG SRC="images/04-05t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-05.jpg',500,333)"><FONT COLOR="#000077"><B>Figure 4.2</B></FONT></A>&nbsp;&nbsp;Output Delay Calculation for a Full Adder</P>
+<P><A NAME="Fig6"></A><A HREF="javascript:displayWindow('images/04-06.jpg',500,289)"><IMG SRC="images/04-06t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-06.jpg',500,289)"><FONT COLOR="#000077"><B>Figure 4.3</B></FONT></A>&nbsp;&nbsp;2&#146;s Complement 4-Bit Adder</P>
+<P><A NAME="Fig7"></A><A HREF="javascript:displayWindow('images/04-07.jpg',500,216)"><IMG SRC="images/04-07t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-07.jpg',500,216)"><FONT COLOR="#000077"><B>Figure 4.4</B></FONT></A>&nbsp;&nbsp;Output Delay Calculation for a Half Adder</P>
+<P><B>Code List 4.3</B> Ripple Carry Addition</P>
+<P><A NAME="Fig8"></A><A HREF="javascript:displayWindow('images/04-08.jpg',500,621)"><IMG SRC="images/04-08t.jpg"></A></P>
+<P><A NAME="Fig9"></A><A HREF="javascript:displayWindow('images/04-09.jpg',500,927)"><IMG SRC="images/04-09t.jpg"></A></P>
+<P><A NAME="Fig10"></A><A HREF="javascript:displayWindow('images/04-10.jpg',500,928)"><IMG SRC="images/04-10t.jpg"></A></P>
+<P><A NAME="Fig11"></A><A HREF="javascript:displayWindow('images/04-11.jpg',500,228)"><IMG SRC="images/04-11t.jpg"></A></P>
+<P><B>Code List 4.4</B> Output of Program in Code List 4.3</P>
+<P><A NAME="Fig12"></A><A HREF="javascript:displayWindow('images/04-12.jpg',500,471)"><IMG SRC="images/04-12t.jpg"></A></P>
+<H4 ALIGN="CENTER"><A NAME="Heading5"></A><FONT COLOR="#000077">4.1.2.1 Overflow</FONT></H4>
+<P>The addition of two numbers may result in an overflow. There are four cases for the generation of overflow in 2&#146;s complement addition:
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;Positive Number + Positive Number (result may be too large)
+<DD><B>&#149;</B>&nbsp;&nbsp;Positive Number + Negative Number
+<DD><B>&#149;</B>&nbsp;&nbsp;Negative Number + Positive Number
+<DD><B>&#149;</B>&nbsp;&nbsp;Negative Number + Negative Number (result may be too negative)
+</DL>
+<P>Overflow is not possible when adding numbers with opposite signs. Overflow occurs if two operands are positive and the sum is negative or two operands are negative and the sum is positive. This results in the boolean expression
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-07d.jpg"></P>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ch03/168-186.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="197-213.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

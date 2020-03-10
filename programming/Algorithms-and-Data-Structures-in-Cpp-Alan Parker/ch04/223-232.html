@@ -1,0 +1,336 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms for Computer Arithmetic</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=4//-->
+<!--PAGES=223-232//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="213-223.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="232-240.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<P>An example of booth recoding is illustrated in Table 4.5. In the worst case the Booth algorithm requires that <I>n</I> operations be performed to compute the product. This is illustrated in the last entry in Table 4.5. As a result the recoding operation for this operand has not simplified the problem. The average number of operations for a random operand by the algorithm is determined in Problem 4.10. Due to the average and worst-case complexity of the Booth algorithm a better solution is sought to find the product.</P>
+<P><A NAME="Fig43"></A><A HREF="javascript:displayWindow('images/04-43.jpg',400,686)"><IMG SRC="images/04-43t.jpg"></A></P>
+<P><A NAME="Fig44"></A><A HREF="javascript:displayWindow('images/04-44.jpg',500,281)"><IMG SRC="images/04-44t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-44.jpg',500,281)"><FONT COLOR="#000077"><B>Figure 4.14</B></FONT></A>&nbsp;&nbsp;Booth Algorithm</P>
+<TABLE WIDTH="100%" BORDER>
+<CAPTION ALIGN=LEFT><B>Table 4.5</B> Booth Recoding 8-Bit Example
+<TR>
+<TH WIDTH="40%" COLSPAN="8" ALIGN="LEFT">Original Number
+<TH WIDTH="60%" COLSPAN="8" ALIGN="LEFT">Booth Recode
+<TR>
+<TD WIDTH="6%" ALIGN="CENTER">0
+<TD WIDTH="6%" ALIGN="CENTER">0
+<TD WIDTH="6%" ALIGN="CENTER">0
+<TD WIDTH="7%" ALIGN="CENTER">0
+<TD WIDTH="7%" ALIGN="CENTER">0
+<TD WIDTH="6%" ALIGN="CENTER">1
+<TD WIDTH="6%" ALIGN="CENTER">1
+<TD WIDTH="6%" ALIGN="CENTER">1
+<TD WIDTH="4%" ALIGN="CENTER">0
+<TD WIDTH="7%" ALIGN="CENTER">0
+<TD WIDTH="4%" ALIGN="CENTER">0
+<TD WIDTH="7%" ALIGN="CENTER">0
+<TD WIDTH="7%" ALIGN="CENTER">1
+<TD WIDTH="7%" ALIGN="CENTER">0
+<TD WIDTH="7%" ALIGN="CENTER">0
+<TD WIDTH="7%" ALIGN="CENTER">-1
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">-1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">-1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">-1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">-1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">-1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">-1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">-1
+</TABLE>
+<P>
+</P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER><CAPTION ALIGN=LEFT><B>Table 4.6</B> Booth Recoding
+<TR>
+<TH WIDTH="40%" COLSPAN="2" ALIGN="LEFT">Bit Pattern
+<TH WIDTH="60%" ALIGN="LEFT">Operation
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD>product unchanged
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD>product += a
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD>product -=a
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD>product unchanged
+</TABLE>
+</CENTER>
+<P><B>Code List 4.11</B> Booth Algorithm</P>
+<P><A NAME="Fig45"></A><A HREF="javascript:displayWindow('images/04-45.jpg',500,80)"><IMG SRC="images/04-45t.jpg"></A></P>
+<P><A NAME="Fig46"></A><A HREF="javascript:displayWindow('images/04-46.jpg',500,826)"><IMG SRC="images/04-46t.jpg"></A></P>
+<P><A NAME="Fig47"></A><A HREF="javascript:displayWindow('images/04-47.jpg',500,478)"><IMG SRC="images/04-47t.jpg"></A></P>
+<P><B>Code List 4.12</B> Output of Program in Code List 4.11</P>
+<P><A NAME="Fig48"></A><A HREF="javascript:displayWindow('images/04-48.jpg',500,287)"><IMG SRC="images/04-48t.jpg"></A></P>
+<P><A NAME="Fig49"></A><A HREF="javascript:displayWindow('images/04-49.jpg',500,90)"><IMG SRC="images/04-49t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading11"></A><FONT COLOR="#000077">4.3.3 Bit-Pair Recoding</FONT></H4>
+<P>The Bit-Pair recoding technique is a technique which recodes the bits by considering three bits at a time. This technique will require <I>n</I>/2 additions or subtractions to compute the product. The recoding is illustrated in Table 4.7. The bits after recoding are looked at two at a time and the respective operations are performed. The higher order bit is weighted twice as much as the lower order bit. The C++ program to perform bit-pair recoding is illustrated in Code List 4.13. The output is shown in Code List 4.14.</P>
+<P>The bit pair recoding algorithm is shown in Figure 4.14. The algorithm is analogous to the Booth recoding except that it investigates three bits at a time while the Booth algorithm looks at two bits at a time. The bit-pair recoding algorithm needs to have access to A, -A, 2A, and -2A and as a result needs another additional 1-bit register to the left of P which is initialized to zero.</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 4.7</B> Bit-Pair Recoding
+<TR>
+<TH WIDTH="30%" COLSPAN="3">Bit<BR>Pattern
+<TH  COLSPAN="5" VALIGN="BOTTOM">Operation
+<TR>
+<TD ROWSPAN="8">
+<TABLE>
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+</TABLE>
+<TD ROWSPAN="8">
+<TABLE>
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+</TABLE>
+<TD ROWSPAN="8">
+<TABLE>
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+</TABLE>
+<TD ROWSPAN="8">
+<TABLE>
+<TR>
+<TD>no operation
+<TR>
+<TD>1&#215;<I>a</I>
+<TD COLSPAN="4"><I>prod = prod + a</I>;
+<TR>
+<TD>2&#215;<I>a-a</I>
+<TD WIDTH="2%">
+<TD WIDTH="7%">
+<TD COLSPAN="2"><I>prod = prod + a</I>
+<TR>
+<TD>2&#215;<I>a</I>
+<TD COLSPAN="4"><I>prod = prod</I> + 2<I>a</I>
+<TR>
+<TD>-2&#215;<I>a</I>
+<TD>
+<TD COLSPAN="4"><I>prod = prod</I> - 2<I>a</I>
+<TR>
+<TD>-2&#215;<I>a + a</I>
+<TD>
+<TD>
+<TD WIDTH="2%">
+<TD COLSPAN="4"><I>prod = prod - a</I>
+<TR>
+<TD>-1&#215;<I>a</I>
+<TD>
+<TD COLSPAN="4"><I>prod = prod - a</I>
+<TR>
+<TD>no operation
+</TABLE>
+</TABLE>
+<P><A NAME="Fig50"></A><A HREF="javascript:displayWindow('images/04-50.jpg',400,673)"><IMG SRC="images/04-50t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-50.jpg',400,673)"><FONT COLOR="#000077"><B>Figure 4.15</B></FONT></A>&nbsp;&nbsp;Bit Pair Recoding Algorithm</P>
+<P><B>Code List 4.13</B> Bit-Pair Recoding Program</P>
+<P><A NAME="Fig51"></A><A HREF="javascript:displayWindow('images/04-51.jpg',500,824)"><IMG SRC="images/04-51t.jpg"></A></P>
+<P><A NAME="Fig52"></A><A HREF="javascript:displayWindow('images/04-52.jpg',500,829)"><IMG SRC="images/04-52t.jpg"></A></P>
+<P><A NAME="Fig53"></A><A HREF="javascript:displayWindow('images/04-53.jpg',500,154)"><IMG SRC="images/04-53t.jpg"></A></P>
+<P><B>Code List 4.14</B> Output of Program in Code List 4.13</P>
+<P><A NAME="Fig54"></A><A HREF="javascript:displayWindow('images/04-54.jpg',170,504)"><IMG SRC="images/04-54t.jpg"></A><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="213-223.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="232-240.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

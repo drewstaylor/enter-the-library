@@ -1,0 +1,178 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Representations</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=1//-->
+<!--PAGES=031-036//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="025-031.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="../ch02/037-042.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H3><A NAME="Heading20"></A><FONT COLOR="#000077">1.4 Putting it All Together</FONT></H3>
+<P>This section presents an example combining ASCII, floating point, and integer types using one final C++ program. The program is shown in Code List 1.15 and the output is shown in Code List 1.16.
+</P>
+<P>The program utilizes a common memory location to store 8 bytes of data. The data will be treated as double, float, char, int, or long. A particular memory implementation for this program is shown in Figure 1.2.</P>
+<TABLE WIDTH="100%"><CAPTION ALIGN=LEFT><B>Table 1.10</B> DOS File Format
+</TABLE>
+<P><A NAME="Fig25"></A><A HREF="javascript:displayWindow('images/01-25.jpg',640,348)"><IMG SRC="images/01-25t.jpg"></A></P>
+<TABLE WIDTH="100%">
+<CAPTION ALIGN=LEFT><B>Table 1.11</B> Unix File Format (ISO)
+</TABLE>
+<P><A NAME="Fig26"></A><A HREF="javascript:displayWindow('images/01-26.jpg',600,330)"><IMG SRC="images/01-26t.jpg"></A></P>
+<P><A NAME="Fig27"></A><A HREF="javascript:displayWindow('images/01-27.jpg',399,240)"><IMG SRC="images/01-27t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/01-27.jpg',399,240)"><FONT COLOR="#000077"><B>Figure 1.2</B></FONT></A>&nbsp;&nbsp;Memory Implementation for Variable t</P>
+<P><A NAME="Fig28"></A><A HREF="javascript:displayWindow('images/01-28.jpg',398,255)"><IMG SRC="images/01-28t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/01-28.jpg',398,255)"><FONT COLOR="#000077"><B>Figure 1.3</B></FONT></A>&nbsp;&nbsp;Mapping of each Union Entry</P>
+<P>The organization of each union entry is shown in Figure 1.3. For the union declaration <I>t</I> there are only eight bytes stored in memory. These eight bytes can be interpreted as eight individual characters or two longs or two doubles, etc. For instance by looking at Table 1.8 one sees the value of <I>ch[0]</I> which is 0&#215;41 which is the letter A. Similarly, the value of <I>ch[1]</I> is 0&#215;42 which is the letter B. When interpreted as an integer the value of <I>i[0]</I> is 0&#215;41424344 which is in 2&#146;s complement format. Converting to decimal one has <I>i[0</I>] with the value of</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-53d.jpg"></P>
+<P>If one were to interpret 0&#215;41424344 as an IEEE 32-bit floating point number its value would be 12.1414. If one were to interpret 0&#215;45464748 as an IEEE 32-bit floating point number its value would be 3172.46.
+</P>
+<P><B>Code List 1.15</B> Data Representations</P>
+<P><A NAME="Fig29"></A><A HREF="javascript:displayWindow('images/01-29.jpg',500,741)"><IMG SRC="images/01-29t.jpg"></A></P>
+<P><B>Code List 1.16</B> Output of Program in Code List 1.15</P>
+<P><A NAME="Fig30"></A><A HREF="javascript:displayWindow('images/01-30.jpg',500,92)"><IMG SRC="images/01-30t.jpg"></A></P>
+<P><A NAME="Fig31"></A><A HREF="javascript:displayWindow('images/01-31.jpg',500,260)"><IMG SRC="images/01-31t.jpg"></A></P>
+<P>There are only one&#146;s and zero&#146;s stored in memory and collections of bits can be interpreted to be characters or integers or floating point numbers. To determine which kind of operations to perform the compiler must be able to determine the type of each operation.
+</P>
+<H3><A NAME="Heading21"></A><FONT COLOR="#000077">1.5 Problems</FONT></H3>
+<DL>
+<DD><B>(1.1)</B>&nbsp;&nbsp;Represent the following decimal numbers when possible in the format specified. 125, -1000, 267, 45, 0, 2500. Generate all answers in HEX!
+<DL>
+<BR>
+<DD><B>a)</B>&nbsp;&nbsp;8-bit 2&#146;s complement&#151;2 hex digits
+<DD><B>b)</B>&nbsp;&nbsp;16-bit 2&#146;s complement&#151;4 hex digits
+<DD><B>c)</B>&nbsp;&nbsp;32-bit 2&#146;s complement&#151;8 hex digits
+<DD><B>d)</B>&nbsp;&nbsp;64-bit 2&#146;s complement&#151;16 hex digits
+</DL>
+<BR>
+<DD><B>(1.2)</B>&nbsp;&nbsp;Convert the 12-bit 2&#146;s complement numbers that follows to 32-bit 2&#146;s complement numbers. Present your answer with 8 hex digits.
+<DL>
+<BR>
+<DD><B>a)</B>&nbsp;&nbsp;0xFA4
+<DD><B>b)</B>&nbsp;&nbsp;0x802
+<DD><B>c)</B>&nbsp;&nbsp;0x400
+<DD><B>d)</B>&nbsp;&nbsp;0x0FF
+</DL>
+<BR>
+<DD><B>(1.3)</B>&nbsp;&nbsp;Represent decimal 0.35 in IEEE 32-bit format and IEEE 64-bit format.
+<DD><B>(1.4)</B>&nbsp;&nbsp;Represent the decimal fraction 4/7 in binary.
+<DD><B>(1.5)</B>&nbsp;&nbsp;Represent the decimal fraction 0.3 in octal.
+<DD><B>(1.6)</B>&nbsp;&nbsp;Represent the decimal fraction 0.85 in hex.
+<DD><B>(1.7)</B>&nbsp;&nbsp;Calculate the floating point number represented by the IEEE 32-bit representation F8080000.
+<DD><B>(1.8)</B>&nbsp;&nbsp;Calculate the floating point number represented by the IEEE 64-bit representation F808000000000000.
+<DD><B>(1.9)</B>&nbsp;&nbsp;Write down the ASCII representation for the string &#147;Hello, how are you?&#148;. Strings in C++ are terminated with a 00 in hex (a null character). Terminate your string with the null character. Do not represent the quotes in your string. The quotes in C++ are used to indicate the enclosure is a string.
+<DD><B>(1.10)</B>&nbsp;&nbsp;Write a C++ program that outputs &#147;Hello World&#148;.
+<DD><B>(1.11)</B>&nbsp;&nbsp;In Code List 1.8 the twos complement of the largest representable negative integer, -32768, is the same number. Explain this result. Is the theory developed incorrect?
+<DD><B>(1.12)</B>&nbsp;&nbsp;In Section 1.1.4 the issue of conversion is assessed for signed-magnitude, unsigned, and 2&#146;s complement numbers. Is there a simple algorithm to convert an IEEE 32-bit floating point number to IEEE 64-bit floating point number?
+</DL>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="025-031.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="../ch02/037-042.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

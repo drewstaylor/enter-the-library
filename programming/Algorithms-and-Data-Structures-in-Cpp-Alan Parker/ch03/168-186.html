@@ -1,0 +1,225 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=168-186//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="165-168.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="../ch04/187-197.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<P>The program starts with the array and perturbs it by replacing it with a neighboring array and evaluating the cost of the string. The <I>calculate_cost()</I> function calculates the cost of a given array.</P>
+<P>To calculate a neighboring array the algorithm selects a random strategy. This is a required aspect to simulated annealing. The neighboring strategy must be random. The strategy is described in Table 3.3.</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 3.3</B> Neighbor Solution Strategy
+<TR>
+<TH WIDTH="40%">Operation
+<TH WIDTH="60%">Description
+<TR>
+<TD VALIGN="TOP" ALIGN="CENTER"><I>A_op_to_op_A()</I>
+<TD>Swap an operation with an element. For instance replace 10 + with + 10.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP"><I>op_A_to_A_op()</I>
+<TD>Swap an operation with an element. For instance replace + 10 with 10 +.
+<TR>
+<TD VALIGN="TOP" ALIGN="CENTER"><I>AB_to_BA</I>
+<TD>Exchange two elements. For instance replace 4 5 + to 5 4 +.
+<TR>
+<TD VALIGN="TOP" ALIGN="CENTER"><I>switch_op()</I>
+<TD>switch two operators in the sequence. For instance replace 4 5 * + with 4 5 + *.
+<TR>
+<TD VALIGN="TOP" ALIGN="CENTER"><I>ABC_op_to_AB_op_C()</I>
+<TD>replace a sequence of three elements followed by an operation to two elements followed by the operation followed by the last element. For instance replace 2 4 3 5 + 6 with 2 4 3 + 5 6.<BR>Notice this is similar to A_op_to_op_A().
+</TABLE>
+<P>There are certain representations which are not valid that are handled by the program. For instance
+</P>
+<P ALIGN="CENTER">3 4 * 5 +</P>
+<P>cannot be replaced with</P>
+<P ALIGN="CENTER">3 * 4 5 +</P>
+<P>because you need two elements for each operation you run into. In general at any point in the array the number of elements to that point must exceed the number of operations to that point by 1. The program ensures that only valid perturbations are considered.</P>
+<P>The output of the program is shown in Code List 3.37. The program found an optimal solution. Since the program is a random program it may not find the optimal solution each time. The program also doesn&#146;t output the square number but rather the size of the size. This increases the readability of the solution. The solution to the problem is not unique.</P>
+<P><B>Code List 3.36</B> Simulated Annealing</P>
+<P><A NAME="Fig85"></A><A HREF="javascript:displayWindow('images/03-85.jpg',400,446)"><IMG SRC="images/03-85t.jpg"></A></P>
+<P><A NAME="Fig86"></A><A HREF="javascript:displayWindow('images/03-86.jpg',450,79)"><IMG SRC="images/03-86t.jpg"></A></P>
+<P><A NAME="Fig87"></A><A HREF="javascript:displayWindow('images/03-87.jpg',450,173)"><IMG SRC="images/03-87t.jpg"></A></P>
+<P><A NAME="Fig88"></A><A HREF="javascript:displayWindow('images/03-88.jpg',450,359)"><IMG SRC="images/03-88t.jpg"></A></P>
+<P><A NAME="Fig89"></A><A HREF="javascript:displayWindow('images/03-89.jpg',485,838)"><IMG SRC="images/03-89t.jpg"></A></P>
+<P><A NAME="Fig90"></A><A HREF="javascript:displayWindow('images/03-90.jpg',450,781)"><IMG SRC="images/03-90t.jpg"></A></P>
+<P><A NAME="Fig91"></A><A HREF="javascript:displayWindow('images/03-91.jpg',450,769)"><IMG SRC="images/03-91t.jpg"></A></P>
+<P><A NAME="Fig92"></A><A HREF="javascript:displayWindow('images/03-92.jpg',495,856)"><IMG SRC="images/03-92t.jpg"></A></P>
+<P><A NAME="Fig93"></A><A HREF="javascript:displayWindow('images/03-93.jpg',450,773)"><IMG SRC="images/03-93t.jpg"></A></P>
+<P><A NAME="Fig94"></A><A HREF="javascript:displayWindow('images/03-94.jpg',485,840)"><IMG SRC="images/03-94t.jpg"></A></P>
+<P><A NAME="Fig95"></A><A HREF="javascript:displayWindow('images/03-95.jpg',500,865)"><IMG SRC="images/03-95t.jpg"></A></P>
+<P><A NAME="Fig96"></A><A HREF="javascript:displayWindow('images/03-96.jpg',485,839)"><IMG SRC="images/03-96t.jpg"></A></P>
+<P><A NAME="Fig97"></A><A HREF="javascript:displayWindow('images/03-97.jpg',450,779)"><IMG SRC="images/03-97t.jpg"></A></P>
+<P><A NAME="Fig98"></A><A HREF="javascript:displayWindow('images/03-98.jpg',500,836)"><IMG SRC="images/03-98t.jpg"></A></P>
+<P><A NAME="Fig99"></A><A HREF="javascript:displayWindow('images/03-99.jpg',400,547)"><IMG SRC="images/03-99t.jpg"></A></P>
+<P><B>Code List 3.37</B> Output of Program in Code LIST 3.36</P>
+<P><A NAME="Fig100"></A><A HREF="javascript:displayWindow('images/03-100.jpg',350,66)"><IMG SRC="images/03-100t.jpg"></A></P>
+<P><A NAME="Fig101"></A><A HREF="javascript:displayWindow('images/03-101.jpg',400,486)"><IMG SRC="images/03-101t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-101.jpg',400,486)"><FONT COLOR="#000077"><B>Figure 3.10</B></FONT></A>&nbsp;&nbsp;Generic Simulated Annealing Algorithm</P>
+<P><A NAME="Fig102"></A><A HREF="javascript:displayWindow('images/03-102.jpg',385,397)"><IMG SRC="images/03-102t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-102.jpg',385,397)"><FONT COLOR="#000077"><B>Figure 3.11</B></FONT></A>&nbsp;&nbsp;A Given Instance of the Square Packing Problem</P>
+<P><A NAME="Fig103"></A><A HREF="javascript:displayWindow('images/03-103.jpg',400,348)"><IMG SRC="images/03-103t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-103.jpg',400,348)"><FONT COLOR="#000077"><B>Figure 3.12</B></FONT></A>&nbsp;&nbsp;Hill Climbing Analogy</P>
+<H3><A NAME="Heading25"></A><FONT COLOR="#000077">3.12 Problems</FONT></H3>
+<DL>
+<DD><B>(3.1)</B>&nbsp;&nbsp;[Pointers, Dynamic Memory Allocation] Write a C++ program to invert a 30 matrix with floating point elements. Your program should only declare triple pointers in <I>main()</I>. Every declaration in <I>main()</I> must be of the form: type * * * variable. This also applies to any loop variables needed. No other variables outside of <I>main()</I> should be declared (you can use classes outside of <I>main()</I>). Any memory allocated with <I>new</I> should be removed with <I>delete</I>. Input the matrix using the <I>cin</I> operator and output the results using the <I>cout</I> operator. If the matrix is not invertible you should print &#147;Matrix not Invertible&#148;.
+<DD><B>(3.2)</B>&nbsp;&nbsp;[Dynamic Memory Allocation, FIFO] Write a C++ program to implement a FIFO stack which allocates space dynamically. The size of the stack should increase dynamically (via <I>new</I>) with each push operation and decrease (via <I>delete</I>) with each pop operation. Support an operation to print the data presently on the stack.
+<DD><B>(3.3)</B>&nbsp;&nbsp;[Linked Lists] Write a C++ program to maintain a linked lists of strings. The program should support an operation to count the number of entries in the linked list which match a specific string.
+<DD><B>(3.4)</B>&nbsp;&nbsp;[Linked Lists, Sorting] Write an operation for the program in Problem 3.3 which will sort the linked list in alphabetical order.
+<DD><B>(3.5)</B>&nbsp;&nbsp;[Linked Lists] Write a general linked list C++ program which supports operations to
+<DL>
+<BR>
+<DD><B>&#149;</B>&nbsp;&nbsp;Combine two lists
+<DD><B>&#149;</B>&nbsp;&nbsp;Copy a list.
+<DD><B>&#149;</B>&nbsp;&nbsp;Split a list at a specific location into two lists
+<P>Make sure you handle all the special cases associated with the start and end of a list.
+</DL>
+<BR>
+<DD><B>(3.6)</B>&nbsp;&nbsp;[Bounding] Modify the coffee house game program to find a solution where the triangle dimension is 15. The program should use a bounding technique which results in unique intermediate peg locations at each iteration.
+<DD><B>(3.7)</B>&nbsp;&nbsp;[Merging Sorted Linked Lists] Write a C++ program to merge two separate sorted lists into one sorted list. Calculate the order of your algorithm in terms of the size of the input list, <I>n</I>.
+<DD><B>(3.8)</B>&nbsp;&nbsp;[Binary Trees] Write a C++ program which is passed a pointer to a binary tree and prints out the keys traversed via <I>preorder</I>, <I>postorder</I> and <I>inorder</I> strategies. Assume your tree class is defined as
+<!-- CODE SNIP //-->
+<PRE>
+<I>class tree</I>
+<I>{</I>
+<I>public:</I>
+<I>int key;</I>
+<I>tree * left;</I>
+<I>tree * right;</I>
+<I>}</I>
+</PRE>
+<!-- END CODE SNIP //-->
+<DD><B>(3.9)</B>&nbsp;&nbsp;[Balanced Trees] Write a C++ program which inserts an element anywhere into a balanced tree and results in a tree structure which is still balanced. Assume your tree class is the one defined in Problem 3.8.
+<DD><B>(3.10)</B>&nbsp;&nbsp;[Balanced Trees] Write a C++ program which deletes an element with a specific key from a balanced tree and results in a tree structure which is still balanced. Assume your tree class is the one defined in Problem 3.8.
+<DD><B>(3.11)</B>&nbsp;&nbsp;[Balanced Trees] Write a C++ program which maintains a sorted key list in a balanced binary tree. You should Support insertion and deletion of elements in the tree. For this problem the definition of sorted means that at each node in the tree every element in the left subtree is less than or equal to the root key of the subtree and every element in the right subtree is greater than or equal to the root key of the subtree. After insertions and deletions the tree should be balanced. Assume your tree class is the one defined in Problem 3.8.
+<DD><B>(3.12)</B>&nbsp;&nbsp;[Order] Calculate the number of operations in terms of the size of the tree for the performance of the algorithm in Problem 3.10.
+<DD><B>(3.13)</B>&nbsp;&nbsp;[Hashing &#151; Difficult] Consider a linked list structure which supports the concept of an element with a number of friends:
+<!-- CODE SNIP //-->
+<PRE>
+<I>class element</I>
+<I>{</I>
+<I>public:</I>
+<I>char data[100];</I>
+<I>element * f1;</I>
+<I>element * f2;</I>
+<I>element * f3;</I>
+<I>}</I>
+</PRE>
+<!-- END CODE SNIP //-->
+<P>Consider a number of strings, say 2000, to be placed in classes of this nature. Develop a hashing algorithm which will use the fact that an element has three friends to determine the location of the string given only a pointer to a root element. Support the hashing functions to search and insert strings into the table. Try to characterize your data which would make your hashing algorithm optimal.
+</P>
+<DD><B>(3.14)</B>&nbsp;&nbsp;[QuickSort] Investigate different key selection strategies for the quicksort algorithm. Test out at least five different strategies and use large lists of random data as your performance benchmark. Compare each strategy and rate the strategies in terms of their performance.
+<DD><B>(3.15)</B>&nbsp;&nbsp;[Simulated Annealing] Modify Code List 3.36 to use simulated annealing to pack a number of rectangles into a rectangle with smallest area. Support the option to pack rectangles into a square with smallest area.
+</DL>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="165-168.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="../ch04/187-197.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

@@ -1,0 +1,220 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=2//-->
+<!--PAGES=053-066//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="051-053.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="066-074.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<P>Hence, in the program, all the functions are available to each instance of the rectangle created. This availability arises because the functions are declared as public in each class and each derived class is also declared public. Without the public declarations C++ will hide the functions of the base class from the derived class. Similarly, the data the functions access are declared as protected which makes the data visible to the functions of the derived classes.
+</P>
+<P>The first peg in the program is created with rectangle <I>peg(80,0,40,180)</I>. The gray scale for this peg is changed from the default of 0.8 to 0.6 with <I>peg.set_gray(0.6)</I>. The peg is drawn to the file with <I>peg.draw(file)</I>. This draw operation results in the following lines placed in the file:</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;newpath
+<DD><B>&#149;</B>&nbsp;&nbsp;1 setlinewidth
+<DD><B>&#149;</B>&nbsp;&nbsp;0.6 setgray
+<DD><B>&#149;</B>&nbsp;&nbsp;80 0 moveto
+<DD><B>&#149;</B>&nbsp;&nbsp;0 180 rlineto
+<DD><B>&#149;</B>&nbsp;&nbsp;40 0 rlineto
+<DD><B>&#149;</B>&nbsp;&nbsp;0 - 180 rlineto
+<DD><B>&#149;</B>&nbsp;&nbsp;fill
+</DL>
+<P>The PostScript&#174; action taken by the operation is summarized in Figure 2.3. Note that the rectangle in the figure is not drawn to scale. The drawing of the base and the discs follows in an analogous fashion.
+</P>
+<P><B>Code List 2.6</B> Program to Display Tower of Hanoi</P>
+<P><A NAME="Fig13"></A><A HREF="javascript:displayWindow('images/02-13.jpg',500,422)"><IMG SRC="images/02-13t.jpg"></A></P>
+<P><A NAME="Fig14"></A><A HREF="javascript:displayWindow('images/02-14.jpg',394,568)"><IMG SRC="images/02-14t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-14.jpg',394,568)"><FONT COLOR="#000077"><B>Figure 2.2</B></FONT></A>&nbsp;&nbsp;Class Structure</P>
+<P><A NAME="Fig15"></A><A HREF="javascript:displayWindow('images/02-15.jpg',500,788)"><IMG SRC="images/02-15t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-15.jpg',500,788)"><FONT COLOR="#000077"><B>Figure 2.3</B></FONT></A>&nbsp;&nbsp;PostScript Rendering</P>
+<P><A NAME="Fig16"></A><A HREF="javascript:displayWindow('images/02-16.jpg',439,759)"><IMG SRC="images/02-16t.jpg"></A></P>
+<P><A NAME="Fig17"></A><A HREF="javascript:displayWindow('images/02-17.jpg',400,694)"><IMG SRC="images/02-17t.jpg"></A></P>
+<P><A NAME="Fig18"></A><A HREF="javascript:displayWindow('images/02-18.jpg',400,192)"><IMG SRC="images/02-18t.jpg"></A></P>
+<P><B>Code List 2.7</B> File Created by Program in Code List 2.6</P>
+<P><A NAME="Fig19"></A><A HREF="javascript:displayWindow('images/02-19.jpg',200,521)"><IMG SRC="images/02-19t.jpg"></A></P>
+<P><A NAME="Fig20"></A><A HREF="javascript:displayWindow('images/02-20.jpg',195,789)"><IMG SRC="images/02-20t.jpg"></A></P>
+<P><A NAME="Fig21"></A><A HREF="javascript:displayWindow('images/02-21.jpg',247,398)"><IMG SRC="images/02-21t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading10"></A><FONT COLOR="#000077">2.3.5 Boolean Function Implementation</FONT></H4>
+<P>This section presents a recursive solution to providing an upper bound to the number of 2-input NAND gates required to implement a boolean function of <I>n</I> boolean variables. The recursion is obtained by noticing that a function, <I>f</I>(<I>x</I><SUB><SMALL>1</SMALL></SUB>,<I>x</I><SUB><SMALL>2</SMALL></SUB>,...,<I>x<SUB><SMALL>n</SMALL></SUB></I>) of <I>n</I> variables can be written as</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-37d.jpg"></P>
+<P>for some functions <I>g</I> and <I>h</I> of <I>n</I> - 1 boolean variables. The implementation is illustrated in Figure 2.4.</P>
+<P>The number of NAND gates thus required as a function of <I>n</I>, <I>C</I> (<I>n</I>), can be written recursively as:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-38d.jpg"></P>
+<P>The solution to the simple recurrence relation yields, assuming a general form of <I>C</I>(<I>n</I>) = &#955;<I><SUP><SMALL>n</SMALL></SUP></I> followed by a constant to obtain the particular solution</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-39d.jpg"></P>
+<P>Applying the boundary condition <I>C</I> (1) = 1 and <I>C</I> (2) = 6 one obtains</P>
+<P><A NAME="Fig22"></A><A HREF="javascript:displayWindow('images/02-22.jpg',495,281)"><IMG SRC="images/02-22t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-22.jpg',495,281)"><FONT COLOR="#000077"><B>Figure 2.4</B></FONT></A>&nbsp;&nbsp;Recursive Model for Boolean Function Evaluation</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-40d.jpg"></P>
+<H3><A NAME="Heading11"></A><FONT COLOR="#000077">2.4 Graphs and Trees</FONT></H3>
+<P>This section presents some fundamental definitions and properties of graphs.
+</P>
+<P><B>Definition 2.7</B></P>
+<P>A <I>graph</I> is a collection of vertices, <I>V</I>, and associated edges, <I>E</I>, given by the pair</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-41d.jpg"></P>
+<IMG SRC="images/02-07i.jpg"><P>A simple graph is shown in Figure 2.5.
+</P>
+<P>In the figure the graph shown has</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-42d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/02-43d.jpg"></P>
+<P><A NAME="Fig23"></A><A HREF="javascript:displayWindow('images/02-23.jpg',442,206)"><IMG SRC="images/02-23t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-23.jpg',442,206)"><FONT COLOR="#000077"><B>Figure 2.5</B></FONT></A>&nbsp;&nbsp;A Simple Graph</P>
+<P><B>Definition 2.8</B></P>
+<P>The <I>size</I> of a graph is the number of edges in the graph</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-44d.jpg"></P>
+<IMG SRC="images/02-08i.jpg"><P><B>Definition 2.9</B></P>
+<P>The <I>order</I> of a graph <I>G</I> is the number of vertices in a graph</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-45d.jpg"></P>
+<IMG SRC="images/02-09i.jpg"><P>For the graph in Figure 2.5 one has
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-46d.jpg"></P>
+<P><B>Definition 2.10</B></P>
+<P>The <I>degree</I> of a vertex (also referred to as a node), in a graph, is the number of edges containing the vertex.</P>
+<IMG SRC="images/02-10i.jpg"><P><B>Definition 2.11</B></P>
+<P>In a graph, <I>G</I> = (<I>V</I>, <I>E</I>), two vertices, <I>v</I><SUB><SMALL>1</SMALL></SUB> and <I>v</I><SUB><SMALL>2</SMALL></SUB>, are <I>neighbors</I> if</P>
+<P>(<I>v</I><SUB><SMALL>1</SMALL></SUB>,<I>v</I><SUB><SMALL>2</SMALL></SUB>) &#8712; <I>E</I> or (<I>v</I><SUB><SMALL>1</SMALL></SUB>,<I>v</I><SUB><SMALL>2</SMALL></SUB>) &#8712; <I>E</I></P>
+<IMG SRC="images/02-11i.jpg"><P>In the graph in Figure 2.5 <I>v</I><SUB><SMALL>1</SMALL></SUB> and <I>v</I><SUB><SMALL>2</SMALL></SUB> are neighbors but <I>v</I><SUB><SMALL>1</SMALL></SUB> and <I>v</I><SUB><SMALL>3</SMALL></SUB> are not neighbors.</P>
+<P><B>Definition 2.12</B></P>
+<P>If G = (<I>V</I><SUB><SMALL>1</SMALL></SUB>, <I>E</I><SUB><SMALL>1</SMALL></SUB>) is a graph, then <I>H</I> = (<I>V</I><SUB><SMALL>2</SMALL></SUB>, <I>E</I><SUB><SMALL>2</SMALL></SUB>) is a <I>subgraph</I> of <I>G</I> written <IMG SRC="images/02-12i.jpg"> if <IMG SRC="images/02-13i.jpg"> and <IMG SRC="images/02-14i.jpg">.</P>
+<IMG SRC="images/02-15i.jpg"><P>A subgraph of the graph in Figure 2.5 is shown in Figure 2.6.
+</P>
+<P><A NAME="Fig24"></A><A HREF="javascript:displayWindow('images/02-24.jpg',448,204)"><IMG SRC="images/02-24t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-24.jpg',448,204)"><FONT COLOR="#000077"><B>Figure 2.6</B></FONT></A>&nbsp;&nbsp;Subgraph of Graph in Figure 2.5</P>
+<P>The subgraph is generated from the original graph by the deletion of a single edge (<I>v</I><SUB><SMALL>2</SMALL></SUB>, <I>v</I><SUB><SMALL>3</SMALL></SUB>).</P>
+<P><B>Definition 2.13</B></P>
+<P>A <I>path</I> is a collection of neighboring vertices.</P>
+<IMG SRC="images/02-16i.jpg"><P>For the graph in Figure 2.5 a valid path is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-47d.jpg"></P>
+<P><B>Definition 2.14</B></P>
+<P>A graph is <I>connected</I> if for each vertex pair (<I>v<SUB><SMALL>i</SMALL></SUB></I>,<I>v<SUB><SMALL>j</SMALL></SUB></I>) there is a path from <I>v<SUB><SMALL>i</SMALL></SUB></I> to <I>v<SUB><SMALL>j</SMALL></SUB></I>.</P>
+<IMG SRC="images/02-17i.jpg"><P>The graph in Figure 2.5 is connected while the graph in Figure 2.6 is disconnected.
+</P>
+<P><B>Definition 2.15</B></P>
+<P>A <I>directed graph</I> is a graph with vertices and edges where each edge has a specific direction relative to each of the vertices.</P>
+<IMG SRC="images/02-18i.jpg"><P>An example of a directed graph is shown in Figure 2.7.
+</P>
+<P><A NAME="Fig25"></A><A HREF="javascript:displayWindow('images/02-25.jpg',442,216)"><IMG SRC="images/02-25t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-25.jpg',442,216)"><FONT COLOR="#000077"><B>Figure 2.7</B></FONT></A>&nbsp;&nbsp;A Directed Graph</P>
+<P>The graph in the figure has <I>G</I> = (<I>V</I>, <I>E</I>) with</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-48d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/02-49d.jpg"></P>
+<P>In a directed graph the edge (<I>v<SUB><SMALL>i</SMALL></SUB></I>, <I>v<SUB><SMALL>j</SMALL></SUB></I>) is not the same as the edge (<I>v<SUB><SMALL>j</SMALL></SUB></I>, <I>v<SUB><SMALL>i</SMALL></SUB></I>) when <I>i</I> &#8800; <I>j</I>. The same terminology <I>G</I> = (<I>V</I>, <I>E</I>) will be used for directed and undirected graphs; however, it will always be stated whether the graph is to be interpreted as a directed or undirected graph.</P>
+<P>The definition of path applies to a directed graph also. As shown in Figure 2.8 there is a path from <I>v</I><SUB><SMALL>1</SMALL></SUB> to <I>v</I><SUB><SMALL>4</SMALL></SUB> but there is no path from <I>v</I><SUB><SMALL>2</SMALL></SUB> to <I>v</I><SUB><SMALL>5</SMALL></SUB>.</P>
+<P><A NAME="Fig26"></A><A HREF="javascript:displayWindow('images/02-26.jpg',439,197)"><IMG SRC="images/02-26t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-26.jpg',439,197)"><FONT COLOR="#000077"><B>Figure 2.8</B></FONT></A>&nbsp;&nbsp;Paths in a Directed Graph</P>
+<P>A number of paths exist from <I>v</I><SUB><SMALL>1</SMALL></SUB> to <I>v</I><SUB><SMALL>4</SMALL></SUB>, namely</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-50d.jpg"></P>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="051-053.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="066-074.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

@@ -1,0 +1,214 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=2//-->
+<!--PAGES=081-097//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="074-080.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="097-100.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="CENTER"><A NAME="Heading25"></A><FONT COLOR="#000077">2.6.3.2 Least-Weighted Path-Length</FONT></H4>
+<P><B>Definition 2.24</B></P>
+<P>The <I>least-weighted path-length</I> graph is the directed graph where the weights of each edge correspond to the shortest path-length between the nodes.</P>
+<IMG SRC="images/02-28i.jpg"><P>The associated weighted matrix consists of the path-length between the nodes. The path-length between a processor and itself is defined to be zero. The associated weighted matrix for an 8-node hypercube with all functional nodes is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-77d.jpg"></P>
+<P><I>a<SUB><SMALL>ij</SMALL></SUB></I> is the distance between nodes <I>i</I> and <I>j</I>. If nodes <I>i</I> and <I>j</I> are not connected via any path then <I>a<SUB><SMALL>ij</SMALL></SUB></I> = &#8734;.</P>
+<H4 ALIGN="CENTER"><A NAME="Heading26"></A><FONT COLOR="#000077">2.6.3.3 Hypercubes with Failed Nodes</FONT></H4>
+<P>This section introduces the scenario of failed processors. It is assumed if a processors or node fails then all edges incident on the processor are removed from the graph. The remaining processors will attempt to function as a working subset while still using the message passing algorithms of the previous sections. This will lead to a characterization of subcubes of a hypercube which support message passing. Consider the scenario illustrated in Figure 2.20. In the figure there are three scenarios with failed processors.
+</P>
+<P>In Figure 2.20b a single processor has failed. The remaining processors can communicate with each other using a simple modification of the algorithm which traverses the first existing edge encountered.</P>
+<P>Similarly, in Figure 2.20c communication is still supported via the modified algorithm. This is illustrated in Table 2.6. Notice that in Table 2.6 the next processor after 000 was 001. For the topology in the figure the processor did not exist so the algorithm proceeded to the next bit from right to left which gave 010. Since this processor existed the message was sent along the path.</P>
+<P><A NAME="Fig41"></A><A HREF="javascript:displayWindow('images/02-41.jpg',440,516)"><IMG SRC="images/02-41t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-41.jpg',440,516)"><FONT COLOR="#000077"><B>Figure 2.20</B></FONT></A>&nbsp;&nbsp;Hypercube with Failed Nodes</P>
+<TABLE WIDTH="100%" BORDER>
+<CAPTION ALIGN=LEFT><B>Table 2.6</B> Calculating the Message Path &#151; Right to Left for Figure 2.20c
+<TR>
+<TH WIDTH="25%" VALIGN="BOTTOM">Processor Source
+<TH WIDTH="25%">Processor Destination
+<TH WIDTH="25%" VALIGN="BOTTOM">Exclusive-Or
+<TH WIDTH="25%" VALIGN="BOTTOM">Next Processor
+<TR>
+<TD ALIGN="CENTER">000
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">010
+<TR>
+<TD ALIGN="CENTER">010
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">101
+<TD ALIGN="CENTER">011
+<TR>
+<TD ALIGN="CENTER">011
+<TD ALIGN="CENTER">111
+<TD ALIGN="CENTER">100
+<TD ALIGN="CENTER">111
+</TABLE>
+<P>The scenario in Figure 2.20d is quite different. This is illustrated in Table 2.7.
+</P>
+<P>In this case, the first processor considered to is 001 but it is not functional. Processor 010 is considered next but it is not functional. For this case the modified algorithm has failed to route the message from processor 000 to 011. There exists a path from 000 to 011 one of which is</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-78d.jpg"></P>
+<P>Notice that the distance between the processors has increased as a result of the two processors failures. This attribute is the motivation for the characterization of efficient hypercubes in the next section.
+</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 2.7</B> Calculating the Message Path &#151; Right to Left for Figure 2.20d
+<TR>
+<TH WIDTH="25%" VALIGN="BOTTOM">Processor Source
+<TH WIDTH="25%">Processor Destination
+<TH WIDTH="25%" VALIGN="BOTTOM">Exclusive-Or
+<TH WIDTH="25%" VALIGN="BOTTOM">Next Processor
+<TR>
+<TD ALIGN="CENTER">000
+<TD ALIGN="CENTER">011
+<TD ALIGN="CENTER">011
+<TD ALIGN="CENTER">?
+</TABLE>
+<H4 ALIGN="CENTER"><A NAME="Heading27"></A><FONT COLOR="#000077">2.6.3.4 Efficiency</FONT></H4>
+<P><B>Definition 2.25</B></P>
+<P>A subcube of a hypercube is <I>efficient</I> if the distance between any two functional processors in the subcube is the same as the distance in the hypercube.</P>
+<IMG SRC="images/02-29i.jpg"><P>A subcube with this property is referred to as an efficient hypercube. This is equivalent to saying that if <I>A</I> represents the least-weighted path-length matrix of the hypercube and <I>B</I> represents the least-weighted path-length matrix of the efficient subcube then if <I>i</I> and <I>j</I> are functional processors in the subcube then <I>b<SUB><SMALL>ij</SMALL></SUB></I> = <I>a<SUB><SMALL>ij</SMALL></SUB></I>. This elegant result is proven in Problem 2.20. The least-weighted path-length matrix for efficient hypercubes place &#8734; in column <I>i</I> and row i if processor <I>i</I> is failed.</P>
+<P>The cubes in Figure 2.20b and c are efficient while the cube in Figure 2.20d is not efficient. If the cube is efficient then the modified message passing algorithm in the previous section works. The next section implements the procedure for hypercubes with failed nodes.</P>
+<H4 ALIGN="CENTER"><A NAME="Heading28"></A><FONT COLOR="#000077">2.6.3.5 Message Passing in Efficient Hypercubes</FONT></H4>
+<P>The code to simulate message passing in an efficient hypercube is shown in Code List 2.8. The output of the program is shown in Code List 2.9. The path for communicating from 0 to 63 is given as 0-1-3-7-15-31-63 as shown in Code List 2.9. Subsequently processor 31 is deactivated and a new path is calculated as 0-1-3-7-15-47-63 which avoids processor 31 and traverses remaining edges in the cube. The program continues to remove nodes from the cube and still calculates the path. All the subcubes created result in an efficient subcube.
+</P>
+<P><B>Code List 2.8</B> Message Passing in an Efficient Hypercube</P>
+<P><A NAME="Fig42"></A><A HREF="javascript:displayWindow('images/02-42.jpg',425,784)"><IMG SRC="images/02-42t.jpg"></A></P>
+<P><A NAME="Fig43"></A><A HREF="javascript:displayWindow('images/02-43.jpg',425,783)"><IMG SRC="images/02-43t.jpg"></A></P>
+<P><A NAME="Fig44"></A><A HREF="javascript:displayWindow('images/02-44.jpg',457,412)"><IMG SRC="images/02-44t.jpg"></A></P>
+<P><B>Code List 2.9</B> Output of Program in Code List 2.8</P>
+<P><A NAME="Fig45"></A><A HREF="javascript:displayWindow('images/02-45.jpg',447,325)"><IMG SRC="images/02-45t.jpg"></A></P>
+<P><A NAME="Fig46"></A><A HREF="javascript:displayWindow('images/02-46.jpg',448,211)"><IMG SRC="images/02-46t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading29"></A><FONT COLOR="#000077">2.6.4 Visualizing the Hypercube: A C++ Example</FONT></H4>
+<P>This section presents a C++ program to visualize the hypercube. A program to visualize the cube is shown in Code List 2.10. The program was used to generate the PostScript image in Figure 2.21 for a 64 node hypercube. The program uses a class structure similar to the program to visualize the Tower of Hanoi in Code List 2.6.
+</P>
+<P>The program introduces a new PostScript construct to draw and fill a circle</P>
+<P ALIGN="CENTER"><I>x y radius angle1 angle2 arc</I></P>
+<P>The program uses the <I>scale</I> operator to force the image to fill a specified area. To illustrate this, notice that the program generated both Figure 2.21 and Figure 2.22. The nodes in Figure 2.22 are enlarged via the scale operator while the nodes in Figure 2.21 are reduced accordingly.</P>
+<P>The strategy in drawing the hypercube is such that only at most two processors appear in any fixed horizontal or vertical line. The cube is grown by replications to the right and downward.</P>
+<P><A NAME="Fig47"></A><A HREF="javascript:displayWindow('images/02-47.jpg',429,423)"><IMG SRC="images/02-47t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-47.jpg',429,423)"><FONT COLOR="#000077"><B>Figure 2.21</B></FONT></A>&nbsp;&nbsp;A 64-Node Hypercube</P>
+<P><B>Code List 2.10</B> C++ Code to Visualize the Hypercube</P>
+<P><A NAME="Fig48"></A><A HREF="javascript:displayWindow('images/02-48.jpg',448,198)"><IMG SRC="images/02-48t.jpg"></A></P>
+<P><A NAME="Fig49"></A><A HREF="javascript:displayWindow('images/02-49.jpg',427,406)"><IMG SRC="images/02-49t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-49.jpg',427,406)"><FONT COLOR="#000077"><B>Figure 2.22</B></FONT></A>&nbsp;&nbsp;An 8-Node Hypercube</P>
+<P><A NAME="Fig50"></A><A HREF="javascript:displayWindow('images/02-50.jpg',450,295)"><IMG SRC="images/02-50t.jpg"></A></P>
+<P><A NAME="Fig51"></A><A HREF="javascript:displayWindow('images/02-51.jpg',427,760)"><IMG SRC="images/02-51t.jpg"></A></P>
+<P><A NAME="Fig52"></A><A HREF="javascript:displayWindow('images/02-52.jpg',425,757)"><IMG SRC="images/02-52t.jpg"></A></P>
+<P><A NAME="Fig53"></A><A HREF="javascript:displayWindow('images/02-53.jpg',447,796)"><IMG SRC="images/02-53t.jpg"></A></P>
+<P><A NAME="Fig54"></A><A HREF="javascript:displayWindow('images/02-54.jpg',424,755)"><IMG SRC="images/02-54t.jpg"></A></P>
+<P><A NAME="Fig55"></A><A HREF="javascript:displayWindow('images/02-55.jpg',445,530)"><IMG SRC="images/02-55t.jpg"></A></P>
+<P><B>Code List 2.11</B> Output of Program in Code List 2.10</P>
+<P><A NAME="Fig56"></A><A HREF="javascript:displayWindow('images/02-56.jpg',228,192)"><IMG SRC="images/02-56t.jpg"></A></P>
+<P><A NAME="Fig57"></A><A HREF="javascript:displayWindow('images/02-57.jpg',237,810)"><IMG SRC="images/02-57t.jpg"></A></P>
+<P><A NAME="Fig58"></A><A HREF="javascript:displayWindow('images/02-58.jpg',237,807)"><IMG SRC="images/02-58t.jpg"></A></P>
+<P><A NAME="Fig59"></A><A HREF="javascript:displayWindow('images/02-59.jpg',238,468)"><IMG SRC="images/02-59t.jpg"></A><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="074-080.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="097-100.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

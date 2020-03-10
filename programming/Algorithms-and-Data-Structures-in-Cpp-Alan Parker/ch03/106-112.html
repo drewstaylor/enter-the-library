@@ -1,0 +1,171 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=106-112//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="101-106.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="112-126.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="LEFT"><A NAME="Heading3"></A><FONT COLOR="#000077">3.1.1 A Double Pointer Example</FONT></H4>
+<P>Consider the simple program which prints out the runtime, arguments provided by the user. The program source is shown in Code List 3.4. The output of the program is shown in Code List 3.5. The program is executed by typing in the command
+</P>
+<DL>
+<DD>ARGV1 arg1 arg2
+</DL>
+<P><B>Code List 3.4</B> Double Pointer Example</P>
+<P><A NAME="Fig6"></A><A HREF="javascript:displayWindow('images/03-06.jpg',470,517)"><IMG SRC="images/03-06t.jpg"></A></P>
+<P><B>Code List 3.5</B> Output of Program in Code List 3.4</P>
+<P><A NAME="Fig7"></A><A HREF="javascript:displayWindow('images/03-07.jpg',360,534)"><IMG SRC="images/03-07t.jpg"></A></P>
+<P>The name of the program is ARGV1.EXE. The arguments passed to the program are arg1 and arg2. The main procedure receives two variables, argc and argv. For this case argc will be the integer 3 since there are 2 arguments passed to the program. It is 3 instead of 2 because argv will also hold the program name in addition to the arguments passed as can be seen in the program output. In the program argv is a pointer to a pointer to a character. The organization is shown in Figure 3.2. Looking at the figure one notes a rather complex organization. In the figure argv is stored at memory location Al. Its value is the address A2. The address A2 contains the address A5 which contains a contiguous set of characters. The first character at address A5 is the letter A (in hex 41, using ASCII). The character at address A5+1 is the letter R (in hex 52). The set of characters is terminated with a NULL character, (in hex 00). The null character indicates the end of the string. It is used by programs which are passed the address A5 to print the character. These programs print each consecutive character until they reach a NULL. A failure to place a NULL character at the end of a string will result in many string operation failures in addition to printing improperly. Remember in C/C++ a string is merely a collection of contiguous characters terminated in a NULL.
+</P>
+<P>C and C++ can treat pointers as arrays. This is a very powerful and sometimes dangerous feature. For this example one can interpret</P>
+<P><A NAME="Fig8"></A><A HREF="javascript:displayWindow('images/03-08.jpg',350,608)"><IMG SRC="images/03-08t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-08.jpg',350,608)"><FONT COLOR="#000077"><B>Figure 3.2</B></FONT></A>&nbsp;&nbsp;Program Organization in Memory</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-01d.jpg"></P>
+<P>There are only two arguments + the program name.
+</P>
+<P>Remember that argv is a pointer to a char to a char, written as char **.</P>
+<P>argv[0] is a char * or a pointer to a char.</P>
+<P>When the io function cout receives a char * it will interpret the characters at the location as a string. In this case during the first print loop argv[0] points to A5 where the string representing the name of the program resides (technically, the command line argument invoking the program).</P>
+<P>Going to the location A5 cout proceeds to print out ARGV.EXE and stops printing characters because of the NULL character reached.</P>
+<P>C and C++ also support pointer arithmetic. This can lead to complex expressions. For this example argv+1 is synonymous with &amp;argv[1] which in this case one has</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-02d.jpg"></P>
+<P>In C and C++ when you name an array like x[10] then x with no brackets refers to the address of x[0]:
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-03d.jpg"></P>
+<P>One can traverse the pointers using * or [] that is the following is identical
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-04d.jpg"></P>
+<P>Notice that
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-05d.jpg"></P>
+<P>Make sure you understand all the outputs of the program. If you are going to spend a lot of time programming in C or C++ then you should review this chapter frequently until you are completely comfortable with the concepts.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading4"></A><FONT COLOR="#000077">3.1.2 Dynamic Memory Allocation with New and Delete</FONT></H4>
+<P>C++ has introduced memory allocation operators <I>new</I> and <I>delete</I> to deal with requesting and freeing memory. An example of the use of <I>new</I> and <I>delete</I> are illustrated in Code List 3.6. The output of the program is shown in Code List 3.7. There are some important features of new and C++ illustrated in this program.</P>
+<P><B>Code List 3.6</B> Dynamic Memory Allocation in C++</P>
+<P><A NAME="Fig9"></A><A HREF="javascript:displayWindow('images/03-09.jpg',551,424)"><IMG SRC="images/03-09t.jpg"></A></P>
+<P><A NAME="Fig10"></A><A HREF="javascript:displayWindow('images/03-10.jpg',491,436)"><IMG SRC="images/03-10t.jpg"></A></P>
+<P><B>Code List 3.7</B> Output of Program in Code List 3.6</P>
+<P><A NAME="Fig11"></A><A HREF="javascript:displayWindow('images/03-11.jpg',212,403)"><IMG SRC="images/03-11t.jpg"></A></P>
+<P><A NAME="Fig12"></A><A HREF="javascript:displayWindow('images/03-12.jpg',291,124)"><IMG SRC="images/03-12t.jpg"></A></P>
+<P>The program declares a class called <I>test</I>. Two variables <I>k</I> and <I>j</I> are declared as pointers to objects of type <I>test</I>. Upon declaration room is stored in memory for the pointers <I>k</I> and <I>j</I>.</P>
+<P>A variable <I>w</I> of type <I>test</I> is created with the statement <I>test w;</I>. This statement illustrates the use of constructor functions in C++. When <I>w</I> is created the constructor function <I>test()</I> is called which results in &#147;Constructor function called&#148; being printed.</P>
+<P>The statement <I>j=new test[4];</I> requests memory for an array of size four for the class <I>test</I>. As a result of using <I>new</I> the constructor function is called four times. After the statement <I>j</I> will point to the first element.</P>
+<P>The statement <I>k = (test *) malloc(4*sizeof(test));</I> requests memory for an array of size 4 for the class <I>test</I>. Using <I>malloc</I>, however, will not call the constructor function for the class <I>k</I>. As a result nothing is printed at this point of the program.</P>
+<P>The statement <I>delete[] j;</I> gives back the memory requested by the <I>new</I> operator earlier. The brackets <I>[]</I> are used when <I>new</I> is used to declare an array. At this point the destructor function ~<I>test()</I> is called for each element in the array.</P>
+<P>The statement <I>free(k)</I> gives back the memory allocated by the <I>malloc</I> request. As with <I>malloc</I>, <I>free</I> will not call the destructor function.</P>
+<P>Before the program terminates the variable local to main <I>w</I> will first lose its scope and as a result the destructor function will be called for <I>w</I>.</P>
+<P>In C++ <I>new</I> and <I>delete</I> should be used in lieu of <I>malloc</I> and <I>free</I> to ensure the proper calling of constructor and destructor functions for the classes allocated. Notice that <I>new</I> also avoids the use of the <I>sizeof</I> operator which simplifies its use.</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="101-106.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="112-126.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

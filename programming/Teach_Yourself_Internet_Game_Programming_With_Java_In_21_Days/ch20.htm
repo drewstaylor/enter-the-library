@@ -1,0 +1,735 @@
+<HTML>
+<HEAD>
+   <TITLE>Chapter 20 -- Optimizing Java Code for Games</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 20</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Optimizing Java Code for Games</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#WhatIsCodeOptimization" >What Is Code Optimization?</A>
+<UL>
+<LI><A HREF="#Maintainability" >Maintainability</A>
+<LI><A HREF="#Size" >Size</A>
+<LI><A HREF="#Speed" >Speed</A>
+</UL>
+<LI><A HREF="#OptimizingwiththeJDKCompiler" >Optimizing with the JDK Compiler</A>
+<LI><A HREF="#CostsofCommonOperations" >Costs of Common Operations</A>
+<LI><A HREF="#IsolatingProblemCode" >Isolating Problem Code</A>
+<LI><A HREF="#OptimizationTechniques" >Optimization Techniques</A>
+<UL>
+<LI><A HREF="#RethinkAlgorithms" >Rethink Algorithms</A>
+<LI><A HREF="#UseNativeMethods" >Use Native Methods</A>
+<LI><A HREF="#UseInlineMethods" >Use Inline Methods</A>
+<LI><A HREF="#ReplaceSlowJavaAPIClassesandMethod" >Replace Slow Java API Classes and Methods</A>
+<LI><A HREF="#UseLookUpTables" >Use Look-Up Tables</A>
+<LI><A HREF="#EliminateUnnecessaryEvaluations" >Eliminate Unnecessary Evaluations</A>
+<LI><A HREF="#EliminateCommonSubexpressions" >Eliminate Common Subexpressions</A>
+<LI><A HREF="#ExpandLoops" >Expand Loops</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop  </A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+Execution speed has always had a unique importance to game developers.
+More so than any other area of software, games typically must
+squeeze every ounce of performance out of the host system. This
+is distressing news for those of us writing games in Java, simply
+because Java is so removed from the specifics of the host system
+that it's extremely difficult to cut corners while coding. However,
+even though you can't get down and dirty with the hardware, you
+can still optimize Java code in various ways to improve performance
+in your games.
+<P>
+Today's lesson deals with Java code optimization and how it can
+be used to speed up Java games. You'll learn various optimization
+techniques that will help you become a more efficient Java programmer.
+To really understand how these optimizations help, you have to
+go under the hood of Java, so roll up your sleeves and prepare
+to get a little dirty.
+<P>
+As you go through today's lesson, keep in mind that it's one of
+the last lessons in the book for a very good reason: Any thoughts
+of optimizing your code should occur near the end of the development
+cycle. In other words, focus on getting your game up and running,
+and then focus your attention on looking for ways to optimize.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>What is code optimization?
+<LI>Understanding the JDK compiler
+<LI>Costs of common operations
+<LI>Isolating problem code
+<LI>Optimization techniques
+</UL>
+<H2><A NAME="WhatIsCodeOptimization"><B><FONT SIZE=5 COLOR=#FF0000>What
+Is Code Optimization?</FONT></B></A></H2>
+<P>
+Code optimization is the process of modifying working code to
+a more optimal state based on a particular goal. The fact that
+optimization takes place on working code is an important point;
+always perform optimizations on code <I>after</I> you get the
+code working. The type of optimization performed is dependent
+on the desired goal; code optimization can be divided into three
+distinct types, which are based on the needs of the developer:
+<UL>
+<LI>Maintainability
+<LI>Size
+<LI>Speed
+</UL>
+<H3><A NAME="Maintainability"><B>Maintainability</B></A></H3>
+<P>
+Maintainability optimization is performed to help make code more
+manageable in the future. This type of optimization is usually
+geared toward the structure and organization of code, rather than
+modifications of the algorithms used in the code. In general,
+maintainability optimization involves a programmer studying the
+code at large and making changes to help other programmers understand
+and modify the code in the future.
+<P>
+If you haven't guessed, maintainability optimization doesn't rank
+very high on the list of important optimizations used by game
+developers. It's still important to organize your code and enforce
+some structure, but just don't let maintainability optimization
+become an overriding concern.
+<H3><A NAME="Size"><B>Size</B></A></H3>
+<P>
+Another popular optimization is size optimization, which involves
+making changes to code that result in a smaller executable class
+file. The cornerstone of size optimization is code reuse, which
+comes in the form of inheritance for Java classes. Fortunately,
+good OOP design strategies naturally favor size optimization,
+so you will rarely need to go out of your way to perform this
+type of optimization. For example, it's just good design practice
+to put code that is reused a few times in a method. In this way,
+most size optimizations naturally take place during the initial
+code development.
+<P>
+Although not entirely crucial, size optimization can't be completely
+ignored in regard to Java game programming. This is because the
+size of your compiled Java classes will directly impact the amount
+of time it takes your game to load and initially execute. If,
+however, you leverage as much of the standard Java API code as
+possible and reuse code by deriving from other classes, you're
+probably doing enough for the cause of reducing class size.
+<H3><A NAME="Speed"><B>Speed</B></A></H3>
+<P>
+And now, introducing the real subject of today's lesson: speed
+optimization. Speed optimization is without a doubt the most important
+aspect of game development after the game is up and running correctly.
+Speed optimization includes all the techniques and tricks used
+to speed up the execution of code. Considering the performance
+problems inherent in Java, speed optimization takes on an even
+more important role in Java than in other languages such as C
+and C++. Because the Java compiler has the last word on how code
+is generated, most speed optimizations will be performed with
+the compiler in mind.
+<P>
+The rest of today's lesson focuses on issues of speed optimization
+and how to get the best performance out of your Java code. At
+times, you will sacrifice the other areas of optimization for
+the sake of speed. In most cases, this sacrifice is entirely acceptable,
+even expected, because the organization of the code and size of
+the executable classes won't matter much if your game is too slow
+to play.
+<H2><A NAME="OptimizingwiththeJDKCompiler"><B><FONT SIZE=5 COLOR=#FF0000>Optimizing
+with the JDK Compiler</FONT></B></A></H2>
+<P>
+All optimizations begin and end with the Java compiler. If you
+don't understand the compiler, you're largely guessing at which
+optimizations will have a positive effect on your code. So let's
+take a look at the JDK compiler and see what role it plays in
+turning out speedy Java bytecodes.
+<P>
+A <I>bytecode</I> is a Java term referring to the intermediate
+processor-independent code generated by the Java compiler. Bytecode
+executables (classes) are interpreted by the Java runtime system.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Third-party Java compilers are turning up and will continue to turn up that outclass the JDK compiler in regard to speed optimization. Nevertheless, the JDK compiler is the standard Java compiler and currently the most reliable.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The JDK compiler (<TT><FONT FACE="Courier">javac</FONT></TT>)
+includes a switch for generating optimized Java bytecode executables:
+<TT><FONT FACE="Courier">-O</FONT></TT>. In release 1.0 of the
+JDK, this switch results in only two optimizations taking place:
+inline methods and exclusion of line numbers. The first of these
+optimizations is the only one that affects the speed of the executable
+bytecode; final, static, and private methods are inlined by the
+compiler, resulting in less method call overhead.
+<P>
+<I>Method inlining</I> is the process of replacing each call to
+a method with the actual method code. Inlining can often increase
+the size of the resulting class file, but it can help improve
+performance.
+<P>
+The second optimization performed by the JDK compiler results
+in the exclusion of line number information from the executable
+class file. This is a size optimization and does nothing in terms
+of helping speed up the code.
+<P>
+As you can see, the JDK compiler does little for you in regard
+to optimization. This basically means that you need to plan on
+doing a lot of optimization by hand. A future release of the JDK
+should (I hope) improve this situation, but you can't afford to
+stand around waiting for miracles-you've got games to write!
+<H2><A NAME="CostsofCommonOperations"><B><FONT SIZE=5 COLOR=#FF0000>Costs
+of Common Operations</FONT></B></A></H2>
+<P>
+Now that you understand what the JDK compiler does (or doesn't
+do) for you in regard to optimization, it's time to focus on the
+Java runtime system. By examining the runtime system, you can
+get an idea of how fast certain types of code run and make smarter
+decisions about the way you write Java code. What do I mean by
+examining the runtime system? Well, I mean running different types
+of code and timing each type to see how the speeds match up. This
+operation gives you a very realistic look at how code differs
+in terms of execution speed and consequently gives you a place
+to start making appropriate code optimizations.
+<P>
+The speed of an operation is often referred to as the <I>cost</I>
+of the operation. Code optimization can almost be likened to accounting,
+in which you try to keep from blowing a performance budget with
+your code costs. As if optimization weren't tedious enough as
+it is, I had to make a reference to accounting! Anyway, Jonathan
+Hardwick performed a very neat analysis on the cost of common
+Java operations on various systems, the results of which I've
+included in Tables 20.1 through 20.3. These tables contain approximate
+times in microseconds for common Java operations. Incidentally,
+the systems used to perform the cost analysis were a Sun Sparcstation
+5 running Solaris, an AMD 486 DX4-120 running Windows 95, and
+an AMD 486 DX4-120 running Linux 1.2.13.
+<P>
+In terms of speed optimization, <I>cost</I> refers to the speed
+required to perform an operation.<BR>
+<BLOCKQUOTE>
+<B><CENTER>Table 20.1. The costs of Java variable accesses.</B></CENTER>
+</BLOCKQUOTE>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><I>Description</I></TD><TD WIDTH=129><I>Operation</I>
+</TD><TD WIDTH=65><CENTER><I>Solaris</I></TD><TD WIDTH=93><CENTER><I>486 Win95</I>
+</TD><TD WIDTH=87><CENTER><I>486 Linux</I></TD></TR>
+<TR><TD WIDTH=129>Method variable assignment</TD><TD WIDTH=129><TT><FONT FACE="Courier">i = 1;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>0.4</TD><TD WIDTH=93><CENTER>0.3</TD><TD WIDTH=87><CENTER>0.5
+</TD></TR>
+<TR><TD WIDTH=129>Instance variable assignment</TD><TD WIDTH=129><TT><FONT FACE="Courier">this.i = 1;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>2.4</TD><TD WIDTH=93><CENTER>0.7</TD><TD WIDTH=87><CENTER>0.9
+</TD></TR>
+<TR><TD WIDTH=129>Array element assignment</TD><TD WIDTH=129><TT><FONT FACE="Courier">a[0] = 1;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>1.1</TD><TD WIDTH=93><CENTER>1.0</TD><TD WIDTH=87><CENTER>1.3
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<BLOCKQUOTE>
+<B><CENTER>Table 20.2. The costs of increment with Java data types.</B></CENTER>
+</BLOCKQUOTE>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD ><I>Description</I></TD><TD WIDTH=129><I>Operation</I>
+</TD><TD WIDTH=65><I><CENTER>Solaris</I></TD><TD WIDTH=93><I><CENTER>486 Win95</I>
+</TD><TD WIDTH=87><CENTER><I>486 Linux</I></TD></TR>
+<TR><TD WIDTH=123>Byte variable increment</TD><TD WIDTH=129><TT><FONT FACE="Courier">byte b++;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>1.2</TD><TD WIDTH=93><CENTER>1.2</TD><TD WIDTH=87><CENTER>1.3
+</TD></TR>
+<TR><TD WIDTH=123>Short variable increment</TD><TD WIDTH=129><TT><FONT FACE="Courier">short s++;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>1.4</TD><TD WIDTH=93><CENTER>1.2</TD><TD WIDTH=87><CENTER>1.3
+</TD></TR>
+<TR><TD WIDTH=123>Int variable increment</TD><TD WIDTH=129><TT><FONT FACE="Courier">int i++;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>0.3</TD><TD WIDTH=93><CENTER>0.1</TD><TD WIDTH=87><CENTER>0.3
+</TD></TR>
+<TR><TD WIDTH=123>Long variable increment</TD><TD WIDTH=129><TT><FONT FACE="Courier">long l++;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>1.1</TD><TD WIDTH=93><CENTER>1.1</TD><TD WIDTH=87><CENTER>1.3
+</TD></TR>
+<TR><TD WIDTH=123>Float variable increment</TD><TD WIDTH=129><TT><FONT FACE="Courier">float f++;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>0.9</TD><TD WIDTH=93><CENTER>1.1</TD><TD WIDTH=87><CENTER>1.2
+</TD></TR>
+<TR><TD WIDTH=123>Double variable increment</TD><TD WIDTH=129><TT><FONT FACE="Courier">double d++;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>1.0</TD><TD WIDTH=93><CENTER>1.3</TD><TD WIDTH=87><CENTER>1.5
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<BLOCKQUOTE>
+<B><CENTER>Table 20.3. The costs of miscellaneous Java operations.</CENTER></B>
+</BLOCKQUOTE>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><I>Description</I></TD><TD WIDTH=183><I>Operation</I>
+</TD><TD WIDTH=65><I><CENTER>Solaris</I></TD><TD WIDTH=93><I><CENTER>486 Win95</I>
+</TD><TD WIDTH=87><I><CENTER>486 Linux</I></TD></TR>
+<TR><TD WIDTH=161>Object creation</TD><TD WIDTH=183><TT><FONT FACE="Courier">new Object();</FONT></TT>
+</TD><TD WIDTH=65><CENTER>10.7</TD><TD WIDTH=93><CENTER>13.8</TD><TD WIDTH=87><CENTER>12.8
+</TD></TR>
+<TR><TD WIDTH=161>Method invocation</TD><TD WIDTH=183><TT><FONT FACE="Courier">null_func();</FONT></TT>
+</TD><TD WIDTH=65><CENTER>3.1</TD><TD WIDTH=93><CENTER>2.1</TD><TD WIDTH=87><CENTER>2.4
+</TD></TR>
+<TR><TD WIDTH=161>Synchronized method</TD><TD WIDTH=183><TT><FONT FACE="Courier">sync_func();</FONT></TT>
+</TD><TD WIDTH=65><CENTER>16.3</TD><TD WIDTH=93><CENTER>20.1</TD><TD WIDTH=87><CENTER>15.9
+</TD></TR>
+<TR><TD WIDTH=161>Math function</TD><TD WIDTH=183><TT><FONT FACE="Courier">Math.abs(x);</FONT></TT>
+</TD><TD WIDTH=65><CENTER>5.6</TD><TD WIDTH=93><CENTER>4.8</TD><TD WIDTH=87><CENTER>5.6
+</TD></TR>
+<TR><TD WIDTH=161>Equivalent math code</TD><TD WIDTH=183><TT><FONT FACE="Courier">(x &lt; 0) ? -x : x;</FONT></TT>
+</TD><TD WIDTH=65><CENTER>0.6</TD><TD WIDTH=93><CENTER>0.4</TD><TD WIDTH=87><CENTER>0.6
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+These tables point out lots of interesting information regarding
+the performance of Java code. From Table 20.1, it's readily apparent
+that method variables are more efficient to use than instance
+variables. Furthermore, you can see that array element assignment
+is slower than method variable assignment due to the fact that
+Java performs bounds checking operations whenever an array element
+is accessed. Keep in mind that this table isn't meant as an argument
+to get rid of all your class member data. Rather, think of it
+as providing insight into making those decisions in which the
+design could go either way.
+<P>
+Table 20.2 shows timing data relating to the use of the standard
+Java data types. As you might have expected, the two 32-bit data
+types, <TT><FONT FACE="Courier">int</FONT></TT> and <TT><FONT FACE="Courier">float</FONT></TT>,
+showed the best performance because the tests were performed on
+32-bit systems. It is interesting to note that the performance
+difference between using an <TT><FONT FACE="Courier">int</FONT></TT>
+over a <TT><FONT FACE="Courier">byte</FONT></TT>, <TT><FONT FACE="Courier">short</FONT></TT>,
+or <TT><FONT FACE="Courier">long</FONT></TT> is much more significant
+than for using a <TT><FONT FACE="Courier">float</FONT></TT> over
+a <TT><FONT FACE="Courier">double</FONT></TT>.
+<P>
+Even though the floating-point types show comparable performance
+to the integer types, don't be misled about using integer math
+over floating-point math. This timing table reflects only an increment
+operation, which is much different than more complex operations
+performed in the context of a game. Integer math is much more
+efficient than floating-point math. So use the table as a measure
+of the relative speeds among integer types, and then try to use
+integer math throughout your code.
+<P>
+Table 20.3 focuses on a few miscellaneous operations that are
+worth thinking about. First, it shows the high cost of creating
+an object. This should serve as an incentive to eliminate the
+creation of temporary objects within a loop where the creation
+occurs over and over. Rather, you can place the temporary object
+above the loop and reinitialize its members as needed inside the
+loop.
+<P>
+Table 20.3 also shows the dramatic performance costs of using
+a normal method versus a synchronized method. Even though synchronization
+is very important in multithreaded programming, this should be
+some encouragement to minimize the usage of synchronized methods
+in games.
+<P>
+Finally, Table 20.3 shows you how using the standard Java math
+methods can sometimes be a burden. Even something as simple as
+taking the absolute value of a number imposes much greater performance
+costs when you call the <TT><FONT FACE="Courier">Math.abs</FONT></TT>
+method, as opposed to inlining the equivalent code yourself.
+<H2><A NAME="IsolatingProblemCode"><B><FONT SIZE=5 COLOR=#FF0000>Isolating
+Problem Code</FONT></B></A></H2>
+<P>
+The biggest mistake you can make in regard to optimizing your
+game code is trying to optimize <I>all</I> the code. Being smart
+about what code you attack is crucial in not spending years trying
+to improve the performance of your game. More important, it's
+a well-established fact that a relatively small portion of code
+is usually responsible for the bulk of the performance drain.
+It's your job to isolate this code and then focus your optimization
+efforts accordingly.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Warning</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Don't attempt to optimize code as you write it. Many programmers have the tendency to think they can do it all the first time through, which includes developing perfectly optimized error-free code. If you truly think you are capable of filling this tall 
+order, then be my guest. Meanwhile, the rest of us mere mortals have to contend with our fair share of mistakes, even without worrying how optimized a piece of code is. Throw in the complexities of trying to optimize code that doesn't even work yet, and 
+you're setting yourself up for disaster. In all fairness, it's usually okay to make minor optimizations that don't sig-nificantly impact the structure of your code; just don't get carried away.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Fortunately, isolating problem code isn't all that difficult if
+you use the proper tools. The most useful tool in finding bottlenecks
+in your code is a profiler. A profiler's job is to report on the
+amount of time spent in each section of code as a program is executing.
+The Java runtime interpreter has an undocumented built-in profiler
+that is easy to use and works pretty well. To use the runtime
+interpreter profiler, simply specify the <TT><FONT FACE="Courier">-prof</FONT></TT>
+option when using the interpreter, like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">java -prof <I>Classname</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><I><FONT FACE="Courier">Classname</FONT></I></TT> is the name
+of the class you want to profile. Of course, this technique doesn't
+work too well for applets, because they must be run within the
+context of the applet viewer tool or a browser. Fortunately, you
+can use the profiler with applets by altering the arguments to
+the interpreter a little, like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">java -prof sun.applet.AppletViewer <I>Filename</I></FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this case, <TT><I><FONT FACE="Courier">Filename</FONT></I></TT>
+is the name of the HTML file containing a link to your applet.
+When you finish running the applet, the interpreter will write
+a file named <TT><FONT FACE="Courier">java.prof</FONT></TT> to
+the current directory. This file contains profile information
+for the applet you just ran.
+<P>
+To get an idea of what kind of information the Java profiler generates,
+check out Listing 20.1, which contains a few lines of profile
+information generated for the Traveling Gecko sample game. I've
+cleaned up the listing a little by hand just to make it easier
+to read.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 20.1. A partial profile listing for the Traveling Gecko
+sample game.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT>count 
+callee&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;caller&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time
+<BR>
+25261 java/util/Vector.size()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpriteVector.testCollision(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19
+<BR>
+22780 java/util/Vector.elementAt(I)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpriteVector.testCollision(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;38
+<BR>
+20258 java/awt/Rectangle.intersects()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sprite.testCollision(LSprite;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;56
+<BR>
+20258 Sprite.getCollision()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sprite.testCollision(LSprite;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4
+<BR>
+20258 Sprite.testCollision(LSprite;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpriteVector.testCollision(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;102
+<BR>
+10360 Sprite.getPosition()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpriteVector.update()V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2
+<BR>
+4075&nbsp;&nbsp;java/lang/Object.&lt;init&gt;()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java/awt/Rectangle.&lt;init&gt;(IIII)&nbsp;&nbsp;&nbsp;&nbsp;0
+<BR>
+3800&nbsp;&nbsp;sun/awt/image/Image.getImageRep(II) sun/awt/win32/Win32Image.getImage&nbsp;&nbsp;60</TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+As you can see, the profile information is broken down into four
+columns. The first column specifies how many times a particular
+method was called, and the second column states the name of the
+method. The third column specifies the calling method, the one
+that invoked the method in question. Finally, the fourth column
+specifies the relative amount of time spent in the method during
+each call. The larger this number is, the more costly the method.
+<P>
+You can easily use this information as a guide to determine the
+code on which to focus your optimization efforts. The methods
+appearing at the top of the list should receive much greater attention,
+because they are being called far more times than methods farther
+down in the list. Making small performance gains in a method that
+is being called 20,000 times will have a much greater impact than
+speeding up a method that is called only a couple of hundred times.
+The cool thing is that you can try different optimizations and
+then run the profiler again to see whether the relative times
+have changed. This is a very practical, if somewhat time-consuming,
+way to make great strides in speeding up your games.
+<H2><A NAME="OptimizationTechniques"><B><FONT SIZE=5 COLOR=#FF0000>Optimization
+Techniques</FONT></B></A></H2>
+<P>
+Now that you've isolated the code that is making your game crawl,
+it's time to look into exactly what optimizations you can perform
+to speed things up. The rest of today's lesson is aimed at different
+techniques you can apply to code that you know could stand some
+improvement. You won't always be able to optimize every piece
+of problem code; the goal is to make big dents in the areas that
+can be optimized.</FONT>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Incidentally, make sure that you have already tried your game with compiler optimizations turned on (the <TT><FONT FACE="Courier">-O</FONT></TT> option). I know it's not much, but it's free!
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="RethinkAlgorithms"><B>Rethink Algorithms</B></A>
+</H3>
+<P>
+Many C/C++ programmers have traditionally resorted to assembly
+language when the issue of performance is raised. As a Java programmer,
+you don't have this option. This is actually a good thing, because
+it forces you to take a closer look at your design approach instead
+of relying on heavier processor dependence to solve your problems.
+What the assembly heads don't realize is that much more significant
+gains can be made by entirely rethinking an algorithm than by
+porting it to assembly. And trust me, the amount of time spent
+hand-coding tedious assembly could easily result in a leaner,
+more efficient algorithm.
+<P>
+This same ideology applies to Java programming. Before you run
+off writing native methods and expanding loops to get every little
+ounce of performance, which you'll learn about in a moment, take
+a step back and see whether the algorithm itself has any weaknesses.
+To put this all into perspective, imagine if programmers had always
+resorted to optimizing the traditional bubble sort algorithm and
+had never thought twice about the algorithm itself. The quick
+sort algorithm, which is orders of magnitude faster than bubble
+sort without any optimization, would never have come about.
+<H3><A NAME="UseNativeMethods"><B>Use Native Methods</B></A></H3>
+<P>
+I kind of hate to recommend them, but the truth is that native
+methods (methods written in C or C++ that can be called from Java
+code) are typically much faster than Java methods. The reason
+I'm reluctant to promote their use is that they blow the platform
+independence benefit of using Java, therefore limiting your game
+to a particular platform. If platform independence isn't high
+on your list, however, by all means look into rewriting problem
+methods in C.
+<H3><A NAME="UseInlineMethods"><B>Use Inline Methods</B></A></H3>
+<P>
+Inline methods, whose bodies appear in place of each method call,
+are a fairly effective means of improving performance. Because
+the Java compiler already inlines final, static, and private methods
+when you have the optimization switch turned on, your best bet
+is to try to make as many methods as possible final, static, or
+private. If this isn't possible and you still want the benefits
+of inlined code, you can always inline methods by hand: just paste
+the body of the method at each place where it is called. This
+is one of those cases in which you are sacrificing both maintainability
+and size for speed. The things we do for speed!
+<H3><A NAME="ReplaceSlowJavaAPIClassesandMethod"><B>Replace Slow
+Java API Classes and Methods</B></A></H3>
+<P>
+There might be times when you are using a standard Java API class
+for a few of its features, but the extra baggage imposed by the
+class is slowing you down. In situations like this, you might
+be better off writing your own class that performs the exact functionality
+you need and no more. This streamlined approach can pay off big,
+even though it comes at the cost of rewriting code.
+<P>
+Another similar situation is when you are using a Java API class
+and you isolate a particular method in it that is dragging down
+performance. In this situation, instead of rewriting the entire
+class, just derive from it and override the troublesome method.
+This is a good middle-of-the-road solution because you leverage
+code reuse against performance in a reasonable manner.
+<H3><A NAME="UseLookUpTables"><B>Use Look-Up Tables</B></A></H3>
+<P>
+An established trick up the sleeve of every experienced game programmer
+is the look-up table. Look-up tables are tables of constant integer
+values that are used in place of time-consuming calculations.
+For example, a very popular type of look-up table is one containing
+values for trigonometric functions, such as sine. The use of trigonometric
+functions is a necessity when you are working with rotational
+objects in games. If you haven't noticed, trigonometric functions
+are all floating-point in nature, which is a bad thing. The solution
+is to write an integer version of the desired function using a
+look-up table of values. This relatively simple change is practically
+a necessity considering the performance hit you take by using
+floating-point math.
+<H3><A NAME="EliminateUnnecessaryEvaluations"><B>Eliminate Unnecessary
+Evaluations</B></A></H3>
+<P>
+Moving along into more detailed optimizations, you can often find
+unnecessary evaluations in your code that are serving only to
+eat up extra processor time. The following is an example of some
+code that unnecessarily performs an evaluation that acts effectively
+as a constant:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">for (int i = 0; i &lt; size(); i++)<BR>
+&nbsp;&nbsp;a = (b + c) / i;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The addition of <TT><FONT FACE="Courier">b + c</FONT></TT>, although
+itself a pretty efficient piece of code, is better off being calculated
+before the loop, like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">int tmp = b + c;<BR>
+for (int i = 0; i &lt; size(); i++)<BR>
+&nbsp;&nbsp;a = tmp / i;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+This simple change could have fairly dramatic effects, depending
+on how many times the loop is iterated. Speaking of the loop,
+there's another optimization you might have missed. Notice that
+<TT><FONT FACE="Courier">size()</FONT></TT> is a method call,
+which might bring to mind the costs involved in calling a method
+that you learned about earlier today. You might not realize it,
+but <TT><FONT FACE="Courier">size()</FONT></TT> is being called
+every time through the loop as part of the conditional loop expression.
+The same technique used to eliminate the unnecessary addition
+operation can be used to fix this problem. Check out the resulting
+code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">int s = size;<BR>
+int tmp = b + c;<BR>
+for (int i = 0; i &lt; s; i++)<BR>
+&nbsp;&nbsp;a = tmp / i;</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="EliminateCommonSubexpressions"><B>Eliminate Common
+Subexpressions</B></A></H3>
+<P>
+Sometimes you might be reusing a costly subexpression without
+even realizing it. In the heat of programming, it's easy to reuse
+common subexpressions instead of storing them in a temporary variable,
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">b = Math.abs(a) * c;<BR>
+d = e / (Math.abs(a) + b);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The multiple calls to <TT><FONT FACE="Courier">Math.abs()</FONT></TT>
+are costly compared to calling it once and using a temporary variable,
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">int tmp = Math.abs(a);<BR>
+b = tmp * c;<BR>
+d = e / (tmp + b);</FONT></TT>
+</BLOCKQUOTE>
+<H3><A NAME="ExpandLoops"><B>Expand Loops</B></A></H3>
+<P>
+One optimization that is popular among C/C++ game programmers
+is loop expansion, or loop unrolling, which is the process of
+expanding a loop to get rid of the overhead involved in maintaining
+the loop. You might be wondering exactly what overhead I'm talking
+about. Well, even a simple counting loop has the overhead of performing
+a comparison and an increment each time through. This might not
+seem like much, but with game programming you could well end up
+in the position of clawing for anything you can get!
+<P>
+<I>Loop expansion</I>, or <I>loop unrolling</I>, is the process
+of expanding a loop to get rid of the inherent overhead involved
+in maintaining the loop.
+<P>
+Loop expansion basically involves replacing a loop with the brute-force
+equivalent. To better understand it, check out the following piece
+of code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">for (int i = 0; i &lt; 1000; i++)<BR>
+  a[i] = 25;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+That probably looks like some pretty efficient code, and in fact
+it is. But if you want to go the extra distance and perform a
+loop expansion on it, here's one approach:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">int i = 0;<BR>
+for (int j = 0; j &lt; 100; j++) {<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+&nbsp;&nbsp;a[i++] = 25;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In this code, you've reduced the loop overhead by an order of
+magnitude, but you've introduced some new overhead by having to
+increment the new index variable inside the loop. Overall, this
+code does outperform the original code, but don't expect any miracles.
+Loop expansion can be effective at times, but I don't recommend
+placing it too high on your list of optimization tricks.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you learned about a somewhat murky area of Java game development:
+code optimization. You began the lesson by learning about the
+fundamental types of optimization, including the type that game
+programmers are mostly concerned with: speed optimization. You
+then learned about the optimizations (or lack thereof) provided
+by the JDK compiler. From there, you got a little dose of realism
+by looking into the timing costs of common Java operations. Finally,
+you finished off the lesson with an in-depth look at some practical
+code optimizations you can apply to your own games.
+<P>
+Incidentally, after going through today's lesson, you might be
+wondering how well the sample code throughout the book is optimized.
+I'm sorry to report that it is optimized very little, mainly for
+the sake of keeping it easier to follow. It ends up that optimized
+code is often much harder to understand, so I opted to err on
+the side of clarity. Now that you're disillusioned with my coding
+practices, prepare to turn your attention toward tomorrow's lesson,
+which is putting together a Java game programming toolkit.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Do all games require lots of code optimization to run at acceptable speeds?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>No. First, many games simply aren't speed-intensive, which immediately eliminates the need for any optimization. Second, even those games that could benefit from optimization will often run at reasonable speeds 
+without it. The sample games you've studied in this book are very good examples of this fact.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>I keep hearing about just-in-time compilers. How will they impact the whole optimization issue?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Just-in-time compilers (Java compilers that turn bytecodes into platform-dependent code at runtime) are music to the ears of Java game programmers, because they will undoubtedly increase the speed of all Java 
+code by an order of magnitude. Even so, Java game programmers will likely use the new speeds afforded by just-in-time compilers to add more complexity to their games. When this happens, you will still be left optimizing your code. Our greed seems to keep 
+us from winning!
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>I really enjoy hacking through cryptic bytecodes; is there anything else I can do to speed up my Java code?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>But of course, the Java class file disassembler is the tool for you. The disassembler (<TT><FONT FACE="Courier">javap</FONT></TT>) comes standard with the JDK, and it enables you to see the bytecodes generated 
+for a class. Just use the <TT><FONT FACE="Courier">-c</FONT></TT> option, and you'll get complete bytecode listings for each method. You can then use these listings to study the intricate results of your source code optimizations.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you with the material you learned today. Try to answer the questions
+and at least go over the exercises before moving on to tomorrow's
+lesson. You'll find the answers to the questions in appendix A,
+&quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What are the three major areas of code optimization?
+<LI>What type of speed optimization does the JDK compiler perform?
+<LI>What is the significance of using a profiler?
+<LI>When should you use a look-up table?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Run the Java profiler on the Traveling Gecko sample game and
+see whether you can isolate any methods for performing optimizations.
+<LI>Try your hand at making a few optimizations to Traveling Gecko;
+then run the profiler again to see whether your changes helped.
+Hint: There is an unnecessary evaluation in <TT><FONT FACE="Courier">SpriteVector::testCollision</FONT></TT>
+just waiting for you to fix it.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch19.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch21.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

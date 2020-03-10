@@ -1,0 +1,410 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 8 -- User Input in Games</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 8</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>User Input in Games</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#GamingandUserInput" >Gaming and User Input</A>
+<LI><A HREF="#UserInputDevices" >User Input Devices</A>
+<UL>
+<LI><A HREF="#TheKeyboard" >The Keyboard</A>
+<LI><A HREF="#TheMouse" >The Mouse</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+Just in case you had a hard weekend, you begin this week with
+a pretty easy lesson. Today you learn about user input in games,
+including the input devices supported by Java and how they are
+used in gaming scenarios. You'll be spared the details of how
+to actually communicate with input devices in Java until tomorrow's
+lesson. Nevertheless, today's lesson covers some important issues
+in regard to game design from a user input perspective.
+<P>
+Today's lesson serves as a good primer for tomorrow, when you
+learn about the specific Java programming techniques necessary
+for handling user input in games. For today, though, just relax
+and enjoy a break from the source code!
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>Gaming and user input
+<LI>User input devices
+</UL>
+<H2><A NAME="GamingandUserInput"><B><FONT SIZE=5 COLOR=#FF0000>Gaming
+and User Input</FONT></B></A></H2>
+<P>
+<I>User input</I> is the means by which the user interacts with
+a game.
+<P>
+Considering the fact that user input encompasses the entire communications
+between a player and a game, you would think that designing an
+intuitive, efficient interface for user input would be at the
+top of the list of key game design elements. However, that isn't
+always the case. With all the hype these days surrounding real-time
+texture-mapped 3D graphics engines and positional 3D audio in
+games, effective user input support is often overlooked. In fact,
+user input is perhaps the most overlooked aspect of game design,
+which is truly a tragedy. It's a tragedy because user input support
+in a game directly impacts the playability of the game; and when
+the user input isn't effective, the play suffers.
+<P>
+You see, I'm from the old school of game players, and I still
+remember paying homage to the gods of gaming with my hard earned
+allowance in arcades, well before there was an option of playing
+anything other than Pong at home. In return for my quarter offerings,
+the game gods usually provided me with incredibly fun games that
+usually had to survive on their playability alone. Because the
+hardware at that time simply couldn't provide a very high level
+of graphic and sound intensity, the game developers were forced
+to make up for it with game play. Of course, they didn't consider
+their focus on playability as making up for anything; with the
+limited graphics and sound capabilities at the time, they didn't
+have an option.
+<P>
+Let me give you a quick example of what I'm talking about in regard
+to playability and user input. One of my all-time favorite games
+is Ring King, which is a boxing game for the Nintendo Entertainment
+System (NES). Ring King is definitely considered &quot;old&quot;
+by current gaming standards-possibly even ancient. Compared to
+current games, it has weak graphics, animation, and sound. However,
+I still play the game simply because it plays so well. And that
+playability is largely based on how the game handles user input;
+it allows for very subtle timing when you punch and dodge, which
+goes a long way in a boxing game! Since then, I've tried to find
+a modern replacement for Ring King, but I've had no luck. When
+I get beyond the fancy graphics and sound, I start missing the
+responsiveness of the controls in my old favorite. I'm still looking,
+though.
+<P>
+Lest you think I'm being overly critical of current games, plenty
+of recent games have incredible user input support, along with
+awesome graphics and sound. However, an equal number of recent
+games have killer graphics and sound, but little substance when
+it comes to playability and user input. These types of games might
+be visually stunning and fun to listen to, but they rarely have
+any lasting appeal beyond the initial &quot;Wow!&quot;
+<P>
+Now, let me step down from the soap box and get to the real point,
+which is that you should carefully plan the user input for your
+games just like you carefully plan the graphics, sound, and game
+logic. This doesn't mean only deciding between supporting a keyboard
+or a mouse for the user interface. It means putting some real
+thought into making the user interface as intuitive as possible.
+You want the controls for the game to feel as natural as possible
+to the player.
+<H2><A NAME="UserInputDevices"><B><FONT SIZE=5 COLOR=#FF0000>User
+Input Devices</FONT></B></A></H2>
+<P>
+<I>Input devices</I> are the physical hardware, such as mice and
+keyboards, that allow a user to interact with a game.
+<P>
+Input devices all perform the same function: converting information
+provided by the user into a form understandable by the computer.
+Input devices form the link between the user and your game. Even
+though you can't directly control the input device hardware, you
+can certainly control how it is interpreted in your game.
+<P>
+Although some really neat input devices are available for pcs
+and Macintoshes, such as flightsticks and digital joysticks, you're
+working with Java, so you have to think in terms of supporting
+multiple platforms and therefore a fairly limited amount of input
+devices. As a matter of fact, the current set of input devices
+supported by Java consists of two devices-the keyboard and the
+mouse.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Trackballs have also grown in popularity as input devices recently. Trackballs are functionally very similar to mice and are often treated just like mice from a software perspective. Fortunately, Java doesn't discern between trackballs and mice, so the 
+mouse support in Java indirectly supports trackballs as well.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+It might sound limiting to not be able to support joysticks in
+Java, but it is simply a fact of life that joysticks aren't considered
+a &quot;standard&quot; input device by the computer community
+at large. Arguably, it would be nice to be able to support joysticks
+as an optional input device, but you'll simply have to hope for
+the support in a future release of Java. Even without joystick
+support, however, creative user input strategies can still be
+implemented. Personally, I like using either the keyboard or mouse
+for most games, rather than a joystick. But I'm kind of strange
+in that respect!
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Sun has announced plans for extensions to the Java language that will include broader multimedia support. It's not clear whether joysticks and other game-oriented input devices will be supported in these extensions, but there is no reason that they 
+couldn't be supported. We'll just have to wait and see.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="TheKeyboard"><B>The Keyboard</B></A></H3>
+<P>
+The keyboard has been the computer input device of choice since
+its inception. Although mice, joysticks, flightsticks, and many
+other user input devices have brought extended input capabilities
+for the game player, none is as established as the keyboard. At
+the bare minimum, you can always count on a game player having
+a keyboard.
+<H4><B>Usage</B></H4>
+<P>
+The keyboard is a surprisingly useful input device for a wide
+range of games. The sheer amount of keys alone gives the keyboard
+appeal for games that require a wide variety of user input. Even
+more useful in the keyboard is the natural feel of pressing keys
+for games requiring quick firing and movement. This usefulness
+is evident in the amount of arcade games that still use buttons,
+even when powerful digital joysticks are readily available. Keys
+(or buttons) simply are easier to use in many games, including
+those with many input combinations.
+<P>
+When assessing the potential use of the keyboard in a game, try
+to think in terms of the most intuitive user interface possible.
+For example, any game involving the player moving an object around
+would benefit from using the arrow keys. A good example is DOOM,
+which makes creative use of a keyboard-specific feature that greatly
+enhances the playability of the game. The left and right arrow
+keys, when used alone, rotate the player left and right in the
+game world. However, when the Shift key is held down, the same
+left and right arrow keys cause the player to <I>strafe</I>, meaning
+that the player moves sideways without changing direction. This
+seemingly small enhancement to the keyboard controls goes a long
+way when playing the game.
+<P>
+When you're deciding on specific keys to use for keyboard controls
+in your game, consider the potential limitations on players using
+other platforms or hardware configurations. For example, I primarily
+use a Windows 95 pc equipped with a Microsoft Natural keyboard.
+If you aren't familiar with these keyboards, they are split down
+the middle for ergonomic reasons. If you don't use one of these
+keyboards, it might not occur to you that key combinations near
+the center of the keyboard will be separated a few inches for
+people like me. So, remember that if you use the G and H keys
+(or other middle keys) in your game, and it plays well for you,
+it might not work out so well for players with different keyboards.
+<P>
+This might sound kind of picky, but part of Java programming is
+trying to make everyone happy. Remember that Java games can be
+enjoyed by a wide range of computer users. You should make it
+a goal to do everything in your power to appease all of them.
+Think of it this way: How many times in the past have you had
+the opportunity to write one set of source code and have it work
+on such a wide range of computer systems? I have personally been
+involved with cross-platform multimedia development using C++,
+and it's not very fun. My advice is to embrace Java and its support
+for multiple platforms, and be open-minded when it comes to making
+decisions that affect users of other platforms!
+<P>
+Now, where were we? Keyboards! The most common keys used on the
+keyboard in games are the arrow keys. If you're writing an action
+game, you might also have keys for firing and selecting between
+weapons. When you're deciding on the keys to use, keep in mind
+things like the creative usage of the Shift key in DOOM. If you
+can limit the number of primary game control keys by making use
+of a secondary key such as Shift, you've made the game controls
+that much easier to use.
+<H4><B>Rapid Fire</B></H4>
+<P>
+A common feature in action games is rapid fire, which involves
+firing multiple times while a key is being held down. I don't
+want to burden today's lesson with any source code, but I would
+like to briefly cover how rapid fire could be implemented in Java
+using standard keyboard support. As you will learn tomorrow, key
+presses in Java are handled as events. For now, don't worry too
+much about what an event is, except that it is something you can
+write code to respond to. The importance is that an event occurs
+for each key press, which means that you have the opportunity
+to respond to each key press (and key release).
+<P>
+You don't, however, have the opportunity to respond to keys being
+held down, which means that there is no direct way to implement
+rapid fire. Alas, there is a fairly painless work-around! The
+solution is to set a boolean member variable when a key is pressed,
+and then fire the bullets in an event loop based on this boolean
+variable being true. You receive a key release event when the
+user lets go of the key, in which case you simply set the boolean
+variable back to false. You control the speed of the rapid fire
+by altering the speed of the event loop or by using a separate
+delay counter.
+<H3><A NAME="TheMouse"><B>The Mouse</B></A></H3>
+<P>
+Although the keyboard is firmly in place as the most necessary
+of user input devices, the graphical nature of the Web establishes
+the mouse, or a similar pointing device, as a standard input device
+as well. The mouse, however, doesn't share the wide range of input
+applications to games that the keyboard has. This stems from its
+primary usage as a point-and-click device; if you haven't noticed,
+lots of games don't follow the point-and-click paradigm.
+<H4><B>Usage</B></H4>
+<P>
+In regard to gaming, the usefulness of the mouse is dependent
+totally on the type of game and, therefore, the type of user interaction
+dictated by the game. However, as quickly as some people write
+off the mouse as being a useless interface in some games, others
+praise the fine control it provides. A good example is DOOM. Personally,
+I think the keyboard is much more responsive than the mouse and
+the keyboard enables me to get around faster and with more control.
+But I have friends who feel lost playing the game without a mouse.
+<P>
+Clearly, this is a situation in which the game designers saw a
+way to provide support for both the keyboard and mouse. With the
+exception of the most extreme cases, this should be your goal
+as well. Different game players like different things, and the
+safest solution is to hedge your bets and support all input devices
+whenever possible. By following this simple rule, you can develop
+games that can be appreciated and enjoyed by a broader group of
+game players.
+<H4><B>Interpreting Movement</B></H4>
+<P>
+Similar to the keyboard, Java support for the mouse is event-driven.
+You'll learn more about the details of mouse events tomorrow,
+but right now I want to cover the different interpretations of
+mouse movement. The standard Java mouse event handlers provide
+you with the current position of the mouse whenever the mouse
+is moved. This position is referred to as the absolute position
+of the mouse.
+<P>
+<I>Absolute position</I> is the specific on-screen location of
+the mouse.
+<P>
+Figure 8.1 shows an example of absolute mouse position.
+<P>
+<A HREF="f8-1.gif" ><B>Figure 8.1 : </B><I>Absolute mouse position.</I></A>
+<P>
+The other type of position that is important when examining mouse
+movement is the relative position of the mouse.
+<P>
+<I>Relative position</I> is the position of the mouse relative
+to its prior position.
+<P>
+Relative mouse position is more useful in games because you are
+usually concerned with whether the user moved the mouse left or
+right, instead of whether the mouse is at position <TT><FONT FACE="Courier">(34,
+272)</FONT></TT>, for example. Figure 8.2 shows an example of
+relative mouse position.
+<P>
+<A HREF="f8-2.gif" ><B>Figure 8.2 : </B><I>Relative mouse position.</I></A>
+<P>
+Even though Java provides no direct support for relative mouse
+movement, you can easily calculate a relative position by saving
+the prior position and comparing the two. In this scenario, you
+would maintain the prior mouse position in a member variable,
+such as a <TT><FONT FACE="Courier">Point</FONT></TT> object. The
+mouse movement event handler calculates the relative mouse position
+as the differences between the X and Y values of the current mouse
+position and the prior mouse position stored in the member variable.
+These differences can then be used to determine how an object
+in a game is moved. For example, a positive X difference in relative
+position would correspond to an object being moved to the right.
+<P>
+Relative positioning is useful in a wide variety of games-basically,
+any game in which you control something by specifying a change
+in movement rather than an absolute location to move to. A good
+example is a flight simulator, in which you control small changes
+in the direction and altitude of the plane, rather than modifying
+its exact position in the sky. An example of a game that would
+work better with absolute mouse positioning is a Hogan's Alley
+type game, in which the mouse's movement maps directly to the
+movement of a gun sight used to shoot bad guys.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you learned about user input in games, including some useful
+tips and problems to watch out for when designing the user input
+support in your own games. You also learned about the two user
+input devices supported by Java, the keyboard and mouse, along
+with some suggestions about how to use them. You learned how rapid
+fire can be implemented using Java keyboard support, and you finished
+up with the two fundamental types of mouse positioning and how
+they are used in games.
+<P>
+Although somewhat brief, today's lesson covered some important
+issues when it comes to making determinations about user input
+in games. The goal of today's lesson is mainly to encourage you
+to put some thought into how you design the user input support
+in your games. Tomorrow you get to put these design ideas to work
+by learning exactly how to handle user input in Java.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Will Java ever support more input devices, such as joysticks?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>It's hard to say for sure, but Sun has promised more extensive multimedia support in a future release of Java. Because joysticks are generally considered multimedia input devices, support for them might very 
+well appear in a future release.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Are there any games that wouldn't require keyboard support?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Sure. Any game that requires extensive point-and-click style input, such as a card game, would probably be fine without any keyboard support. However, if you can figure out a way to add keyboard controls, by all 
+means go for it.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Is it possible to mix keyboard and mouse controls?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Of course! This actually hits on an interesting point not covered in today's lesson: Many games work great by combining mouse and keyboard controls. A good example is the strafing feature in DOOM, which also 
+works with the mouse; it is activated by holding down the Shift key while moving the mouse left or right.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least think about the exercises
+before moving on to tomorrow's lesson. You'll find the answers
+to the questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What are the two types of mouse movement?
+<LI>If you had to choose between supporting the keyboard or the
+mouse, which would you choose?
+<LI>How is interrupt <TT><FONT FACE="Courier">16h</FONT></TT>
+used to handle key presses?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Play some commercial games and pay attention to what input
+devices are supported and how.
+<LI>Find out the limitations of input devices on computer systems
+other than the type you have. For example, are some keys in different
+locations or missing altogether?
+<LI>Clean the roller mechanism inside your mouse; you need the
+mouse in tip-top shape for the rest of this week's lessons!
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch2gla.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch9.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

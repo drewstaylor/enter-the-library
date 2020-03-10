@@ -1,0 +1,212 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=2//-->
+<!--PAGES=066-074//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="053-066.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="074-080.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<P><B>Definition 2.16</B></P>
+<P>A <I>cycle</I> is a path from a vertex to itself which does not repeat any vertices except the first and the last.</P>
+<IMG SRC="images/02-19i.jpg"><P>A graph containing no cycles is said to be acyclic. An example of cyclic and acyclic graphs is shown in Figure 2.9.
+</P>
+<P><A NAME="Fig27"></A><A HREF="javascript:displayWindow('images/02-27.jpg',446,382)"><IMG SRC="images/02-27t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-27.jpg',446,382)"><FONT COLOR="#000077"><B>Figure 2.9</B></FONT></A>&nbsp;&nbsp;Cyclic and Acyclic Graphs</P>
+<P>Notice for the directed cyclic graph in Figure 2.9 that the double arrow notations between nodes <I>v</I><SUB><SMALL>2</SMALL></SUB> and <I>v</I><SUB><SMALL>4</SMALL></SUB> indicate the presence of two edges (<I>v</I><SUB><SMALL>2</SMALL></SUB>, <I>v</I><SUB><SMALL>4</SMALL></SUB>) and (<I>v</I><SUB><SMALL>4</SMALL></SUB>, <I>v</I><SUB><SMALL>2</SMALL></SUB>). In this case it is these edges which form the cycle.</P>
+<P><B>Definition 2.17</B></P>
+<P>A <I>tree</I> is an acyclic connected graph.</P>
+<IMG SRC="images/02-20i.jpg"><P>Examples of trees are shown in Figure 2.10.
+</P>
+<P><B>Definition 2.18</B></P>
+<P>An edge, <I>e</I>, in a connected graph, <I>G</I> = (<I>V</I>, <I>E</I>), is a bridge if <I>G</I>&#8242; = (<I>V</I>, <I>E</I>&#8242;) is disconnected where</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-51d.jpg"></P>
+<P><A NAME="Fig28"></A><A HREF="javascript:displayWindow('images/02-28.jpg',446,300)"><IMG SRC="images/02-28t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-28.jpg',446,300)"><FONT COLOR="#000077"><B>Figure 2.10</B></FONT></A>&nbsp;&nbsp;Trees</P>
+<P><IMG SRC="images/02-21i.jpg"></P>
+<P>If the edge, <I>e</I>, is removed, the graph, <I>G</I>, is divided into two separate connected graphs. Notice that every edge in a tree is a bridge.</P>
+<P><B>Definition 2.19</B></P>
+<P>A <I>planar</I> graph is a graph that can be drawn in the plane without any edges intersecting.</P>
+<IMG SRC="images/02-22i.jpg"><P>An example of a planar graph is shown in Figure 2.11. Notice that it is possible to draw the graph in the plane with edges that cross although it is still planar.
+</P>
+<P><B>Definition 2.20</B></P>
+<P>The <I>transitive closure</I> of a directed graph, <I>G</I> = (<I>V</I><SUB><SMALL>1</SMALL></SUB>, <I>E</I><SUB><SMALL>1</SMALL></SUB>) is a graph, <I>H</I> = (<I>V</I><SUB><SMALL>2</SMALL></SUB>, <I>E</I><SUB><SMALL>2</SMALL></SUB>), such that,</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-52d.jpg"></P>
+<P><A NAME="Fig29"></A><A HREF="javascript:displayWindow('images/02-29.jpg',444,188)"><IMG SRC="images/02-29t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-29.jpg',444,188)"><FONT COLOR="#000077"><B>Figure 2.11</B></FONT></A>&nbsp;&nbsp;Planar Graph</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-53d.jpg"></P>
+<P>where <I>f</I> returns a set of edges. The set of edges is as follows:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-54d.jpg"></P>
+<IMG SRC="images/02-23i.jpg"><P>Thus in Eq. 2.45, <IMG SRC="images/02-24i.jpg">. Transitive closure is illustrated in Figure 2.12.</P>
+<P><A NAME="Fig30"></A><A HREF="javascript:displayWindow('images/02-30.jpg',442,233)"><IMG SRC="images/02-30t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-30.jpg',442,233)"><FONT COLOR="#000077"><B>Figure 2.12</B></FONT></A>&nbsp;&nbsp;Transitive Closure of a Graph</P>
+<H3><A NAME="Heading12"></A><FONT COLOR="#000077">2.5 Parallel Algorithms</FONT></H3>
+<P>This section presents some fundamental properties and definitions used in parallel processing.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading13"></A><FONT COLOR="#000077">2.5.1 Speedup and Amdahls Law</FONT></H4>
+<P><B>Definition 2.21</B></P>
+<P>The speedup of an algorithm executed using <I>n</I> parallel processors is the ratio of the time for execution on a sequential machine, <I>T<SUB><SMALL>SEQ</SMALL></SUB></I>, to the time on the parallel machine, <I>T<SUB><SMALL>PAR</SMALL></SUB></I>:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-55d.jpg"></P>
+<IMG SRC="images/02-25i.jpg"><P>If an algorithm can be completely decomposed into <I>n</I> parallelizable units without loss of efficiency then the Speedup obtained is</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-56d.jpg"></P>
+<P>If however, only a fraction, <I>f</I>, of the algorithm is parallelizable then the speedup obtained is</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-57d.jpg"></P>
+<P>which yields
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-58d.jpg"></P>
+<P>This is known as Amdahl's Law. The ratio shows that even with an infinite amount of computing power an algorithm with a sequential component can only achieve the speedup in Eq. 2.50. If an algorithm is 50% sequential then the maximum speedup achievable is 2. While this may be a strong argument against the merits of parallel processing there are many important problems which have almost no sequential components.
+</P>
+<P><B>Definition 2.22</B></P>
+<P>The efficiency of an algorithm executing on <I>n</I> processors is defined as the ratio of the speedup to the number of processors:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-59d.jpg"></P>
+<IMG SRC="images/02-26i.jpg"><P>Using Amdahl's law
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-60d.jpg"></P>
+<P>with
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-61d.jpg"></P>
+<H4 ALIGN="LEFT"><A NAME="Heading14"></A><FONT COLOR="#000077">2.5.2 Pipelining</FONT></H4>
+<P>Pipelining is a means to achieve speedup for an algorithm by dividing the algorithm into stages. Each stage is to be executed in the same amount of time. The flow is divided into <I>k</I> distinct stages. The output of the <I>j</I>th stage becomes the input to the (<I>j</I> + 1) th stage. Pipelining is illustrated in Figure 2.13. As seen in the figure the first output is ready after four time steps Each subsequent output is ready after one additional time step. Pipelining becomes efficient when more than one output is required. For many algorithms it may not be possible to subdivide the task into <I>k</I> equal stages to create the pipeline. When this is the case a performance hit will be taken in generating the first output as illustrated in Figure 2.14.</P>
+<P><A NAME="Fig31"></A><A HREF="javascript:displayWindow('images/02-31.jpg',449,186)"><IMG SRC="images/02-31t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-31.jpg',449,186)"><FONT COLOR="#000077"><B>Figure 2.13</B></FONT></A>&nbsp;&nbsp;A Four Stage Pipeline</P>
+<P><A NAME="Fig32"></A><A HREF="javascript:displayWindow('images/02-32.jpg',497,260)"><IMG SRC="images/02-32t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-32.jpg',497,260)"><FONT COLOR="#000077"><B>Figure 2.14</B></FONT></A>&nbsp;&nbsp;Pipelining</P>
+<P>In the figure <I>T<SUB><SMALL>SEQ</SMALL></SUB></I> is the time for the algorithm to execute sequentially. <I>T<SUB><SMALL>PS</SMALL></SUB></I> is the time for each pipeline stage to execute. <I>T<SUB><SMALL>PIPE</SMALL></SUB></I> is the time to flow through the pipe. The calculation of the time complexity sequence to process <I>n</I> inputs yields</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-62d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/02-63d.jpg"></P>
+<P>for a <I>k</I>-stage pipe. It follows that <I>T<SUB><SMALL>PIPE</SMALL></SUB></I> (<I>n</I>) &lt; <I>T<SUB><SMALL>SEQ</SMALL></SUB></I> (<I>n</I>) when</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-64d.jpg"></P>
+<P>The speedup for pipelining is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-65d.jpg"></P>
+<P><A NAME="Fig33"></A><A HREF="javascript:displayWindow('images/02-33.jpg',444,224)"><IMG SRC="images/02-33t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-33.jpg',444,224)"><FONT COLOR="#000077"><B>Example 2.6</B></FONT></A>&nbsp;&nbsp;Order</P>
+<P>which yields
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-66d.jpg"></P>
+<P>In some applications it may not be possible to keep the pipeline full at all times. This can occur when there are dependencies on the output. This is illustrated in Example 2.7. For this case let us assume that the addition/subtraction operation has been set up as a pipeline. The first statement in the pseudo-code will cause the inputs <I>x</I> and 3 to be input to the pipeline for subtraction. After the first stage of the pipeline is complete, however, the next operation is unknown. In this case, the result of the first statement must be established. To determine the next operation the first operation must be allowed to proceed through the pipe. After its completion the next operation will be determined. This process is referred to flushing the pipe. The speedup obtained with flushing is demonstrated in Example 2.8.</P>
+<P><A NAME="Fig34"></A><A HREF="javascript:displayWindow('images/02-34.jpg',447,159)"><IMG SRC="images/02-34t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-34.jpg',447,159)"><FONT COLOR="#000077"><B>Example 2.7</B></FONT></A>&nbsp;&nbsp;Output Dependency PseudoCode</P>
+<P><A NAME="Fig35"></A><A HREF="javascript:displayWindow('images/02-35.jpg',445,223)"><IMG SRC="images/02-35t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-35.jpg',445,223)"><FONT COLOR="#000077"><B>Example 2.8</B></FONT></A>&nbsp;&nbsp;Pipelining</P>
+<H4 ALIGN="LEFT"><A NAME="Heading15"></A><FONT COLOR="#000077">2.5.3 Parallel Processing and Processor Topologies</FONT></H4>
+<P>There are a number of common topologies used in parallel processing. Algorithms are increasingly being developed for the parallel processing environment. Many of these topologies are widely used and have been studied in great detail. The topologies presented here are
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;Full Crossbar
+<DD><B>&#149;</B>&nbsp;&nbsp;Rectangular Mesh
+<DD><B>&#149;</B>&nbsp;&nbsp;Hypercube
+<DD><B>&#149;</B>&nbsp;&nbsp;Cube-Connected Cycles
+</DL>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="053-066.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="074-080.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

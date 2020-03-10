@@ -1,0 +1,1159 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 5 -- Java Graphics Techniques</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 5</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Java Graphics Techniques</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#TheGraphicsCoordinateSystem" >The Graphics Coordinate System</A>
+<LI><A HREF="#TheBasicsofColor" >The Basics of Color</A>
+<LI><A HREF="#TheGraphicsClass" >The Graphics Class</A>
+<UL>
+<LI><A HREF="#DrawingGraphicsPrimitives" >Drawing Graphics Primitives</A>
+<LI><A HREF="#DrawingText" >Drawing Text</A>
+<LI><A HREF="#DrawingImages" >Drawing Images</A>
+</UL>
+<LI><A HREF="#TrackingImages" >Tracking Images</A>
+<UL>
+<LI><A HREF="#TheMediaTrackerClass" >The MediaTracker Class</A>
+<LI><A HREF="#UsingtheMediaTracker" >Using the Media Tracker</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+Graphics are at the heart of most games. Knowing this, you need
+to understand a certain degree of Java graphics fundamentals before
+you get into full-blown game graphics. Today's lesson focuses
+on some of the basic Java graphics techniques that will be important
+as you move on to programming game graphics. You aren't going
+to get into too many gritty details today, because this lesson
+is meant to only lay the groundwork of using Java graphics. Don't
+worry, you'll build some serious Java graphics skills throughout
+the rest of the book.
+<P>
+You begin today's lesson by learning about the Java graphics coordinate
+system and the class used as the basis for most of the Java graphics
+operations. You then move on to images and how they are used in
+the context of a Java applet. The lesson finishes with an in-depth
+discussion of how to track the loading of images over a Web connection,
+which is a very important topic in regard to game graphics.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>The graphics coordinate system
+<LI>The basics of color
+<LI>The graphics class
+<LI>Tracking images
+</UL>
+<H2><A NAME="TheGraphicsCoordinateSystem"><B><FONT SIZE=5 COLOR=#FF0000>The
+Graphics Coordinate System</FONT></B></A></H2>
+<P>
+All graphical computing systems use some sort of coordinate system
+to specify the nature of points in the system. Coordinate systems
+typically spell out the origin (0,0) of a graphical system, as
+well as the axes and directions of increasing value for each of
+the axes. The traditional mathematical coordinate system familiar
+to most of us is shown in Figure 5.1.
+<P>
+<A HREF="f5-1.gif" ><B>Figure 5.1 : </B><I>The traditional coordinate system.</I></A>
+<P>
+The graphical system in Java uses a coordinate system of its own
+to specify how and where drawing operations take place. Because
+all drawing in Java takes place within the confines of an applet
+window, the Java coordinate system is realized by the applet window.
+The coordinate system in Java has an origin that is located in
+the upper-left corner of the window; positive X values increase
+to the right and positive Y values increase down. All values in
+the Java coordinate system are positive integers. Figure 5.2 shows
+how this coordinate system looks.
+<P>
+<A HREF="f5-2.gif" ><B>Figure 5.2 : </B><I>The Java graphics coordinate system.</I></A>
+<H2><A NAME="TheBasicsofColor"><B><FONT SIZE=5 COLOR=#FF0000>The
+Basics of Color</FONT></B></A></H2>
+<P>
+A topic that impacts almost every area of Java graphics is color.
+Therefore, it's important to understand the underlying nature
+of color and how it is modeled in Java and in computer systems
+in general. Most computer systems take a similar approach to representing
+color. The main function of color in a computer system is to accurately
+reflect the physical nature of color within the confines of a
+graphical system. This physical nature isn't hard to figure out;
+anyone who has experienced the joy of Play-Doh can tell you that
+colors react in different ways when they are combined with each
+other. Like Play-Doh, a computer color system needs to be able
+to mix colors with accurate, predictable results.
+<P>
+Color computer monitors provide possibly the most useful insight
+into how software systems implement color. A color monitor has
+three electron guns: red, green, and blue. The output from these
+three guns converges on each pixel of the screen, exciting phosphors
+to produce the appropriate color (see Figure 5.3). The combined
+intensities of each gun determine the resulting pixel color. This
+convergence of different colors from the monitor guns is very
+similar to the convergence of different colored Play-Doh.
+<P>
+<A HREF="f5-3.gif" ><B>Figure 5.3 : </B><I>Electron guns in a color monitor converging to create a unique color.</I></A>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Technically speaking, the result of combining colors on a monitor is different than that of combining similarly colored Play Doh. The reason for this is that color combinations on a monitor are additive, meaning that mixed colors are emitted by the 
+monitor; Play oh color combinations are subtractive, meaning that mixed colors are absorbed. The additive or subtractive nature of a color combination is dependent on the physical properties of the particular medium involved.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The Java color system is very similar to the physical system used
+by color monitors; it forms unique colors by using varying intensities
+of the colors red, green, and blue. Therefore, Java colors are
+represented by the combination of the numeric intensities of the
+primary colors (red, green, and blue). This color system is known
+as RGB (Red Green Blue) and is standard across most graphical
+computer systems.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Although RGB is the most popular computer color system in use, there are others. Another popular color system is HSB, which stands for Hue Saturation Brightness. In this system, colors are defined by varying degrees of hue, saturation, and brightness. The 
+HSB color system is also supported by Java.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Table 5.1 shows the numeric values for the red, green, and blue
+components of some basic colors. Notice that the intensities of
+each color component range from 0 to 255 in value.
+<BLOCKQUOTE>
+<B><CENTER>Table 5.1. RGB component values for some basic colors.<BR>
+</B></CENTER>
+</BLOCKQUOTE>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><I>Color</I></TD><TD WIDTH=46><I><CENTER>Red</CENTER></I></TD>
+<TD WIDTH=58><I><CENTER>Green</CENTER></I></TD><TD WIDTH=48><I><CENTER>Blue</CENTER></I></TD></TR>
+<TR><TD WIDTH=87>White</TD><TD WIDTH=46><CENTER>255</CENTER></TD><TD WIDTH=58><CENTER>255</CENTER>
+</TD><TD WIDTH=48><CENTER>255</CENTER></TD></TR>
+<TR><TD WIDTH=87>Black</TD><TD WIDTH=46><CENTER>0</CENTER></TD><TD WIDTH=58><CENTER>0</CENTER></TD>
+<TD WIDTH=48><CENTER>0</CENTER></TD></TR>
+<TR><TD WIDTH=87>Light Gray</TD><TD WIDTH=46><CENTER>192</CENTER></TD><TD WIDTH=58><CENTER>192</CENTER>
+</TD><TD WIDTH=48><CENTER>192</CENTER></TD></TR>
+<TR><TD WIDTH=87>Dark Gray</TD><TD WIDTH=46><CENTER>128</CENTER></TD><TD WIDTH=58><CENTER>128</CENTER>
+</TD><TD WIDTH=48><CENTER>128</CENTER></TD></TR>
+<TR><TD WIDTH=87>Red</TD><TD WIDTH=46><CENTER>255</CENTER></TD><TD WIDTH=58><CENTER>0</CENTER></TD>
+<TD WIDTH=48><CENTER>0</CENTER></TD></TR>
+<TR><TD WIDTH=87>Green</TD><TD WIDTH=46><CENTER>0</CENTER></TD><TD WIDTH=58><CENTER>255</CENTER>
+</TD><TD WIDTH=48><CENTER>0</CENTER></TD></TR>
+<TR><TD WIDTH=87>Blue</TD><TD WIDTH=46><CENTER>0</CENTER></TD><TD WIDTH=58><CENTER>0</CENTER></TD>
+<TD WIDTH=48><CENTER>255</CENTER></TD></TR>
+<TR><TD WIDTH=87>Yellow</TD><TD WIDTH=46><CENTER>255</CENTER></TD><TD WIDTH=58><CENTER>255</CENTER>
+</TD><TD WIDTH=48><CENTER>0</CENTER></TD></TR>
+<TR><TD WIDTH=87>Purple</TD><TD WIDTH=46><CENTER>255</CENTER></TD><TD WIDTH=58><CENTER>0</CENTER>
+</TD><TD WIDTH=48><CENTER>255</CENTER></TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Java provides a class, <TT><FONT FACE="Courier">Color</FONT></TT>,
+for modeling colors. The <TT><FONT FACE="Courier">Color</FONT></TT>
+class represents an RGB color and provides methods for extracting
+and manipulating the primary color components. <TT><FONT FACE="Courier">Color</FONT></TT>
+also includes constant members representing many popular colors.
+You typically use the <TT><FONT FACE="Courier">Color</FONT></TT>
+class to specify the color when you are using many of Java's graphical
+functions, about which you learn next.
+<H2><A NAME="TheGraphicsClass"><B><FONT SIZE=5 COLOR=#FF0000>The
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">Graphics</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Class</FONT></B></A></H2>
+<P>
+Most of Java's graphics functions are accessible through a single
+class, <TT><FONT FACE="Courier">Graphics</FONT></TT>, found in
+the Java awt (Advanced Windowing Toolkit) package. The <TT><FONT FACE="Courier">Graphics</FONT></TT>
+class models a graphics context.
+<P>
+A <I>graphics context</I> is an abstract representation of a graphical
+surface that can be drawn upon.
+<P>
+An abstract drawing surface (graphics context) is basically a
+way to allow you to draw in a generic manner, without worrying
+about where the drawing is physically taking place. Graphics contexts
+are necessary so that the same graphics routines can be used regardless
+of whether you are drawing to the screen, to memory, or to a printer.
+The <TT><FONT FACE="Courier">Graphics</FONT></TT> class provides
+you with a graphics context to which you perform all graphics
+funtions. As you learn about the functionality provided by the
+<TT><FONT FACE="Courier">Graphics</FONT></TT> class, keep in mind
+that its output is largely independent of the ultimate destination
+thanks to graphics contexts.
+<P>
+Graphical output code in a Java applet is usually implemented
+in the applet's <TT><FONT FACE="Courier">paint</FONT></TT> method.
+A <TT><FONT FACE="Courier">Graphics</FONT></TT> object is passed
+into the <TT><FONT FACE="Courier">paint</FONT></TT> method, which
+is then used to perform graphical output to the applet window
+(output surface). Because the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object is provided by <TT><FONT FACE="Courier">paint</FONT></TT>,
+you never explicitly create a <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Actually, you couldn't explicitly create a <TT><FONT FACE="Courier">Graphics</FONT></TT> object even if you wanted to because it is an abstract class. If you recall from <A HREF="ch3.htm" >Day 3</A>, an abstract class is a class containing unimplemented 
+methods, meaning that objects can't be directly created from the class.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Even though graphics operations often take place within the context
+of an applet window, the output of the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object is really tied to a component.
+<P>
+A <I>component</I> is a generic graphical window that forms the
+basis for all other graphical elements in the Java system. Java
+components are modeled at the highest level by the <TT><FONT FACE="Courier">Component</FONT></TT>
+class, which is defined in the awt package.
+<P>
+An applet window is just a specific type of component. Thinking
+of graphics in terms of the <TT><FONT FACE="Courier">Component</FONT></TT>
+class rather than an applet window shows you that graphics can
+be output to any object that is derived from <TT><FONT FACE="Courier">Component</FONT></TT>.
+As a matter of fact, every <TT><FONT FACE="Courier">Component</FONT></TT>
+object contains a corresponding <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object that is used to render graphics on its surface.
+<P>
+Java graphics contexts (<TT><FONT FACE="Courier">Graphics</FONT></TT>
+objects) have a few attributes that determine how different graphical
+operations are carried out. The most important of these attributes
+is the color attribute, which determines the color used in graphics
+operations such as drawing lines. You set this attribute using
+the <TT><FONT FACE="Courier">setColor</FONT></TT> method defined
+in the <TT><FONT FACE="Courier">Graphics</FONT></TT> class. <TT><FONT FACE="Courier">setColor</FONT></TT>
+takes a <TT><FONT FACE="Courier">Color</FONT></TT> object as its
+only parameter. Similar to <TT><FONT FACE="Courier">setColor</FONT></TT>
+is <TT><FONT FACE="Courier">setBackground</FONT></TT>, which is
+a method in the <TT><FONT FACE="Courier">Component</FONT></TT>
+class that determines the color of the component's background.
+<TT><FONT FACE="Courier">Graphics</FONT></TT> objects also have
+a font attribute that determines the size and appearance of text.
+This attribute is set using the <TT><FONT FACE="Courier">setFont</FONT></TT>
+method, which takes a <TT><FONT FACE="Courier">Font</FONT></TT>
+object as its only parameter. You learn more about drawing text
+and using the <TT><FONT FACE="Courier">Font</FONT></TT> object,
+which is covered a little later today in the &quot;Drawing Text&quot;
+section.
+<P>
+Most of the graphics operations provided by the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+class fall into one of the following categories:
+<UL>
+<LI>Drawing graphics primitives
+<LI>Drawing text
+<LI>Drawing images
+</UL>
+<H3><A NAME="DrawingGraphicsPrimitives"><B>Drawing Graphics Primitives</B></A>
+</H3>
+<P>
+<I>Graphics primitives</I> consist of lines, rectangles, circles,
+polygons, ovals, and arcs. You can create pretty impressive graphics
+by using these primitives in conjunction with each other; the
+<TT><FONT FACE="Courier">Graphics</FONT></TT> class provides methods
+for drawing these primitives. Certain methods also act on primitives
+that form closed regions. You can use these methods to erase the
+area defined by a primitive or fill it with a particular color.
+<P>
+<I>Closed regions</I> are graphical elements with a clearly distinctive
+inside and outside. For example, circles and rectangles are closed
+regions, whereas lines and points are not.
+<P>
+I'm not going to go through an exhaustive explanation of how to
+draw each type of primitive, because they don't usually impact
+game graphics that much. Most games rely more on images, which
+you learn about later today in the &quot;Drawing Images&quot;
+section. Nevertheless, look at a few of the primitives just so
+you can see how they work.
+<H4><B>Lines</B></H4>
+<P>
+Lines are the simplest of the graphics primitives and are therefore
+the easiest to draw. The <TT><FONT FACE="Courier">drawLine</FONT></TT>
+method handles drawing lines, and is defined as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void drawLine(int x1, int y1, int x2,
+int y2)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first two parameters, <TT><FONT FACE="Courier">x1</FONT></TT>
+and <TT><FONT FACE="Courier">y1</FONT></TT>, specify the starting
+point for the line, and the <TT><FONT FACE="Courier">x2</FONT></TT>
+and <TT><FONT FACE="Courier">y2</FONT></TT> parameters specify
+the ending point. To draw a line in an applet, call <TT><FONT FACE="Courier">drawLine</FONT></TT>
+in the applet's <TT><FONT FACE="Courier">paint</FONT></TT> method,
+as in the following:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void paint(Graphics g) {<BR>
+&nbsp;&nbsp;g.drawLine(5, 10, 15, 55);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The results of this code are shown in Figure 5.4.
+<P>
+<A HREF="f5-4.gif" ><B>Figure 5.4 : </B><I>A line drawn using the drawLine method.</I></A>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Most graphical programming environments provide a means to draw lines (and other graphics primitives) in various widths. Java doesn't currently provide a facility to vary the width of lines, which is a pretty big limitation. A future release of Java will 
+probably alleviate this problem.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H4><B>Rectangles</B></H4>
+<P>
+Rectangles are also very easy to draw. The <TT><FONT FACE="Courier">drawRect</FONT></TT>
+method enables you to draw rectangles by specifying the upper-left
+corner and the width and height of the rectangle. The <TT><FONT FACE="Courier">drawRect</FONT></TT>
+method is defined in <TT><FONT FACE="Courier">Graphics</FONT></TT>
+as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void drawRect(int x, int y, int width,
+int height)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">x</FONT></TT> and <TT><FONT FACE="Courier">y</FONT></TT>
+parameters specify the location of the upper-left corner of the
+rectangle, whereas the <TT><FONT FACE="Courier">width</FONT></TT>
+and <TT><FONT FACE="Courier">height</FONT></TT> parameters specify
+their namesakes. To draw a rectangle using <TT><FONT FACE="Courier">drawRect</FONT></TT>,
+just call it from the <TT><FONT FACE="Courier">paint</FONT></TT>
+method like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void paint(Graphics g) {<BR>
+&nbsp;&nbsp;g.drawRect(5, 10, 15, 55);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The results of this code are shown in Figure 5.5.
+<P>
+<A HREF="f5-5.gif" ><B>Figure 5.5 : </B><I>A rectangle drawn using the drawRect method.</I></A>
+<P>
+You can also use a <TT><FONT FACE="Courier">drawRoundRect</FONT></TT>
+method, which allows you to draw rectangles with rounded corners.
+<H4><B>Other Primitives</B></H4>
+<P>
+The other graphics primitives (circles, polygons, ovals, and arcs)
+are drawn in a very similar fashion to lines and rectangles. Because
+you won't actually be using graphics primitives much throughout
+this book, there's no need to go into any more detail with them.
+If you're curious, feel free to check out the documentation that
+comes with the Java Developer's Kit. I'm not trying to lessen
+the importance of graphics primitives, because they are very useful
+in many situations. It's just that the game graphics throughout
+this book are more dependent on images, with a little text sprinkled
+in.
+<H3><A NAME="DrawingText"><B>Drawing Text</B></A></H3>
+<P>
+Because Java applets are entirely graphical in nature, you must
+use the <TT><FONT FACE="Courier">Graphics</FONT></TT> object even
+when you want to draw text. Fortunately, drawing text is very
+easy and yields very nice results. You will typically create a
+font for the text and select it as the font to be used by the
+graphics context before actually drawing any text. As you learned
+earlier, the <TT><FONT FACE="Courier">setFont</FONT></TT> method
+selects a font into the current graphics context. This method
+is defined as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void setFont(Font font)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">Font</FONT></TT> object models a
+textual font, and includes the name, point size, and style of
+the font. The <TT><FONT FACE="Courier">Font</FONT></TT> object
+supports three different font styles, which are implemented as
+the following constant members: <TT><FONT FACE="Courier">BOLD</FONT></TT>,
+<TT><FONT FACE="Courier">ITALIC</FONT></TT>, and <TT><FONT FACE="Courier">PLAIN</FONT></TT>.
+These styles are really just constant numbers, and can be added
+together to yield a combined effect. The constructor for the <TT><FONT FACE="Courier">Font</FONT></TT>
+object is defined as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Font(String name, int style, int
+size)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+As you can see, the constructor takes as parameters the name,
+style, and point size of the font. You might be wondering exactly
+how the font names work; you simply provide the string name of
+the font you want to use. The names of the most common fonts supported
+by Java are Times Roman, Courier, and Helvetica. Therefore, to
+create a bold, italic, Helvetica, 22-point font, you would use
+the following code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Font f = new Font(&quot;Helvetica&quot;,
+Font.BOLD + Font.ITALIC, 22);<BR>
+</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Some systems support other fonts beyond the three common fonts mentioned here (Times Roman, Courier, and Helvetica). Even though you are free to use other fonts, keep in mind that these three common fonts are the only ones guaranteed to be supported across 
+all systems. In other words, it's much safer to stick with these fonts.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+After you've created a font, you will often want to create a <TT><FONT FACE="Courier">FontMetric</FONT></TT>
+object to find out the details of the font's size. The <TT><FONT FACE="Courier">FontMetric</FONT></TT>
+class models very specific placement information about a font,
+such as the ascent, descent, leading, and total height of the
+font. Figure 5.6 shows what each of these font metric attributes
+represent.
+<P>
+<A HREF="f5-6.gif" ><B>Figure 5.6 : </B><I>The different font metric attributes.</I></A>
+<P>
+You can use the font metrics to precisely control the location
+of text you are drawing. After you have the metrics under control,
+you just need to select the original <TT><FONT FACE="Courier">Font</FONT></TT>
+object into the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object using the <TT><FONT FACE="Courier">setFont</FONT></TT>
+method, as in the following:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">g.setFont(f);</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Now you're ready to draw some text using the font you've created,
+sized up, and selected. The <TT><FONT FACE="Courier">drawString</FONT></TT>
+method, defined in the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+class, is exactly what you need. <TT><FONT FACE="Courier">drawString</FONT></TT>
+is defined as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void drawString(String str, int x, int
+y)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">drawString</FONT></TT> takes a <TT><FONT FACE="Courier">String</FONT></TT>
+object as its first parameter, which determines the text that
+is drawn. The last two parameters specify the location in which
+the string is drawn; <TT><FONT FACE="Courier">x</FONT></TT> specifies
+the left edge of the text and <TT><FONT FACE="Courier">y</FONT></TT>
+specifies the baseline of the text. The baseline of the text is
+the bottom of the text, not including the descent. Refer to Figure
+5.6 if you are having trouble visualizing this.
+<P>
+The Drawtext sample applet demonstrates drawing a string centered
+in the applet window. Figure 5.7 shows the Drawtext applet in
+action.
+<P>
+<A HREF="f5-7.gif" ><B>Figure 5.7 : </B><I>The Draw Text sample applet.</I></A>
+<P>
+The source code for the Drawtext sample applet is shown in Listing
+5.1.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.1. The Drawtext sample applet.</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">//&nbsp;Drawtext Class<BR>
+//&nbsp;Drawtext.java<BR>
+<BR>
+//&nbsp;Imports<BR>
+import java.applet.*;<BR>
+import java.awt.*;<BR>
+<BR>
+public class Drawtext extends Applet {<BR>
+&nbsp;&nbsp;public void paint(Graphics g) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font
+= new Font(&quot;Helvetica&quot;, Font.BOLD +<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font.ITALIC, 22);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;FontMetrics fm = g.getFontMetrics(font);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str
+= new<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String(&quot;It's just a mere
+shadow of itself.&quot;);<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.setFont(font);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.drawString(str, (size().width - fm.stringWidth(str))
+/ 2,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((size().height - fm.getHeight())
+/ 2) + fm.getAscent());<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Drawtext uses the font-related methods you just learned to draw
+a string centered in the applet window. You might be wondering
+about the calls to the <TT><FONT FACE="Courier">size</FONT></TT>
+method when the location to draw the string is being calculated.
+The <TT><FONT FACE="Courier">size</FONT></TT> method is a member
+of <TT><FONT FACE="Courier">Component</FONT></TT> and returns
+a <TT><FONT FACE="Courier">Dimension</FONT></TT> object specifying
+the width and height of the applet window.
+<P>
+That sums up the basics of drawing text using the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object. Now it's time to move on to the most important aspect
+of Java graphics in regard to games: images.
+<H3><A NAME="DrawingImages"><B>Drawing Images</B></A></H3>
+<P>
+<I>Images</I> are rectangular graphical objects composed of colored
+pixels.
+<P>
+Each pixel in an image describes the color at that particular
+location of the image. Pixels can have unique colors that are
+usually described using the RGB color system. Java provides support
+for working with 32-bit images, which means that each pixel in
+an image is described using 32 bits. The red, green, and blue
+components of a pixel's color are stored in these 32 bits, along
+with an alpha component.
+<P>
+The <I>alpha component</I> of a pixel refers to the transparency
+or opaqueness of the pixel.
+<P>
+Before getting into the details of how to draw an image, you first
+need to learn how to load images. The <TT><FONT FACE="Courier">getImage</FONT></TT>
+method, defined in the <TT><FONT FACE="Courier">Applet</FONT></TT>
+class, is used to load an image from a URL. <TT><FONT FACE="Courier">getImage</FONT></TT>
+comes in two versions, which are defined as follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Image getImage(URL url)<BR>
+Image getImage(URL url, String name)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+These two versions essentially perform the same function; the
+only difference is that the first version expects a fully qualified
+URL, including the name of the image, and the second version enables
+you to specify a separate URL and image name.
+<P>
+You probably noticed that both versions of <TT><FONT FACE="Courier">getImage</FONT></TT>
+return an object of type <TT><FONT FACE="Courier">Image</FONT></TT>.
+The <TT><FONT FACE="Courier">Image</FONT></TT> class represents
+a graphical image, such as a GIF or JPEG file image, and provides
+a few methods for finding out the width and height of the image.
+<TT><FONT FACE="Courier">Image</FONT></TT> also includes a method
+for retrieving a graphics context for the image, which enables
+you to draw directly onto an image.
+<P>
+The <TT><FONT FACE="Courier">Graphics</FONT></TT> class provides
+a handful of methods for drawing images, which follow:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">boolean drawImage(Image img, int x, int
+y, ImageObserver observer)<BR>
+boolean drawImage(Image img, int x, int y, int width, int height,
+<BR>
+&nbsp;&nbsp;ImageObserver observer)<BR>
+boolean drawImage(Image img, int x, int y, Color bgcolor, ImageObserver
+<BR>
+&nbsp;&nbsp;observer)<BR>
+boolean drawImage(Image img, int x, int y, int width, int height,
+Color<BR>
+&nbsp;&nbsp;bgcolor, ImageObserver observer)</FONT></TT>
+</BLOCKQUOTE>
+<P>
+All these methods are variants on the same theme: they all draw
+an image at a certain location as defined by the parameters <TT><FONT FACE="Courier">x</FONT></TT>
+and <TT><FONT FACE="Courier">y</FONT></TT>. The last parameter
+in each method is an object of type <TT><FONT FACE="Courier">ImageObserver</FONT></TT>,
+which is used internally by <TT><FONT FACE="Courier">drawImage</FONT></TT>
+to get information about the image.
+<P>
+The first version of <TT><FONT FACE="Courier">drawImage</FONT></TT>
+draws the image at the specified <TT><FONT FACE="Courier">x</FONT></TT>
+and <TT><FONT FACE="Courier">y</FONT></TT> location-<TT><FONT FACE="Courier">x</FONT></TT>
+and <TT><FONT FACE="Courier">y</FONT></TT> represent the upper-left
+corner of the image. The second version draws the image inside
+the rectangle formed by <TT><FONT FACE="Courier">x</FONT></TT>,
+<TT><FONT FACE="Courier">y</FONT></TT>, <TT><FONT FACE="Courier">width</FONT></TT>,
+and <TT><FONT FACE="Courier">height</FONT></TT>. If this rectangle
+is different than the image rectangle, the image will be scaled
+to fit. The third version of <TT><FONT FACE="Courier">drawImage</FONT></TT>
+draws the image with transparent areas filled in with the background
+color specified in the <TT><FONT FACE="Courier">bgcolor</FONT></TT>
+parameter. The last version of <TT><FONT FACE="Courier">drawImage</FONT></TT>
+combines the capabilities in the first three, enabling you to
+draw an image within a given rectangle and with a background color.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Don't worry if you haven't heard of transparency before; you learn all about it in <A HREF="ch6.htm" >Day 6</A>, &quot;Sprite Animation.&quot; For now, just think of it as areas in an image that aren't drawn, resulting in the background showing through.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The process of drawing an image involves calling the <TT><FONT FACE="Courier">getImage</FONT></TT>
+method to load the image, followed by a call to <TT><FONT FACE="Courier">drawImage</FONT></TT>,
+which actually draws the image on a graphics context. The DrawImage
+sample applet shows how easy it is to draw an image (see Figure
+5.8).
+<P>
+<A HREF="f5-8.gif" ><B>Figure 5.8 : </B><I>The DrawImage sample applet.</I></A>
+<P>
+The source code for the DrawImage sample applet is shown in Listing
+5.2.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.2. The DrawImage sample applet.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">//&nbsp;DrawImage Class<BR>
+//&nbsp;DrawImage.java<BR>
+<BR>
+//&nbsp;Imports<BR>
+import java.applet.*;<BR>
+import java.awt.*;<BR>
+<BR>
+public class DrawImage extends Applet {<BR>
+&nbsp;&nbsp;public void paint(Graphics g) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Image img = getImage(getCodeBase(), &quot;Res/Ride.gif&quot;);
+<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;g.drawImage(img, (size().width - img.getWidth(this))
+/ 2,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(size().height - img.getHeight(this))
+/ 2, this);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The DrawImage sample applet loads an image in the <TT><FONT FACE="Courier">paint</FONT></TT>
+method using <TT><FONT FACE="Courier">getImage</FONT></TT>. The
+<TT><FONT FACE="Courier">getCodeBase</FONT></TT> method is used
+to specify the applet directory where applet resources are usually
+located, while the image name itself is simply given as a string.
+The image is actually stored in the <I>Res</I> subdirectory beneath
+the applet directory, as evident by the image name (<TT><FONT FACE="Courier">&quot;Res/Ride.gif&quot;</FONT></TT>)
+passed into <TT><FONT FACE="Courier">getImage</FONT></TT>. The
+image is then drawn centered in the applet window using the <TT><FONT FACE="Courier">drawImage</FONT></TT>
+method. It's as simple as that!
+<H2><A NAME="TrackingImages"><B><FONT SIZE=5 COLOR=#FF0000>Tracking
+Images</FONT></B></A></H2>
+<P>
+Even though images are a very neat way of displaying high-quality
+graphics within a Java applet, they aren't without their drawbacks.
+The biggest problem with using images is the fact that they must
+be transmitted over the Web as needed, which brings up the issue
+of transmitting multimedia content over a limited bandwidth. This
+means that the speed at which images are transferred over a Web
+connection will often cause a noticeable delay in a Java applet
+reliant on them, such as games.
+<P>
+There is a standard technique for dealing with transmission delay
+as it affects static images. You've no doubt seen this technique
+at work in your Web browser when you've viewed images in Web pages.
+The technique is known as <I>interlacing</I>, and it makes images
+appear blurry until they have been completely transferred. To
+use interlacing, images must be stored in an interlaced format
+(usually GIF version 89a), which means that the image data is
+arranged in a way so that the image can be displayed before it
+is completely transmitted. Interlacing is a good approach to dealing
+with transmission delays for static images because it enables
+you to see the image as it is being transferred. Without interlacing,
+you have to wait until the entire image has been transferred before
+seeing it at all.
+<P>
+Before you get too excited about interlacing, keep in mind that
+it is useful only for static images. You're probably wondering
+why this is the case. It has to do with the fact that animations
+(dynamic images) rely on rapidly displaying a sequence of images
+over time, all of which must be readily available to successfully
+create the effect of movement.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Don't worry if this animation stuff is new to you; you learn all the juicy details on <A HREF="ch6.htm" >Day 6</A>.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+An animation sequence wouldn't look right using interlacing, because
+some of the images would be transferred before others. A good
+solution would be to just wait until all the images have been
+transferred before displaying the animation. That's fine, but
+how do you know when the images have all been transferred? Enter
+the Java media tracker.
+<P>
+The Java media tracker is an object that tracks when media objects,
+such as images, have been successfully transferred. Using the
+media tracker, you can keep track of any number of media objects
+and query to see when they have finished being transmitted. For
+example, suppose you have an animation with four images. Using
+the media tracker, you would register each of these images and
+then wait until they have all been transferred before displaying
+the animation. The media tracker keeps up with the load status
+of each image. When the media tracker reports that all the images
+have been successfully loaded, you are guaranteed that your animation
+has all the necessary images to display correctly.
+<H3><A NAME="TheMediaTrackerClass"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">MediaTracker</FONT></B></TT><B><FONT SIZE=4>
+Class</FONT></B></A></H3>
+<P>
+The Java <TT><FONT FACE="Courier">MediaTracker</FONT></TT> class
+is part of the awt package and contains a variety of members and
+methods for tracking media objects. Unfortunately, the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+class that ships with release 1.0 of the Java development kit
+supports only image tracking. Future versions of Java are expected
+to add support for other types of media objects such as sound
+and music.
+<P>
+The <TT><FONT FACE="Courier">MediaTracker</FONT></TT> class provides
+member flags for representing various states associated with tracked
+media objects. These flags are returned by many of the member
+functions of <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+and are as follows: 
+<UL>
+<LI><TT><FONT FACE="Courier">LOADING</FONT></TT>: Indicates that
+a media object is currently in the process of being loaded.
+<LI><TT><FONT FACE="Courier">ABORTED</FONT></TT>: Indicates that
+the loading of a media object has been aborted.
+<LI><TT><FONT FACE="Courier">ERRORED</FONT></TT>: Indicates that
+some type of error occurred while loading a media object.
+<LI><TT><FONT FACE="Courier">COMPLETE</FONT></TT>: Indicates that
+a media object has been successfully loaded.
+</UL>
+<P>
+The <TT><FONT FACE="Courier">MediaTracker</FONT></TT> class provides
+a variety of methods for helping to track media objects:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">MediaTracker(Component comp)<BR>
+void addImage(Image image, int id)<BR>
+synchronized void addImage(Image image, int id, int w, int h)
+<BR>
+boolean checkID(int id)<BR>
+synchronized boolean checkID(int id, boolean load)<BR>
+boolean checkAll()<BR>
+synchronized boolean checkAll(boolean load)<BR>
+void waitForID(int id)<BR>
+synchronized boolean waitForID(int id, long ms)<BR>
+void waitForAll()<BR>
+synchronized boolean waitForAll(long ms)<BR>
+int statusID(int id, boolean load)<BR>
+int statusAll(boolean load)<BR>
+synchronized boolean isErrorID(int id)<BR>
+synchronized boolean isErrorAny()<BR>
+synchronized Object[] getErrorsID(int id)<BR>
+synchronized Object[] getErrorsAny()</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The constructor for <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+takes a single parameter of type <TT><FONT FACE="Courier">Component</FONT></TT>.
+This parameter specifies the <TT><FONT FACE="Courier">Component</FONT></TT>
+object on which tracked images will eventually be drawn. This
+parameter reflects the current limitation of being able to track
+only images with the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+class and not sounds or other types of media.
+<P>
+The <TT><FONT FACE="Courier">addImage</FONT></TT> methods add
+an image to the list of images currently being tracked. Both methods
+take as their first parameter an <TT><FONT FACE="Courier">Image</FONT></TT>
+object and as their second parameter an identifier that uniquely
+identifies the image. If you want to track a group of images together,
+you can use the same identifier for each image. The second <TT><FONT FACE="Courier">addImage</FONT></TT>
+method has additional parameters for specifying the width and
+height of a tracked image. This version of <TT><FONT FACE="Courier">addImage</FONT></TT>
+is used for tracking images that you are going to scale; you pass
+the width and height that you want to use for the scaled the image.
+<P>
+After you have added images to the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+object, you are ready to check their status. You use the <TT><FONT FACE="Courier">checkID</FONT></TT>
+methods to check whether images matching the passed identifier
+have finished loading. Both versions of <TT><FONT FACE="Courier">checkID</FONT></TT>
+return <TT><FONT FACE="Courier">false</FONT></TT> if the images
+have not finished loading, and <TT><FONT FACE="Courier">true</FONT></TT>
+otherwise. Both methods return <TT><FONT FACE="Courier">true</FONT></TT>
+even if the loading has been aborted or if an error has occurred.
+You must call the appropriate error checking methods to see whether
+an error has occurred. (You learn the error checking methods a
+little later in this section.) The only difference between the
+two <TT><FONT FACE="Courier">checkID</FONT></TT> methods is how
+each loads an image. The first version of <TT><FONT FACE="Courier">checkID</FONT></TT>
+does not load an image if that image has not already begun loading.
+The second version enables you to specify that the image should
+be loaded even if it hasn't already begun loading, which is carried
+out by passing <TT><FONT FACE="Courier">true</FONT></TT> in the
+<TT><FONT FACE="Courier">load</FONT></TT> parameter.
+<P>
+The <TT><FONT FACE="Courier">checkAll</FONT></TT> methods are
+very similar to the <TT><FONT FACE="Courier">checkID</FONT></TT>
+methods, except that they apply to all images, not just those
+matching a certain identifier. Similar to the <TT><FONT FACE="Courier">checkID</FONT></TT>
+methods, the <TT><FONT FACE="Courier">checkAll</FONT></TT> methods
+come in two versions. The first version checks to see whether
+the images have finished loading, but doesn't load any images
+that haven't already begun loading. The second version also checks
+the status of loading images but enables you to indicate that
+images are to be loaded if they haven't started already.
+<P>
+You use the <TT><FONT FACE="Courier">waitForID</FONT></TT> methods
+to begin loading images with a certain identifier. This identifier
+should match the identifier used when the images were added to
+the media tracker with the <TT><FONT FACE="Courier">addImage</FONT></TT>
+method. Both versions of <TT><FONT FACE="Courier">waitForID</FONT></TT>
+are synchronous, meaning that they do not return until all the
+specified images have finished loading or an error occurs. The
+second version of <TT><FONT FACE="Courier">waitForID</FONT></TT>
+enables you to specify a timeout period, in which case the load
+will end and <TT><FONT FACE="Courier">waitForID</FONT></TT> will
+return <TT><FONT FACE="Courier">true</FONT></TT>. You specify
+the timeout period in milliseconds by using the <TT><FONT FACE="Courier">ms</FONT></TT>
+parameter.
+<P>
+The <TT><FONT FACE="Courier">waitForAll</FONT></TT> methods are
+very similar to the <TT><FONT FACE="Courier">waitForID</FONT></TT>
+methods, except they operate on all images. Like the <TT><FONT FACE="Courier">waitForID</FONT></TT>
+methods, there are versions of <TT><FONT FACE="Courier">waitForAll</FONT></TT>
+both with and without timeout support.
+<P>
+You use the <TT><FONT FACE="Courier">statusID</FONT></TT> method
+to determine the status of images matching the identifier passed
+in the <TT><FONT FACE="Courier">id</FONT></TT> parameter. <TT><FONT FACE="Courier">statusID</FONT></TT>
+returns the bitwise <TT><FONT FACE="Courier">OR</FONT></TT> of
+the status flags related to the images. The possible flags are
+<TT><FONT FACE="Courier">LOADING</FONT></TT>, <TT><FONT FACE="Courier">ABORTED</FONT></TT>,
+<TT><FONT FACE="Courier">ERRORED</FONT></TT>, and <TT><FONT FACE="Courier">COMPLETE</FONT></TT>.
+To check for a particular status flag, you mask the flag out of
+the return value of <TT><FONT FACE="Courier">statusID</FONT></TT>,
+like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">if (tracker.statusID(0, true) &amp; MediaTracker.ERRORED)
+{<BR>
+&nbsp;&nbsp;// there was an error!<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The second parameter to <TT><FONT FACE="Courier">statusID</FONT></TT>,
+<TT><FONT FACE="Courier">load</FONT></TT>, should be familiar
+to you by now because of its use in the other media tracker methods.
+It specifies whether you want the images to begin loading if they
+haven't begun already. This functionality is very similar to that
+provided by the second version of the <TT><FONT FACE="Courier">checkID</FONT></TT>
+and <TT><FONT FACE="Courier">waitForID</FONT></TT> methods.
+<P>
+The <TT><FONT FACE="Courier">statusAll</FONT></TT> method is very
+similar to the <TT><FONT FACE="Courier">statusId</FONT></TT> method;
+the only difference is that <TT><FONT FACE="Courier">statusAll</FONT></TT>
+returns the status of all the images being tracked rather than
+those matching a specific identifier.
+<P>
+Finally, you arrive at the error-checking methods mentioned earlier
+in this section. The <TT><FONT FACE="Courier">isErrorID</FONT></TT>
+and <TT><FONT FACE="Courier">isErrorAny</FONT></TT> methods check
+the error status of images being tracked. The only difference
+between the two is that <TT><FONT FACE="Courier">isErrorID</FONT></TT>
+checks on images with a certain identifier, whereas <TT><FONT FACE="Courier">isErrorAny</FONT></TT>
+checks on all images. Both of these methods basically check the
+status of each image for the <TT><FONT FACE="Courier">ERRORED</FONT></TT>
+flag. Note that both methods will return <TT><FONT FACE="Courier">true</FONT></TT>
+if any of the images have errors; it's up to you to determine
+which specific images had errors.
+<P>
+If you use <TT><FONT FACE="Courier">isErrorID</FONT></TT> or <TT><FONT FACE="Courier">isErrorAny</FONT></TT>
+and find out that there are load errors, you need to find out
+which images have errors. You do this by using the <TT><FONT FACE="Courier">getErrorsID</FONT></TT>
+and <TT><FONT FACE="Courier">getErrorsAny</FONT></TT> methods.
+These two methods both return an array of <TT><FONT FACE="Courier">Object</FONT></TT>s
+containing the media objects that have load errors. In the current
+implementation of the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+class, this array is always filled with <TT><FONT FACE="Courier">Image</FONT></TT>
+objects. If there are no errors, these methods return <TT><FONT FACE="Courier">null</FONT></TT>.
+Similar to the <TT><FONT FACE="Courier">isErrorID</FONT></TT>
+and <TT><FONT FACE="Courier">isErrorAny</FONT></TT> methods, <TT><FONT FACE="Courier">getErrorsID</FONT></TT>
+and <TT><FONT FACE="Courier">getErrorsAny</FONT></TT> differ only
+by the images that they check; <TT><FONT FACE="Courier">getErrorsID</FONT></TT>
+returns errored images matching the passed identifier, and <TT><FONT FACE="Courier">getErrorsAny</FONT></TT>
+returns all errored images.
+<P>
+That wraps up the description of the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+class. Now that you understand what the class is all about, you're
+probably ready to see it in action. Read on!
+<H3><A NAME="UsingtheMediaTracker"><B>Using the Media Tracker</B></A>
+</H3>
+<P>
+With the media tracker, you know exactly when certain images have
+been transferred and are ready to use. This enables you to display
+alternative output based on whether or not images have finished
+transferring. The Tarantulas sample applet, which is located on
+the accompanying CD-ROM, demonstrates how to use the media tracker
+to track the loading of multiple images and display them only
+when they have all finished transferring. Figure 5.9 shows the
+Tarantulas applet while the images are still being loaded.
+<P>
+<A HREF="f5-9.gif" ><B>Figure 5.9 : </B><I>The Tarantulas applet with images partially loaded.</I></A>
+<P>
+As you can see, none of the images are displayed until they have
+all been successfully transferred. While they are loading, a text
+message is displayed informing the user that the images are still
+in the process of loading. This is a pretty simple enhancement
+to the applet, but one that makes the applet look much more professional.
+By displaying a simple message while media objects are loading,
+you solve the problem of drawing partially transferred images,
+and more important, the problem of displaying animations with
+missing images. The source code for Tarantulas is shown in Listing
+5.3.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 5.3. The Tarantulas sample applet.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">import java.applet.*;<BR>
+import java.awt.*;<BR>
+<BR>
+public class Tarantulas extends Applet implements Runnable {<BR>
+&nbsp;&nbsp;Image&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img[]
+= new Image[8];<BR>
+&nbsp;&nbsp;Thread&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thread;
+<BR>
+&nbsp;&nbsp;MediaTracker&nbsp;&nbsp;tracker;<BR>
+<BR>
+&nbsp;&nbsp;public void init() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tracker = new MediaTracker(this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 8; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;img[i] = getImage(getDocumentBase(),
+&quot;Res/Tarant&quot; + i + &quot;.gif&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.addImage(img[i], 0);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void start() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thread = new Thread(this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thread.start();<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void stop() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thread.stop();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thread = null;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void run() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.waitForID(0);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void paint(Graphics g) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((tracker.statusID(0, true) &amp; MediaTracker.ERRORED)
+!= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.setColor(Color.red);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.fillRect(0, 0, size().width,
+size().height);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((tracker.statusID(0, true) &amp; MediaTracker.COMPLETE)
+!= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 8;
+i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.drawImage(img[i],
+i * img[i].getWidth(this), 0, this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font
+= new Font(&quot;Helvetica&quot;, Font.PLAIN, 18);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FontMetrics fm = g.getFontMetrics(font);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;str
+= new String(&quot;Loading images...&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.setFont(font);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g.drawString(str, (size().width
+- fm.stringWidth(str)) / 2,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((size().height
+- fm.getHeight()) / 2) + fm.getAscent());<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+Begin examining the Tarantulas sample applet by looking at the
+member variables. The <TT><FONT FACE="Courier">thread</FONT></TT>
+member is a <TT><FONT FACE="Courier">Thread</FONT></TT> object
+that is used by the media tracker to wait for the images to load.
+The <TT><FONT FACE="Courier">tracker</FONT></TT> member is the
+<TT><FONT FACE="Courier">MediaTracker</FONT></TT> object used
+to track the images.
+<P>
+In the <TT><FONT FACE="Courier">init</FONT></TT> method, the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+object is created by passing <TT><FONT FACE="Courier">this</FONT></TT>
+as the only parameter to its constructor. Because the <TT><FONT FACE="Courier">init</FONT></TT>
+method is a member of the applet class, <TT><FONT FACE="Courier">Tarantulas</FONT></TT>,
+<TT><FONT FACE="Courier">this</FONT></TT> refers to the applet
+object. If you recall from the discussion of the <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+class earlier in this chapter, the sole constructor parameter
+is of type <TT><FONT FACE="Courier">Component</FONT></TT> and
+represents the component on which the tracked images will be drawn.
+All <TT><FONT FACE="Courier">Applet</FONT></TT> objects are derived
+from <TT><FONT FACE="Courier">Component</FONT></TT>, so passing
+the <TT><FONT FACE="Courier">Applet</FONT></TT> object (<TT><FONT FACE="Courier">this</FONT></TT>)
+correctly initializes the media tracker.
+<P>
+Also notice that the images are added to the media tracker in
+the <TT><FONT FACE="Courier">init</FONT></TT> method. You do this
+by calling the <TT><FONT FACE="Courier">addImage</FONT></TT> method
+of <TT><FONT FACE="Courier">MediaTracker</FONT></TT> and passing
+the <TT><FONT FACE="Courier">Image</FONT></TT> object and an identifier.
+Notice that <TT><FONT FACE="Courier">0</FONT></TT> is passed as
+the identifier for all the images. This means that you are tracking
+them as a group using <TT><FONT FACE="Courier">0</FONT></TT> to
+uniquely identify them.
+<P>
+The <TT><FONT FACE="Courier">start</FONT></TT> and <TT><FONT FACE="Courier">stop</FONT></TT>
+methods are used to manage the creation and destruction of the
+<TT><FONT FACE="Courier">Thread</FONT></TT> member object. These
+are pretty standard implementations for adding basic multithreading
+support to an applet. You'll see these methods several times throughout
+the book because most of the sample applets use threads extensively.
+<P>
+The tracking actually starts taking place with the <TT><FONT FACE="Courier">run</FONT></TT>
+method. The <TT><FONT FACE="Courier">waitForID</FONT></TT> method
+of <TT><FONT FACE="Courier">MediaTracker</FONT></TT> is called
+within a <TT><FONT FACE="Courier">try</FONT></TT>-<TT><FONT FACE="Courier">catch</FONT></TT>
+clause. It must be placed in this exception-handling clause because
+an <TT><FONT FACE="Courier">InterruptedException</FONT></TT> will
+be thrown if another thread interrupts this thread. Recall that
+<TT><FONT FACE="Courier">waitForID</FONT></TT> is synchronous,
+meaning that it won't return until all the images with the specified
+identifier have been loaded. This means that the call to <TT><FONT FACE="Courier">repaint</FONT></TT>
+will not occur until the images have all been loaded.
+<P>
+To understand why this works, you need to look at the last method
+in Tarantulas, <TT><FONT FACE="Courier">paint</FONT></TT>. The
+<TT><FONT FACE="Courier">paint</FONT></TT> method begins by checking
+to see whether an error has occurred in loading the images. It
+does this by calling <TT><FONT FACE="Courier">statusID</FONT></TT>
+and checking the result against the <TT><FONT FACE="Courier">ERRORED</FONT></TT>
+flag. If an error has occurred, <TT><FONT FACE="Courier">paint</FONT></TT>
+fills the applet window with the color red to indicate an error.
+Figure 5.10 shows what Tarantulas looks like when an error occurs.
+<P>
+<A HREF="f5-10.gif" ><B>Figure 5.10 : </B><I>The Tarantulas applet with an error loading the images.</I></A>
+<P>
+The next check performed by <TT><FONT FACE="Courier">paint</FONT></TT>
+is to see whether the images have finished loading. It does this
+by calling <TT><FONT FACE="Courier">statusID</FONT></TT> and comparing
+the result with the <TT><FONT FACE="Courier">COMPLETE</FONT></TT>
+flag. If the images have finished loading, the image array is
+iterated through and each image is drawn on the applet window.
+If the images have not finished loading, the text message <TT><FONT FACE="Courier">Loading
+images...</FONT></TT> is displayed. Figure 5.11 shows the Tarantulas
+applet with all the images successfully loaded.
+<P>
+<A HREF="f5-11.gif" ><B>Figure 5.11 : </B><I>The Tarantulas applet with all the images loaded.</I></A>
+<P>
+That's all there is to tracking images. Too bad all of Java game
+programming isn't this easy-actually, it almost is!
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you were bombarded with a lot of information about the graphics
+support in Java. Most of it was centered around the <TT><FONT FACE="Courier">Graphics</FONT></TT>
+object, which is fortunately pretty straightforward to use. You
+began by learning about color and what it means in the context
+of Java. You then moved on to drawing graphics primitives, text,
+and images. The lesson concluded with a detailed look at how images
+are tracked and managed using the Java media tracker.
+<P>
+Today marked your first major foray into real Java coding for
+games. Even though no game-specific code was developed, you learned
+a great deal about the Java graphics system, which is used extensively
+in games. If you're still hungry for more, don't worry, because
+tomorrow's lesson picks up where you left off and dives into animation.
+If you think you learned a lot today, you better brace yourself
+for tomorrow!
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+<P>
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>If the <TT><B><FONT FACE="Courier">Color</FONT></B></TT> class already contains predefined colors, why does it still have a constructor that accepts the three primary colors?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Because there might be times when you want to use a color that isn't defined in the <TT><FONT FACE="Courier">Color</FONT></TT> class, in which case you would create a <TT><FONT FACE="Courier">Color</FONT></TT> 
+object using the desired levels of red, green, and blue.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why are graphics primitives not as important as images in regard to game graphics?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Because most games take advantage of the high level of realism afforded by images, and therefore rely heavily on images rather than primitive graphics types. However, there are exceptions to this rule; for 
+example, vector games are made up entirely of lines, and some 3-D games are made up entirely of polygons.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>When exactly is the <TT><B><FONT FACE="Courier">paint</FONT></B></TT> method called, and why?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The <TT><FONT FACE="Courier">paint</FONT></TT> method is called any time a portion of a component, such as the applet window, needs to be updated. For example, if a dialog pops up on top of the applet and then 
+disappears, the applet needs to be updated, so <TT><FONT FACE="Courier">paint</FONT></TT> is called. You can force a call to <TT><FONT FACE="Courier">paint</FONT></TT> by calling the <TT><FONT FACE="Courier">repaint</FONT></TT> method; you did this very 
+thing in the Tarantulas applet to update the status of the loading images.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least study the exercises before
+moving on to tomorrow's lesson. You'll find the answers to the
+questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What are the four components of a 32-bit Java color?
+<LI>What is a graphics context?
+<LI>What class provides information about fonts and enables you
+to fine-tune the placement of text?
+<LI>What is the purpose of the media tracker?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Study the Java Developer's Kit documentation and try out some
+of the other graphics primitives not demonstrated in today's lesson.
+<LI>Modify the Drawtext applet to draw a different string and
+make sure the centering code works correctly.
+<LI>Modify the Tarantulas applet to run without the media tracker
+and notice the change in behavior.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch4.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch6.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

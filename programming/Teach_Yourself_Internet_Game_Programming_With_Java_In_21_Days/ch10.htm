@@ -1,0 +1,1059 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 10 -- Traveling Gecko: Blistering Desert Fun</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 10</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Travelin Gecko: Blistering Desert Fun</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#DesigningTravelingGecko" >Designing Traveling Gecko</A>
+<UL>
+<LI><A HREF="#Sprites" >Sprites</A>
+<LI><A HREF="#GamePlay" >Game Play</A>
+</UL>
+<LI><A HREF="#SampleAppletTravelingGecko" >Sample Applet: Traveling Gecko</A>
+<UL>
+<LI><A HREF="#TheSpriteClasses" >The Sprite Classes</A>
+<LI><A HREF="#TheTravelingGeckoClass" >The TravelingGecko Class</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+On <A HREF="ch9.htm" >Day 9</A>, you learned all about handling
+user input in Java. In this lesson, you combine what you learned
+about user input with your knowledge of the sprite classes to
+create your first complete Java game, Traveling Gecko. In doing
+so, you learn and apply new techniques for extending the sprite
+classes.
+<P>
+Today's lesson presents and solves the major technical issues
+involved in putting together a complete Java game. By developing
+a complete game, your core Java game programming skills come full
+circle. You'll see that putting together a complete game isn't
+really that much more complex than the sample sprite applets you've
+already worked on. After you finish this lesson, you'll have the
+fundamental Java game programming constructs firmly in place so
+that you can move on to more advanced topics.
+<H2><A NAME="DesigningTravelingGecko"><B><FONT SIZE=5 COLOR=#FF0000>Designing
+Traveling Gecko</FONT></B></A></H2>
+<P>
+As you learned back in <A HREF="ch7.htm" >Day 7</A>, &quot;Sim
+Tarantula: Creepy Crawly Sprites,&quot; it's very important to
+think through a game design as thoroughly as possible before writing
+any code. So, before you even consider editing a Java source file,
+be sure to think about the game design in both general and specific
+terms. With that in mind, let's break the Traveling Gecko sample
+game into its logical components.
+<P>
+The Traveling Gecko game is modeled roughly on the classic Atari
+2600 Frogger game. In the original Frogger game, you guide a frog
+through traffic and then across a river using floating logs to
+get across. Traveling Gecko takes a similar approach, in that
+the goal is to maneuver an animal from one place to another while
+dodging dangers along the way. However, the setting for Traveling
+Gecko is the desert southwest, and your character is a gecko on
+the move. Your journeying little gecko only wants to get across
+a particularly small stretch of desert, but he has to contend
+with a variety of predators to do so. The predators include Gila
+monsters, scorpions, rattlesnakes, and tarantulas.
+<H3><A NAME="Sprites"><B>Sprites</B></A></H3>
+<P>
+Based on the game description thus far, you probably already have
+in mind some sprites that the game will need. Let's go ahead and
+break the game down into sprites, because that's where most of
+the substance of the game is located. Obviously, the most important
+sprite is the gecko sprite itself, which needs to be able to move
+based on user input. The gecko sprite is the heart of the game
+and must be designed with care.
+<P>
+Because the gecko is capable of being killed by the predators,
+you'll also need an animation of the gecko dying-a geckocide sprite.
+If you recall, you used a similar approach (spidercide sprite)
+when developing the Sim Tarantula applet on <A HREF="ch7.htm" >Day 7</A>.
+The geckocide sprite simply shows an animation of the gecko dying
+so that it doesn't just disappear when it dies.
+<P>
+Moving along, it's fairly obvious that you'll also need sprite
+objects for the predators. Although each one has basically the
+same functionality, let's go ahead and think of them as different
+sprite objects, because you might decide to add unique behavior
+to one of them later. You should have some special logic for handling
+a collision between the predators and the gecko, because this
+contact results in the gecko's death.
+<P>
+Before you finish itemizing the sprites, take a moment to think
+about the specifics surrounding the gecko's path across the desert.
+Taking an approach similar to Frogger's, the gecko must travel
+from the bottom of the screen to safety at the top. However, it
+seems too easy to simply have him go from the bottom of the screen
+to the top with no other obstacles than the predators. Frogger
+has specific locations at the top of the screen where the frog
+must go. Let's take a similar approach here. By placing large
+rocks at the top and bottom of the screen, you can provide openings
+at which the gecko can start and finish. This makes sense too,
+because the openings in the rocks make good hiding places for
+the gecko.
+<P>
+If you're now thinking that the rocks would make good additions
+to the sprite inventory for Traveling Gecko, then pat yourself
+on the back! If not, don't feel too bad; it might be because you
+think they could just be made part of the background. That's true,
+but there would be a big problem in detecting collisions between
+the gecko and the rocks. The rocks are there for a reason-to limit
+the gecko's movement. And the only way to limit the gecko's movement
+is to detect a collision between him and a rock and not let him
+move if he's colliding with a rock. Without making the rocks sprites,
+you would have to add a bunch of special case code to a derived
+<TT><FONT FACE="Courier">SpriteVector</FONT></TT> class to see
+whether the gecko is colliding with them. Adding code to a derived
+<TT><FONT FACE="Courier">SpriteVector</FONT></TT> class isn't
+the problem, though; the problem is duplicating the collision
+detection functionality you've already written.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+The discussion about the rock sprite brings up a good point in regard to game objects: Practically any graphical object in a game that can be interacted with or handled independently of the background should be implemented as a sprite. Remember that 
+sprites are roughly analogous to cast members in a theatrical play. To carry things a bit further, you can extend the usage of sprites to also include the props used in a play. This is essentially the role rocks play in the Traveling Gecko game: 
+props!</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The rocks are the last sprites you'll need to write for the game.
+To summarize what you have thus far, Traveling Gecko requires
+sprites modeling the following objects:
+<UL>
+<LI>Gecko
+<LI>Geckocide
+<LI>Gila monster
+<LI>Scorpion
+<LI>Rattlesnake
+<LI>Tarantula
+<LI>Rock
+</UL>
+<P>
+The gecko sprite models the player and is controlled by the player's
+user input responses. The geckocide sprite is used to show a dying
+gecko and comes in the form of a simple frame animation. The Gila
+monster, scorpion, rattlesnake, and tarantula sprites model the
+predators who are trying to ruin the gecko's trip. Remember that
+there has to be some method of killing the gecko based on a collision
+with these predators. This is an issue you'll deal with later
+in this lesson, when you get into writing the Java code. Finally,
+the rock sprite models rocks that block the gecko's movement,
+thereby making it more difficult for him to get across the desert
+safely.
+<H3><A NAME="GamePlay"><B>Game Play</B></A></H3>
+<P>
+Now that you have an idea of what sprite classes you need to write,
+let's take a look at the game itself and how it will play. First,
+it wouldn't be much fun if the game ended as soon as you were
+killed by a predator. So let's give the player four geckos (lives)
+to play with; the game isn't over until all four are killed.
+<P>
+Although it is certainly fulfilling to help out a gecko in need,
+it would also be nice to reward the player with some type of point
+system. Let's give the player 25 points each time the gecko makes
+it safely across the desert. Then the player's good will for saving
+a gecko's life is given a numeric value that can be viewed with
+pride!
+<P>
+Because every game ultimately ends when all four geckos are killed,
+you also need to provide the player with a way to start a new
+game. This is an ideal situation for a button; the player simply
+clicks the button to start a new game.
+<P>
+This finishes the game design for Traveling Gecko. You now have
+all the information you need to get into the specifics surrounding
+the applet and support classes. What are you waiting for?
+<H2><A NAME="SampleAppletTravelingGecko"><B><FONT SIZE=5 COLOR=#FF0000>Sample
+Applet: Traveling Gecko</FONT></B></A></H2>
+<P>
+The Traveling Gecko applet is your first complete Java game and
+makes the most of the indispensable sprite classes you've come
+to know so well. Figure 10.1 shows the Traveling Gecko applet
+in the middle of a heated game.
+<P>
+<A HREF="f10-1.gif" ><B>Figure 10.1 : </B><I>The Traveling Gecko sample applet.</I></A>
+<P>
+Traveling Gecko begins by creating the gecko, rocks, and predators.
+You then use the keyboard to control the gecko and attempt to
+guide him safely into the rock opening at the top right of the
+screen. The score is displayed in the upper left corner of the
+screen. Immediately to the right of the score is the number of
+remaining gecko lives, which are displayed graphically as tiny
+geckos.
+<P>
+The different predators all roam around the desert background
+at different speeds hoping to make a quick meal out of your trusting
+gecko. If one of them gets lucky, a geckocide object is created
+to show the dying gecko. The number of remaining lives is then
+decremented.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Warning</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Watch out for those pesky scorpions; they're quite fast!</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+If you guide the gecko safely across, you receive 25 points and
+the chance to help him across again. I know, one would think that
+the gecko would be thankful for making it across once and not
+want to try again, but that's not the case! If you're able to
+help him across a few times, you'll notice that the predators
+start calling in reinforcements to make things more difficult.
+<P>
+If you manage to lose all four of your geckos to the predators,
+the game ends and you see a message indicating that the game is
+over. Figure 10.2 shows Traveling Gecko when a game has just ended.
+<P>
+<A HREF="f10-2.gif" ><B>Figure 10.2 : </B><I>A Traveling Gecko game that has come to an end.</I></A>
+<P>
+At this point, all you have to do is click the New Game button
+with the mouse, and everything starts over. If you haven't checked
+it out yet, now might be a good time to grab the accompanying
+CD-ROM and try the game out for yourself. The complete source
+code, executable, and images for the Traveling Gecko game are
+included on the CD-ROM. If you just can't wait to find out all
+the gory details, then by all means skip the CD-ROM and read on!
+<H3><A NAME="TheSpriteClasses"><B>The Sprite Classes</B></A></H3>
+<P>
+As you probably guessed, the heart of the Traveling Gecko applet
+is the extended sprite classes. The first of these classes is
+the <TT><FONT FACE="Courier">Gecko</FONT></TT> class, which models
+the gecko that is controlled by the player. The <TT><FONT FACE="Courier">Gecko</FONT></TT>
+class is derived straight from <TT><FONT FACE="Courier">Sprite</FONT></TT>.
+You might think that it would make more sense to derive <TT><FONT FACE="Courier">Gecko</FONT></TT>
+from <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT> (<A HREF="ch7.htm" >see Day 7</A>),
+because a gecko clearly should face and move in different directions.
+This is logical thinking, but the gecko's movement is limited
+to up, down, left, and right. The <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>
+class is geared more toward objects that can spin around and move
+in different directions, including diagonal directions.
+<P>
+However, there is a drawback to not deriving the <TT><FONT FACE="Courier">Gecko</FONT></TT>
+class from <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>:
+The gecko can't face in the direction it is moving. That is why
+the gecko is always facing upward, regardless of its movement.
+This is a little unrealistic because most geckos probably don't
+sidestep, but it makes things easier to implement. This is one
+of those cases in which you sometimes have to make sacrifices
+in detail for the sake of making the code simpler.
+<P>
+The <TT><FONT FACE="Courier">Gecko</FONT></TT> class contains
+the following custom sprite actions that are used to add the predators:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static final int SA_ADDGILAMONSTER
+= 3,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SA_ADDSCORPION
+= 4,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SA_ADDRATTLER
+= 5,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SA_ADDTARANTULA
+= 6;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Looking at these sprite actions, it might seem a little strange
+to allow the gecko to add predators. However, you'll see in a
+moment that adding new predators is based on the gecko making
+it safely across the desert, which can only be detected from within
+the <TT><FONT FACE="Courier">Gecko</FONT></TT> class.
+<P>
+The constructor for <TT><FONT FACE="Courier">Gecko</FONT></TT>
+is pretty simple:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Gecko(Component comp) {<BR>
+&nbsp;&nbsp;super(comp, image, 0, 1, 0, new Point(42, 232), new
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Point(0, 0), 20, Sprite.BA_STOP);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Notice in the constructor that the <TT><FONT FACE="Courier">BA_STOP</FONT></TT>
+bounds action is specified, which keeps the gecko from being able
+to wrap around the sides of the game window.
+<P>
+The <TT><FONT FACE="Courier">setCollision</FONT></TT> method is
+used to shrink the gecko's collision rectangle so that collision
+detection isn't quite so sensitive:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected void setCollision() {<BR>
+&nbsp;&nbsp;collision = new Rectangle(position.x + 3, position.y
++ 3,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;position.width - 6, position.height -
+6);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Shrinking the gecko's collision rectangle is important because
+having one of the legs of the gecko collide with a predator shouldn't
+be enough to get him into trouble. By shrinking the collision
+rectangle, you require more contact for the gecko to qualify as
+a free lunch.
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method in <TT><FONT FACE="Courier">Gecko</FONT></TT>
+does most of the work. Listing 10.1 contains the source code for
+the <TT><FONT FACE="Courier">update</FONT></TT> method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 10.1. The </B><TT><B><FONT FACE="Courier">Gecko</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">update</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public BitSet update() {<BR>
+&nbsp;&nbsp;BitSet action = super.update();<BR>
+<BR>
+&nbsp;&nbsp;// Toggle the frame and clear the velocity<BR>
+&nbsp;&nbsp;if (velocity.x != 0 || velocity.y != 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;frame = 1 - frame;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;setVelocity(new Point(0, 0));<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Has he made it?<BR>
+&nbsp;&nbsp;if (position.y &lt; 8) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Update the score and reposition the
+gecko<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TravelingGecko.score += 25;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;position.x = 42;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;position.y = 232;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// See if we should add another bad guy
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (TravelingGecko.score % 100 == 0) {
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Random rand = new Random(System.currentTimeMillis());
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;switch(rand.nextInt() % 4)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 0:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Set flag to
+add a Gila monster<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_ADDSPRITE);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Gecko.SA_ADDGILAMONSTER);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 1:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Set flag to
+add a scorpion<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_ADDSPRITE);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Gecko.SA_ADDSCORPION);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 2:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Set flag to
+add a rattler<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_ADDSPRITE);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Gecko.SA_ADDRATTLER);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;case 3:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Set flag to
+add a tarantula<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_ADDSPRITE);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Gecko.SA_ADDTARANTULA);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;return action;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method first calls
+the superclass <TT><FONT FACE="Courier">update</FONT></TT> method
+to handle all the standard sprite updating. It then toggles the
+gecko's animation frame and clears the velocity. The animation
+frame is toggled because there are only two frames, <TT><FONT FACE="Courier">0</FONT></TT>
+and <TT><FONT FACE="Courier">1</FONT></TT>. Because there are
+only two frames, you can just toggle them rather than increment
+the current frame. The velocity has to be cleared because of the
+way you're handling user input. When the user presses an arrow
+key to move the gecko, the gecko's velocity is set accordingly.
+But you only want the gecko to move once for each key press. The
+solution is to update the gecko, allowing his position to be altered
+based on the velocity, and then clear the velocity.
+<P>
+A check is then performed to see whether the gecko made it across
+the desert. Because the rocks block him from getting to the top
+of the screen in all places except the opening, you simply check
+his vertical position to see whether he made it. If so, the score
+is updated and he is repositioned back at the start. Notice that
+the score is referenced from the <TT><FONT FACE="Courier">TravelingGecko</FONT></TT>
+class. It is declared as public static in <TT><FONT FACE="Courier">TravelingGecko</FONT></TT>
+so that other objects can get to it without having access to a
+<TT><FONT FACE="Courier">TravelingGecko</FONT></TT> object. Technically,
+this goes against standard object-oriented design practice, but
+the reality is that it would be very difficult to give access
+to the <TT><FONT FACE="Courier">score</FONT></TT> variable using
+only access methods. You learn about the <TT><FONT FACE="Courier">TravelingGecko</FONT></TT>
+class a little later in this section.
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method then decides
+whether or not to add a new predator. This determination is based
+on the score: For every 100 points, a new predator is added. A
+predator is randomly chosen and the appropriate sprite action
+flags are set to trigger the creation.
+<P>
+The last method in <TT><FONT FACE="Courier">Gecko</FONT></TT>
+is <TT><FONT FACE="Courier">addSprite</FONT></TT>, which handles
+creating the predator sprite objects:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected Sprite addSprite(BitSet action)
+{<BR>
+&nbsp;&nbsp;// Add new bad guys?<BR>
+&nbsp;&nbsp;if (action.get(Gecko.SA_ADDGILAMONSTER))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return new GilaMonster(component);<BR>
+&nbsp;&nbsp;else if (action.get(Gecko.SA_ADDSCORPION))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return new Scorpion(component);<BR>
+&nbsp;&nbsp;else if (action.get(Gecko.SA_ADDRATTLER))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return new Rattler(component);<BR>
+&nbsp;&nbsp;else if (action.get(Gecko.SA_ADDTARANTULA))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return new Tarantula(component);<BR>
+<BR>
+&nbsp;&nbsp;return null;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">addSprite</FONT></TT> method checks
+the sprite action flags and creates the appropriate predator.
+<TT><FONT FACE="Courier">addSprite</FONT></TT> then makes sure
+to return the newly created sprite so that it can be added to
+the sprite list.
+<P>
+Before getting to the predator classes, let's look at the <TT><FONT FACE="Courier">Geckocide</FONT></TT>
+class. Listing 10.2 contains the complete source code for the
+<TT><FONT FACE="Courier">Geckocide</FONT></TT> class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 10.2. The </B><TT><B><FONT FACE="Courier">Geckocide</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class Geckocide extends Sprite
+{<BR>
+&nbsp;&nbsp;protected static Image[] image = new Image[4];<BR>
+<BR>
+&nbsp;&nbsp;public Geckocide(Component comp, Point pos) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(comp, image, 0, 1, 5, pos, new Point(0,
+0), 10,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sprite.BA_DIE);<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public static void initResources(Applet app, MediaTracker
+tracker,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int id) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 4; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image[i] = app.getImage(app.getCodeBase(),
+&quot;Res/Gekcide&quot; +<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i + &quot;.gif&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.addImage(image[i],
+id);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public BitSet update() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;BitSet action = new BitSet();<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Die?<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (frame &gt;= 3) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_KILL);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return action;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Increment the frame<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;incFrame();<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return action;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">Geckocide</FONT></TT> class is very
+similar to the <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+class developed in <A HREF="ch7.htm" >Day 7</A>, except that it
+displays graphics for a dying gecko. It provides a simple frame-animated
+sprite that kills itself after one iteration. This functionality
+is implemented in the <TT><FONT FACE="Courier">update</FONT></TT>
+method, which checks the <TT><FONT FACE="Courier">frame</FONT></TT>
+member variable to see whether the animation is finished.
+<P>
+The predator classes (<TT><FONT FACE="Courier">GilaMonster</FONT></TT>,
+<TT><FONT FACE="Courier">Scorpion</FONT></TT>, <TT><FONT FACE="Courier">Rattler</FONT></TT>,
+and <TT><FONT FACE="Courier">Tarantula</FONT></TT>) are all very
+similar to each other and contain relatively little code. Listing
+10.3 shows the source code for the <TT><FONT FACE="Courier">GilaMonster</FONT></TT>
+class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 10.3. The </B><TT><B><FONT FACE="Courier">GilaMonster</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class GilaMonster extends Sprite
+{<BR>
+&nbsp;&nbsp;public static Image[] image;<BR>
+<BR>
+&nbsp;&nbsp;public GilaMonster(Component comp) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(comp, image, 0, 1, 4, new Point(comp.size().width
+-<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image[0].getWidth(comp), 45),
+new Point(-1, 0), 30,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sprite.BA_WRAP);<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public static void initResources(Applet app, MediaTracker
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tracker, int id) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;image = new Image[2];<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 2; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image[i] = app.getImage(app.getCodeBase(),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Res/GilaMon&quot;
++ i + &quot;.gif&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.addImage(image[i],
+id);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;protected void setCollision() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;collision = new Rectangle(position.x +
+3, position.y + 3,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position.width - 6, position.height
+- 6);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">GilaMonster</FONT></TT> class uses
+two images to show a simple animation of a Gila monster kicking
+its legs. The constructor specifies a fixed horizontal velocity
+that, when combined with the frame animation, gives the effect
+of the Gila monster walking. Admittedly, having only two frame
+animations creates some limitation in how effective the illusion
+of walking is in this case. But remember that you're trying to
+avoid using tons of graphics that take up precious time loading
+over the Internet.
+<P>
+The three other predator classes (<TT><FONT FACE="Courier">Scorpion</FONT></TT>,
+<TT><FONT FACE="Courier">Rattler</FONT></TT>, and <TT><FONT FACE="Courier">Tarantula</FONT></TT>)
+are almost identical to <TT><FONT FACE="Courier">GilaMonster</FONT></TT>,
+with the changes being the velocities, the images loaded in <TT><FONT FACE="Courier">initResources</FONT></TT>,
+and the amount that the collision rectangle is shrunken. Based
+on the code for <TT><FONT FACE="Courier">GilaMonster</FONT></TT>,
+you might be wondering why it's even implemented as a derived
+sprite class. It doesn't really add any new functionality; you
+could just as easily create a Gila monster using the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class. The truth is that all the predator classes are created
+as more of a convenience than a necessity. Allowing the classes
+to manage their own image resources via <TT><FONT FACE="Courier">initResources</FONT></TT>,
+as well as having self-contained constructors that don't take
+a bunch of parameters, improves organization.
+<P>
+This goes against typical object-oriented design because the classes
+don't technically add any new functionality. However, the clean
+packaging of the classes and their improved ease of use makes
+them justifiable in this case. You might think that I'm taking
+a lot of liberties by encouraging you to break the rules that
+are so crucial in object-oriented languages such as Java. That's
+not entirely true. The real skill in object-oriented programming
+is in knowing when to apply OOP techniques and when to leverage
+them against more simple solutions, as you've done here.
+<P>
+The <TT><FONT FACE="Courier">Rock</FONT></TT> class is the last
+of the <TT><FONT FACE="Courier">Sprite</FONT></TT> derived classes
+used in Traveling Gecko. Listing 10.4 contains the source code
+for the <TT><FONT FACE="Courier">Rock</FONT></TT> class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 10.4. The </B><TT><B><FONT FACE="Courier">Rock</FONT></B></TT><B>
+class<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class Rock extends Sprite {<BR>
+&nbsp;&nbsp;public static Image[] image;<BR>
+<BR>
+&nbsp;&nbsp;public Rock(Component comp, int i) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(comp, image, i, 0, 0, new Point((i
+% 2 == 0) ? 0 :<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comp.size().width - image[i].getWidth(comp),
+(i &lt; 2) ?<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0 : comp.size().height - image[i].getHeight(comp)),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Point(0, 0), 40, Sprite.BA_STOP);
+<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public static void initResources(Applet app, MediaTracker
+tracker,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int id) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;image = new Image[4];<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 4; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image[i] = app.getImage(app.getCodeBase(),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Res/Rock&quot;
++ i + &quot;.gif&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.addImage(image[i],
+id);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public BitSet update() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return (new BitSet());<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">Rock</FONT></TT> class is somewhat
+similar to the predator classes in that it doesn't add much functionality.
+However, you have a very useful reason for creating a <TT><FONT FACE="Courier">Rock</FONT></TT>
+class, as opposed to just creating rocks as <TT><FONT FACE="Courier">Sprite</FONT></TT>
+objects. That reason has to do with an optimization related to
+the <TT><FONT FACE="Courier">update</FONT></TT> method. If you
+recall, the <TT><FONT FACE="Courier">update</FONT></TT> method
+is called for every sprite in the sprite list to allow the animation
+frame and position to be updated. Rocks have no animation frames
+and the positions are fixed. Therefore, you can speed things up
+a little by overriding <TT><FONT FACE="Courier">update</FONT></TT>
+with a &quot;do nothing&quot; version. Because speed is a crucial
+issue in games, especially Java games, seemingly small optimizations
+like this can add up in the end.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+The trick that is used to help improve speed in the <TT><FONT FACE="Courier">Rock</FONT></TT> class's <TT><FONT FACE="Courier">update</FONT></TT> method brings up a good point in regard to game programming: Don't be afraid to override unneeded methods with 
+&quot;do nothing&quot; versions. Every little bit of execution overhead that you can eliminate will ultimately improve the performance of a game. If you see a way to cut a corner in a derived class simply by overriding a parent class method, go for it! 
+Just remember to wait and look for these types of shortcuts after the code is already working.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The only other sprite-related class to deal with in regard to
+Traveling Gecko is the derived <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class, <TT><FONT FACE="Courier">TGVector</FONT></TT>. You need
+the <TT><FONT FACE="Courier">TGVector</FONT></TT> class to handle
+the collisions between the sprites. Listing 10.5 contains the
+source code for the <TT><FONT FACE="Courier">TGVector</FONT></TT>
+class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 10.5. The </B><TT><B><FONT FACE="Courier">TGVector</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class TGVector extends SpriteVector
+{<BR>
+&nbsp;&nbsp;private Component component;<BR>
+<BR>
+&nbsp;&nbsp;public TGVector(Background back, Component comp) {
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(back);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;component = comp;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;protected boolean collision(int i, int iHit) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Sprite s = (Sprite)elementAt(i);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Sprite sHit = (Sprite)elementAt(iHit);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (sHit.getClass().getName().equals(&quot;Rock&quot;))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Collided with rock, so
+stay put<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (sHit.getClass().getName().equals(&quot;Geckocide&quot;))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Collided with geckocide,
+so do nothing<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (s.getClass().getName().equals(&quot;Gecko&quot;))
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Kill or reposition it<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point pos = new Point(s.getPosition().x,
+s.getPosition().y);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (--TravelingGecko.lives
+&lt;= 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;removeElementAt(i--);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s.setPosition(new
+Point(42, 232));<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Collided with bad guy,
+so add geckocide<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (add(new Geckocide(component,
+pos)) &lt;= i)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return false;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+As you can see, the only overridden method in <TT><FONT FACE="Courier">TGVector</FONT></TT>
+is <TT><FONT FACE="Courier">collision</FONT></TT>, which is called
+when a collision occurs between two sprites. The sprite hit in
+the collision is first checked to see whether it is a <TT><FONT FACE="Courier">Rock</FONT></TT>
+object. If so, <TT><FONT FACE="Courier">true</FONT></TT> is returned,
+which causes the sprite that is doing the hitting to stay where
+it is and not use its updated position. This results in the gecko
+being stopped when he runs into a rock.
+<P>
+The sprite being hit is then checked to see whether it is a <TT><FONT FACE="Courier">Geckocide</FONT></TT>
+object, in which case <TT><FONT FACE="Courier">collision</FONT></TT>
+returns <TT><FONT FACE="Courier">false</FONT></TT>. This results
+in allowing the sprite that is doing the hitting to continue on
+its course, and basically results in a null collision. The purpose
+of this code is to make sure that <TT><FONT FACE="Courier">Geckocide</FONT></TT>
+objects don't interfere with any other objects; they are effectively
+ignored by the collision detection routine.
+<P>
+The real work begins when the hitting sprite is checked to see
+whether it is a <TT><FONT FACE="Courier">Gecko</FONT></TT> object.
+If so, you know that the gecko has collided with a predator, so
+the number of lives is decremented. The <TT><FONT FACE="Courier">lives</FONT></TT>
+variable is like <TT><FONT FACE="Courier">score</FONT></TT> because
+it is a public static member of the <TT><FONT FACE="Courier">TravelingGecko</FONT></TT>
+applet class. If <TT><FONT FACE="Courier">lives</FONT></TT> is
+less than or equal to zero, the game is over and the <TT><FONT FACE="Courier">Gecko</FONT></TT>
+object is removed from the sprite list. If <TT><FONT FACE="Courier">lives</FONT></TT>
+is greater than zero, the gecko is repositioned back at the starting
+position. To the player, it appears as if a new gecko has been
+created, but you're really just moving the old one. Because a
+gecko has died in either case, a <TT><FONT FACE="Courier">Geckocide</FONT></TT>
+object is created.
+<P>
+At this point, you've seen all the supporting sprite classes required
+of Traveling Gecko. The last step is to see what tasks the applet
+class itself is responsible for.
+<H3><A NAME="TheTravelingGeckoClass"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">TravelingGecko</FONT></B></TT><B><FONT SIZE=4>
+Class</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">TravelingGecko</FONT></TT> class
+drives the applet and takes care of higher-level issues such as
+dealing with user input. Much of this class consists of animation
+overhead that you're already familiar with, so let's skip ahead
+to the more interesting aspects of <TT><FONT FACE="Courier">TravelingGecko</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">init</FONT></TT> method adds a new
+twist by creating the New Game button. It also handles initializing
+all the resources for the different sprites. The code for the
+<TT><FONT FACE="Courier">init</FONT></TT> method is shown in Listing
+10.6.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 10.6. The </B><TT><B><FONT FACE="Courier">TravelingGecko</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">init</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void init() {<BR>
+&nbsp;&nbsp;// Create the UI<BR>
+&nbsp;&nbsp;if (ngButton == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;ngButton = new Button(&quot;New Game&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;add(ngButton);<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Load and track the images<BR>
+&nbsp;&nbsp;tracker = new MediaTracker(this);<BR>
+&nbsp;&nbsp;back = getImage(getCodeBase(), &quot;Res/Back.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(back, 0);<BR>
+&nbsp;&nbsp;smGecko = getImage(getCodeBase(), &quot;Res/SmGecko.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(smGecko, 0);<BR>
+&nbsp;&nbsp;Gecko.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;Geckocide.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;Rock.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;GilaMonster.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;Scorpion.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;Rattler.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;Tarantula.initResources(this, tracker, 0);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method is where
+a lot of interesting things take place in <TT><FONT FACE="Courier">TravelingGecko</FONT></TT>.
+Listing 10.7 shows the source code for the <TT><FONT FACE="Courier">update</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 10.7. The </B><TT><B><FONT FACE="Courier">TravelingGecko</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">update</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void update(Graphics g) {<BR>
+&nbsp;&nbsp;// Create the offscreen graphics context<BR>
+&nbsp;&nbsp;if (offGrfx == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offImage = createImage(size().width, size().height);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offGrfx = offImage.getGraphics();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;scoreMetrics = offGrfx.getFontMetrics(scoreFont);
+<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Draw the sprites<BR>
+&nbsp;&nbsp;tgv.draw(offGrfx);<BR>
+<BR>
+&nbsp;&nbsp;// Draw the score<BR>
+&nbsp;&nbsp;offGrfx.setFont(scoreFont);<BR>
+&nbsp;&nbsp;offGrfx.drawString(String.valueOf(score), 10, 5 +
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;scoreMetrics.getAscent());<BR>
+<BR>
+&nbsp;&nbsp;// Draw the number of lives<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; (lives - 1); i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.drawImage(smGecko, 65 + i *<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(smGecko.getWidth(this) +
+1), 10, this);<BR>
+<BR>
+&nbsp;&nbsp;// Draw the game over message<BR>
+&nbsp;&nbsp;if (lives &lt;= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Font&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f
+= new Font(&quot;Helvetica&quot;, Font.BOLD, 36);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;FontMetrics fm = offGrfx.getFontMetrics(f);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;s
+= new String(&quot;Game Over&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.setFont(f);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;offGrfx.drawString(s, (size().width -
+fm.stringWidth(s)) / 2,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;((size().height - fm.getHeight())
+/ 2) + fm.getAscent());<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Draw the image onto the screen<BR>
+&nbsp;&nbsp;g.drawImage(offImage, 0, 0, null);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+After drawing the sprites, the <TT><FONT FACE="Courier">update</FONT></TT>
+method draws the score using the <TT><FONT FACE="Courier">drawString</FONT></TT>
+method. The small gecko images are then drawn to represent the
+number of remaining lives. If the number of lives is less than
+or equal to zero, the <TT><FONT FACE="Courier">Game Over</FONT></TT>
+message is drawn. Finally, the offscreen buffer image is drawn
+to the screen.
+<P>
+Traveling Gecko only supports keyboard input, primarily because
+there isn't a good way to use the mouse in a game like this. The
+keyboard input in the <TT><FONT FACE="Courier">TravelingGecko</FONT></TT>
+class is handled in the <TT><FONT FACE="Courier">keyDown</FONT></TT>
+method, which follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean keyDown(Event evt, int
+key) {<BR>
+&nbsp;&nbsp;// Change the gecko velocity based on the key pressed
+<BR>
+&nbsp;&nbsp;switch (key) {<BR>
+&nbsp;&nbsp;case Event.LEFT:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;gecko.setVelocity(new Point(-8, 0));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;case Event.RIGHT:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;gecko.setVelocity(new Point(8, 0));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;case Event.UP:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;gecko.setVelocity(new Point(0, -8));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;case Event.DOWN:<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;gecko.setVelocity(new Point(0, 8));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;return true;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">keyDown</FONT></TT> method simply
+sets the velocity of the gecko sprite based on which one of the
+arrow keys is being pressed. Notice that the magnitude of the
+velocity is set to <TT><FONT FACE="Courier">8</FONT></TT>, which
+means that the gecko moves eight pixels on the screen for each
+key press.
+<P>
+The <TT><FONT FACE="Courier">action</FONT></TT> method is used
+to handle the user clicking the New Game button:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean action(Event evt, Object
+arg) {<BR>
+&nbsp;&nbsp;if (evt.target instanceof Button)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (((String)arg).equals(&quot;New Game&quot;))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newGame();<BR>
+&nbsp;&nbsp;return true;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+If the <TT><FONT FACE="Courier">action</FONT></TT> method detects
+that a button has been clicked, the <TT><FONT FACE="Courier">newGame</FONT></TT>
+method is called to start a new game. Speaking of the <TT><FONT FACE="Courier">newGame</FONT></TT>
+method, here it is:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">void newGame() {<BR>
+&nbsp;&nbsp;// Set up a new game<BR>
+&nbsp;&nbsp;lives = 4;<BR>
+&nbsp;&nbsp;score = 0;<BR>
+&nbsp;&nbsp;tgv = new TGVector(new ImageBackground(this, back),
+this);<BR>
+&nbsp;&nbsp;gecko = new Gecko(this);<BR>
+&nbsp;&nbsp;tgv.add(gecko);<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 4; i++)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tgv.add(new Rock(this, i));<BR>
+&nbsp;&nbsp;tgv.add(new GilaMonster(this));<BR>
+&nbsp;&nbsp;tgv.add(new Scorpion(this));<BR>
+&nbsp;&nbsp;tgv.add(new Rattler(this));<BR>
+&nbsp;&nbsp;tgv.add(new Tarantula(this));<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">newGame</FONT></TT> method does everything
+necessary to set up a new game; the <TT><FONT FACE="Courier">lives</FONT></TT>
+and <TT><FONT FACE="Courier">score</FONT></TT> member variables
+are initialized, the sprite list is re-created, and all the sprites
+are added back to the list. Notice that a reference to the gecko
+sprite is stored away in the <TT><FONT FACE="Courier">gecko</FONT></TT>
+member variable so that it can be accessed in <TT><FONT FACE="Courier">keyDown</FONT></TT>
+to move the gecko.
+<P>
+That finishes up the details of your first Java game, Traveling
+Gecko! I encourage you to study this game in detail and make sure
+that you follow what is happening with the sprites. Then you can
+try your hand at enhancing it and adding any new features you
+can dream up.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Congratulations, you made it through your first complete Java
+game! In this lesson, you made the journey from concept to reality
+on a pretty neat game that uses just about everything you've learned
+in the book thus far. Once again, you saw the power of the sprite
+classes because the majority of the game takes place within them.
+You also saw how easy it is to provide keyboard support within
+the context of a real game.
+<P>
+Even though you finished your first Java game in this lesson,
+you still have a way to go on your path toward becoming a Java
+game programming whiz. The good news is that you're in a nice
+position, having a complete game under your belt. Your next challenge
+is how to incorporate sound into Java games, which is covered
+in the next section of the book. You'll learn that sound adds
+a much needed dimension to games in Java.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why model the rocks as sprites? Aren't they really just part of the background?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Logically, you could think of the rocks as part of the background, in that they don't do much beyond limiting the gecko's movement. But that one action, limiting the gecko's movement, is the whole reason that 
+the rocks have to be implemented as sprites. If the rocks were just drawn on the background, there would be no straightforward way to detect collisions between them and the gecko.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why derive different classes for all the predators?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Although it isn't strictly necessary to derive different classes for the predators, it is very convenient and makes for good organization because the images used by each predator are linked to the predator 
+class. It is also nice to have constructors with fewer parameters for each predator.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>How does the <TT><B><FONT FACE="Courier">collision</FONT></B></TT> method in <TT><B><FONT FACE="Courier">TGVector</FONT></B></TT> know which types of sprites have collided with each other?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>The <TT><FONT FACE="Courier">collision</FONT></TT> method uses the name of the sprite class to determine what type of sprite it is. This is accomplished by using the <TT><FONT FACE="Courier">getClass</FONT></TT> 
+method to get a <TT><FONT FACE="Courier">Class</FONT></TT> object for the sprite, and then the <TT><FONT FACE="Courier">getName</FONT></TT> method to get the class name as a <TT><FONT FACE="Courier">String</FONT></TT> object. When you have the string name 
+of a sprite class (<TT><FONT FACE="Courier">&quot;Gecko&quot;</FONT></TT>, for example), it's easy to take different actions based on the types of sprites that are colliding.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why are the score and number of lives member variables declared as public static in the <TT><B><FONT FACE="Courier">TravelingGecko</FONT></B></TT> class?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Because they must be modifiable from outside the <TT><FONT FACE="Courier">TravelingGecko</FONT></TT> class. More specifically, the <TT><FONT FACE="Courier">Gecko</FONT></TT> class needs to be able to increment 
+the score when the gecko makes it across the screen, and the <TT><FONT FACE="Courier">TGVector</FONT></TT> class needs to be able to decrement the number of lives when the gecko collides with a predator and dies.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least ponder the exercises before
+moving on to tomorrow's lesson. You'll find the answers to the
+questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What classic arcade game is Traveling Gecko based on?
+<LI>How is the player rewarded for his kind help in guiding the
+gecko safely across the hazardous desert?
+<LI>How are the keyboard controls for the gecko implemented?
+<LI>How well would a real gecko fare in the same situation?
+<LI>How do you know when the New Game button has been pressed?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Change the <TT><FONT FACE="Courier">Gecko</FONT></TT> class
+so that the gecko faces in the direction in which he's traveling.
+<LI>Make the destination opening in the rocks vary in position.
+Hint: Use smaller images for the rocks and more rock sprite objects
+that can be tiled and rearranged on the screen.
+<LI>Vary the speeds of the predators based on the difficulty level
+(score).
+<LI>Extend the predator classes to allow them to travel in either
+horizontal direction. This could vary with each new game.
+<LI>Do some research on geckos and see whether I'm right about
+them faring pretty well in this situation.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch9.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch11.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

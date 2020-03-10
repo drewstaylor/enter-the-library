@@ -1,0 +1,1052 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 7 -- Sim Tarantulas Creepy Crawly Sprites</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 7</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Sim Tarantulas Creepy Crawly Sprites</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+<UL>
+<LI><A HREF="#ExtendingtheSpriteClass" >Extending the Sprite Class</A>
+<UL>
+<LI><A HREF="#DesigningaDirectionalSprite" >Designing a Directional Sprite</A>
+<LI><A HREF="#TheDirectionalSpriteClass" >The DirectionalSprite Class</A>
+</UL>
+<LI><A HREF="#DesigningSimTarantula" >Designing Sim Tarantula</A>
+<LI><A HREF="#SampleAppletSimTarantula" >Sample Applet: Sim Tarantula</A>
+<UL>
+<LI><A HREF="#TheSpriteClasses" >The Sprite Classes</A>
+<LI><A HREF="#TheSimTarantulaClass" >The SimTarantula Class</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+On <A HREF="ch6.htm" >Day 6</A>, you developed a suite of very
+powerful and easy to use sprite classes. You saw them in action
+in an applet that demonstrated their basic functionality. Today,
+you expand on that knowledge by extending the sprite classes to
+fit a more applied sample applet. More specifically, you derive
+new sprite classes to help build a tarantula simulation applet.
+<P>
+Today's lesson is completely devoted to the development of this
+applet, which makes great use of the sprite classes. You learn
+all about sprite actions and how to use them to add new sprites
+and kill existing sprites. You also learn how to incorporate multiple
+frame animation images into derived sprites to give them a sense
+of direction.
+<P>
+More than anything, you learn how to apply the sprite classes
+to problems requiring unique solutions. This is the one skill
+that is essential in creating Java games. So let's get busy!
+<H2><A NAME="ExtendingtheSpriteClass"><B><FONT SIZE=5 COLOR=#FF0000>Extending
+the </FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">Sprite</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Class</FONT></B></A></H2>
+<P>
+The concept of extending the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class to fit a particular situation is crucial in Java game development.
+It is also important from an object-oriented design point of view
+and will ultimately save you a great deal of time and code testing.
+When you derive sprites from the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class, you can reuse all the code in <TT><FONT FACE="Courier">Sprite</FONT></TT>,
+while adding additional code to carry out more specific chores.
+<P>
+However, not all sprites derived from <TT><FONT FACE="Courier">Sprite</FONT></TT>
+have to be specific to a particular game. You might need some
+functionality that is not included in <TT><FONT FACE="Courier">Sprite</FONT></TT>
+and that might be needed by various other sprite objects in a
+more general sense. In this case, you are better off to create
+an intermediate class that is derived from <TT><FONT FACE="Courier">Sprite</FONT></TT>.
+You can then derive game-specific classes from this class.
+<P>
+An example of this idea is a directional sprite. The <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class, although feature packed, includes no support for a sprite
+having direction. Some examples of sprites that would require
+direction are tanks and monsters-basically, anything that has
+a distinguishable front, back, and sides. If you were to use the
+<TT><FONT FACE="Courier">Sprite</FONT></TT> class to create a
+monster, you would be able to move the monster and even give it
+a frame animation, but you would have no way to show it facing
+the direction it is moving in. Clearly, this would look pretty
+strange.
+<P>
+The solution is to derive a directional sprite that adds the functionality
+necessary to provide a sense of direction. Then you can derive
+the monster sprite from the directional sprite and instantly give
+it direction. From then on, any other game-specific directional
+sprites can simply be derived from the generic directional sprite
+class and gain all the same benefits. This is object-oriented
+programming at its best!
+<H3><A NAME="DesigningaDirectionalSprite"><B>Designing a Directional
+Sprite</B></A></H3>
+<P>
+Because you'll need it for the Sim Tarantula applet later in today's
+lesson, go ahead and design a directional sprite class. The directional
+sprite class needs to encapsulate all the behavior necessary to
+provide a direction of movement.
+<P>
+The first step in designing the directional sprite is to determine
+how to model the different directions. Because you won't attempt
+to render the sprite image at different directions on the fly,
+it's important to realize that each direction requires its own
+image. In the case of a frame-animated directional sprite, each
+direction requires an array of images. You have to decide on a
+limited set of directions that the sprite can have, because it
+would be very costly in terms of resources to provide images for
+the sprite at many different directions. Figure 7.1 shows a discrete
+set of directions that apply well to directional sprites.
+<P>
+<A HREF="f7-1.gif" ><B>Figure 7.1 : </B><I>Discrete directions for a directional sprite.</I></A>
+<P>
+Of course, providing more directions would yield smoother rotating
+effects for the sprite. However, it would also up the ante a great
+deal in terms of resources. Remember that each direction brings
+with it the overhead of an image or array of images. And all those
+images must be transferred over a potentially low-bandwidth Internet
+connection. In Java programming, you must always think about the
+fact that the applet and resources have to be transmitted over
+the Internet to the user's computer. At times like this, you need
+to look at the design from the game player's perspective: Are
+smoother directional sprites worth waiting 10 minutes for the
+images to transfer? I seriously doubt it!
+<P>
+Now that you've settled on a workable set of directions for the
+directional sprite, you need to consider what aspects of the original
+<TT><FONT FACE="Courier">Sprite</FONT></TT> class are affected
+by the addition of directions. Probably the most obvious change
+has to do with the sprite image. Now, instead of a single image,
+you must provide an image for each possible direction. In the
+case of a frame-animated directional sprite, you must provide
+an array of images for each direction.
+<P>
+The other major change brought on by the directional sprite relates
+to velocity. The velocity of a directional sprite is tightly linked
+to the direction because the sprite must be facing the direction
+it is traveling. This means that you need to alter the velocity
+whenever you change the direction, and vice versa. You'll see
+that this is not a problem, because you can just override the
+method that deals with setting the velocity.
+<H3><A NAME="TheDirectionalSpriteClass"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">DirectionalSprite</FONT></B></TT><B><FONT SIZE=4>
+Class</FONT></B></A></H3>
+<P>
+With all the design issues laid out, it's time to move on to the
+Java implementation of the <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>
+class. The following are the member variables defined in <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected static final int[][] velDirs
+= {<BR>
+&nbsp;&nbsp;{0, -1}, {1, -1}, {1, 0}, {1, 1},<BR>
+&nbsp;&nbsp;{0, 1}, {-1, 1}, {-1, 0}, {-1, -1} };<BR>
+protected Image[][] image;<BR>
+protected int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first member variable, <TT><FONT FACE="Courier">velDirs</FONT></TT>,
+is a two-dimensional array of integers. This array holds values
+that are used to calculate the sprite's velocity based on a given
+direction. When the direction of the sprite is changed, the velocity
+is multiplied by an X and Y component from the <TT><FONT FACE="Courier">velDirs</FONT></TT>
+array. Figure 7.2 shows how the X and Y multiplier values in <TT><FONT FACE="Courier">velDirs</FONT></TT>
+correspond to the different directions of the sprite.
+<P>
+<A HREF="f7-2.gif" ><B>Figure 7.2 : </B><I>Velocity multipliers for the different sprite directions.</I></A>
+<P>
+The other two member variables in <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>,
+<TT><FONT FACE="Courier">image</FONT></TT> and <TT><FONT FACE="Courier">direction</FONT></TT>,
+are storage members for the directional images and the current
+direction. Notice that <TT><FONT FACE="Courier">image</FONT></TT>
+is a two-dimensional array of <TT><FONT FACE="Courier">Image</FONT></TT>
+objects, which reflects the frame animation support in <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>.
+<P>
+<TT><FONT FACE="Courier">DirectionalSprite</FONT></TT> has two
+constructors, similar to the original <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public DirectionalSprite(Component comp,
+Image[] img, Point pos,<BR>
+&nbsp;&nbsp;Point vel, int z, int ba, int d) {<BR>
+&nbsp;&nbsp;super(comp, img[d], pos, vel, z, ba);<BR>
+&nbsp;&nbsp;image[0] = img;<BR>
+&nbsp;&nbsp;setDirection(d);<BR>
+}<BR>
+<BR>
+public DirectionalSprite(Component comp, Image[][] img, int f,
+<BR>
+&nbsp;&nbsp;int fi, int fd, Point pos, Point vel, int z, int ba,
+int d) {<BR>
+&nbsp;&nbsp;super(comp, img[d], f, fi, fd, pos, vel, z, ba);<BR>
+&nbsp;&nbsp;image = img;<BR>
+&nbsp;&nbsp;setDirection(d);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The first constructor creates a directional sprite without frame
+animation, and the second constructor supports frame animation,
+as is evident by the extra parameters. Notice that the <TT><FONT FACE="Courier">setDirection</FONT></TT>
+method is called to initialize the direction of the sprite, rather
+than a simple assignment being made to the <TT><FONT FACE="Courier">direction</FONT></TT>
+member variable. This is because the direction impacts both the
+velocity and image of the sprite. You see how this works later
+in today's lesson when you get into the <TT><FONT FACE="Courier">setDirection</FONT></TT>
+method.
+<P>
+The <TT><FONT FACE="Courier">getDirection</FONT></TT> method is
+a simple access method that returns the current direction:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public int getDirection() {<BR>
+&nbsp;&nbsp;return direction;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">setDirection</FONT></TT> method involves
+a little more work, as the following code shows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void setDirection(int dir) {<BR>
+&nbsp;&nbsp;// Set the direction<BR>
+&nbsp;&nbsp;if (dir &lt; 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;dir = 7;<BR>
+&nbsp;&nbsp;else if (dir &gt; 7)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;dir = 0;<BR>
+&nbsp;&nbsp;direction = dir;<BR>
+<BR>
+&nbsp;&nbsp;// Change the velocity<BR>
+&nbsp;&nbsp;velocity.x *= velDirs[dir][0];<BR>
+&nbsp;&nbsp;velocity.y *= velDirs[dir][1];<BR>
+<BR>
+&nbsp;&nbsp;// Set the image<BR>
+&nbsp;&nbsp;setImage(image[dir]);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">setDirection</FONT></TT> first ensures
+that the direction is within the directional bounds (<TT><FONT FACE="Courier">0</FONT></TT>
+to <TT><FONT FACE="Courier">7</FONT></TT>). Notice that <TT><FONT FACE="Courier">setDirection</FONT></TT>
+takes care to wrap the direction around if it goes beyond a boundary;
+this gives the sprite the capability to rotate freely. The velocity
+is then modified using the <TT><FONT FACE="Courier">velDirs</FONT></TT>
+directional velocity multipliers. Finally, the new direction image
+is set with a call to <TT><FONT FACE="Courier">setImage</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">setVelocity</FONT></TT> method is
+overridden in <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>
+because changing the velocity should cause a change in the direction.
+Check out the following code:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void setVelocity(Point vel) {
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;velocity = vel;<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Change the direction<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (vel.x == 0 &amp;&amp; vel.y == 0)
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (vel.x == 0)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction = (vel.y + 1) *
+2;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (vel.x == 1)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction = vel.y + 1;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (vel.x == -1)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction = -vel.y + 6;<BR>
+&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+In <TT><FONT FACE="Courier">setVelocity</FONT></TT>, <TT><FONT FACE="Courier">velocity</FONT></TT>
+is first assigned its new value. The direction is then altered
+based on the new velocity by way of a few comparisons and equations.
+If the function of these equations isn't obvious to you at first,
+just think about what task they are handling. The task is to obtain
+a direction in the range <TT><FONT FACE="Courier">0</FONT></TT>
+to <TT><FONT FACE="Courier">7</FONT></TT> from a given velocity.
+Because no single equation can do this, I worked out a fairly
+concise way of calculating the direction based on the velocity.
+There's nothing magical about it; it's just a matter of closely
+analyzing the different values.
+<P>
+You now have a fully functional directional sprite class that
+can be reused in any applet from now on. Speaking of reusing the
+<TT><FONT FACE="Courier">DirectionalSprite</FONT></TT> class,
+let's start working on the tarantula simulator.
+<H2><A NAME="DesigningSimTarantula"><B><FONT SIZE=5 COLOR=#FF0000>Designing
+Sim Tarantula</FONT></B></A></H2>
+<P>
+Before jumping into the Java code of any applet, it's important
+to decide to some degree what you want the applet to do. This
+is very important because it gives you a clear goal and a strategy
+toward implementing the various classes that make up a complete
+applet. By using this approach, you save a lot of time rewriting
+code, and you end up with a cleaner set of classes the first time
+around.
+<P>
+Writing Java games requires a similar design approach. In the
+design phase of a Java game, you must determine what sprites the
+game needs, as well as how they interact with each other. The
+only potential difference in designing a game is that there are
+aspects of games that have to be played and then tweaked based
+on feel. This trial and error approach is hard to avoid in some
+cases because the subtleties of games are often the most fun.
+<P>
+Having said all that, let's take a stab at designing a simple
+tarantula simulator, Sim Tarantula. Although it's not technically
+a game, Sim Tarantula contains nearly all of the components of
+a game-just about everything except user interaction.
+<P>
+First, what objects does a tarantula simulator contain? By defining
+the objects used in the applet, you are indirectly defining the
+applet itself. Well, no doubt it will have tarantulas, and preferably
+some kind of background. Because tarantulas often live in the
+desert, it only makes sense to use a desert background. Additionally,
+tarantulas clearly have a front and a back, so it makes sense
+to model them as directional sprites. This is important because
+you want a tarantula to always face the direction in which it
+is walking; otherwise, it will look like the tarantula is sliding
+across the desert floor rather than walking.
+<P>
+Next, you might wonder where tarantulas come from. Of course,
+eggs! Rather than create fully grown tarantulas, it would be much
+more interesting to have them hatch from eggs and grow into larger
+tarantulas. This is a perfect place to display a frame animation
+of a tarantula hatching from an egg and growing up into an adult
+tarantula.
+<P>
+Then what? At this point, the full-grown tarantulas can walk around,
+explore things, and talk amongst themselves if they like. They
+can even lay more eggs, which eventually results in more tarantulas.
+But sooner or later, they start getting old. And like all creatures,
+at some point they must die. Sounds like another cool place for
+an animation. A frame animation showing a tarantula getting more
+and more frail until it just withers away should do the trick.
+<P>
+You now have enough information to make a pretty neat little tarantula
+simulator. At this point, it makes sense to break down the design
+into sprites so that you'll have an idea of what classes need
+to be written. Based on what you have so far, Sim Tarantula requires
+the following sprites:
+<UL>
+<LI>Spiderling
+<LI>Tarantula
+<LI>Spidercide
+</UL>
+<P>
+A spiderling is a baby tarantula, and the spiderling sprite basically
+models the birth of a tarantula from the egg. This sprite is really
+just a frame-animated sprite that is used to show the birth of
+a tarantula. The tarantula sprite models a fully grown tarantula.
+It is a frame-animated directional sprite and can walk around
+freely and create new spiderlings. The spidercide sprite models
+the death of a tarantula. It is a frame-animated sprite that shows
+a tarantula growing weaker and weaker until it finally disappears.
+<P>
+Overall, these sprites probably sound pretty reasonable to you.
+However, you haven't addressed one thing, and that is the issue
+of how the sprites are created and destroyed. The only sprite
+out of these three that the applet ever needs to create directly
+is the spiderling sprite. This is because the other two sprites
+should be created automatically. For example, the tarantula sprite
+should be created automatically when the spiderling finishes its
+animation. Similarly, the spidercide sprite should be created
+automatically when the tarantula is ready to die.
+<P>
+That covers creating the sprites, but how about destroying them?
+In this case, the applet isn't responsible for destroying any
+of the sprites. The spiderling sprite should kill itself whenever
+it finishes its animation and creates the tarantula sprite. Similarly,
+the tarantula sprite should kill itself when it creates the spidercide
+sprite. And last but not least, the spidercide sprite should kill
+itself when it finishes its animation. Just in case you've had
+trouble following any of this, check out Figure 7.3, which shows
+the life cycle of the Sim Tarantula sprites.
+<P>
+<A HREF="f7-3.gif" ><B>Figure 7.3 : </B><I>The life cycle of the sprites in Sim Tarantula.</I></A>
+<P>
+Now you understand when each sprite is created and destroyed,
+but how in the world do sprites create and destroy each other
+in the first place? The answer is <I>sprite actions</I>. When
+you use sprite actions, you have full control over creating and
+destroying sprites from within a sprite. You even have the option
+of creating custom actions for derived sprites that can make them
+do anything you want. Sprite actions are probably the most powerful
+aspect of using sprites, and you've already written support for
+them into the sprite classes in the last lesson.
+<P>
+A <I>sprite action</I> is a mechanism that allows sprites to interact
+with each other. For example, using sprite actions, a sprite can
+create new sprites or kill existing sprites.
+<P>
+By now, you'll probably agree that the design of Sim Tarantula
+is far enough along to move on to the applet. I couldn't agree
+more!
+<H2><A NAME="SampleAppletSimTarantula"><B><FONT SIZE=5 COLOR=#FF0000>Sample
+Applet: Sim Tarantula</FONT></B></A></H2>
+<P>
+The Sim Tarantula applet contains most of the elements of a complete
+Java game, including extensive support for derived sprites. Figure
+7.4 shows the Sim Tarantula applet in action.
+<P>
+<A HREF="f7-4.gif" ><B>Figure 7.4 : </B><I>The Sim Tarantula sample applet.</I></A>
+<P>
+Sim Tarantula first places a number of spiderlings that eventually
+grow into tarantulas. These tarantulas then roam around dropping
+new spiderlings until they die. This process continues until all
+of the tarantulas die. Because the creation of spiderlings and
+the death of tarantulas occur randomly, the applet has the potential
+of running indefinitely. On the other hand, all the tarantulas
+could potentially die off, leaving an empty landscape.
+<P>
+Now that you've seen Sim Tarantula in action, let's look under
+the hood and figure out how everything works.
+<H3><A NAME="TheSpriteClasses"><B>The Sprite Classes</B></A></H3>
+<P>
+The core of the Sim Tarantula applet is the extended sprite classes.
+The first of these classes is the <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+class, which handles displaying an animation of a tarantula hatching
+from an egg. The <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+class shows an animation and then creates a new tarantula and
+kills itself. The <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+class has a single constructor, whose code follows:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Spiderling(Component comp, Point
+pos) {<BR>
+&nbsp;&nbsp;super(comp, image, 0, 1, 20, pos, new Point(0, 0),
+40,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Sprite.BA_DIE);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Notice that, unlike the <TT><FONT FACE="Courier">Sprite</FONT></TT>
+class, the constructor for <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+only takes a couple of parameters. This simplification is handy
+because it enables you to create spiderlings in the applet without
+having to supply a bunch of information. This is a common technique
+that you will use on game-specific sprites throughout the rest
+of the book.
+<P>
+The <TT><FONT FACE="Courier">initResources</FONT></TT> method
+is used to initialize the resources used by the spiderling:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static void initResources(Applet
+app, MediaTracker tracker,<BR>
+&nbsp;&nbsp;int id) {<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 6; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;image[i] = app.getImage(app.getCodeBase(),
+&quot;Res/Spling&quot; +<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i + &quot;.gif&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tracker.addImage(image[i], id);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Resources initialized by <TT><FONT FACE="Courier">initResources</FONT></TT>
+could include anything from images to sound and music. In this
+case, the only resources used by <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+are images. It's important that <TT><FONT FACE="Courier">initResources</FONT></TT>
+is defined as static. This means that <TT><FONT FACE="Courier">initResources</FONT></TT>
+applies to all instances of the <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+class, which results in all <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+objects referencing the same images. Furthermore, this makes the
+loading of resources smoother because you can load the resources
+at the beginning of the applet before you even create any <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+objects. This is another tactic that will be used frequently throughout
+the rest of the book.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Warning</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Because the <TT><FONT FACE="Courier">Spiderling</FONT></TT> class is completely dependent on its resources (images), the <TT><FONT FACE="Courier">initResources</FONT></TT> method must be called before creating or using any <TT><FONT 
+FACE="Courier">Spiderling</FONT></TT> objects. The same rule applies to all other sprites you develop that use the <TT><FONT FACE="Courier">initResources</FONT></TT> method to initialize their resources.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The overridden <TT><FONT FACE="Courier">update</FONT></TT> method
+in <TT><FONT FACE="Courier">Spiderling</FONT></TT> takes care
+of incrementing the spiderling frame animation:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public BitSet update() {<BR>
+&nbsp;&nbsp;BitSet action = new BitSet();<BR>
+<BR>
+&nbsp;&nbsp;// Die?<BR>
+&nbsp;&nbsp;if (frame &gt;= 5) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_KILL);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_ADDSPRITE);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;action.set(Tarantula.SA_ADDTARANTULA);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return action;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Increment the frame<BR>
+&nbsp;&nbsp;incFrame();<BR>
+<BR>
+&nbsp;&nbsp;return action;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+An important thing to notice is how <TT><FONT FACE="Courier">update</FONT></TT>
+kills the <TT><FONT FACE="Courier">Spiderling</FONT></TT> object
+and creates a new <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+object. This is carried out simply by checking the current animation
+frame and returning the correct sprite action. The <TT><FONT FACE="Courier">update</FONT></TT>
+method makes use of a custom sprite action, <TT><FONT FACE="Courier">SA_ADDTARANTULA</FONT></TT>,
+which is defined in the <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+class. You learn about the <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+class in a moment.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Notice that even though the <TT><FONT FACE="Courier">SA_ADDTARANTULA</FONT></TT> sprite action is used to add tarantula sprites, the standard sprite action <TT><FONT FACE="Courier">SA_ADDSPRITE</FONT></TT> must also be used in conjunction with it. This is 
+true because the <TT><FONT FACE="Courier">SA_ADDSPRITE</FONT></TT> action signals that a sprite is to be added, and the <TT><FONT FACE="Courier">SA_ADDTARANTULA</FONT></TT> action specifies the specific type of sprite (a tarantula sprite).
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">addSprite</FONT></TT> method is the
+other overridden method in <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+and handles adding a new <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+object when the spiderling dies:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected Sprite addSprite(BitSet action)
+{<BR>
+&nbsp;&nbsp;// Add spider?<BR>
+&nbsp;&nbsp;if (action.get(Tarantula.SA_ADDTARANTULA))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return new Tarantula(component, new Point(position.x,
+position.y));<BR>
+&nbsp;&nbsp;return null;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+<TT><FONT FACE="Courier">addSprite</FONT></TT> checks for the
+<TT><FONT FACE="Courier">SA_ADDTARANTULA</FONT></TT> action flag
+and creates the new tarantula if it is set. The newly created
+<TT><FONT FACE="Courier">Tarantula</FONT></TT> object is then
+returned so that it can be added to the sprite list.
+<P>
+The next extended sprite class used in Sim Tarantula is the <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+class, which you might have suspected models a tarantula. The
+following are the member variables defined in the <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+class:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static final int SA_ADDTARANTULA
+= 3,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SA_ADDSPIDERLING
+= 4,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SA_ADDSPIDERCIDE
+= 5;<BR>
+public static Image[][] image;<BR>
+protected static Random rand = new Random(<BR>
+&nbsp;&nbsp;System.currentTimeMillis());</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Probably the most important aspect of the <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+class is the addition of the custom sprite actions. These three
+actions define a mechanism to add <TT><FONT FACE="Courier">Tarantula</FONT></TT>,
+<TT><FONT FACE="Courier">Spiderling</FONT></TT>, and <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+objects. Notice that the actions are assigned increasing integer
+values beginning with <TT><FONT FACE="Courier">3</FONT></TT>.
+This is extremely important because the standard sprite actions
+defined in the <TT><FONT FACE="Courier">Sprite</FONT></TT> class
+are already assigned the values <TT><FONT FACE="Courier">0</FONT></TT>,
+<TT><FONT FACE="Courier">1</FONT></TT>, and <TT><FONT FACE="Courier">2</FONT></TT>.
+If you recall, the sprite actions are actually flags used in a
+<TT><FONT FACE="Courier">BitSet</FONT></TT> object to pass actions
+back and forth between individual sprites and the sprite list.
+<P>
+The <TT><FONT FACE="Courier">Image</FONT></TT> member variable,
+<TT><FONT FACE="Courier">image</FONT></TT>, is simply used to
+hold the array of images for the sprite. The <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+class also contains a <TT><FONT FACE="Courier">Random</FONT></TT>
+object member variable, <TT><FONT FACE="Courier">rand</FONT></TT>.
+This member variable is defined as static and is used to provide
+random numbers for all <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+objects. It is seeded with the current system time, which is a
+useful way to help guarantee randomness.
+<P>
+The constructor for <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+is very simple and alleviates having to pass a bunch of specific
+parameters:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public Tarantula(Component comp, Point
+pos) {<BR>
+&nbsp;&nbsp;super(comp, image, 0, 1, 2, pos, new Point(1, 1),
+50,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Sprite.BA_WRAP, 0);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The tarantula is given a bounds action of <TT><FONT FACE="Courier">BA_WRAP</FONT></TT>,
+which means that it can roam off one side of the applet window
+and back onto the other side.
+<P>
+Similar to the one in <TT><FONT FACE="Courier">Spiderling</FONT></TT>,
+the <TT><FONT FACE="Courier">initResources</FONT></TT> method
+for <TT><FONT FACE="Courier">Tarantula</FONT></TT> loads all the
+images used by the class:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static void initResources(Applet
+app, MediaTracker tracker,<BR>
+&nbsp;&nbsp;int id) {<BR>
+&nbsp;&nbsp;image = new Image[8][2];<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 8; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int j = 0; j &lt; 2; j++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image[i][j] = app.getImage(app.getCodeBase(),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;Res/Tarant&quot;
++ i + j + &quot;.gif&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.addImage(image[i][j],
+id);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method is where
+most of the action takes place in <TT><FONT FACE="Courier">Tarantula</FONT></TT>.
+Listing 7.1 shows the source code for the <TT><FONT FACE="Courier">update</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 7.1. The </B><TT><B><FONT FACE="Courier">Tarantula</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">update</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public BitSet update() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Randomly change direction<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if ((rand.nextInt() % 10) == 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;velocity.x = velocity.y =
+1;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;setDirection(direction + rand.nextInt()
+% 2);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Call parent's update()<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;BitSet action = super.update();<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Give birth?<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (rand.nextInt() % 250 == 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_ADDSPRITE);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Tarantula.SA_ADDSPIDERLING);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Die?<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (rand.nextInt() % 250 == 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_KILL);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_ADDSPRITE);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Tarantula.SA_ADDSPIDERCIDE);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return action;<BR>
+&nbsp;&nbsp;}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">update</FONT></TT> method first handles
+giving the tarantula its ability to roam by randomly altering
+the direction. The superclass <TT><FONT FACE="Courier">update</FONT></TT>
+method is then called so that all the default handling can take
+place. The <TT><FONT FACE="Courier">update</FONT></TT> method
+then randomly decides whether a new <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+object should be created. If so, the <TT><FONT FACE="Courier">SA_ADDSPRITE</FONT></TT>
+and <TT><FONT FACE="Courier">SA_ADDSPIDERLING</FONT></TT> flags
+are set. Similarly, <TT><FONT FACE="Courier">update</FONT></TT>
+randomly decides whether a <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+object should be created. If so, the <TT><FONT FACE="Courier">SA_KILL</FONT></TT>,
+<TT><FONT FACE="Courier">SA_ADDSPRITE</FONT></TT>, and <TT><FONT FACE="Courier">SA_ADDSPIDERCIDE</FONT></TT>
+flags are set. The <TT><FONT FACE="Courier">SA_KILL</FONT></TT>
+flag takes care of killing the <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+object itself, while the other two cause the new <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+object to be created.
+<P>
+The last method in <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+is <TT><FONT FACE="Courier">addSprite</FONT></TT>, which handles
+creating <TT><FONT FACE="Courier">Spiderling</FONT></TT> and <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+objects that are to be added to the sprite list:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected Sprite addSprite(BitSet action)
+{<BR>
+&nbsp;&nbsp;// Add spiderling?<BR>
+&nbsp;&nbsp;if (action.get(Tarantula.SA_ADDSPIDERLING))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return new Spiderling(component, new Point(position.x,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position.y));<BR>
+<BR>
+&nbsp;&nbsp;// Add spidercide?<BR>
+&nbsp;&nbsp;else if (action.get(Tarantula.SA_ADDSPIDERCIDE))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return new Spidercide(component, new Point(position.x,
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;position.y));<BR>
+<BR>
+&nbsp;&nbsp;return null;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">addSprite</FONT></TT> method checks
+the sprite action flags and creates a new sprite, if necessary.
+<TT><FONT FACE="Courier">addSprite</FONT></TT> then makes sure
+to return the newly created sprite so that it can be added to
+the sprite list.
+<P>
+Last but not least is the <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+class, which models a dying tarantula with a simple frame animation.
+The <TT><FONT FACE="Courier">Spidercide</FONT></TT> class is very
+similar to <TT><FONT FACE="Courier">Spiderling</FONT></TT>, because
+they both act effectively as temporary animations. Listing 7.2
+contains the source code for the <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 7.2. The </B><TT><B><FONT FACE="Courier">Spidercide</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class Spidercide extends Sprite
+{<BR>
+&nbsp;&nbsp;protected static Image[] image = new Image[4];<BR>
+<BR>
+&nbsp;&nbsp;public Spidercide(Component comp, Point pos) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(comp, image, 0, 1, 20, pos, new
+Point(0, 0), 30,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sprite.BA_DIE);<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public static void initResources(Applet app, MediaTracker
+tracker,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;int id) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;for (int i = 0; i &lt; 4; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image[i] = app.getImage(app.getCodeBase(),
+&quot;Res/Spcide&quot; +<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i + &quot;.gif&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracker.addImage(image[i],
+id);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public BitSet update() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;BitSet action = new BitSet();<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Die?<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (frame &gt;= 3) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;action.set(Sprite.SA_KILL);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return action;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Increment the frame<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;incFrame();<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return action;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+You can undoubtedly see a lot of similarities between <TT><FONT FACE="Courier">Spidercide</FONT></TT>
+and <TT><FONT FACE="Courier">Spiderling</FONT></TT>. As a matter
+of fact, the only significant difference between the two is that
+the <TT><FONT FACE="Courier">Spidercide</FONT></TT> class doesn't
+add new sprites. Of course, it also provides its own unique frame
+images. Otherwise, you've seen all this code before in the <TT><FONT FACE="Courier">Spiderling</FONT></TT>
+class, so I won't go over it again.
+<P>
+There is actually one other sprite-related class in Sim Tarantula
+that you need to learn about before moving on to the applet class.
+I'm referring to the <TT><FONT FACE="Courier">TarantulaVector</FONT></TT>
+class, which is derived from <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+and provides features specific to the Sim Tarantula sprite classes.
+Listing 7.3 contains the source code for <TT><FONT FACE="Courier">TarantulaVector</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 7.3. The </B><TT><B><FONT FACE="Courier">TarantulaVector</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public class TarantulaVector extends
+SpriteVector {<BR>
+&nbsp;&nbsp;public TarantulaVector(Background back) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(back);<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public int add(Sprite s) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Only allow up to 10 sprites at once
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (size() &lt;= 10)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return super.add(s);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return -1;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;protected boolean collision(int i, int iHit) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Do nothing!<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return false;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">TarantulaVector</FONT></TT> class
+probably has a lot less code than you might have guessed, because
+the majority of the derived functionality in Sim Tarantula is
+carried out in the three sprite classes you just covered. You
+really only need to have the <TT><FONT FACE="Courier">TarantulaVector</FONT></TT>
+class for two reasons: limiting the maximum number of sprites
+and eliminating collision actions.
+<P>
+Limiting the number of sprites that can be added to the sprite
+list is necessary because the performance of the applet starts
+dragging if you get too many tarantulas running around. Also,
+it becomes very difficult to see what is happening if too many
+sprites are on the screen at one time. The solution is an overridden
+version of the <TT><FONT FACE="Courier">add</FONT></TT> method,
+which simply checks to see how many sprites are currently in the
+list and only adds new sprites if it is under the limit.
+<P>
+Getting rid of collision actions isn't absolutely necessary, but
+it helps make the animation look a little more realistic. You
+might recall that the default <TT><FONT FACE="Courier">collision</FONT></TT>
+method in <TT><FONT FACE="Courier">Sprite</FONT></TT> causes two
+sprites that collide to bounce off each other. In the case of
+tarantulas, it actually looks better having them just walk over
+each other, so you simply supply a <TT><FONT FACE="Courier">collision</FONT></TT>
+method that returns false and all is well.
+<P>
+At this point, you have all the support classes necessary to move
+on to the applet itself. You'll see that the applet has little
+responsibility in regard to the specifics of Sim Tarantula, because
+the derived sprite classes basically take care of themselves.
+This is a direct benefit of using an object-oriented design approach.
+<H3><A NAME="TheSimTarantulaClass"><B>The </B><TT><B><FONT SIZE=4 FACE="Courier">SimTarantula</FONT></B></TT><B><FONT SIZE=4>
+Class</FONT></B></A></H3>
+<P>
+The <TT><FONT FACE="Courier">SimTarantula</FONT></TT> class models
+the applet itself and takes care of all the dirty work related
+to setting up the sprite classes. Because the overhead of managing
+the sprite classes is very similar, much of the code in the <TT><FONT FACE="Courier">SimTarantula</FONT></TT>
+class is the same as that in the <TT><FONT FACE="Courier">Atoms</FONT></TT>
+class you developed yesterday. Knowing that, it makes more sense
+to focus on the code in <TT><FONT FACE="Courier">SimTarantula</FONT></TT>
+that is new, such as the <TT><FONT FACE="Courier">init</FONT></TT>
+method:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void init() {<BR>
+&nbsp;&nbsp;// Load and track the images<BR>
+&nbsp;&nbsp;tracker = new MediaTracker(this);<BR>
+&nbsp;&nbsp;back = getImage(getCodeBase(), &quot;Res/Back.gif&quot;);
+<BR>
+&nbsp;&nbsp;tracker.addImage(back, 0);<BR>
+&nbsp;&nbsp;Tarantula.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;Spiderling.initResources(this, tracker, 0);<BR>
+&nbsp;&nbsp;Spidercide.initResources(this, tracker, 0);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">init</FONT></TT> method takes care
+of initializing all the resources for the different sprites. This
+is done by calling the static <TT><FONT FACE="Courier">initResource</FONT></TT>
+method for each. A <TT><FONT FACE="Courier">MediaTracker</FONT></TT>
+class is passed in so that the image resources can be tracked.
+<P>
+The <TT><FONT FACE="Courier">run</FONT></TT> method is the workhorse
+for <TT><FONT FACE="Courier">SimTarantula</FONT></TT> and is somewhat
+similar to the <TT><FONT FACE="Courier">run</FONT></TT> method
+implemented in the <TT><FONT FACE="Courier">Atoms</FONT></TT>
+class. Listing 7.4 contains the source code for the <TT><FONT FACE="Courier">run</FONT></TT>
+method in <TT><FONT FACE="Courier">SimTarantula</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 7.4. The </B><TT><B><FONT FACE="Courier">SimTarantula</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">run</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void run() {<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tracker.waitForID(0);<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Create and add some spiderlings<BR>
+&nbsp;&nbsp;tv = new TarantulaVector(new ImageBackground(this,
+back));<BR>
+&nbsp;&nbsp;for (int i = 0; i &lt; 5; i++) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Point pos = tv.getEmptyPosition(new Dimension(
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spiderling.image[0].getWidth(this),
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spiderling.image[0].getHeight(this)));
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tv.add(new Spiderling(this, pos));<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;// Update everything<BR>
+&nbsp;&nbsp;long t = System.currentTimeMillis();<BR>
+&nbsp;&nbsp;while (Thread.currentThread() == animate) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tv.update();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t += delay;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thread.sleep(Math.max(0, t
+- System.currentTimeMillis()));<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">run</FONT></TT> method creates the
+<TT><FONT FACE="Courier">TarantulaVector</FONT></TT> object and
+passes an <TT><FONT FACE="Courier">ImageBackground</FONT></TT>
+object into its constructor. This gives Sim Tarantula a desert
+background image and makes the animation a lot more realistic.
+Five <TT><FONT FACE="Courier">Spiderling</FONT></TT> objects are
+then created and added to the tarantula vector. This is all it
+takes to get the simulation underway.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+If you recall, the <TT><FONT FACE="Courier">TarantulaVector</FONT></TT> class takes a <TT><FONT FACE="Courier">Background</FONT></TT> object as its only constructor parameter. However, in <TT><FONT FACE="Courier">SimTarantula</FONT></TT> the <TT><FONT 
+FACE="Courier">TarantulaVector</FONT></TT> object is constructed using an object of type <TT><FONT FACE="Courier">ImageBackground</FONT></TT>. This is a very neat usage of the object-oriented design of the sprite and background classes. You can use a 
+completely different type of background simply by passing a different type of <TT><FONT FACE="Courier">Background</FONT></TT> derived object into the <TT><FONT FACE="Courier">TarantulaVector</FONT></TT> constructor.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The rest of the <TT><FONT FACE="Courier">SimTarantula</FONT></TT>
+class is basically the same as <TT><FONT FACE="Courier">Atoms</FONT></TT>,
+with the exception of different text in the applet title that
+is displayed while the images are loading. With that, you have
+a complete tarantula simulator applet with lots of cool derived
+sprite objects that interact with each other.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Although you didn't cover a lot of new territory in theory, you
+made huge strides in this lesson in regard to practical sprite
+usage. You started off by deriving a powerful new sprite class
+that gives sprites a sense of direction. You followed up on this
+by designing a simple tarantula simulator and putting it together
+piece by piece. Although the tarantula simulator isn't technically
+a game, it is about as close as you can get in terms of deriving
+new sprites that interact with each other. With this knowledge,
+you are empowered to create sophisticated applets with more complex
+sprites that can work together to do more than just give the illusion
+of movement.
+<P>
+You might be thinking at this point that it's time to jump into
+writing a complete Java game. Although you are technically almost
+ready, the next lesson changes the pace a little by introducing
+you to handling user input in games. By learning how to handle
+user input, you'll clear a major hurdle on your way to writing
+full-blown Java games.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why derive a directional sprite?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>A directional sprite is a sprite with a more specific purpose. In object-oriented programming, any time you have an object that extends another object, you should derive from the original object and add the new 
+functionality. In this case, the <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT> class inherits all the functionality of the original <TT><FONT FACE="Courier">Sprite</FONT></TT> class, while adding its own specific features.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Can the <TT><B><FONT FACE="Courier">DirectionalSprite</FONT></B></TT> class be used to model sprites with more than eight directions?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Unfortunately, no. The <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT> class is specifically designed to support exactly eight directions. It could be redesigned to be more general, in which case you 
+would probably need to change the constructor to accept a parameter specifying the number of directions.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why do I have to use sprite actions to do something as simple as adding a new sprite to the sprite list?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Because you are trying to add a sprite from within another sprite. Sprites have no concept of the sprite list, so they don't know how to add sprites. The sprite actions define a communication protocol between 
+the sprites and the sprite list that enables sprites to indirectly manipulate the list.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Why are the spiderlings and spidercides implemented as sprites?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Because they are frame animations that need to be able to interact with the tarantula sprites. More generally, they are separate conceptual objects that are well suited for the sprite model provided by the <TT 
+VALIGN=TOP><FONT FACE="Courier">Sprite</FONT></TT> class. Remember that just because an object isn't moving and bouncing around doesn't mean that it isn't a good candidate for a sprite.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a handle on the material you learned today. Try to answer
+the questions and at least briefly ponder the exercises before
+moving on to tomorrow's lesson. You'll find the answers to the
+questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>How are directions modeled in the <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>
+class?
+<LI>How do the velocity multipliers in the <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>
+class work?
+<LI>How do the tarantulas determine when to give birth to new
+spiderlings?
+<LI>How do the tarantulas determine when to die?
+<LI>Why do you need to derive the <TT><FONT FACE="Courier">TarantulaVector</FONT></TT>
+class, as opposed to just using the <TT><FONT FACE="Courier">SpriteVector</FONT></TT>
+class?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Modify <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>
+so that it can be used to model sprites with any number of directions.
+<LI>Modify Sim Tarantula to use the new <TT><FONT FACE="Courier">DirectionalSprite</FONT></TT>
+class.
+<LI>Think about how cool (and scared) I felt when I saw a real
+tarantula in the wild while riding my mountain bike.
+<LI>Write a <TT><FONT FACE="Courier">Food</FONT></TT> class to
+model food that the tarantulas can eat.
+<LI>Modify the <TT><FONT FACE="Courier">TarantulaVector</FONT></TT>
+class to detect collisions between the tarantulas and the food.
+<LI>Modify the <TT><FONT FACE="Courier">Tarantula</FONT></TT>
+class to extend the life of the tarantulas when they eat food.
+<LI>Design your own graphics for the sprites and background to
+create a different type of simulation. SimSasquatch maybe?
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch6.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch1rev.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

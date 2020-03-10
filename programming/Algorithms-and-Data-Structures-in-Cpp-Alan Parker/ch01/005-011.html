@@ -1,0 +1,349 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Representations</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=1//-->
+<!--PAGES=005-011//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="001-005.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="011-016.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading3"></A><FONT COLOR="#000077">1.1.1 Unsigned Notation</FONT></H4>
+<P>Unsigned notation is used to represent nonnegative integers. The unsigned notation does not support negative numbers or floating point numbers. An n-bit number, A, in unsigned notation is represented as
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-09d.jpg"></P>
+<P>with a value of
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-10d.jpg"></P>
+<P>Negative numbers are not representable in unsigned format. The range of numbers in an n-bit unsigned notation is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-11d.jpg"></P>
+<P>Zero is uniquely represented in unsigned notation. The following types are used in the C++ programming language to indicate unsigned notation:
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;unsigned char (8 bits)
+<DD><B>&#149;</B>&nbsp;&nbsp;unsigned short (16 bits)
+<DD><B>&#149;</B>&nbsp;&nbsp;unsigned int (native machine size)
+<DD><B>&#149;</B>&nbsp;&nbsp;unsigned long (machine dependent)
+</DL>
+<P>The number of bits for each type can be compiler dependent.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading4"></A><FONT COLOR="#000077">1.1.2 Signed-Magnitude Notation</FONT></H4>
+<P>Signed-magnitude numbers are used to represent positive and negative integers. Signed-magnitude notation does not support floating-point numbers. An n-bit number, <I>A</I>, in signed-magnitude notation is represented as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-12d.jpg"></P>
+<P>with a value of
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-13d.jpg"></P>
+<P>A number, <I>A</I>, is negative if and only if <I>a</I><SUB><SMALL><I>n</I> - 1</SMALL></SUB> = 1. The range of numbers in an n-bit signed magnitude notation is</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-14d.jpg"></P>
+<P>The range is symmetrical and zero is not uniquely represented. Computers do not use signed-magnitude notation for integers because of the hardware complexity induced by the representation to support addition.
+</P>
+<H4 ALIGN="LEFT"><A NAME="Heading5"></A><FONT COLOR="#000077">1.1.3 2&#146;s Complement Notation</FONT></H4>
+<P>2&#146;s complement notation is used by almost all computers to represent positive and negative integers. An n-bit number, A, in 2&#146;s complement notation is represented as
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-15d.jpg"></P>
+<P>with a value of
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-16d.jpg"></P>
+<P>A number, <I>A</I>, is negative if and only if <I>a</I><SUB><SMALL><I>n</I> - 1</SMALL></SUB> = 1. From Eq. 1.16, the negative of <I>A</I>, -<I>A</I>, is given as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-17d.jpg"></P>
+<P>which can be written as
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-18d.jpg"></P>
+<P>where <IMG SRC="images/01-01i.jpg"> is defined as the unary complement:</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-19d.jpg"></P>
+<P>The one&#146;s complement of a number, A, denoted by <IMG SRC="images/01-02i.jpg">, is defined as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-20d.jpg"></P>
+<P>From Eq. 1.18 it can be shown that
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-21d.jpg"></P>
+<P>To see this note that
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-22d.jpg"></P>
+<P>and
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-23d.jpg"></P>
+<P>This yields
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-24d.jpg"></P>
+<P>Inserting Eq. 1.24 into Eq. 1.22 yields
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-25d.jpg"></P>
+<P>which gives
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-26d.jpg"></P>
+<P>By noting
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-27d.jpg"></P>
+<P>one obtains
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-28d.jpg"></P>
+<P>which is -<I>A</I>. So whether <I>A</I> is positive or negative the two&#146;s complement of <I>A</I> is equivalent to -<I>A</I>.</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-29d.jpg"></P>
+<P>Note that in this case it is a simpler way to generate the representation of -1. Otherwise you would have to note that
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-30d.jpg"></P>
+<P>Similarly
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-31d.jpg"></P>
+<P>However, it is useful to know the representation in terms of the weighted bits. For instance, -5, can be generated from the representation of -1 by eliminating the contribution of 4 in -1:
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-32d.jpg"></P>
+<P>Similarly, -21, can be realized from -5 by eliminating the positive contribution of 16 from its representation.
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-33d.jpg"></P>
+<P>The operations can be done in hex as well as binary. For 8-bit 2&#146;s complement one has
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-34d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/01-35d.jpg"></P>
+<P>with all the operations performed in hex. After a little familiarity, hex numbers are generally easier to manipulate. To take the one&#146;s complement one handles each hex digit at a time. If <I>w</I> is a hex digit then the 1&#146;s complement of <I>w</I>, <IMG SRC="images/01-03i.jpg">, is given as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-36d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/01-37d.jpg"></P>
+<P>The range of numbers in an n-bit 2&#146;s complement notation is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-38d.jpg"></P>
+<P>The range is not symmetric but the number zero is uniquely represented.
+</P>
+<P>The representation in 2&#146;s complement arithmetic is similar to an odometer in a car. If the car odometer is reading zero and the car is driven one mile in reverse (-1) then the odometer reads 999999. This is illustrated in Table 1.2.</P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER><CAPTION ALIGN=LEFT><B>Table 1.2</B> 2&#146;s Complement Odometer Analogy
+<TR>
+<TH COLSPAN="3">8-Bit 2&#146;s Complement
+<TR>
+<TH WIDTH="35%">Binary
+<TH WIDTH="30%">Value
+<TH WIDTH="35%">Odometer
+<TR>
+<TD ALIGN="CENTER">11111110
+<TD ALIGN="CENTER">-2
+<TD ALIGN="CENTER">999998
+<TR>
+<TD ALIGN="CENTER">11111111
+<TD ALIGN="CENTER">-1
+<TD ALIGN="CENTER">999999
+<TR>
+<TD ALIGN="CENTER">00000000
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">000000
+<TR>
+<TD ALIGN="CENTER">00000001
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">000001
+<TR>
+<TD ALIGN="CENTER">00000010
+<TD ALIGN="CENTER">2
+<TD ALIGN="CENTER">000002
+</TABLE>
+</CENTER>
+<P>Typically, 2&#146;s complement representations are used in the C++ programming language with the following declarations:
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;char (8 bits)
+<DD><B>&#149;</B>&nbsp;&nbsp;short (16 bits)
+<DD><B>&#149;</B>&nbsp;&nbsp;int (16,32, or 64 bits)
+<DD><B>&#149;</B>&nbsp;&nbsp;long (32 bits)
+</DL>
+<P>The number of bits for each type can be compiler dependent. An 8-bit example of the three basic integer representations is shown in Table 1.3.
+</P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER><CAPTION ALIGN=LEFT><B>Table 1.3</B> 8-Bit Representations
+<TR>
+<TH COLSPAN="4">8-Bit Representations
+<TR>
+<TH WIDTH="25%" VALIGN="BOTTOM">Number
+<TH WIDTH="25%" VALIGN="BOTTOM">Unsigned
+<TH WIDTH="25%">Signed<BR>Magnitude
+<TH WIDTH="25%">2&#146;s<BR>Complement
+<TR>
+<TD>-128
+<TD>NR<SUP><SMALL><B>&#8224;</B></SMALL></SUP><TD>NR
+<TD>10000000
+<TR>
+<TD>-127
+<TD>NR
+<TD>11111111
+<TD>10000001
+<TR>
+<TD>-2
+<TD>NR
+<TD>10000010
+<TD>11111110
+<TR>
+<TD>-1
+<TD>NR
+<TD>10000001
+<TD>11111111
+<TR>
+<TD VALIGN="TOP">0
+<TD VALIGN="TOP">00000000
+<TD>00000000<BR>10000000
+<TD VALIGN="TOP">00000000
+<TR>
+<TD>1
+<TD>00000001
+<TD>00000001
+<TD>00000001
+<TR>
+<TD>127
+<TD>01111111
+<TD>01111111
+<TD>01111111
+<TR>
+<TD>128
+<TD>10000000
+<TD>NR
+<TD>NR
+<TR>
+<TD>255
+<TD>11111111
+<TD>NR
+<TD>NR
+</TABLE>
+</CENTER>
+
+<BLOCKQUOTE>
+<HR>
+<SUP><SMALL><B>&#8224;</B></SMALL></SUP><FONT SIZE="-1">.Not representable in 8-bit format.
+</FONT>
+<HR>
+</BLOCKQUOTE>
+
+<P>
+</P>
+<CENTER>
+<TABLE WIDTH="90%" BORDER><CAPTION ALIGN=LEFT><B>Table 1.4</B> Ranges for 2&#146;s Complement and Unsigned Notations
+<TR>
+<TH WIDTH="10%"># Bits
+<TH WIDTH="60%">2&#146;s Complement
+<TH WIDTH="30%">Unsigned
+<TR>
+<TD ALIGN="CENTER">8
+<TD ALIGN="CENTER">-128&#8804;<I>A</I>&#8804;127
+<TD ALIGN="CENTER">0&#8804;<I>A</I>&#8804;255
+<TR>
+<TD ALIGN="CENTER">16
+<TD ALIGN="CENTER">-32768&#8804;<I>A</I>&#8804;32767
+<TD ALIGN="CENTER">0&#8804;<I>A</I>&#8804;65535
+<TR>
+<TD ALIGN="CENTER">32
+<TD ALIGN="CENTER">-2147483648&#8804;<I>A</I>&#8804;2147483647
+<TD ALIGN="CENTER">0&#8804;<I>A</I>&#8804;4294967295
+<TR>
+<TD ALIGN="CENTER">n
+<TD ALIGN="CENTER">-2<SUP><SMALL><I>n</I> - 1</SMALL></SUP>&#8804;<I>A</I>&#8804;2<SUP><SMALL><I>n</I> - 1</SMALL></SUP>-1
+<TD ALIGN="CENTER">0&#8804;<I>A</I>&#8804;2<SUP><SMALL><I>n</I></SMALL></SUP> - 1
+</TABLE>
+</CENTER>
+<P>The ranges for 8-, 16-, and 32-bit representations for 2&#146;s complement and unsigned representations are shown in Table 1.4.
+</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="001-005.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="011-016.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

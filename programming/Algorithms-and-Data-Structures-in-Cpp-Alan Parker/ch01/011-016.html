@@ -1,0 +1,210 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Representations</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=1//-->
+<!--PAGES=011-016//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="005-011.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="016-025.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="LEFT"><A NAME="Heading6"></A><FONT COLOR="#000077">1.1.4 Sign Extension</FONT></H4>
+<P>This section investigates the conversion from an <I>n</I>-bit number to an <I>m</I>-bit number for signed-magnitude, unsigned, and 2&#146;s complement. It is assumed that <I>m</I>&gt;<I>n</I>. This problem is important due to the fact that many processors use different sizes for their operands. As a result, to move data from one processor to another requires a conversion. A typical problem might be to convert 32-bit formats to 64-bit formats.</P>
+<P>Given <I>A</I> as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-39d.jpg"></P>
+<P>and <I>B</I> as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-40d.jpg"></P>
+<P>the objective is to determine <I>b<SUB><SMALL>k</SMALL></SUB></I> such that <I>B</I> = <I>A</I>.</P>
+<H4 ALIGN="CENTER"><A NAME="Heading7"></A><FONT COLOR="#000077">1.1.4.1 Signed-Magnitude</FONT></H4>
+<P>For signed-magnitude the <I>b<SUB><SMALL>k</SMALL></SUB></I> are assigned with</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-41d.jpg"></P>
+<H4 ALIGN="CENTER"><A NAME="Heading8"></A><FONT COLOR="#000077">1.1.4.2 Unsigned</FONT></H4>
+<P>The conversion for unsigned results in
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-42d.jpg"></P>
+<H4 ALIGN="CENTER"><A NAME="Heading9"></A><FONT COLOR="#000077">1.1.4.3 2&#146;s Complement</FONT></H4>
+<P>For 2&#146;s complement there are two cases depending on the sign of the number:
+</P>
+<P>(a) (<I>a</I><SUB><SMALL><I>n</I> - 1</SMALL></SUB> = 0) For this case, <I>A</I> reduces to</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-43d.jpg"></P>
+<P>It is trivial to see that the assignment of <I>b<SUB><SMALL>k</SMALL></SUB></I> with</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-44d.jpg"></P>
+<P>satisfies this case.
+</P>
+<P>(b) (<I>a</I><SUB><SMALL><I>n</I> - 1</SMALL></SUB> = 1) For this case</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-45d.jpg"></P>
+<P>By noting that
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-46d.jpg"></P>
+<P>The assignment of <I>b<SUB><SMALL>k</SMALL></SUB></I> with</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-47d.jpg"></P>
+<P>satisfies the condition. The two cases can be combined into one assignment with <I>b<SUB><SMALL>k</SMALL></SUB></I> as</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-48d.jpg"></P>
+<P>The sign, <I>a</I><SUB><SMALL><I>n</I> - 1</SMALL></SUB>, of <I>A</I> is simply extended into the higher order bits of <I>B</I>. This is known as sign-extension. Sign extension is illustrated from 8-bit 2&#146;s complement to 32-bit 2&#146;s complement in Table 1.5.</P>
+<CENTER>
+<TABLE WIDTH="50%" BORDER><CAPTION ALIGN=LEFT><B>Table 1.5</B> 2&#146;s Complement Sign Extension
+<TR>
+<TH WIDTH="20%">8-Bit
+<TH WIDTH="80%">32-Bit
+<TR>
+<TD ALIGN="CENTER">0xff
+<TD ALIGN="CENTER">0xffffffff
+<TR>
+<TD ALIGN="CENTER">0x0f
+<TD ALIGN="CENTER">0x0000000f
+<TR>
+<TD ALIGN="CENTER">0x01
+<TD ALIGN="CENTER">0x00000001
+<TR>
+<TD ALIGN="CENTER">0x80
+<TD ALIGN="CENTER">0xffffff80
+<TR>
+<TD ALIGN="CENTER">0xb0
+<TD ALIGN="CENTER">0xffffffb0
+</TABLE>
+</CENTER>
+<H4 ALIGN="LEFT"><A NAME="Heading10"></A><FONT COLOR="#000077">1.1.5 C++ Program Example</FONT></H4>
+<P>This section demonstrates the handling of 16-bit and 32-bit data by two different processors. A simple C++ source program is shown in Code List 1.3. The assembly code generated for the C++ program is demonstrated for the Intel 80286 and the Motorola 68030 in Code List 1.4. A line-by-line description follows:
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;Line # 1: The 68030 executes a <I>movew</I> instruction moving the constant 1 to the address where the variable <I>i</I> is stored. The <I>movew</I>&#151;move word&#151;instruction indicates the operation is 16 bits.
+<P>The 80286 executes a <I>mov</I> instruction. The <I>mov</I> instruction is used for 16-bit operations.
+</P>
+<DD><B>&#149;</B>&nbsp;&nbsp;Line # 2: Same as Line # 1 with different constants being moved.
+<DD><B>&#149;</B>&nbsp;&nbsp;Line # 3: The 68030 moves <I>j</I> into register <I>d0</I> with the movew instruction. The <I>addw</I> instruction performs a word (16-bit) addition storing the result at the address of the variable <I>i</I>.
+<P>The 80286 executes an <I>add</I> instruction storing the result at the address of the variable <I>i</I>. The instruction does not involve the variable <I>j</I>. The compiler uses the immediate data, 2, since the assignment of <I>j</I> to 2 was made on the previous instruction. This is a good example of optimization performed by a compiler. An unoptimizing compiler would execute
+<DL>
+<BR>
+<DD>mov ax, WORD PTR [bp-4]
+<DD>add WORD PTR [bp-2], ax
+</DL>
+<BR>
+<P>similar to the 68030 example.
+</P>
+<DD><B>&#149;</B>&nbsp;&nbsp;Line # 4: The 68030 executes a <I>moveq</I>&#151;quick move&#151;of the immediate data 3 to register <I>d0</I>. A long move, <I>movel</I>, is performed moving the value to the address of the variable <I>k</I>. The long move performs a 32-bit move.
+<P>The 80286 executes two immediate moves. The 32-bit data is moved to the address of the variable k in two steps. Each step consists of a 16-bit move. The least significant word, 3, is moved first followed by the most significant word,0.
+</P>
+<DD><B>&#149;</B>&nbsp;&nbsp;Line # 5: Same as Line # 4 with different constants being moved.
+<DD><B>&#149;</B>&nbsp;&nbsp;Line # 6: The 68030 performs an add long instruction, <I>addl</I>, placing the result at the address of the variable <I>k</I>.
+</DL>
+<P>The 80286 performs the 32-bit operation in two 16-bit instructions. The first part consists of an add instruction, <I>add</I>, followed by an add with carry instruction, <I>a</I>d<I>c</I>.</P>
+<P><B>Code List 1.3</B> Assembly Language Example</P>
+<P><A NAME="Fig4"></A><A HREF="javascript:displayWindow('images/01-04.jpg',97,200)"><IMG SRC="images/01-04t.jpg"></A></P>
+<P><B>Code List 1.4</B> Assembly Language Code</P>
+<P><A NAME="Fig5"></A><A HREF="javascript:displayWindow('images/01-05.jpg',450,328)"><IMG SRC="images/01-05t.jpg"></A></P>
+<P>This example demonstrates that each processor handles different data types with different instructions. This is one of the reasons that the high level language requires the declaration of specific types.
+</P>
+<H3><A NAME="Heading11"></A><FONT COLOR="#000077">1.2 Floating Point Representation</FONT></H3>
+<H4 ALIGN="LEFT"><A NAME="Heading12"></A><FONT COLOR="#000077">1.2.1 IEEE 754 Standard Floating Point Representations</FONT></H4>
+<P>Floating point is the computer&#146;s binary equivalent of scientific notation. A floating point number has both a fraction value or mantissa and an exponent value. In high level languages floating point is used for calculations involving real numbers. Floating point operation is desirable because it eliminates the need for careful problem scaling. IEEE Standard 754 binary floating point has become the most widely used standard. The standard specifies a 32-bit, a 64-bit, and an 80-bit format.
+</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="005-011.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="016-025.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

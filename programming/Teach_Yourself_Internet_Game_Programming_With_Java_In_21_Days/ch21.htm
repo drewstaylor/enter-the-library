@@ -1,0 +1,583 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 21 -- Assembling a Game Development Toolkit</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 21</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Assembling a Game Development Toolkit</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#TheImportanceofTools" >The Importance of Tools</A>
+<LI><A HREF="#ContentTools" >Content Tools</A>
+<LI><A HREF="#JavaDevelopersKit" >Java Developer's Kit</A>
+<LI><A HREF="#IntegratedDevelopmentEnvironments" >Integrated Development Environments</A>
+<UL>
+<LI><A HREF="#SunsJavaWorkshop" >Sun's Java Workshop</A>
+<LI><A HREF="#SymantecCafÈ" >Symantec Caf&eacute;</A>
+<LI><A HREF="#BorlandC50andBorlandsJavaDebug" >Borland C++ 5.0 and Borland's Java Debugger</A>
+<LI><A HREF="#MicrosoftJakarta" >Microsoft Jakarta</A>
+<LI><A HREF="#NaturalIntelligencesRoaster" >Natural Intelligence's Roaster</A>
+<LI><A HREF="#MetrowerksCodeWarriorGold" >Metrowerks CodeWarrior Gold</A>
+<LI><A HREF="#SiliconGraphicsCosmoCode" >Silicon Graphics Cosmo Code</A>
+<LI><A HREF="#JavaWebIDE" >Java WebIDE</A>
+</UL>
+<LI><A HREF="#ProgrammingToolsandTechnologies" >Programming Tools and Technologies</A>
+<UL>
+<LI><A HREF="#LiquidMotion" >Liquid Motion</A>
+<LI><A HREF="#CodeColorizer" >CodeColorizer</A>
+<LI><A HREF="#ActiveX" >ActiveX</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+In case you didn't realize it, today is your final lesson! Because
+it is your last lesson, it only makes sense to cover a topic that
+will help you as you move on to your own game programming projects.
+Today's focus is on assembling a Java game development toolkit.
+Like any craftsman, a Java game programmer needs an easily accessible
+set of tools that can be used in various situations. Today you
+learn about some of the major tools out there now, and on the
+horizon, that will aid you as you begin developing your own Java
+games.
+<P>
+The Java programming tools market is extremely young and very
+dynamic. The seemingly limited number of development tools available
+today could easily double in a matter of months. Although sometimes
+frustrating, this dynamic is also very exciting, and it ultimately
+results in stronger technologies for Java developers. The goal
+of this lesson is to highlight some of the more promising Java
+development tools and give you a place to begin researching which
+tools will work best for you.
+<P>
+You learn today that two primary types of tools are necessary
+for game development: content tools and development tools. You've
+already seen some content tools throughout the book, so today's
+lesson focuses more on development tools.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>The importance of tools
+<LI>Content tools
+<LI>Java Developer's Kit
+<LI>Integrated development environments
+<LI>Programming tools and technologies
+</UL>
+<H2><A NAME="TheImportanceofTools"><B><FONT SIZE=5 COLOR=#FF0000>The
+Importance of Tools</FONT></B></A></H2>
+<P>
+Back in the early days of Windows programming, I was extremely
+frustrated by the lack of available development tools. At the
+time, you had to develop and compile Windows programs from a DOS
+command line, and then launch Windows to test them. Although I
+suspected that Windows was here to stay, I refused to take Windows
+seriously until some decent development tools were available.
+I simply saw Windows programming as more trouble than it was worth
+at the time. Fortunately, Windows development tools eventually
+started to appear, which greatly eased the pain of Windows programming.
+These days, Windows development tools are extremely advanced and
+provide a glimpse into the types of Java development tools that
+will emerge.
+<P>
+In similar ways, Java is going through the same difficulties shared
+by Windows back in the early days of Windows. Although developing
+Java applets using the Java Developer's Kit is significantly easier
+than developing Windows applications using the original Windows
+Software Development Kit, a lot of improvement could be done when
+it comes to Java development tools. Fortunately, third-party Java
+development tools are available today and many more are in the
+works.
+<P>
+Technically speaking, all that is required to develop Java programs
+is a text editor, a compiler, and a runtime environment. The Java
+Developer's Kit (JDK) supplies all of these components. However,
+saying that these three components are sufficient for Java development
+is like saying a hammer and a handsaw are sufficient for building
+a house. Sure, they get the job done, but at what cost to you
+in terms of time and frustration? In all fairness, the JDK isn't
+all that bad, but contrast it with the integrated visual programming
+environments for other languages such as C++ and BASIC and you'll
+want more.
+<P>
+You might think that programming is programming, and no flashy
+visual tools are ever going to change that. In a way, you're right.
+In regard to games especially, your main development efforts will
+always be spent hacking away at Java code. However, a certain
+degree of organizational busy work can be reduced or streamlined
+by integrated development environments. For example, having your
+source files organized into a project structure is often very
+useful for managing all your classes and keeping them in perspective.
+Furthermore, it's hard to argue over the power of using an integrated
+graphical debugger, which is often indispensable in tracking down
+hard to find bugs.
+<P>
+The point is that even though I'm not ruling out command-line
+tools such as the JDK, I encourage you to look into some integrated
+Java development environments and see whether they might save
+you some time and trouble. You'll learn about some of these environments
+throughout the rest of today's lesson. However, before doing that,
+let's take a look at another type of development tool: content
+tools.
+<H2><A NAME="ContentTools"><B><FONT SIZE=5 COLOR=#FF0000>Content
+Tools</FONT></B></A></H2>
+<P>
+Content tools consist of the tools necessary to create the content
+for games. Content includes graphics, sound, music, and any other
+types of media you plan to integrate into your games. Unlike development
+tools, content tools are used to create and edit game resources
+rather than source code. There are two main types of content tools:
+graphics utilities and sound utilities.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Eventually, music utilities could establish themselves as yet another content tool, but currently you have to handle music like normal sampled sounds in Java. In other words, Java music currently must be created using a sound utility.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+You already learned about some useful content tools in earlier
+lessons dealing with graphics and sound. More specifically, you
+saw some popular graphics utilities on <A HREF="ch4.htm" >Day 4</A>,
+&quot;The Basics of Graphics.&quot; You learned about some useful
+sound utilities on <A HREF="ch11.htm" >Day 11</A>, &quot;The Basics
+of Sound.&quot; Refer to these lessons if you operate primarily
+on short-term memory, like me!
+<H2><A NAME="JavaDevelopersKit"><B><FONT SIZE=5 COLOR=#FF0000>Java
+Developer's Kit</FONT></B></A></H2>
+<P>
+The Java Developer's Kit (JDK) provides the core tools and documentation
+necessary for developing Java applets, including games. The JDK
+is the first thing you should take into consideration when putting
+together your own Java development toolkit. Although third-party
+add-ons and development environments promise to make Java development
+smoother and easier, the JDK provides the essentials. Many third-party
+development environments require the JDK to operate. Also, the
+JDK is Sun's official development kit for Java, which means you
+can always count on it providing the most extensive and up-to-date
+Java support.
+<P>
+The JDK includes a Java runtime interpreter, a compiler, a debugger,
+lots of applet demos, and the complete Java API source code, along
+with a few other useful tools. All the sample code you've seen
+throughout the book was developed using only the JDK, so don't
+underestimate its power and usefulness. Version 1.02 of the JDK
+is included on the accompanying CD-ROM.
+<H2><A NAME="IntegratedDevelopmentEnvironments"><B><FONT SIZE=5 COLOR=#FF0000>Integrated
+Development Environments</FONT></B></A></H2>
+<P>
+The development tools provided with the JDK are all command-line
+tools. Most modern development environments include graphical
+editors, graphical debuggers, and visual class browsers. These
+environments are known as integrated development environments
+(IDEs), because all the disparate development tools are integrated
+together. Java is too modern a language not to have a modern development
+interface to match, and Java programmers know this. Fortunately,
+the software tool developers know this, too. Most of the major
+players in the development-tool business have announced Java IDEs.
+A lot of them have already released their products in at least
+a beta form.
+<P>
+These third-party development environments span different operating
+systems and range from C/C++ environment add-ons to entirely new
+products themselves developed in Java. Any of these environments
+will aid in Java game development and probably save you time in
+the long run.
+<H3><A NAME="SunsJavaWorkshop"><B>Sun's Java Workshop</B></A>
+</H3>
+<P>
+Java Workshop, from the creators of Java itself, has the potential
+to be a very interesting Java development tool. Using a very Web-centric
+design, Java Workshop is itself implemented using a great deal
+of HTML for maximum configurability. Sun's Java Workshop is currently
+available for Solaris and Windows 95/NT systems. The following
+is a list of the main features provided by Java Workshop:
+<UL>
+<LI>Project manager
+<LI>Build manager
+<LI>Portfolio manager
+<LI>Applet viewer
+<LI>Source editor
+<LI>Source browser
+<LI>Integrated debugger
+<LI>Online help including Java API
+</UL>
+<P>
+Sun offers a try-and-buy program for Java Workshop in which you
+can download it and try it out before making the purchase. For
+more information, check out Sun's Java Workshop Web site, which
+is located at <TT><A HREF="http://www.sun.com/sunsoft/Developer-products/java/Workshop">http://www.sun.com/sunsoft/Developer-products/java/Workshop</A></TT>
+(see Figure 21.1).
+<P>
+<A HREF="f21-1.gif" ><B>Figure 21.1 :</B><I> Sun's Java Workshop Web site.</I></A>
+<H3><A NAME="SymantecCafÈ"><B>Symantec Caf&eacute;</B></A></H3>
+<P>
+Symantec is the first major pc tool developer to have a working
+Java development environment on the market. Symantec Caf&eacute;
+is a Java development environment based on the Symantec C++ development
+environment for Windows 95/NT. Caf&eacute; is not, however, limited
+to the Windows 95/NT platform; Symantec recently released a version
+for Macintosh. Figures 21.2 and 21.3 show what the Caf&eacute;
+development environment looks like for Windows and Macintosh.
+<P>
+<A HREF="f21-2.gif" ><B>Figure 21.2 : </B><I>The Symantec Cafe development environment for Windows 95/NT.</I></A>
+<P>
+<A HREF="f21-3.gif" ><B>Figure 21.3 : </B><I>The Symantec Cafe development environment for Macintosh.</I></A>
+<P>
+The following list gives the main features provided by Symantec
+Caf&eacute;:
+<UL>
+<LI>Project management
+<LI>Class editor
+<LI>Hierarchy editor
+<LI>Visual drag-and-drop design tool
+<LI>Integrated debugger
+<LI>Source editor
+<LI>Faster bytecode compiler
+<LI>Faster Java runtime virtual machine
+<LI>Agents for automated applet/application creation
+<LI>Online help including Java API
+</UL>
+<P>
+Symantec has also released a Just-In-Time (JIT) compiler that
+integrates into either Caf&eacute; or the standard JDK. Symantec's
+JIT compiler promises to significantly speed up the execution
+of Java applets, which is a major issue for game development.
+You can find out more about Caf&eacute; and the JIT compiler at
+the Symantec Caf&eacute; Web site, which is located at <TT><A HREF="http://cafe.symantec.com">http://cafe.symantec.com</A></TT>
+(see Figure 21.4).
+<P>
+<A HREF="f21-4.gif" ><B>Figure 21.4 : </B><I>The Symantec Cafe Web site.</I></A>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+If you happen to already have Symantec C++, you can use Symantec's Java add-on, Espresso, which is specifically designed to add Java functionality to Symantec C++.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="BorlandC50andBorlandsJavaDebug"><B>Borland C++ 5.0
+and Borland's Java Debugger</B></A></H3>
+<P>
+Borland, one of the largest development tool makers for the pc,
+has focused significant efforts toward bringing Java tools to
+market. Because of the apparent urgency surrounding its internal
+development efforts, Borland appears to have divided its Java
+tool offerings across two product lines: Borland C++ 5.0 and Borland
+Latt&eacute;.
+<P>
+Borland has decided to make its first commercial Java offering
+a part of its Borland C++ 5.0 product. Borland C++ has long been
+a popular C++ compiler for pcs, and it now includes a complete
+integration of Java tools.
+<P>
+The Borland C++ 5.0 Java development environment includes the
+following features:
+<UL>
+<LI>Project management
+<LI>Integrated visual debugger
+<LI>Source editor with color syntax highlighting
+<LI>Object scripting
+<LI>Just-in-time compiler
+<LI>Online help including Java API
+</UL>
+<P>
+Borland's second wave of Java tools, code named Latt&eacute;,
+are themselves being completely developed in Java. Borland's long-term
+goal appears to be focused on the Latt&eacute; technology, but
+Borland C++ 5.0 is a sensible alternative until Latt&eacute; matures.
+The first offering of the Latt&eacute; technology is the Borland
+Debugger for Java, which is currently in a beta release.
+<P>
+For more information on Borland C++ 5.0 and the Latt&eacute; technology,
+check out Borland's Java Web site at <TT><A HREF="http://www.borland.com/Product/java/java.html">http://www.borland.com/Product/java/java.html</A></TT>
+(see Figure 21.5).
+<P>
+<A HREF="f21-5.gif" ><B>Figure 21.5 : </B><I>Borland's Java Web site.</I></A>
+<H3><A NAME="MicrosoftJakarta"><B>Microsoft Jakarta</B></A></H3>
+<P>
+Just when everyone thought Microsoft was in too deep with Visual
+Basic, they turn around and announce plans for their own Java
+development environment, code named Jakarta. Jakarta is planned
+as an integration into the already popular Developer Studio product
+for Windows 95/NT, which encompasses Visual C++, Fortran Powerstation,
+Visual Test, and the Microsoft Developer Network. It's therefore
+safe to assume that many of the Jakarta tools will resemble the
+existing C++ tools included with Visual C++.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Having worked extensively with Visual C++ developing Windows 95/NT games in C++, I can attest to its usefulness as a key component in my Windows game development toolkit. Let's hope Jakarta is just as good, or even better.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="NaturalIntelligencesRoaster"><B>Natural Intelligence's
+Roaster</B></A></H3>
+<P>
+One of the early entrants into the Macintosh Java development
+tool market is Natural Intelligence's Roaster. Roaster boasts
+a wide array of features:
+<UL>
+<LI>Project management
+<LI>Integrated debugger
+<LI>Integrated browser and class tree
+<LI>Programming editor
+<LI>Faster bytecode compiler
+<LI>Class disassembler
+<LI>Online help including Java API
+<LI>Extensive HTML support
+</UL>
+<P>
+For more information about Roaster, check out Natural Intelligence's
+Roaster Web site at <TT><A HREF="http://www.natural.com/pages/products/roaster">http://www.natural.com/pages/products/roaster</A></TT>
+(see Figure 21.6).
+<P>
+<A HREF="f21-6.gif" ><B>Figure 21.6 : </B><I>Natural Intelligence's Roaster Web site.</I></A>
+<H3><A NAME="MetrowerksCodeWarriorGold"><B>Metrowerks CodeWarrior
+Gold</B></A></H3>
+<P>
+Another neat integrated development environment for Macintosh
+is CodeWarrior Gold, by Metrowerks. CodeWarrior Gold 9 boasts
+a complete development solution, including support for Java, C/C++,
+and Object Pascal. As far as Java goes, CodeWarrior Gold sports
+the following major features:
+<UL>
+<LI>Project management
+<LI>Integrated debugger
+<LI>Class browser
+<LI>Programming editor
+<LI>Bytecode disassembler
+<LI>Online help including Java API
+</UL>
+<P>
+For more information regarding CodeWarrior Gold, check out Metrowerk's
+CodeWarrior Web site at <TT><A HREF="http://www.metrowerks.com/products/cw/gold.html">http://www.metrowerks.com/products/cw/gold.html</A></TT>
+(see Figure 21.7).
+<P>
+<A HREF="f21-7.gif" ><B>Figure 21.7 : </B><I>Metrowerk's CodeWarrior Gold Web site.</I></A>
+<H3><A NAME="SiliconGraphicsCosmoCode"><B>Silicon Graphics Cosmo
+Code</B></A></H3>
+<P>
+One of the most powerful Java development environments to come
+out thus far is Cosmo Code by Silicon Graphics, which is a component
+of the larger Cosmo Web development system. Cosmo itself is aimed
+at providing more extensive multimedia and 3D graphics support
+for the Web. Cosmo Code is the primary development component of
+Cosmo and is currently available for Irix systems. Cosmo Code
+contains the following major features:
+<UL>
+<LI>Project management
+<LI>Graphical debugger
+<LI>Visual source browser
+<LI>Programming editor
+<LI>Cosmo Multimedia Libraries
+</UL>
+<P>
+To find out the latest information about Cosmo Code or to download
+a copy to try out, go to the Cosmo Web site at <TT><A HREF="http://www.sgi.com/Products/cosmo/code">http://www.sgi.com/Products/cosmo/code</A></TT>
+(see Figure 21.8).
+<P>
+<A HREF="f21-8.gif" ><B>Figure 21.8 : </B><I>Silicon Graphics Cosmo Code Web site.</I></A>
+<H3><A NAME="JavaWebIDE"><B>Java WebIDE</B></A></H3>
+<P>
+The last integrated development environment is probably the most
+interesting, simply because it is integrated into the Web itself.
+The Java WebIDE Web site, by Chami Wickremasinghe, is itself a
+development environment, operating solely on Web pages and embedded
+Javascript. Although not up to par with many of the features found
+in the environments previously mentioned, Java WebIDE is nevertheless
+useful in its own right. The following are a few of the features
+in Java WebIDE:
+<UL>
+<LI>Source editing and compiling
+<LI>Syntax highlighting
+<LI>Java API searching
+</UL>
+<P>
+To try out Java WebIDE, head over to its Web site at <TT><A HREF="http://www.chamisplace.com/prog/javaide">http://www.chamisplace.com/prog/javaide</A></TT>
+(see Figure 21.9).
+<P>
+<A HREF="f21-9.gif" ><B>Figure 21.9 : </B><I>The Java WebIDE Web site.</I></A>
+<H2><A NAME="ProgrammingToolsandTechnologies"><B><FONT SIZE=5 COLOR=#FF0000>Programming
+Tools and Technologies</FONT></B></A></H2>
+<P>
+After you've settled on an IDE (if you decide to use one at all),
+you will probably want to keep an eye open for programming tools
+and emerging technologies to find other ways to enhance your development
+toolkit. The current offerings of Java-related programming tools
+are still fairly slim, but expect new ones to appear rapidly.
+<P>
+Keep in mind that new technologies will no doubt emerge that are
+built on top of, or that integrate with, Java. You might find
+that you can leverage the usage of some of these technologies
+to enhance and streamline your game development efforts. In the
+world of Java game programming, as in most areas of software development,
+the programmer who can leverage technological advances and reuse
+the most code usually wins. Let's take a look at a few programming
+tools and technologies.
+<H3><A NAME="LiquidMotion"><B>Liquid Motion</B></A></H3>
+<P>
+Liquid Motion, by Dimension X, is a tool that enables you to graphically
+generate 2D Java animations. You animate objects by graphically
+drawing a path of motion, allowing Liquid Motion to handle the
+details of actually animating the object. Liquid Motion sports
+the following major features:
+<UL>
+<LI>Sequence sprites and audio clips
+<LI>Control motion path of objects
+<LI>Select from various motions and animation speeds
+<LI>Create events for user interaction
+<LI>Motion Engine API
+</UL>
+<P>
+To find out more about Liquid Motion, check out the Liquid Motion
+Web site at <TT><A HREF="http://web.dimensionx.com/products/lm">http://web.dimensionx.com/products/lm</A></TT>
+(see Figure 21.10).
+<P>
+<A HREF="f21-10.gif" ><B>Figure 21.10 : </B><I>The Liquid Motion Web site.</I></A>
+<H3><A NAME="CodeColorizer"><B>CodeColorizer</B></A></H3>
+<P>
+CodeColorizer, also by Chami Wickremasinghe, is a Web-based tool
+used to colorize Java source code. This process, also known as
+syntax highlighting, can be useful in deciphering code. You could
+use CodeColorizer to colorize your own code or, even better, use
+it on someone else's code to aid you in figuring out how it works.
+To try out CodeColorizer, go to the CodeColorizer Web site at
+<TT><A HREF="http://www.chamisplace.com/prog/cc">http://www.chamisplace.com/prog/cc</A></TT>
+(see Figure 21.11).
+<P>
+<A HREF="f21-11.gif" ><B>Figure 21.11 : </B><I>The CodeColorizer Web site.</I></A>
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Most of the third-party Java integrated development environments provide a code colorization feature. However, you still might find the CodeColorizer useful if you are solely using the JDK.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="ActiveX"><B>ActiveX</B></A></H3>
+<P>
+If you haven't heard of ActiveX yet, don't worry, you will. I
+know, I'm starting to sound like an AT&amp;T commercial, but ActiveX
+really is a technology that has the potential to shake up the
+Web. ActiveX, by Microsoft, is a technology that defines controls
+(objects) that can be inserted into Web pages to add functionality.
+Sounds a lot like Java, right? ActiveX controls are in fact a
+lot like Java applets, the major difference being that ActiveX
+controls can be integrated into applications developed using various
+other environments such as Visual C++, Visual Basic, and Borland's
+Delphi.
+<P>
+ActiveX is not meant to replace Java; rather, expect ActiveX controls
+to coexist comfortably with Java and possibly even merge with
+Java applets in some respects. It's not yet clear what effect
+ActiveX will have on Java game programming, but it is an exciting
+enough technology that you should keep an eye on it. To find out
+more about ActiveX, visit Microsoft's ActiveX Web site at <TT><A HREF="http://www.microsoft.com/intdev/inttech/controls.htm">http://www.microsoft.com/intdev/inttech/controls.htm</A></TT>
+(see Figure 21.12).
+<P>
+<A HREF="f21-12.gif" ><B>Figure 21.12 : </B><I>Microsoft's ActiveX Web site.</I></A>
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today's lesson presented you with a suitable ending to your three-week
+journey through Java game development: assembling a Java game
+programming toolkit. You started off learning about the different
+kinds of tools suited to the various aspects of game development.
+You then moved on to learning about each type of tool in detail,
+focusing on specific software products along the way. Although
+this lesson might have appeared almost like an advertisement,
+it was really only meant to show you what is out there in the
+way of Java game development tools. It's now up to you to pick
+and choose which ones best suit your needs.
+<P>
+This lesson marks the last day of your foray into Java game programming.
+If you're still hungry for more, you can read a few appendixes!
+Better yet, take some time and work out some game designs of your
+own. Then see whether you have what it takes to turn them into
+Java games that the whole Web community can enjoy. The ultimate
+goal of these three weeks has been to teach you the skills necessary
+for you to get going writing your own Java games. So what are
+you waiting for?
+
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Can I use just the Java Developer's Kit to write Java games?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Absolutely. As a matter of fact, that's all I used to write the sample code throughout this book.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>If I only need the JDK to write games, why bother with using an integrated development environment, like those mentioned in today's lesson?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>You would want to use an IDE because it handles a lot of the busy work required when using the JDK alone, along with making everything graphical and more intuitive. The difference between using the JDK and using 
+an IDE is roughly the same difference between using a command-line shell and using a GUI interface. If you're a pc user, it's like using Windows as opposed to DOS&#133;get the picture?
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Are there any programming packages to aid in Java game development?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Not yet. I've seen some Java animation packages that certainly could be used for games, but no professional Java game programming packages have emerged yet. However, you already have all you need to get started! 
+The sprite classes you've used throughout the book serve as a very good basis for building a Java game programming package of your own.
+</TD></TR>
+</TABLE>
+<P>
+
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A></H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and go over the exercises before moving
+on to the appendixes. You'll find the answers to the questions
+in appendix A, &quot;Quiz Answers.&quot;
+
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What are the two main types of content tools?
+<LI>Which development tool is the best?
+<LI>What is the focus of tomorrow's lesson?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Itemize the tools you think would make good additions to your
+game development toolkit, factoring in the cost of each tool.
+<LI>Go to some of the Web sites mentioned throughout today's lesson
+and try out some of the tools, keeping in mind your specific development
+resources and needs.
+<LI>Go out and celebrate the fact that you are now a Java game
+programmer!
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch20.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch4rev.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

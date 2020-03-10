@@ -1,0 +1,223 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms for Computer Arithmetic</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=4//-->
+<!--PAGES=213-223//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="197-213.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="223-232.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<P>A simple boolean logic simulator is shown in Code List 4.7. The output of the program is shown in Code List 4.8. The program simulates the interconnection of gates and is used to demonstrate the behavior of a clocked D flip-flop.
+</P>
+<P>The program simulates the behavior of the circuit by calculating new values in the simulation in terms of the old values. The old values are then updated and the process is performed again. The process continues until the new and old values are identical or until a terminal count has been reached. For this program a terminal count of 50 is used but it is never reached in this example.</P>
+<P>The circuit that is implemented is shown in Figure 4.11. The program allows each net to have one of three values: 0, 1, or 2. The values are as follows:</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;0: Logical 0
+<DD><B>&#149;</B>&nbsp;&nbsp;1: Logical 1
+<DD><B>&#149;</B>&nbsp;&nbsp;2: Cannot be determined, printed out as x
+</DL>
+<P>All the values in the NET structure are initialized to the unknown state 2. As the inputs, clock, and data propagate through the circuit the values are changed as they become determined.
+</P>
+<P>The behavior of each gate is modelled by its associated function within the program. The gates input one of the three states. The output is determined according to the logical function. This is illustrated in Table 4.4 for the 2-input NAND gate for all nine possibilities of the inputs.</P>
+<CENTER>
+<TABLE WIDTH="50%" BORDER><CAPTION ALIGN=LEFT><B>Table 4.4</B> 2-Input NAND behavior.
+<TR>
+<TH COLSPAN="3">NAND behavior
+<TR>
+<TH WIDTH="15%">x
+<TH WIDTH="15%">y
+<TH WIDTH="20%">f(x,y)
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">x
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">x
+<TD ALIGN="CENTER">x
+<TR>
+<TD ALIGN="CENTER">x
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">x
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">x
+<TR>
+<TD ALIGN="CENTER">x
+<TD ALIGN="CENTER">x
+<TD ALIGN="CENTER">x
+</TABLE>
+</CENTER>
+<P>The output data is shown in the timing diagram in Figure 4.13. As can be seen in the figure the circuit behaves as expected. The Q and QBAR outputs remain unknown until the first rising edge of the clock and at that point the output Q reflects the value of DATA at the clock edge. Only subsequent rising edges of the clock cause the outputs to change. It is important to note that this specific test does not demonstrate the validity of the device as a D flip-flop. In the absence of a theoretical proof a considerable amount of additional testing is necessary.
+</P>
+<P>There is another interesting point about the simulation which can cause problems in circuit design. By looking at the last clock rise in Code List 4.8 one notes that QBAR makes a zero to one transition one gate delay quicker than Q making the corresponding one to zero transition. This is illustrated in Figure 4.12. As a result, it is important to let the data stabilize prior to its use.</P>
+<P><A NAME="Fig30"></A><A HREF="javascript:displayWindow('images/04-30.jpg',500,378)"><IMG SRC="images/04-30t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-30.jpg',500,378)"><FONT COLOR="#000077"><B>Figure 4.11</B></FONT></A>&nbsp;&nbsp;D Flip-Flop Circuit for Simulation</P>
+<P><A NAME="Fig31"></A><A HREF="javascript:displayWindow('images/04-31.jpg',500,276)"><IMG SRC="images/04-31t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-31.jpg',500,276)"><FONT COLOR="#000077"><B>Figure 4.12</B></FONT></A>&nbsp;&nbsp;Transition Timing</P>
+<H3><A NAME="Heading8"></A><FONT COLOR="#000077">4.3 2&#146;s Complement Multiplication</FONT></H3>
+<P>The goal of this section is to investigate algorithms for fast multiplication of two n-bit numbers to form a product. If two&#146;s complement notation is used
+</P>
+<P><A NAME="Fig32"></A><A HREF="javascript:displayWindow('images/04-32.jpg',500,371)"><IMG SRC="images/04-32t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/04-32.jpg',500,371)"><FONT COLOR="#000077"><B>Figure 4.13</B></FONT></A>&nbsp;&nbsp;Timing Diagram for Simulation</P>
+<P><B>Code List 4.7</B> Boolean Logic Simulator</P>
+<P><A NAME="Fig33"></A><A HREF="javascript:displayWindow('images/04-33.jpg',500,377)"><IMG SRC="images/04-33t.jpg"></A></P>
+<P><A NAME="Fig34"></A><A HREF="javascript:displayWindow('images/04-34.jpg',500,886)"><IMG SRC="images/04-34t.jpg"></A></P>
+<P><A NAME="Fig35"></A><A HREF="javascript:displayWindow('images/04-35.jpg',390,691)"><IMG SRC="images/04-35t.jpg"></A></P>
+<P><A NAME="Fig36"></A><A HREF="javascript:displayWindow('images/04-36.jpg',500,403)"><IMG SRC="images/04-36t.jpg"></A></P>
+<P><B>Code List 4.8</B> Output of Program in Code List 4.7</P>
+<P><A NAME="Fig37"></A><A HREF="javascript:displayWindow('images/04-37.jpg',365,500)"><IMG SRC="images/04-37t.jpg"></A></P>
+<P><A NAME="Fig38"></A><A HREF="javascript:displayWindow('images/04-38.jpg',348,730)"><IMG SRC="images/04-38t.jpg"></A></P>
+<P>then when multiplying two numbers, <I>A</I> and <I>B</I>,</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-30d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/04-31d.jpg"></P>
+<P>In order to store the result one needs to calculate the number of bits required to represent the product in 2&#146;s complement form. By noting the range of 2&#146;s complement from Table 1.4 on page 11 one obtains that 2<I>n</I> bits are required in 2&#146;s complement form. The product is formed as</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-32d.jpg"></P>
+<P>Since 2<I>n</I> bits are stored in the hardware for the product then overflow is not an issue.</P>
+<H4 ALIGN="LEFT"><A NAME="Heading9"></A><FONT COLOR="#000077">4.3.1 Shift-Add Addition</FONT></H4>
+<P>The shift-add technique is the simple grade school technique for multiplication. In this scenario a partial product is formed by adding as appropriate repeated shifts of the multiplicand. The core statement in Code List 4.9 is
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-33d.jpg"></P>
+<P>This statement forms the product by repeatedly evaluating the lsb of the multiplier and if it is set by adding the shifted multiplicand. At each iteration the multiplier is shifted right to investigate the next bit and the multiplicand is shifted left.
+</P>
+<P><B>Code List 4.9</B> Shift Add Technique</P>
+<P><A NAME="Fig39"></A><A HREF="javascript:displayWindow('images/04-39.jpg',500,579)"><IMG SRC="images/04-39t.jpg"></A></P>
+<P><A NAME="Fig40"></A><A HREF="javascript:displayWindow('images/04-40.jpg',400,484)"><IMG SRC="images/04-40t.jpg"></A></P>
+<P><B>Code List 4.10</B> Output of Code List 4.9</P>
+<P><A NAME="Fig41"></A><A HREF="javascript:displayWindow('images/04-41.jpg',150,254)"><IMG SRC="images/04-41t.jpg"></A></P>
+<P><A NAME="Fig42"></A><A HREF="javascript:displayWindow('images/04-42.jpg',150,193)"><IMG SRC="images/04-42t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading10"></A><FONT COLOR="#000077">4.3.2 Booth Algorithm</FONT></H4>
+<P>The Booth algorithm is a recoding technique which attempts to recode the multiplier to speedup the scenario where there are sequences of 1&#146;s. As an example consider the multiplication in base 10 of 9999*7. One can evaluate the result rather quickly by performing (10000-1)*7=69993. This can be done without the assistance of a computing device. The algorithm used is to recode the sequence of 9&#146;s and results in an operation which is much simpler. The technique can also be applied in binary. Instead of sequences of 9&#146;s however, one is interested in sequences of 1&#146;s.
+</P>
+<P>The Booth algorithm is illustrated in Figure 4.14. In the figure the product is formed as the multiplication of A and B (A=14 and B=6). When the result is done A remains unchanged and the product is formed in P:B where the : operator indicates register concatenation. Register B no longer contains its initial value. This is written as</P>
+<P ALIGN="CENTER"><IMG SRC="images/04-34d.jpg"></P>
+<P>The destruction of register B is common because it uses one less register to form the product. The Booth algorithm considers the lower order bit of register B in conjunction with the added bit which is initialized to zero. The bits determine the operation according to Table 4.6.
+</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="197-213.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="223-232.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

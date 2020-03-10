@@ -1,0 +1,223 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Representations</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=1//-->
+<!--PAGES=016-025//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="011-016.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="025-031.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="CENTER"><A NAME="Heading13"></A><FONT COLOR="#000077">1.2.1.1 IEEE 32-Bit Standard</FONT></H4>
+<P>The IEEE 32-bit standard is often referred to as single precision format. It consists of a 23-bit fraction or mantissa, <I>f</I>, an 8-bit biased exponent, <I>e</I>, and a sign bit, <I>s</I>. Results are normalized after each operation. This means that the most significant bit of the fraction is forced to be a one by adjusting the exponent. Since this bit must be one it is not stored as part of the number. This is called the implicit bit. A number then becomes</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-49d.jpg"></P>
+<P>The number zero, however, cannot be scaled to begin with a one. For this case the standard indicates that 32-bits of zeros is used to represent the number zero.
+</P>
+<H4 ALIGN="CENTER"><A NAME="Heading14"></A><FONT COLOR="#000077">1.2.1.2 IEEE 64-bit Standard</FONT></H4>
+<P>The IEEE 64-bit standard is often referred to as double precision format. It consists of a 52-bit fraction or mantissa, <I>f</I>, an 11-bit biased exponent, <I>e</I>, and a sign bit, <I>s</I>. As in single precision format the results are normalized after each operation. A number then becomes</P>
+<P ALIGN="CENTER"><IMG SRC="images/01-50d.jpg"></P>
+<P>The number zero, however, cannot be scaled to begin with a one. For this case the standard indicates that 64-bits of zeros is used to represent the number zero.
+</P>
+<H4 ALIGN="CENTER"><A NAME="Heading15"></A><FONT COLOR="#000077">1.2.1.3 C++ Example for IEEE Floating point</FONT></H4>
+<P>A C++ source program which demonstrates the IEEE floating point format is shown in Code List 1.5.
+</P>
+<P><B>Code List 1.5</B> C++ Source Program</P>
+<P><A NAME="Fig6"></A><A HREF="javascript:displayWindow('images/01-06.jpg',500,854)"><IMG SRC="images/01-06t.jpg"></A></P>
+<P><A NAME="Fig7"></A><A HREF="javascript:displayWindow('images/01-07.jpg',500,856)"><IMG SRC="images/01-07t.jpg"></A></P>
+<P><A NAME="Fig8"></A><A HREF="javascript:displayWindow('images/01-08.jpg',500,778)"><IMG SRC="images/01-08t.jpg"></A></P>
+<P>The output of the program is shown in Code List 1.6. The <I>union</I> operator allows a specific memory location to be treated with different types. For this case the memory location holds 32 bits. It can be treated as a <I>long</I> integer (an integer of 32 bits) or a floating point number. The <I>union</I> operator is necessary for this program because bit operators in C and C++ do not operate on floating point numbers. The <I>float_point_32(float in=float(0.0)) {fp =in}</I> function demonstrates the use of a constructor in C++. When a variable is declared to be of type <I>float_point_32</I> this function is called. If a parameter is not specified in the declaration then the default value, for this case 0.0, is assigned. A declaration of <I>float_point_32 x(0.1),y;</I> therefore, would initialize x.fp to 0.1 and y.fp to 0.0.</P>
+<P><B>Code List 1.6</B> Output of Program in Code List 1.5</P>
+<P><A NAME="Fig9"></A><A HREF="javascript:displayWindow('images/01-09.jpg',400,268)"><IMG SRC="images/01-09t.jpg"></A></P>
+<P>The <I>union float_point_64</I> declaration allows 64 bits in memory to be thought of as one 64-bit floating point number(double) or 2 32-bit long integers. The <I>void float_number_32::fraction()</I> demonstrates scoping in C++. For this case the function <I>fraction()</I> is associated with the class <I>float_number_32</I>. Since <I>fraction</I> was declared in the public section of the class <I>float_-number_32</I> the function has access to all of the public and private functions and data associated with the class <I>float_number_32</I>. These functions and data need not be declared in the function. Notice for this example <I>f.li</I> is used in the function and only mask and i are declared locally. The <I>setw()</I> used in the <I>cout</I> call in <I>float_number_64</I> sets the precision of the output. The program uses a number of bit operators in C++ which are described in the next section.</P>
+<H4 ALIGN="LEFT"><A NAME="Heading16"></A><FONT COLOR="#000077">1.2.2 Bit Operators in C++</FONT></H4>
+<P>C++ has bitwise operators &amp;, ^, |, and ~. The operators &amp;, ^, and | are binary operators while the operator ~ is a unary operator.
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;~, 1&#146;s complement
+<DD><B>&#149;</B>&nbsp;&nbsp;&amp;, bitwise and
+<DD><B>&#149;</B>&nbsp;&nbsp;^, bitwise exclusive or
+<DD><B>&#149;</B>&nbsp;&nbsp;|, bitwise or
+</DL>
+<P>The behavior of each operator is shown in Table 1.6.
+</P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER><CAPTION ALIGN=LEFT><B>Table 1.6</B> Bit Operators in C++
+<TR>
+<TH WIDTH="10%">a
+<TH WIDTH="10%">b
+<TH WIDTH="10%">&nbsp;
+<TH WIDTH="20%">a&#38;b
+<TH WIDTH="20%">a^b
+<TH WIDTH="20%">a|b
+<TH WIDTH="10%">~a
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD>&nbsp;
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD>&nbsp;
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD>&nbsp;
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TR>
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">1
+<TD>&nbsp;
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+<TD ALIGN="CENTER">1
+<TD ALIGN="CENTER">0
+</TABLE>
+</CENTER>
+<P>To test out the derivation for calculating the 2&#146;s complement of a number derived in Section 1.1.3 a program to calculate the negative of a number is shown in Code List 1.7. The output of the program is shown in Code List 1.8. Problem 1.11 investigates the output of the program.
+</P>
+<P><B>Code List 1.7</B> Testing the Binary Operators in C++</P>
+<P><A NAME="Fig10"></A><A HREF="javascript:displayWindow('images/01-10.jpg',350,386)"><IMG SRC="images/01-10t.jpg"></A></P>
+<P><A NAME="Fig11"></A><A HREF="javascript:displayWindow('images/01-11.jpg',400,158)"><IMG SRC="images/01-11t.jpg"></A></P>
+<P><B>Code List 1.8</B> Output of Program in Code List 1.7</P>
+<P><A NAME="Fig12"></A><A HREF="javascript:displayWindow('images/01-12.jpg',350,433)"><IMG SRC="images/01-12t.jpg"></A></P>
+<P>A program demonstrating one of the most important uses of the OR operator, |, is shown in Code List 1.9. The output of the program is shown in Code List 1.10. Figure 1.1 demonstrates the value of x for the program. The eight attributes are packed into one character. The character field can hold 256 = 2<SUP><SMALL>8</SMALL></SUP> combinations handling all combinations of each attribute taking on the value ON or OFF. This is the most common use of the OR operators. For a more detailed example consider the file operation command for opening a file. The file definitions are defined in &lt;iostream.h&gt; by BORLAND C++ as shown in Table 1.7.</P>
+<P><A NAME="Fig13"></A><A HREF="javascript:displayWindow('images/01-13.jpg',398,160)"><IMG SRC="images/01-13t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/01-13.jpg',398,160)"><FONT COLOR="#000077"><B>Figure 1.1</B></FONT></A>&nbsp;&nbsp;Packing Attributes into One Character</P>
+<P><B>Code List 1.9</B> Bit Operators</P>
+<P><A NAME="Fig14"></A><A HREF="javascript:displayWindow('images/01-14.jpg',450,476)"><IMG SRC="images/01-14t.jpg"></A></P>
+<P><A NAME="Fig15"></A><A HREF="javascript:displayWindow('images/01-15.jpg',550,108)"><IMG SRC="images/01-15t.jpg"></A></P>
+<P><B>Code List 1.10</B> Output of Program in Code List 1.9</P>
+<P><A NAME="Fig16"></A><A HREF="javascript:displayWindow('images/01-16.jpg',400,124)"><IMG SRC="images/01-16t.jpg"></A></P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER>
+<CAPTION ALIGN=LEFT><B>Table 1.7</B> Fields for File Operations in C++
+<TR>
+<TH WIDTH="60%" ALIGN="LEFT">Source
+<TR>
+<TD>enum open_mode {<BR>in = 0x01, // open for reading<BR>out = 0x02, // open for writing<BR>ate = 0x04, // seek to eof upon original open<BR>app = 0x08, // append mode: all additions at eof<BR>trunc = 0x10, // truncate file if already exists<BR>nocreate = 0x20, // open fails if file doesn&#146;t exist<BR>noreplace= 0x40, // open fails if file already exists<BR>binary = 0x80 // binary (not text) file<BR>};
+</TABLE>
+</CENTER>
+<P>A program illustrating another use is shown in Code List 1.11. If the program executes correctly the output file, test.dat, is created with the string, &#147;This is a test&#148;, placed in it. The file, test.dat, is opened for writing with <I>ios::out</I> and for truncation with <I>ios::trunc</I>. The two modes are presented together to the <I>ofstream</I> constructor with the use of the <I>or</I> function.</P>
+<P><B>Code List 1.11</B> Simple File I/O</P>
+<P><A NAME="Fig17"></A><A HREF="javascript:displayWindow('images/01-17.jpg',350,286)"><IMG SRC="images/01-17t.jpg"></A><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="011-016.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="025-031.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

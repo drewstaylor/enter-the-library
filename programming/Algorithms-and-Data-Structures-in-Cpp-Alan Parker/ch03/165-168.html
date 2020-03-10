@@ -1,0 +1,243 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=165-168//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="150-165.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="168-186.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="LEFT"><A NAME="Heading23"></A><FONT COLOR="#000077">3.11.1 The Square Packing Problem</FONT></H4>
+<P>The square packing problem is as follows:
+</P>
+<DL>
+<DD><I>Given a list of squares (integer sides) determine the smallest square which includes the list of squares in a nonoverlapping manner</I>.
+</DL>
+<P>A given instance for the square packing problem is shown in Figure 3.11. For this figure the list of squares provided have sides
+</P>
+<P ALIGN="CENTER">1,1,1,1,1,2,3,3,3,3,6</P>
+<P>An optimal solution as shown in the figure packs the squares into a 9x9 square. A C++ source program implementing the simulated annealing algorithm for the square packing problem is shown in Code List 3.36. The output of the program is shown in Code List 3.37.</P>
+<H4 ALIGN="CENTER"><A NAME="Heading24"></A><FONT COLOR="#000077">3.11.1.1 Program Description</FONT></H4>
+<P>This section describes the program. The description begins with the start of the file and proceeds forward.
+</P>
+<P>The program includes a number of files to support the functions in the program. Of importance here is the inclusion of &lt;sys/time.h&gt;. This is machine dependent. This program may have to be modified to run on different platforms. At issue is the conformance to <I>drand48()</I> and associated functions as well as the <I>time</I> structure format.</P>
+<P>The function <I>drand48()</I> returns a double random number satisfying</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-08d.jpg"></P>
+<P><I>srand48()</I> is used to seed the random number generator. The defined constants are shown in Table 3.1.</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 3.1</B> Program Constants
+<TR>
+<TH WIDTH="40%">Constant
+<TH WIDTH="60%">Meaning
+<TR>
+<TD ALIGN="CENTER">NO_SQUARES
+<TD>The number of squares in the problem
+<TR>
+<TD VALIGN="TOP" ALIGN="CENTER">SQUARE-SIZE-LIMIT
+<TD>The maximum size of the square. The squares that are generated will have sides from 1 to SQUARE_SIZE_LIMIT. This is used when the initial linked list is generated with random square sides.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP">INITIAL_TEMPERATURE
+<TD>The initial temperature in the simulated annealing process.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP">R
+<TD>The temperature cooling ratio. The temperature is cooled by this factor each time NO_STEPS have been performed.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP">NO_ITERATIONS
+<TD>The number of times to cool. This is the number of times the temperature is reduced by a factor of R.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP">NO_STEPS
+<TD>This is the number of steps in the algorithm to perform at the fixed temperature.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP">PLUS
+<TD>This is the representation for the PLUS operator which is used to represent when blocks are placed on top of each other.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP">TIMES
+<TD>This is the representation for the TIMES operator which is used to represent when blocks are placed next to each other.
+<TR>
+<TD ALIGN="CENTER" VALIGN="TOP">TEST
+<TD>When this is defined the test data, for which the optimal solution is known, is used.
+</TABLE>
+<P>The representation used in the program for placing the squares is a stacked base approach. Squares placed on top of each other are noted with a +. Squares placed next to each other are noted with a *.
+</P>
+<P>The notation 1 2 * means square 2 to the right of 1. The notation 1 2 + means square 1 on top of 2. The notation is unraveled in a stack base manner so to evaluate the meaning of 0 1 2 3 *4 + * + you push each of the elements on the stack and when you encounter an operation you remove two elements from the stack and replace it with the modified element. The array results in the operation in Table 3.2:</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 3.2</B> Interpreting Representation
+<TR>
+<TH WIDTH="20%" ALIGN="LEFT">Representation
+<TH WIDTH="80%" ALIGN="LEFT">Meaning
+<TR>
+<TD>0 1 2 3 * 4 + * +
+<TD>Original Array
+<TR>
+<TD>0 1 5 4 + * +
+<TD>Block 5 created which is composed of block 2 next to 3
+<TR>
+<TD>0 1 6 * +
+<TD>Block 6 created which is composed of block 5 on top of 4
+<TR>
+<TD>07 +
+<TD>Block 7 created which is block 1 next to 6
+<TR>
+<TD>8
+<TD>Block 8 created which is block 0 on top of 7
+</TABLE>
+<P>A possible notation, for instance, for Figure 3.11, is
+</P>
+<TABLE WIDTH="100%" BORDER><TR>
+<TD WIDTH="4%" ALIGN="CENTER">0
+<TD WIDTH="4%" ALIGN="CENTER">1
+<TD WIDTH="4%" ALIGN="CENTER">2
+<TD WIDTH="4%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">5
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">6
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">8
+<TD WIDTH="5%" ALIGN="CENTER">9
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">10
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">3
+<TD WIDTH="5%" ALIGN="CENTER">4
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">7
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="4%" ALIGN="CENTER">*
+</TABLE>
+<P>This would represent the square packed into the 9x9 square. Notice that each of the blocks above contain a number or an operation. The program elects to define the + operation as the number NO_SQUARES and the TIMES operation as the NO_SQUARES+1. As a result the valid representations will be the numbers 0-12.
+</P>
+<P>Two stacks are defined in the program, one to store the current x width of a box and the current y width. This is needed because when you combine squares of different sizes you end up with a rectangle. If you combine a 1x1 with a 2x2 you will end up with a 3x2 or a 2x3.</P>
+<P>The test data is initially stored as</P>
+<TABLE WIDTH="100%" BORDER><TR>
+<TD WIDTH="3%" ALIGN="CENTER">0
+<TD WIDTH="5%" ALIGN="CENTER">1
+<TD WIDTH="5%" ALIGN="CENTER">2
+<TD WIDTH="5%" ALIGN="CENTER">3
+<TD WIDTH="5%" ALIGN="CENTER">4
+<TD WIDTH="5%" ALIGN="CENTER">5
+<TD WIDTH="5%" ALIGN="CENTER">6
+<TD WIDTH="5%" ALIGN="CENTER">7<TD WIDTH="5%" ALIGN="CENTER">8
+<TD WIDTH="5%" ALIGN="CENTER">9
+<TD WIDTH="5%" ALIGN="CENTER">10<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="5%" ALIGN="CENTER">+
+<TD WIDTH="5%" ALIGN="CENTER">*
+<TD WIDTH="2%" ALIGN="CENTER">+
+</TABLE>
+<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="150-165.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="168-186.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

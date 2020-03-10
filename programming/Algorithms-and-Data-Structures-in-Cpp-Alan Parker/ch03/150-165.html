@@ -1,0 +1,205 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=150-165//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="134-150.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="165-168.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+</P>
+<H3><A NAME="Heading18"></A><FONT COLOR="#000077">3.8 QuickSort</FONT></H3>
+<P>The quick sort algorithm is a simple yet quick algorithm to sort a list. The algorithm is comprised of a number of stages. At each stage a key is chosen.
+</P>
+<P><B>Code List 3.25</B> Binary Search for Strings</P>
+<P><A NAME="Fig64"></A><A HREF="javascript:displayWindow('images/03-64.jpg',400,653)"><IMG SRC="images/03-64t.jpg"></A></P>
+<P>The algorithm starts at the left of the list until an element is found which is greater than the key. Starting from the right, an element is searched for which is less than the key. When both the elements are found they are exchanged. After a number of iterations the list will be divided into two lists. One list will have all its elements less than or equal to the key and the other list will have all its elements greater than or equal to the key. The two lists created are then each sorted by the same algorithm.
+</P>
+<P><B>Code List 3.26</B> Output of Program in Code List 3.25</P>
+<P><A NAME="Fig65"></A><A HREF="javascript:displayWindow('images/03-65.jpg',290,333)"><IMG SRC="images/03-65t.jpg"></A></P>
+<P>The internal details of a quicksort algorithm are shown in the C++ program in Code List 3.27. The output of the program is shown in Code List 3.28.
+</P>
+<P>A number of different approaches can be used to determine the key. The quicksort algorithm in this section uses the median of three approach. In this approach a key is chosen for each search segment.</P>
+<P>The key is given as the median of three on the bounds of the segment. For instance, in Code List 3.28, the initial segment to sort contains 18 elements, indexed 0-17. The first key is determined by the calculation</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-06d.jpg"></P>
+<P>After the comparisons two lists are formed. In this case the lists are 0-8 and 9-17. Every element in the first list will be less than or equal to the key 255 and everything in the second list will be greater than or equal to 255. The two new lists can be sorted in parallel. This example is sequential code so that the second list 9-17 is dealt with first.
+</P>
+<P>The comparisons occurring within the first list is illustrated in Code List 3.29. Two comparisons can be done in parallel. Starting from the left a search is made for the first element greater than 255. In this case the first element satisfies that criteria.</P>
+<P>Starting from the right a search is made for the first element that is less than 255. In this case it is the last element. At this point the two elements are exchanged in the list which results in the second list in Code List 3.29. Continuing in this manner proceeding from the left the next element in the list is searched for which is greater than 255. In this case it is the third element in the list, 415. Proceeding from the right the first element less than 255 found is 100. Again, 100 and 415 are exchanged resulting in the third list. Eventually the two left and right pointers overlap indicating that the list has been successfully sorted about the key.</P>
+<P>C++ also provides a quicksort operator which performs the median of three sort. This is illustrated for strings is illustrated in Code List 3.34. The output of the program is shown in Code List 3.35 A quicksort C++ program for doubles is shown in Code List 3.30 The output is shown in Code List 3.31. A quicksort program for integers is shown in Code List 3.32. The output is shown in Code List 3.33.</P>
+<P><B>Code List 3.27</B> QuickSort C++ Program</P>
+<P><A NAME="Fig66"></A><A HREF="javascript:displayWindow('images/03-66.jpg',480,435)"><IMG SRC="images/03-66t.jpg"></A></P>
+<P><A NAME="Fig67"></A><A HREF="javascript:displayWindow('images/03-67.jpg',350,639)"><IMG SRC="images/03-67t.jpg"></A></P>
+<P><A NAME="Fig68"></A><A HREF="javascript:displayWindow('images/03-68.jpg',370,672)"><IMG SRC="images/03-68t.jpg"></A></P>
+<P><A NAME="Fig69"></A><A HREF="javascript:displayWindow('images/03-69.jpg',354,653)"><IMG SRC="images/03-69t.jpg"></A></P>
+<P><A NAME="Fig70"></A><A HREF="javascript:displayWindow('images/03-70.jpg',400,339)"><IMG SRC="images/03-70t.jpg"></A></P>
+<P><B>Code List 3.28</B> Output of Program in Code List 3.27</P>
+<P><A NAME="Fig71"></A><A HREF="javascript:displayWindow('images/03-71.jpg',401,334)"><IMG SRC="images/03-71t.jpg"></A></P>
+<P><A NAME="Fig72"></A><A HREF="javascript:displayWindow('images/03-72.jpg',360,648)"><IMG SRC="images/03-72t.jpg"></A></P>
+<P><A NAME="Fig73"></A><A HREF="javascript:displayWindow('images/03-73.jpg',380,683)"><IMG SRC="images/03-73t.jpg"></A></P>
+<P><A NAME="Fig74"></A><A HREF="javascript:displayWindow('images/03-74.jpg',400,530)"><IMG SRC="images/03-74t.jpg"></A></P>
+<P><B>Code List 3.29</B> QuickSort Comparison</P>
+<P><A NAME="Fig75"></A><A HREF="javascript:displayWindow('images/03-75.jpg',400,140)"><IMG SRC="images/03-75t.jpg"></A></P>
+<P><A NAME="Fig76"></A><A HREF="javascript:displayWindow('images/03-76.jpg',380,112)"><IMG SRC="images/03-76t.jpg"></A></P>
+<P><B>Code List 3.30</B> QuickSort For Double Types</P>
+<P><A NAME="Fig77"></A><A HREF="javascript:displayWindow('images/03-77.jpg',380,509)"><IMG SRC="images/03-77t.jpg"></A></P>
+<P><B>Code List 3.31</B> Output for Program in Code List 3.30</P>
+<P><A NAME="Fig78"></A><A HREF="javascript:displayWindow('images/03-78.jpg',120,99)"><IMG SRC="images/03-78t.jpg"></A></P>
+<P><A NAME="Fig79"></A><A HREF="javascript:displayWindow('images/03-79.jpg',130,200)"><IMG SRC="images/03-79t.jpg"></A></P>
+<P><B>Code List 3.32</B> QuickSort Program for Integers</P>
+<P><A NAME="Fig80"></A><A HREF="javascript:displayWindow('images/03-80.jpg',400,388)"><IMG SRC="images/03-80t.jpg"></A></P>
+<P><B>Code List 3.33</B> Output for Program in Code List 3.32</P>
+<P><A NAME="Fig81"></A><A HREF="javascript:displayWindow('images/03-81.jpg',120,124)"><IMG SRC="images/03-81t.jpg"></A></P>
+<P><A NAME="Fig82"></A><A HREF="javascript:displayWindow('images/03-82.jpg',130,168)"><IMG SRC="images/03-82t.jpg"></A></P>
+<P><B>Code List 3.34</B> QuickSort Program</P>
+<P><A NAME="Fig83"></A><A HREF="javascript:displayWindow('images/03-83.jpg',380,434)"><IMG SRC="images/03-83t.jpg"></A></P>
+<P><B>Code List 3.35</B> Output of Program in Code List 3.34</P>
+<P><A NAME="Fig84"></A><A HREF="javascript:displayWindow('images/03-84.jpg',130,178)"><IMG SRC="images/03-84t.jpg"></A></P>
+<H3><A NAME="Heading19"></A><FONT COLOR="#000077">3.9 Binary Trees</FONT></H3>
+<P>A binary tree is a common data structure used in algorithms. A typical <I>class</I> supporting a binary tree is</P>
+<!-- CODE //-->
+<PRE>
+class tree
+
+{
+
+public:
+
+int key;
+
+tree * left;
+
+tree * right;
+
+}
+</PRE>
+<!-- END CODE //-->
+<P>A binary tree is <I>balanced</I> if for every node in the tree the height of the left and right subtrees are within one.</P>
+<H4 ALIGN="LEFT"><A NAME="Heading20"></A><FONT COLOR="#000077">3.9.1 Traversing the Tree</FONT></H4>
+<P>There are a number of algorithms for traversing a binary tree given a pointer to the root of the tree. The most common strategies are <I>preorder</I>, <I>inorder</I>, and <I>postorder</I>. The <I>preorder</I> strategy visits the root prior to visiting the left and right subtrees. The <I>inorder</I> strategy visits the left subtree, the root, and the right subtree. The <I>postorder</I> strategy visits the left subtree, the right subtree, followed by the root. These strategies are recursively invoked.</P>
+<H3><A NAME="Heading21"></A><FONT COLOR="#000077">3.10 Hashing</FONT></H3>
+<P>Hashing is a technique in searching which is commonly used by a compiler to keep track of variable names; however, there are many other useful applications which use this approach. The idea is to use a hash function, <I>h</I> (<I>E</I>) , on elements, <I>E</I> , to assist in locating an element. For instance a dictionary might be defined using an array of twenty six pointers, <I>D</I> [26] . Each pointer points to a linked list of data for the specific letter of the alphabet. The hashing function on the string simply returns the number of the letter of the alphabet minus one of the first characters in the string:</P>
+<P ALIGN="CENTER"><IMG SRC="images/03-07d.jpg"></P>
+<P>There are two major operations which need to be supported for the hash table created:
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;search for an element
+<DD><B>&#149;</B>&nbsp;&nbsp;search for an element and insert the element if not found
+<DD><B>&#149;</B>&nbsp;&nbsp;indicate if the hash table is full
+</DL>
+<P>The idea of hashing is to simplify the search process so the hashing function should be simple to calculate. Additionally, there should be a simple way to locate the data, referred to as resolving <I>collisions</I>, once the hash function is evaluated.</P>
+<H3><A NAME="Heading22"></A><FONT COLOR="#000077">3.11 Simulated Annealing</FONT></H3>
+<P>The simulated annealing algorithm is illustrated in Figure 3.10. The goal of simulated annealing is to attempt to find an optimum to a large-scale problem which typically cannot be found by conventional means. The solution is sought by iterating and evaluating a cost at each stage. The algorithm maintains a concept of a temperature. When the temperature is high the algorithm will be likely to accept a higher cost solution. When the temperature is very low the algorithm will almost always only accept solutions of lower cost. The temperature begins high and is cooled until an equilibrium is reached. By allowing the initial temperature to be high the algorithm will be allowed to &#147;climb hills&#148; to seek a global optimum. Without this feature it is possible to be trapped in a local minimum. This is illustrated in Figure 3.12. By allowing the function to move to a higher value it is able to climb over the hill and find the global minimum.
+</P>
+<P>Simulated annealing is applied to the square packing problem described in the next section. This illustrates the difficulty and complexity of searching in general problems.</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="134-150.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="165-168.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

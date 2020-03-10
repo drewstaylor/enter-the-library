@@ -1,0 +1,244 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=2//-->
+<!--PAGES=037-042//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ch01/031-036.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="042-050.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H2><A NAME="Heading1"></A><FONT COLOR="#000077">Chapter 2<BR>Algorithms
+</FONT></H2>
+<P>This chapter presents the fundamental concepts for the analysis of algorithms.
+</P>
+<H3><A NAME="Heading2"></A><FONT COLOR="#000077">2.1 Order</FONT></H3>
+<P><I>N</I> denotes the set of natural numbers, {1, 2, 3, 4, 5, . . .}.</P>
+<P><B>Definition 2.1</B></P>
+<P>A sequence, <I>x</I>, over the real numbers is a function from the natural numbers into the real numbers:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-01d.jpg"></P>
+<P><I>x</I><SUB><SMALL>1</SMALL></SUB> is used to denote the first element of the sequence, <I>x</I>(1) In general,</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-02d.jpg"></P>
+<P>and will be written as
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-03d.jpg"></P>
+<IMG SRC="images/02-01i.jpg"><P>Unless otherwise noted, when <I>x</I> is a sequence and <I>f</I> is a function of one variable, <I>f</I>(<I>x</I>), is the sequence obtained by applying the function <I>f</I> to each of the elements of <I>x</I>. If</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-04d.jpg"></P>
+<P>then
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-05d.jpg"></P>
+<P>For example,
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-06d.jpg"></P>
+<P><B>Definition 2.2</B></P>
+<P>If <I>x</I> and <I>y</I> are sequences, then <I>x</I> is of order at most <I>y</I>, written <I>x</I> &#8712; <I>O</I> (<I>y</I>), if there exists a positive integer <I>N</I> and a positive number <I>k</I> such that</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-07d.jpg"></P>
+<IMG SRC="images/02-02i.jpg"><P><B>Definition 2.3</B></P>
+<P>If <I>x</I> and <I>y</I> are sequences then <I>x</I> is of order exactly <I>y</I>, written, <I>x</I> &#8712; &#920; (<I>y</I>), if <I>x</I> &#8712; &#920; (<I>y</I>) and <I>y</I> &#8712;<I>O</I> (<I>x</I>).</P>
+<IMG SRC="images/02-03i.jpg"><P><B>Definition 2.4</B></P>
+<P>If <I>x</I> and <I>y</I> are sequences then <I>x</I> is of order at least <I>y</I>, written, <I>x</I> &#8712; &#937; (<I>y</I>), if <I>y</I> &#8712; <I>O</I> (<I>x</I>).</P>
+<IMG SRC="images/02-04i.jpg"><P><B>Definition 2.5</B></P>
+<P>The time complexity of an algorithm is the sequence</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-08d.jpg"></P>
+<P>where <I>t<SUB><SMALL>k</SMALL></SUB></I> is the number of time steps required for solution of a problem of size <I>k</I>.</P>
+<IMG SRC="images/02-05i.jpg"><P><A NAME="Fig1"></A><A HREF="javascript:displayWindow('images/02-01.jpg',496,546)"><IMG SRC="images/02-01t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-01.jpg',496,546)"><FONT COLOR="#000077"><B>Example 2.1</B></FONT></A>&nbsp;&nbsp;Time Complexity</P>
+<P>The calculation of the time complexity for addition is illustrated in Example 2.1. A comparison of the order of several classical functions is shown in Table 2.1. The time required for a variety of operations on a 100 Megaflop machine is illustrated in Table 2.2. As can be seen from Table 2.1 if a problem is truly of exponential order then it is unlikely that a solution will ever be rendered for the case of n=100. It is this fact that has led to the use of heuristics in order to find a &#147;good solution&#148; or in some cases &#147;a solution&#148; for problems thought to be of exponential order. An example of Order is shown in Example 2.2. through Example 2.4.
+</P>
+<TABLE WIDTH="100%" BORDER><CAPTION ALIGN=LEFT><B>Table 2.1</B> Order Comparison
+<TR>
+<TH WIDTH="20%" ALIGN="LEFT">Function
+<TH WIDTH="10%" ALIGN="LEFT">n=1
+<TH WIDTH="15%" ALIGN="LEFT">n=10
+<TH WIDTH="15%" ALIGN="LEFT">n=100
+<TH WIDTH="20%" ALIGN="LEFT">n=1000
+<TH WIDTH="20%" ALIGN="LEFT">n=10000
+<TR>
+<TD>log(<I>n</I>)
+<TD>0
+<TD>3.32
+<TD>6.64
+<TD>9.97
+<TD>13.3
+<TR>
+<TD><I>n</I>log (<I>n</I>)
+<TD>0
+<TD>33.2
+<TD>664
+<TD>9.97&#215;10<SUP><SMALL>3</SMALL></SUP>
+<TD>1.33&#215;10<SUP><SMALL>5</SMALL></SUP>
+<TR>
+<TD><I>n</I><SUP><SMALL>2</SMALL></SUP>
+<TD>1
+<TD>100
+<TD>10000
+<TD>1&#215;10<SUP><SMALL>6</SMALL></SUP>
+<TD>1&#215;10<SUP><SMALL>8</SMALL></SUP>
+<TR>
+<TD><I>n</I><SUP><SMALL>5</SMALL></SUP>
+<TD>1
+<TD>1&#215;10<SUP><SMALL>5</SMALL></SUP>
+<TD>1&#215;10<SUP><SMALL>10</SMALL></SUP>
+<TD>1&#215;10<SUP><SMALL>15</SMALL></SUP>
+<TD>1&#215;10<SUP><SMALL>20</SMALL></SUP>
+<TR>
+<TD><I>e<SUP><SMALL>n</SMALL></SUP></I>
+<TD>2.72
+<TD>2.2&#215;10<SUP><SMALL>4</SMALL></SUP>
+<TD>2.69&#215;10<SUP><SMALL>43</SMALL></SUP>
+<TD>1.97&#215;10<SUP><SMALL>434</SMALL></SUP>
+<TD>8.81&#215;10<SUP><SMALL>4342</SMALL></SUP>
+<TR>
+<TD><I>n</I>!
+<TD>1
+<TD>3.63&#215;10<SUP><SMALL>6</SMALL></SUP>
+<TD>9.33&#215;10<SUP><SMALL>157</SMALL></SUP>
+<TD>4.02&#215;10<SUP><SMALL>2567</SMALL></SUP>
+<TD>2.85&#215;10<SUP><SMALL>35659</SMALL></SUP>
+</TABLE>
+<P>
+</P>
+<CENTER>
+<TABLE WIDTH="60%" BORDER><CAPTION ALIGN=LEFT><B>Table 2.2</B> Calculations for a 100 MFLOP machine
+<TR>
+<TH WIDTH="50%" ALIGN="LEFT">Time
+<TH WIDTH="50%" ALIGN="LEFT"># of Operations
+<TR>
+<TD>1 second
+<TD>10<SUP><SMALL>8</SMALL></SUP>
+<TR>
+<TD>1 minute
+<TD>6<I>&#215;</I>10<SUP><SMALL>9</SMALL></SUP>
+<TR>
+<TD>1 hour
+<TD>3.6<I>&#215;</I>10<SUP><SMALL>11</SMALL></SUP>
+<TR>
+<TD>1 day
+<TD>8.64<I>&#215;</I>10<SUP><SMALL>12</SMALL></SUP>
+<TR>
+<TD>1 year
+<TD>3.1536<I>&#215;</I>10<SUP><SMALL>15</SMALL></SUP>
+<TR>
+<TD>1 century
+<TD>3.1536<I>&#215;</I>10<SUP><SMALL>17</SMALL></SUP>
+<TR>
+<TD>100 trillion years
+<TD>3.1536<I>&#215;</I>10<SUP><SMALL>29</SMALL></SUP>
+</TABLE>
+</CENTER>
+<H4 ALIGN="LEFT"><A NAME="Heading3"></A><FONT COLOR="#000077">2.1.1 Justification of Using Order as a Complexity Measure</FONT></H4>
+<P>One of the major motivations for using Order as a complexity measure is to get a handle on the inductive growth of an algorithm. One must be extremely careful however to understand that the definition of Order is &#147;in the limit.&#148; For example, consider the time complexity functions <I>f</I><SUB><SMALL>1</SMALL></SUB> and <I>f</I><SUB><SMALL>2</SMALL></SUB> defined in Example 2.6. For these functions the asymptotic behavior is exhibited when <I>n</I> &#8805; 10<SUP><SMALL>50</SMALL></SUP>. Although <I>f</I><SUB><SMALL>1</SMALL></SUB> &#8712; &#920; (<I>e<SUP><SMALL>n</SMALL></SUP></I>) it has a value of 1 for <I>n</I> &lt; 10<SUP><SMALL>50</SMALL></SUP>. In a pragmatic sense it would be desirable to have a problem with time complexity <I>f</I><SUB><SMALL>1</SMALL></SUB> rather than <I>f</I><SUB><SMALL>2</SMALL></SUB>. Typically, however, this phenomenon will not appear and generally one might assume that it is better to have an algorithm which is &#920; (1) rather than &#920; (<I>e<SUP><SMALL>n</SMALL></SUP></I>). One should always remember that the constants of order can be significant in real problems.</P>
+<P><A NAME="Fig2"></A><A HREF="javascript:displayWindow('images/02-02.jpg',400,646)"><IMG SRC="images/02-02t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-02.jpg',400,646)"><FONT COLOR="#000077"><B>Example 2.2</B></FONT></A>&nbsp;&nbsp;Order</P>
+<P><A NAME="Fig3"></A><A HREF="javascript:displayWindow('images/02-03.jpg',400,354)"><IMG SRC="images/02-03t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-03.jpg',400,354)"><FONT COLOR="#000077"><B>Example 2.3</B></FONT></A>&nbsp;&nbsp;Order<P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ch01/031-036.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="042-050.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

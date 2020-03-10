@@ -1,0 +1,847 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 15 -- Teaching Games to Think</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 15</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Teaching Games to Think</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#ArtificialIntelligenceFundamentals" >Artificial Intelligence Fundamentals</A>
+<LI><A HREF="#TypesofGameAI" >Types of Game AI</A>
+<UL>
+<LI><A HREF="#RoamingAI" >Roaming AI</A>
+<LI><A HREF="#BehavioralAI" >Behavioral AI</A>
+<LI><A HREF="#StrategicAI" >Strategic AI</A>
+</UL>
+<LI><A HREF="#ImplementingYourOwnAI" >Implementing Your Own AI</A>
+<LI><A HREF="#AIinCommercialGames" >AI in Commercial Games</A>
+<UL>
+<LI><A HREF="#Battlecruiser3000AD" >Battlecruiser: 3000AD</A>
+<LI><A HREF="#CloakDaggerandDNA" >Cloak, Dagger, and DNA</A>
+<LI><A HREF="#Destiny" >Destiny</A>
+<LI><A HREF="#DungeonKeeper" >Dungeon Keeper</A>
+<LI><A HREF="#GrandPrixII" >Grand Prix II</A>
+</UL>
+<LI><A HREF="#AIResourcesontheWeb" >AI Resources on the Web</A>
+<UL>
+<LI><A HREF="#WorldWideWebVirtualLibrary" >World Wide Web Virtual Library</A>
+<LI><A HREF="#TheUniversityofChicagoAILab" >The University of Chicago AI Lab</A>
+<LI><A HREF="#MachineLearninginGames" >Machine Learning in Games</A>
+<LI><A HREF="#BibliographyonMachineLearninginStra" >Bibliography on Machine Learning in Strategic Game Playing</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+Creating truly engaging games is often a matter of effectively
+mimicking human thought within the confines of software constructs.
+Because you no doubt want your Java games to be engaging, you
+need at least a basic understanding of how to give your games
+some degree of brain power. So you begin this week by tackling
+one of the most exciting and challenging areas of gaming: artificial
+intelligence.
+<P>
+Today's focus is understanding the fundamental theories of artificial
+intelligence and how they can be applied to games. If you're tired
+of sifting through source code, you're in luck; today, I promise
+to go very lightly on the use of Java code. Think of today's lesson
+as a theoretical journey through artificial intelligence as applied
+to games, complete with examples of popular commercial games and
+the artificial intelligence algorithms they use to keep you coming
+back for more. After today, you will have the fundamental knowledge
+required to begin implementing artificial intelligence strategies
+in your own games.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>Artificial intelligence fundamentals
+<LI>Types of game AI
+<LI>Implementing your own AI
+<LI>AI in commercial games
+<LI>AI resources on the Web
+</UL>
+<H2><A NAME="ArtificialIntelligenceFundamentals"><B><FONT SIZE=5 COLOR=#FF0000>Artificial
+Intelligence Fundamentals</FONT></B></A></H2>
+<P>
+<I>Artificial intelligence</I> (AI) is defined simply as techniques
+used on a computer to emulate the human thought process.
+<P>
+This is a pretty general definition for AI, as it should be; AI
+is a very broad research area, with game-related AI being a relatively
+small subset of the whole of AI knowledge. Today's goal is not
+to explore every area of AI, because that would take up the space
+of the book in itself, but rather to cover much theoretical AI
+territory as it applies to games.
+<P>
+As you might have already guessed, human thought is no simple
+process to emulate, which explains why AI is such a diverse area
+of research. Even though there are many different approaches to
+AI, all of them basically boil down to attempting to make human
+decisions within the limitations of a computer. Most traditional
+AI systems use a variety of information-based algorithms to make
+decisions, just as people use a variety of previous experiences
+and mental rules to make a decision. In the past, the information-based
+AI algorithms were completely deterministic, meaning that every
+decision could be traced back to a predictable flow of logic.
+Figure 15.1 shows an example of a purely logical human thought
+process. Obviously, human thinking doesn't work this way at all;
+if we were all this predictable, it would be quite a boring planet!
+<P>
+<A HREF="f15-1.gif" ><B>Figure 15.1 : </B><I>A completely logical human thought process.</I></A>
+<P>
+Eventually, AI researchers realized that the deterministic approaches
+to AI weren't sufficient to accurately model human thought. Their
+focus shifted from deterministic AI models to more realistic AI
+models that attempted to factor in the subtle complexities of
+human thought, such as best-guess decisions. In people, these
+types of decisions can result from a combination of past experience,
+personal bias, or the current state of emotion, in addition to
+the completely logical decision making process. Figure 15.2 shows
+an example of this type of thought process. The point is that
+people don't always make scientifically predictable decisions
+based on analyzing their surroundings and arriving at a logical
+conclusion. The world would probably be a better place if we did
+act like this, but again, it would be awfully boring! 
+<P>
+<A HREF="f15-2.gif" ><B>Figure 15.2 : </B><I>A more realistic human thought process.</I></A>
+<P>
+The logic flow in Figure 15.1 is an ideal scenario where each
+decision is made based on a totally objective logical evaluation
+of the situation. Figure 15.2 shows a more realistic scenario,
+which factors in the emotional state of the person, as well as
+a financial angle (the question of whether the person has insurance).
+Examining the second scenario from a completely logical angle,
+it makes no sense for the person to throw the hammer, because
+that only slows down the task at hand. However, this is a completely
+plausible and fairly common human response to pain and frustration.
+For an AI carpentry system to effectively model this situation,
+there would definitely have to be some hammer throwing code in
+there somewhere!
+<P>
+This hypothetical thought example is meant to give you a tiny
+clue as to how many seemingly unrelated things go into forming
+a human thought. Likewise, it only makes sense that it should
+take an extremely complex AI system to effectively model human
+thought. Most of the time this statement is true. However, the
+word &quot;effectively&quot; allows for a certain degree of interpretation,
+based on the context of the application requiring AI. For your
+purposes, effective AI simply means AI that makes computer game
+objects an engaging challenge.
+<P>
+More recent AI research has been focused at tackling problems
+similar to the ones illustrated by the hypothetical carpentry
+example. One particularly interesting area is fuzzy logic systems,
+which attempt to make &quot;best-guess&quot; decisions, rather
+than the concrete decisions of traditional AI systems.
+<P>
+A <I>fuzzy logic system</I> is an AI system that uses &quot;best-guess&quot;
+evaluations to make decisions, which is more akin to how humans
+make decisions.
+<P>
+Another interesting AI research area in relation to games is genetic
+algorithms, which try to model evolved thought. A game using genetic
+algorithms would theoretically have computer opponents that learn
+as the game progresses, providing the human player with a seemingly
+never ending series of challenges.
+<P>
+<I>Genetic algorithms</I> are algorithms that learn and evolve
+in their ability to make decisions as they are run repeatedly.
+<H2><A NAME="TypesofGameAI"><B><FONT SIZE=5 COLOR=#FF0000>Types
+of Game AI</FONT></B></A></H2>
+<P>
+There are many different types of AI systems and even more specific
+algorithms implementing those systems. Even when you limit AI
+to the world of games, there is still a wide range of information
+and options from which to choose when it comes to adding AI to
+a game of your own. Many different AI solutions are geared toward
+particular types of games, with a plethora of different possibilities
+that can be applied in different situations.
+<P>
+What I'm getting at is that there is no way to just present a
+bunch of AI algorithms and tell you which one goes with which
+particular type of game. Rather, it makes more sense to give you
+the theoretical background on a few of the most important types
+of AI, and then let you figure out how they might apply to your
+particular gaming needs. Having said all that, I've broken game-related
+AI down into three fundamental types: roaming, behavioral, and
+strategic.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+The three types of AI discussed here are in no way meant to encompass all the AI approaches used in games, they are simply the most common types I've seen. So, please feel free to do your own research and expand on these; some Web sites are included at the 
+end of today's lesson that contain very useful information about more advanced AI topics.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H3><A NAME="RoamingAI"><B>Roaming AI</B></A></H3>
+<P>
+<I>Roaming AI</I> refers to AI that models the movement of game
+objects-that is, the decisions game objects make that determine
+how they roam about the game world.
+<P>
+A good example of roaming AI is in shoot-em up space games, where
+aliens often tend to track and go after the player. Similarly,
+aliens that fly around in a predetermined pattern are also implemented
+using roaming AI. Basically, roaming AI is used whenever a computer-controlled
+object must make a decision to alter its current path, either
+to achieve a desired result in the game or simply to conform to
+a particular movement pattern. In the space shoot-em up example,
+the desired result is colliding with and damaging the player's
+ship.
+<P>
+Implementing roaming AI is usually very simple; it typically involves
+altering an object's velocity or position (the alien) based on
+the position of another object (the player's ship). The roaming
+movement of the object can also be influenced by random or predetermined
+pattern. There are three different types of roaming AI: chasing,
+evading, and patterned.
+<H4><B>Chasing</B></H4>
+<P>
+<I>Chasing</I> is a type of roaming AI in which a game object
+tracks and goes after another game object or objects.
+<P>
+Chasing is the approach used in the space shoot-em up example,
+where an alien is chasing the player's ship. It is implemented
+simply by altering the alien's velocity or position based on the
+current position of the player's ship. The following is a sample
+Java implementation of a simple chasing algorithm:
+<BLOCKQUOTE>
+<TT>if (aX &gt; pX)<BR>
+&nbsp;&nbsp;aX--;<BR>
+else if (aX &lt; pX)<BR>
+&nbsp;&nbsp;aX++;<BR>
+if (aY &gt; pY)<BR>
+&nbsp;&nbsp;aY--;<BR>
+else if (aY &lt; cY)<BR>
+&nbsp;&nbsp;aY++;</TT>
+</BLOCKQUOTE>
+<P>
+As you can see, the X and Y position (<TT>aX</TT>
+and <TT>aY</TT>) of the alien is altered
+based on where the player is located (<TT>pX</TT>
+and <TT>pY</TT>). The only potential
+problem with this code is that it could work too well; the alien
+will home in on the player with no hesitation, basically giving
+the player no chance to dodge it. This might be what you want,
+but more than likely, you want the alien to fly around a little
+while it chases the player. You probably also want the chasing
+to be a little imperfect, giving the player at least some chance
+of out-maneuvering the alien.
+<P>
+One method of smoothing out the chasing algorithm is to throw
+a little randomness into the calculation of the new position,
+like this:
+<BLOCKQUOTE>
+<TT>if ((rand.nextInt() % 2) == 0) {<BR>
+&nbsp;&nbsp;if (aX &gt; pX)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;aX--;<BR>
+&nbsp;&nbsp;else if (aX &lt; pX)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;aX++;<BR>
+}<BR>
+if ((rand.nextInt() % 2) == 0) {<BR>
+&nbsp;&nbsp;if (aY &gt; pY)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;aY--;<BR>
+&nbsp;&nbsp;else if (aY &lt; cY)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;aY++;<BR>
+}</TT>
+</BLOCKQUOTE>
+<P>
+In this code, the alien has a one in three chance of tracking
+the player in each direction. Even with only a one in three chance,
+the alien will still tend to chase the player pretty effectively,
+while allowing the player a fighting chance at getting out of
+the way. You might think that a one in three chance doesn't sound
+all that effective, but keep in mind that the alien only alters
+its path to chase the player. A smart player will probably figure
+this out and change directions frequently.
+<P>
+If you aren't too fired up about the random approach to leveling
+off the chase, you probably need to look into patterned movement.
+But you're getting a little ahead of yourself; let's take a look
+at evading first.
+<H4><B>Evading</B></H4>
+<P>
+<I>Evading</I> is the logical counterpart to chasing; it is another
+type of roaming AI where a game object specifically tries to get
+away from another object or objects.
+<P>
+Evading is implemented in a similar manner to chasing, as the
+following code shows:
+<BLOCKQUOTE>
+<TT>if (aX &gt; pX)<BR>
+&nbsp;&nbsp;aX++;<BR>
+else if (aX &lt; pX)<BR>
+&nbsp;&nbsp;aX--;<BR>
+if (aY &gt; pY)<BR>
+&nbsp;&nbsp;aY++;<BR>
+else if (aY &lt; cY)<BR>
+&nbsp;&nbsp;aY--;</TT>
+</BLOCKQUOTE>
+<P>
+This is roughly the same code used by the chasing algorithm, with
+the only differences being the unary operators (<TT>++</TT>,
+<TT>--</TT>) used to change the alien's
+position. Like chasing, evading can be softened using randomness
+or patterned movement.
+<P>
+A good example of using the evading algorithm would be a computer-controlled
+version of the player's ship. If you think about it, the player
+is using the evading algorithm to dodge the aliens; it's just
+implemented by hitting keys rather than in a piece of code. If
+you want to provide a demo mode in a game like this where the
+computer plays itself, you would use an evading algorithm to control
+the player's ship.
+<H4><B>Patterned</B></H4>
+<P>
+<I>Patterned </I>movement refers to a type of roaming AI that
+uses a predefined set of movements for a game object.
+<P>
+Good examples of patterned movement are the aliens in the classic
+Galaga arcade game, which perform all kinds of neat aerobatics
+on their way down the screen. Patterns can include circles, figure
+eights, zigzags, or even more complex movements. Another example
+of patterned movement is the ghosts in another classic, Pac Man,
+who always move toward the player (subject to the constraints
+of the walls and, of course, whether you've eaten a power pellet).
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+In truth, the aliens in Galaga use a combined approach of both patterned and chasing movement; although they certainly follow specific patterns, the aliens still make sure to come after the player whenever possible. Additionally, as the player moves into 
+higher levels the roaming AI starts favoring chasing over patterned movement, simply to make the game harder. This is a really neat usage of combined roaming AI. This touches on the concept of behavioral AI, which you learn about in the next 
+section.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Patterns are usually stored as an array of velocity or position
+offsets (or multipliers) that are applied to an object whenever
+patterned movement is required of it, like this:
+<BLOCKQUOTE>
+<TT>int[][] zigzag = {{1, 1}, {-1, 1}};<BR>
+aX += zigzag[patStep][0];<BR>
+aY += zigzag[patStep][1];</TT>
+</BLOCKQUOTE>
+<P>
+This code shows how to implement a very simple vertical zigzag
+pattern. The <TT>int</TT> array <TT>zigzag</TT>
+contains pairs of XY offsets used to apply the pattern to the
+alien. The <TT>patStep</TT> variable
+is an integer representing the current step in the pattern. When
+this pattern is applied, the alien moves in a vertical direction
+while zigzagging back and forth horizontally.
+<H3><A NAME="BehavioralAI"><B>Behavioral AI</B></A></H3>
+<P>
+Although the types of roaming AI strategies are pretty neat in
+their own right, a practical gaming scenario often requires a
+mixture of all three.
+<P>
+<I>Behavioral AI</I> is another fundamental type of gaming AI
+that often uses a mixture of roaming AI algorithms to give game
+objects specific behaviors.
+<P>
+Using the trusted alien example again, what if you want the alien
+to chase some times, evade other times, follow a pattern still
+other times, and maybe even act totally randomly every once in
+a while? Another good reason for using behavioral AI is to alter
+the difficulty of a game. For example, you could favor a chasing
+algorithm more than random or patterned movement to make aliens
+more aggressive in higher levels of a space game.
+<P>
+To implement behavioral AI, you need to establish a set of behaviors
+for the alien. Giving game objects behaviors is pretty simple,
+and usually just involves establishing a ranking system for each
+type of behavior present in the system, and then applying it to
+each object. For example, in the alien system, you would have
+the following behaviors: chase, evade, fly in a pattern, and fly
+randomly. For each different type of alien, you would assign different
+percentages to the different behaviors, thereby giving them each
+different personalities. For example, an aggressive alien might
+have the following behavioral breakdown: chase 50% of the time,
+evade 10% of the time, fly in a pattern 30% of the time, and fly
+randomly 10% of the time. On the other hand, a more passive alien
+might act like this: chase 10% of the time, evade 50% of the time,
+fly in a pattern 20% of the time, and fly randomly 20% of the
+time.
+<P>
+This behavioral approach works amazingly well and yields surprising
+results considering how simple it is to implement. A typical implementation
+simply involves a <TT>switch</TT>
+statement or nested <TT>if</TT>-<TT>else
+</TT>statements to select a particular behavior. A sample
+Java implementation for the behavioral aggressive alien would
+look like this:
+<BLOCKQUOTE>
+<TT>int behavior = Math.abs(rand.nextInt()
+% 100);<BR>
+if (behavior &lt; 50)<BR>
+&nbsp;&nbsp;// chase<BR>
+else if (behavior &lt; 60)<BR>
+&nbsp;&nbsp;// evade<BR>
+else if (behavior &lt; 90)<BR>
+&nbsp;&nbsp;// fly in a pattern<BR>
+else<BR>
+&nbsp;&nbsp;// fly randomly</TT>
+</BLOCKQUOTE>
+<P>
+As you can see, creating and assigning behaviors is open to a
+wide range of creativity. One of the best sources of ideas for
+creating game object behaviors is the primal responses common
+in the animal world (and unfortunately all too often in the human
+world, too). As a matter of fact, a simple fight or flight behavioral
+system can work wonders when applied intelligently to a variety
+of game objects. Basically, use your imagination as a guide and
+create as many unique behaviors as you can dream up.
+<H3><A NAME="StrategicAI"><B>Strategic AI</B></A></H3>
+<P>
+The final fundamental type of game AI you're going to learn about
+is strategic AI.
+<P>
+<I>Strategic AI</I> is basically any AI that is designed to play
+a game with a fixed set of well-defined rules.
+<P>
+For example, a computer-controlled chess player would use strategic
+AI to determine each move based on trying to improve the chances
+of winning the game. Strategic AI tends to vary more based on
+the nature of the game, because it is so tightly linked to the
+rules of the game. Even so, there are established and successful
+approaches to applying strategic AI to many general types of games,
+such as games played on a rectangular board with pieces. Checkers
+and chess immediately come to mind as fitting into this group,
+and likewise have a rich history of AI research devoted to them.
+<P>
+Strategic AI, especially for board games, typically involves some
+form of weighted look-ahead approach to determining the best move
+to make. The look-ahead is usually used in conjunction with a
+fixed table of predetermined moves. For a look-ahead to make sense,
+however, there must be a method of looking at the board at any
+state and calculating a score. This is known as <I>weighting</I>
+and is often the most difficult part of implementing strategic
+AI in a board game. As an example of how difficult weighting can
+be, watch a game of chess or checkers and try to figure out who
+is winning after every single move. Then go a step further and
+think about trying to calculate a numeric score for each player
+at each point in the game. Obviously, near the end of the game
+it gets easier, but early on it is very difficult to tell who
+is winning, simply because there are so many different things
+that can happen. Attempting to quantify the state of the game
+in a numeric score is even more difficult.
+<P>
+<I>Weighting</I> is a method of looking at a game at any state
+and calculating a score for each player.
+<P>
+Nevertheless, there are ways to successfully calculate a weighted
+score for strategic games. Using a look-head approach with scoring,
+a strategic AI algorithm can test for every possible move for
+each player multiple moves into the future and determine which
+move is the best. This move is often referred to as the &quot;least
+worst&quot; move rather than the best, because the goal typically
+is to make the move that helps the other player the least, rather
+than the other way around. Of course, the end result is basically
+the same, but it is an interesting way to look at a game, nevertheless.
+<P>
+Even though look-ahead approaches to implementing strategic AI
+are useful in many cases, they do have a fairly significant overhead
+if very much depth is required (in other words, if the computer
+player needs to be very smart). This is because the look-ahead
+depth search approach suffers from a geometric progression of
+calculations, meaning that the overhead significantly increases
+when the search depth is increased.
+<P>
+To better understand this, consider the case of a computer Backgammon
+player. The computer player has to choose two or four moves from
+possibly several dozen, as well as decide whether to double or
+resign. A practical Backgammon program might assign weights to
+different combinations of positions and calculate the value of
+each position reachable from the current position and dice roll.
+A scoring system would then be used to evaluate the worth of each
+potential position, which gets back to the often difficult proposition
+of scoring, even in a game, such as Backgammon, with simple rules.
+Now apply this scenario to a hundred-unit war game, with every
+unit having unique characteristics, and the terrain and random
+factors complicating the issue still further. The optimal system
+of scoring simply cannot be determined in a reasonable amount
+of time, especially with the limited computing power of a workstation
+or pc.
+<P>
+The solution in these cases is to settle for a &quot;good enough&quot;
+move, rather than the &quot;best&quot; move. One of the best ways
+to develop the algorithm for finding the &quot;good enough&quot;
+move is to set up the computer to play both sides in a game, using
+a lot of variation between the algorithms and weights playing
+each side. Then sit back and let the two computer players battle
+it out and see which one wins the most. This approach typically
+involves a lot of tinkering with the AI code, but it can result
+in very good computer players.
+<H2><A NAME="ImplementingYourOwnAI"><B><FONT SIZE=5 COLOR=#FF0000>Implementing
+Your Own AI</FONT></B></A></H2>
+<P>
+When deciding how to implement AI in a game, you need to do some
+preliminary work to assess exactly what type and level of AI you
+think is warranted. You need to determine what level of computer
+response suits your needs, abilities, resources, and project timeframe.
+<P>
+If your main concern is developing a game that keeps human players
+entertained and challenged, go with the most simple AI possible.
+Actually, try to go with the most simple AI regardless of your
+goals, because you can always enhance it incrementally. If you
+think your game needs a type of AI that doesn't quite fit into
+any I've described, do some research and see whether something
+out there is closer to what you need. Most importantly, budget
+plenty of time for implementing AI, because 99 percent of the
+time, it will take longer than you ever anticipated to get it
+all working at a level you are happy with.
+<P>
+What is the best way to get started? Start in small steps, of
+course. Let's look at a hypothetical example of implementing AI
+for a strategic war game. Many programmers like to write code
+as they design, and while that approach might work in some cases,
+I recommend at least some degree of preliminary design on paper.
+Furthermore, try to keep this design limited to a subset of the
+game's AI, such as a single tank. Rather than writing the data
+structures and movement rules for an armored division and all
+related subordinate units, and then trying to work out how the
+lower units will find their way from point A to point B, start
+with a small, simple map or grid and simple movement rules. Write
+the code to get a single tank from point A to point B. Then add
+complications piece by piece, building onto a complete algorithm
+at each step. If you are careful to make each piece of the AI
+general enough and open enough to connect to other pieces, your
+final algorithms should be general enough to handle any conditions
+your game might encounter.
+<P>
+Getting back to more basic terms, a good way to build AI experience
+is to write a computer opponent for a simple board game, such
+as tic-tac-toe or checkers. Detailed AI solutions exist for many
+popular games, so you should be able to find them if you check
+out some of the Web sites mentioned later in today's lesson.
+<H2><A NAME="AIinCommercialGames"><B><FONT SIZE=5 COLOR=#FF0000>AI
+in Commercial Games</FONT></B></A></H2>
+<P>
+Now that you have a little theory under your belt, it's time to
+take a look at how the game industry is using AI. So far, adventure
+and strategy games are the only commercial games to have a great
+deal of success in implementing complex AI systems. One of the
+most notable series of games to implement realistic AI is the
+immensely popular Ultima series, by Origin Systems, Inc. The Ultima
+series allows the player to explore villages, complete with all
+walks of human life, also known as non-player characters (Npcs).
+The Npcs in the Ultima series are true to their expected natures,
+which makes the game more believable. Even more importantly, however,
+is how the computer-controlled humans engage the player in various
+circumstances, which makes the games infinitely more interesting.
+This degree of interactivity, combined with effective AI, results
+in players feeling as though they are part of a virtual world;
+this is typically the ultimate goal of AI in games, especially
+in adventure games.
+<P>
+Origin Systems later delivered System Shock, which added an innovative
+twist to the interaction between the player and the Npcs. In System
+Shock, the player interacts with Npcs via e-mail, which is certainly
+a more logical communication medium for games set in the future.
+This approach really hits home with those of us who rely on e-mail
+for our day-to-day communications.
+<P>
+With more powerful hardware affording new opportunities for implementing
+complex AI systems in games, there is a renewed interest in AI
+within the commercial game community. As a matter of fact, many
+new games that boast a wide range of AI implementations are being
+released. Following are some of the new commercial games making
+strong claims to AI support. Because these games are all new,
+and because most of them aren't on the market as I'm writing this,
+be aware that each game may change when it actually hits the shelves.
+<H3><A NAME="Battlecruiser3000AD"><B>Battlecruiser: 3000AD</B></A>
+</H3>
+<P>
+Battlecruiser: 3000AD, by Take 2 Interactive Software, claims
+to be the first commercial game to feature neural networks. Neural
+networks are a fairly recent area of AI research and use very
+complex mathematics to model communications and actions in the
+brain. Virtually every non-player character in Battlecruiser:
+3000AD is driven by a neural network, including each of the 125
+crew members on your own ship. The computer opponents also use
+neural networks to guide negotiations, trading, and of course,
+combat.
+<P>
+For more information about Battlecruiser: 3000AD, check out its
+Web page at
+<BLOCKQUOTE>
+<TT><A HREF="http://www.westol.com/~taketwo/battle.html">http://www.westol.com/~taketwo/battle.html</A></TT>
+</BLOCKQUOTE>
+<H3><A NAME="CloakDaggerandDNA"><B>Cloak, Dagger, and DNA</B></A>
+</H3>
+<P>
+Cloak, Dagger, and DNA, by Oidian Systems, is one of, if not <I>the</I>
+first game to make use of genetic algorithms. Genetic algorithms
+comprise an advanced branch of AI devoted to evolved thought in
+AI systems. Cloak, Dagger, and DNA is the first in a family of
+games by Oidian Systems using genetic algorithms. The game itself
+is somewhat similar to Risk; a map is broken down into regions,
+some of which contain factories. The possession of factories both
+brings income to the player and provides bases where you can build
+more units (either armies or spies). Armies are necessary to take
+and defend areas, and combat is calculated based on the number
+of units in a given area, with the defender getting a defensive
+bonus.
+<P>
+The heart of the game is its use of genetic algorithms to guide
+the computer opponent play. It comes with four &quot;DNA strands,&quot;
+which are rules governing the behavior of the computer opponents.
+As each DNA strand plays, it tracks how well it does in every
+battle. Between battles, the user can allow the DNA strands to
+compete against each other (and/or the player's DNA strand) in
+a series of tournaments that allow each DNA strand to evolve.
+There are a number of rules governing how DNA strands mutate,
+and the user can edit these rules for a particular strand. A library
+of up to 50 DNA patterns can be maintained in the shareware version.
+<P>
+For information about Cloak, Dagger, and DNA, and to download
+your own copy, check out its Web page at
+<BLOCKQUOTE>
+<TT><A HREF="http://www.quake.net/~obrien/oidian/cddna.html">http://www.quake.net/~obrien/oidian/cddna.html</A></TT>
+</BLOCKQUOTE>
+<H3><A NAME="Destiny"><B>Destiny</B></A></H3>
+<P>
+Destiny, by Interactive Magic, promises to combine the best elements
+of Civilization, Sim City, and Descent to provide a 3-D strategy
+game. Interactive Magic, the same company that produced Star Rangers,
+Apache, and Air Warrior II, has teamed up with a company called
+Neuromedia, an AI development studio. Not a lot is known about
+Neuromedia, but they've published papers for various AI symposiums,
+mostly on genetic algorithms, so it's only logical to expect some
+degree of genetic AI in the game.
+<P>
+For more information about Destiny, stop by its Web page, which
+is located at
+<BLOCKQUOTE>
+<TT><A HREF="http://www.imagicgames.com/destiny.dir/destiny.html">http://www.imagicgames.com/destiny.dir/destiny.html</A></TT>
+</BLOCKQUOTE>
+<H3><A NAME="DungeonKeeper"><B>Dungeon Keeper</B></A></H3>
+<P>
+Dungeon Keeper, by Interplay, puts you in the role of a keeper
+of a dungeon filled with monsters, traps, and treasure, among
+other things. The game is somewhat of a dungeon simulator, where
+you are placed in charge of a limited amount of resources and
+monsters and must build a dungeon room by room. If you're successful,
+you'll be able to bring in new recruits and continue to fight
+off parties of adventurers foolish enough to visit.
+<P>
+The AI in the game makes use of a process called &quot;behavioral
+cloning&quot; to learn from the human player's actions. The brains
+of the monsters themselves come from hundreds of hours of internal
+play by the game designers; every time an interesting trick by
+one of the human players proved to be repeatedly successful, it
+was incorporated by the designers into the monsters' AI database.
+In the network mode, you can even allow the game to run in the
+background and let the AI manage the hiring of monsters and placement
+of rooms and traps, solely based on information the game has learned
+from watching the player.
+<P>
+Dungeon Keeper claims to possess the &quot;most sophisticated
+monster AI of any game yet,&quot; with each monster having roughly
+1500 bytes dedicated to AI and personality statistics. By comparison,
+the AI for each character in Populous used 48 bytes. Monsters
+that are hurt will feel pain and try to run away, and monsters
+that can smell will use this ability to track players and lead
+other monsters to where the players are hiding.
+<P>
+For the latest information about Dungeon Keeper, check out Interplay's
+Web site at
+<BLOCKQUOTE>
+<TT><A HREF="http://www.interplay.com/website/homepage.html">http://www.interplay.com/website/homepage.html</A></TT>
+</BLOCKQUOTE>
+<H3><A NAME="GrandPrixII"><B>Grand Prix II</B></A></H3>
+<P>
+According to <I>pc Review</I>, Grand Prix II, by Microprose, has
+computer-controlled drivers with AI based on real drivers from
+the sport. Each driver has a personality that determines its driving
+style. Cut off an aggressive driver, and you'll likely get side-swiped
+in revenge. The intention is to give the game more of a feel for
+true racing strategy, which often comes from having to deal with
+the many different personalities behind the wheel of each car.
+<P>
+For more information about Grand Prix II, stop by Microprose's
+Web site at
+<BLOCKQUOTE>
+<TT><A HREF="http://www.holobyte.com/mpshp.html">http://www.holobyte.com/mpshp.html</A></TT>
+</BLOCKQUOTE>
+<H2><A NAME="AIResourcesontheWeb"><B><FONT SIZE=5 COLOR=#FF0000>AI
+Resources on the Web</FONT></B></A></H2>
+<P>
+To keep up with the latest trends in AI, along with finding out
+information about traditional areas of AI research, check out
+some of the Web sites listed in the following sections.
+<H3><A NAME="WorldWideWebVirtualLibrary"><B>World Wide Web Virtual
+Library</B></A></H3>
+<P>
+Figure 15.3 shows the AI Web page in the World Wide Web Virtual
+Library, which is located at
+<P>
+<A HREF="f15-3.gif" ><B>Figure 15.3 : </B><I>The Artificial Intelligence page in the World Wide Web Virtual Library.</I></A>
+<BLOCKQUOTE>
+<TT><A HREF="http://www.cs.reading.ac.uk/people/dwc/ai.html">http://www.cs.reading.ac.uk/people/dwc/ai.html</A></TT>
+</BLOCKQUOTE>
+<P>
+This Web page contains many useful links to other AI sites on
+the Web, including research projects at universities and archived
+messages from news groups.
+<H3><A NAME="TheUniversityofChicagoAILab"><B>The University of
+Chicago AI Lab</B></A></H3>
+<P>
+Figure 15.4 shows the University of Chicago Artificial Intelligence
+Lab Web site, which is located at
+<P>
+<A HREF="f15-4.gif" ><B>Figure 15.4 : </B><I>The Artificial Intelligence Lab Web site at the University of Chicage.</I></A>
+<BLOCKQUOTE>
+<TT><A HREF="http://cs-www.uchicago.edu/html/groups/ai">http://cs-www.uchicago.edu/html/groups/ai</A></TT>
+</BLOCKQUOTE>
+<P>
+This Web site contains some interesting AI projects in the works
+at the University of Chicago. Although little of the information
+is directly related to AI in games, this is nevertheless a very
+neat site to gather more general information about AI and how
+it is being used.
+<H3><A NAME="MachineLearninginGames"><B>Machine Learning in Games</B></A>
+</H3>
+<P>
+Figure 15.5 shows the Machine Learning in Games Web site, which
+is located at
+<P>
+<A HREF="f15-5.gif" ><B>Figure 15.5 : </B><I>The Machine Learning in Games Web site.</I></A>
+<BLOCKQUOTE>
+<TT><A HREF="http://forum.swarthmore.edu/~jay/learn-game">http://forum.swarthmore.edu/~jay/learn-game</A></TT>
+</BLOCKQUOTE>
+<P>
+This Web site contains a wealth of information about how to make
+games learn. There are many links to current projects, including
+algorithms and source code. You might also be able to hook up
+with some people at this site for more advanced questions and
+ideas.
+<H3><A NAME="BibliographyonMachineLearninginStra"><B>Bibliography
+on Machine Learning in Strategic Game Playing</B></A></H3>
+<P>
+Figure 15.6 shows the Bibliography on Machine Learning in Strategic
+Game Playing Web site, which is located at
+<P>
+<A HREF="f15-6.gif" ><B>Figure 15.6 : </B><I>The Bibliography on Machine Learning in Strategic Game Playing Web time.</I></A>
+<BLOCKQUOTE>
+<TT><A HREF="http://www.ai.univie.ac.at/~juffi/lig/lig.html">http://www.ai.univie.ac.at/~juffi/lig/lig.html</A></TT>
+</BLOCKQUOTE>
+<P>
+This is another site with a lot of useful information regarding
+learning in games. If you're interested in this topic at all,
+be sure to check it out; it has lots of interesting stuff.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you took a step back from the business of hacking Java code
+and learned some of the basic theory behind artificial intelligence
+and how it applies to games. You learned about the three fundamental
+types of game AI (roaming, behavioral, and strategic), along with
+how they are used in typical gaming scenarios. You even learned
+about some of the more advanced AI techniques being used in the
+latest commercial games. Finally, you finished up today's lesson
+with a few useful Web sites for furthering your knowledge of AI.
+<P>
+As a game programmer with at least a passing interest in AI, your
+AI knowledge will likely grow a great deal as you encounter situations
+where you can apply AI techniques. After you get comfortable with
+implementing the basics, you can move on to more advanced AI solutions
+based on prior experience and research on the Web. I hope today's
+lesson at least provided you with a roadmap to begin your journey
+into the world of the computer mind.
+<P>
+Now, if you think I'm going to discuss all this AI theory and
+then leave you hanging in regard to a real game that uses it,
+you are sorely mistaken. In tomorrow's lesson, you learn how to
+build a Connect4 game, complete with a computer player that uses
+a strategic AI strategy similar to what you learned about today.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Everyone acts like computers are so smart, but now you make it sound like they're dumb. What gives?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Computers, in fact, are very &quot;dumb&quot; when it comes to what we humans refer to as free thought. However, computers are very &quot;smart&quot; when it comes to mathematical calculations and algorithms. 
+The trick with AI is to model the subtleties of human thought in such a way that the computer can do what it's good at, executing mathematical calculations and algorithms.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Are the three fundamental types of game AI the only choices I have when adding AI to games?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Absolutely not; the AI types you learned about today are simply three of the most popular types I've encountered in games. By all means, explore and build on these strategies to come up with AI solutions that 
+more closely fit your own particular needs.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>If my game is designed to have only human players, do I even need to worry with AI?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Even though games with all human players might appear to not require any AI at first, it is often useful to control many of the background aspects of the game using simple AI. For example, consider a two player 
+head-to-head space battle game. Even though you might not have any plans for computer ships, consider adding some AI to determine how the environment responds to the players' actions. For example, add a black hole near the more aggressive player from time 
+to time, providing that player with more hassles than the other player. Although the intelligence required of a black hole is pretty weak by most AI standards, it could still use a simple chase algorithm to follow the player around.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Is it difficult to implement strategic AI?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Yes and no, depending on the particular game. If you're talking about adding AI to simple board games, then it isn't usually very difficult. As a matter of fact, you'll see this firsthand in tomorrow's lesson. 
+However, once you broaden the context of strategy games to include complex strategic simulations, implementing strategic AI can get very messy.
+</TD></TR>
+</TABLE>
+<P>
+<TEXT>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least think about the exercises
+before moving on to tomorrow's lesson. You'll find the answers
+to the questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What are the three types of roaming AI?
+<LI>How does behavioral AI work?
+<LI>What is one of the most difficult aspects of implementing
+strategic AI?
+<LI>Why are we only now beginning to see commercial games exploit
+advanced AI strategies?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Stop by some of the AI Web sites mentioned today and explore
+what else is out there in the world of AI.
+<LI>Play some games with computer opponents and see whether you
+can tell which type of AI approach is being used.
+<LI>Do some research on primal responses in animals, particularly
+insects, and develop a behavioral model based on this information.
+<LI>Stop by some of the game Web sites mentioned today to find
+out more about the specifics of the AI used.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch3gla.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch16.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

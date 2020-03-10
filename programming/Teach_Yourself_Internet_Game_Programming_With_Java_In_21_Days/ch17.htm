@@ -1,0 +1,679 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 17 -- The Basics of Multiplayer Gaming</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 17</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>The Basics of Multiplayer Gaming</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#TheRawappealofMultiplayerGames" >The Raw appeal of Multiplayer Games</A>
+<LI><A HREF="#NetworkversusNonNetworkGames" >Network versus Non-Network Games</A>
+<LI><A HREF="#GamingontheInternet" >Gaming on the Internet</A>
+<LI><A HREF="#TypesofMultiplayerGames" >Types of Multiplayer Games</A>
+<UL>
+<LI><A HREF="#TurnBasedGames" >Turn-Based Games</A>
+<LI><A HREF="#EventBasedGames" >Event-Based Games</A>
+</UL>
+<LI><A HREF="#NetworkGameProblems" >Network Game Problems</A>
+<LI><A HREF="#NetworkGameSolutions" >Network Game Solutions</A>
+<UL>
+<LI><A HREF="#StateSynchronization" >State Synchronization</A>
+<LI><A HREF="#InputSynchronization" >Input Synchronization</A>
+<LI><A HREF="#AHybridSolution" >A Hybrid Solution</A>
+</UL>
+<LI><A HREF="#GameTheory" >Game Theory</A>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+In the past couple of days, you've learned what it takes to give
+the computer the capability to match wits with a human player.
+Although AI is very important and has countless uses in games,
+it's hard to discount the human factor in multiplayer games. Today,
+you learn all about multiplayer games and why they are important
+in today's gaming landscape. The theory you learn today forms
+the foundation you need in order to implement a multiplayer networked
+version of Connect4, NetConnect4, later this week.
+<P>
+The appeal of multiplayer games isn't hard to figure out. Considering
+how much people enjoy playing games together that don't involve
+computers, it really was only a matter of time before the appeal
+of single-player computer games carried over to supporting multiple
+players. With access to the Internet rapidly extending beyond
+the circle of techies and computer enthusiasts, the time has come
+for multiplayer gaming to mature. Java has the potential to lead
+the way in many regards because of its cross-platform nature and
+built-in support for networking and tight security.
+<P>
+There are some obstacles, however, when it comes to implementing
+multiplayer games in Java (or any other language, for that matter).
+Network games bring with them their own unique set of problems
+and challenges that must be dealt with at the design level. Today's
+lesson exposes many of these problems and discusses various techniques
+for solving them. By the end of today, you'll be ready to move
+on to the specifics of network programming in Java.
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>The raw appeal of multiplayer games
+<LI>Network versus non-network games
+<LI>Gaming on the Internet
+<LI>Types of multiplayer games
+<LI>Network game problems
+<LI>Network game solutions
+<LI>Game theory
+</UL>
+<H2><A NAME="TheRawappealofMultiplayerGames"><B><FONT SIZE=5 COLOR=#FF0000>The
+Raw appeal of Multiplayer Games</FONT></B></A></H2>
+<P>
+If you've been fortunate enough to play a multiplayer network
+game with your friends, you already know how much fun it can be.
+In many ways, outwitting a real live person is much more fun than
+competing against a computer player. The reality of going head-to-head
+with another person can change the whole perspective of a game.
+I have yet to see a single-player game that evokes the same level
+of emotion and excitement as is generated from the human factor
+in multiplayer games.
+<P>
+Arguably one of the most popular multiplayer (and single player,
+for that matter) games to come along in the past few years is
+DOOM. DOOM provides a 3D world with previously unheard-of realism
+and nonstop action. Add to this the ability to share the 3D world
+with other real people, and it's not hard to see why this game
+is so compelling.
+<P>
+Even though most of the successful multiplayer games to date,
+like DOOM, have pitted human players against each other, they
+don't necessarily have to. The benefits of human interaction in
+a multiplayer game are just as significant if the human players
+are working together. I know from experience how fun it can be
+working together with another person to reach a common goal. One
+of my favorite games is Super Contra III for the Super Nintendo
+console game system. This game enables two human players to play
+together against the computer. In fact, you can get much further
+in the game with two people cooperating in multiplayer mode than
+with one player on her own in a single-player game. This approach
+rewards the players for their cooperation, and in doing so adds
+another whole dimension to the appeal of the game.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+I know that the Super Nintendo game system is quickly on its way to becoming outdated. Although I'm not an overly nostalgic person, I find that there are many games on older game systems that are still very fun to play, even in their old age.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+Although the discussion thus far has been limited mostly to games
+involving multiple human players, there is no reason why you can't
+have a mixture of human and computer players in a multiplayer
+game. Consider a Poker game, for example. The participants in
+the game could be any mixture of human and computer players. The
+ability to have different combinations of players puts an interesting
+twist on the AI in the game. Moreover, it would be interesting
+to see how the human players respond to the other players, knowing
+that some of them are real and some aren't. A few games out there
+have taken this approach. The computer version of one of my favorite
+board games, Risk, takes this approach by filling in for missing
+human players with computer players.
+<P>
+There are endless possibilities for multiplayer games involving
+both cooperation and competition among human players. Regardless
+of the scenario, when real people are involved, a certain synthesis
+of ideas takes place that just isn't possible with computer players.
+It's then up to game designers like you and me to chart the course
+and dream up new ways for people to interact with each other through
+games.
+<H2><A NAME="NetworkversusNonNetworkGames"><B><FONT SIZE=5 COLOR=#FF0000>Network
+versus Non-Network Games</FONT></B></A></H2>
+<P>
+So far, the discussion of multiplayer games has avoided the issue
+of where the multiple players are physically located. You've probably
+assumed that I've been referring to multiple players connected
+over a network, but that doesn't necessarily have to be the case.
+Because of the relative difficulty in implementing network games,
+many multiplayer games have relied on two or more players sitting
+in front of the same computer. In light of recent advances in
+network standardization and programming libraries, however, this
+approach of having multiple players using the same machine is
+losing its appeal rather quickly. It still works pretty well for
+many console game systems, because they are specifically designed
+to support two or more players with one set of hardware, but I
+wouldn't expect to see very many new computer games using this
+approach.
+<P>
+The point is that you simply must implement a network interface
+for multiplayer computer games, even if you provide a non-networked
+multiplayer option. When it comes to Java games, this point is
+even more important, because Web users will expect to be able
+to play against other players on the Web.
+<P>
+To better understand the relationship between network versus non-network
+multiplayer games, check out Figure 17.1 and Figure 17.2.
+<P>
+<A HREF="f17-1.gif" ><B>Figure 17.1 : </B><I>A two-player game on a non-networked machine.</I></A>
+<P>
+<A HREF="f17-2.gif" ><B>Figure 17.2 : </B><I>A two-player game on networked machines.</I></A>
+<P>
+In Figure 17.1, a two-player game is implemented on a single machine;
+in this situation, the players use different keys on the keyboard.
+Of course, if you figured out how to get two mice working on one
+machine, that probably would work too! Although this setup certainly
+works in the confines of your own home, it doesn't help you much
+when you want to play with a friend who lives halfway across the
+world. The bright side is that the design for a game like this
+wouldn't really be any more difficult than a single-player design;
+you just process two sets of keyboard inputs rather than one.
+Nevertheless, all the input still is generated on the same machine
+and with the same timing. The key point is that although there
+are two players with two different sets of input, only one instance
+of the game is running.
+<P>
+Now consider the problems associated with this non-network approach:
+You're requiring two players to squeeze together next to each
+other and share the keyboard. Furthermore, this setup wouldn't
+work for games in which each player needs to see information that
+should be hidden from the other player, such as your hand in Poker
+(or any multiplayer card game, for that matter).
+<P>
+The configuration in Figure 17.2 shows a two-player game implemented
+through some type of network connection between the two machines.
+There are two computers and therefore two separate instances of
+the game. Although two instances of the game are running, they
+effectively operate as one. Notice that there is some form of
+communication between the two computers across the network connection.
+This is the communication you must implement to keep the two games
+operating in conjunction. Fortunately, as you'll learn tomorrow,
+Java provides a lot of the functionality of establishing and maintaining
+a network communication channel between players.
+<H2><A NAME="GamingontheInternet"><B><FONT SIZE=5 COLOR=#FF0000>Gaming
+on the Internet</FONT></B></A></H2>
+<P>
+Multiplayer games that can run together on different machines
+also are known as <I>network games,</I> which means that the games
+are capable of enabling multiple players to connect with each
+other and play interactively over an external connection between
+their respective machines. In the case of network Java games,
+the external network connection is handled through the Internet.
+<P>
+<I>Network games</I> are multiplayer games that can run together
+on multiple machines.
+<P>
+Even though the ultimate communication medium for network Java
+games is the Internet, you have to contend with the fact that
+different game players will access the Internet in different ways.
+Actually, there are really only two Internet connection scenarios:
+dedicated and dial-up. A dedicated Internet connection involves
+a computer being directly connected to the Internet via a direct,
+high-speed line such as a T1 connection. Actually, slower dedicated
+lines are available, such as 28,800 baud, but they aren't as popular
+as their faster counterparts.
+<P>
+A dial-up Internet connection, on the other hand, consists of
+a computer dialing into an Internet network and establishing a
+modem connection to the Internet. Technically speaking, a modem
+connection is certainly physical, but for our purposes, we'll
+refer to modem connections as <I>modem networks,</I> and networks
+involving physical network hardware connections as <I>physical</I>
+<I>networks.</I>
+<P>
+The primary difference between modem networking and physical networking
+is the bandwidth of communication. <I>Bandwidth</I> refers to
+how much data can be transferred in a certain amount of time.
+Most people accessing the Web have already realized that a 28,800
+baud modem is a necessity. The absolute minimum modem speed for
+Web surfing these days is 14,400 baud, but 28,800 baud might as
+well be the standard, because modems are coming down in price
+so rapidly.
+<P>
+<I>Bandwidth</I> refers to the amount of data that can be transferred
+over a network connection in a certain amount of time.
+<P>
+The modem-speed issue is important because the bandwidth can greatly
+affect the performance of network games. The degree to which the
+bandwidth affects the game performance, however, is determined
+by your particular communication strategy. For example, you might
+be able to figure out a way to send very little data and get by
+with lower communication speeds. As in all software designs, there
+are trade-offs, and bandwidth is the big one you must weigh when
+assessing the communication requirements for your game. This is
+one aspect of the game design you must be particularly careful
+about, because the amount of data transferred between games can
+have a dramatic effect on performance.
+<P>
+As far as managing the details of programming network games in
+Java, it doesn't matter whether a network is a physical or a modem
+network. Well, it doesn't matter at least from a protocol and
+interface perspective. It does matter when you start looking at
+the performance requirements of a network game. If you haven't
+guessed already, physical networks are much faster and more reliable
+than modem networks. Unfortunately, although physical networks
+provide greater speed and better reliability that helps make multiplayer
+game design much easier, you can't rely on game players using
+them. The reality is that few game players have the luxury of
+a physical Internet connection to play games on. Most physical
+networks are in the confines of a corporate environment, where
+game playing generally is frowned upon.
+<P>
+Most game players have available to them only the limited transmission
+speeds of a modem connection. Therefore, game developers are left
+programming network games to this lowest common denominator of
+transmission speed. You simply have to live with the fact that
+most multiplayer games will be played over modems, so it's your
+job to design those games accordingly.
+<H2><A NAME="TypesofMultiplayerGames"><B><FONT SIZE=5 COLOR=#FF0000>Types
+of Multiplayer Games</FONT></B></A></H2>
+<P>
+Before you get into the design strategies for network games, it's
+important to understand the fundamental types of network games.
+The communication design can be affected dramatically by the way
+the game play progresses, which is determined by the type of game.
+I've defined two types of network games: turn-based and event-based.
+Most games should easily fall into one of these two categories.
+<H3><A NAME="TurnBasedGames"><B>Turn-Based Games</B></A></H3>
+<P>
+<I>Turn-based</I> games are games in which each action in the
+game is based on a player's turn.
+<P>
+The Connect4 game you developed yesterday is a turn-based game
+because you are allowed to make a move only when it is your turn.
+Sure, you are free to think about your move during the other player's
+turn, but in the context of the game you can take action only
+during your turn. Most turn-based games are board games or card
+games, or simple games played on paper such as Tic-Tac-Toe. I
+can't think of any action games that would be considered turn-based.
+That would kind of take the action out of it! Nevertheless, turn-based
+games are very popular and well-suited for networking.
+<P>
+Knowing that turn-based games revolve around whose turn it is,
+the network communication design is greatly simplified. This is
+because only one player can interact with the game at a time.
+Even though multiple players are technically playing the game,
+only one player is allowed to make a move at a time. The other
+players must wait their turn before they can do anything. In this
+way, the game can be designed so that all the players are in a
+wait state until it becomes their turn. The flow of the game in
+turn-based games ends up being circular, as in a game of cards.
+The turn moves around the group of players one by one. Figure
+17.3 shows the play flow of a turn-based game involving five players.
+<P>
+<A HREF="f17-3.gif" ><B>Figure 17.3 : </B><I>Game play flow of a turn-based game with five players.</I></A>
+<P>
+As you can see from the play flow, the game allows each player
+to take a turn; after each turn, the game processes the turn and
+allows the next player to take a turn. The play flow occurs this
+way regardless of the number of players. In a two-player game
+such as Connect4, the turns just move back and forth between the
+players.
+<H3><A NAME="EventBasedGames"><B>Event-Based Games</B></A></H3>
+<P>
+<I>Event-based</I> games are games that are dictated by input
+events that can occur at any time.
+<P>
+Event-based games are much more open-ended than turn-based games.
+In an event-based game, any player can interact with the game
+at any time, resulting in an input event. The flow of the game
+is dictated by the input events rather than turns. As a matter
+of fact, there is no concept of &quot;turn&quot; in an event-based
+game. Event-based games include basically all games that don't
+revolve around turns; examples range from first-person shoot-em-ups
+such as Duke Nukem 3D to strategy simulators such as CivNet. In
+the network modes of both these games, any of the players can
+act independently of any of the other players, generating anywhere
+from nothing to a massive flood of events.
+<P>
+If you haven't suspected, the communication design for event-based
+games is much more complex and difficult to implement than that
+for turn-based games. More importantly, event-based game communication
+typically requires a much wider bandwidth, because more information
+is usually being transmitted. It's probably safe to say that each
+different event-based game you create will have a unique solution.
+This is because there are so many trade-offs to be made in regard
+to determining the best way to design the network communication
+logic. In a game such as Duke Nukem 3D, think about how many things
+are going on, and even more important, notice how quickly things
+are happening. Any change in the game from one player's perspective
+must be communicated to all the other players in some form. Figure
+17.4 shows the play flow of an event-based game involving five
+players.
+<P>
+<A HREF="f17-4.gif" ><B>Figure 17.4 : </B><I>Game play flow of an event-based game with five players.</I></A>
+<P>
+Notice from the play flow that the game never &quot;allows&quot;
+the players to do anything, as in turn-based games. The game just
+sits back and waits for the players to generate input events.
+Players can generate these events as often or as seldom as they
+want, fully independent of the other players. This is what enables
+you to patiently wait behind a corner while another player runs
+by haphazardly at full speed. Some people never learn!
+<H2><A NAME="NetworkGameProblems"><B><FONT SIZE=5 COLOR=#FF0000>Network
+Game Problems</FONT></B></A></H2>
+<P>
+Now that you know which type of network games you are dealing
+with, let's look at some of the common problems you will encounter
+in a network game design. The overriding concern to be dealt with
+in designing network games is maintaining synchronization. Synchronization
+refers to how multiple game instances running on different machines
+maintain the same game state information. Remember that each player
+is running a separate instance of the game, but the overall goal
+is to make each of these different instances function logically
+as one instance. All the internal data structures modeling the
+state of the game should match exactly on each player's system.
+<P>
+<I>Synchronization</I> refers to how multiple instances of a game
+maintain the same state information.
+<P>
+You can best understand this concept by looking at an example
+of what can happen when synchronization is lost. Suppose that
+two players, Heath and Keith, are playing a network adventure
+game similar to one of the games in the classic Ultima series.
+As they are walking along together, they run across a monster.
+Heath is a little more assertive and starts fighting the monster.
+Keith is low on life points and decides to just sit in the shade
+and watch. When Heath finishes off the monster, Keith somehow
+must be notified-and not just as a matter of convenience; any
+change in the game that potentially can affect other players must
+be communicated to them.
+<P>
+Another common problem in regard to synchronization involves using
+random values in games. It is fairly common for games to place
+some objects randomly when a game starts, such as treasure or
+even monsters. Sometimes games use random events just to make
+things vary a little from game to game. In network games this
+creates big problems unless each game instance uses the same random
+values as all the other instances. It would totally blow the synchronization
+for each game to have things going on randomly with respect to
+each instance. The point here is that many seemingly insignificant
+things, such as generating random numbers, can cause major headaches
+in a network game environment.
+<H2><A NAME="NetworkGameSolutions"><B><FONT SIZE=5 COLOR=#FF0000>Network
+Game Solutions</FONT></B></A></H2>
+<P>
+Now that you understand the problems, let's move on to some solutions.
+There are many different approaches to designing network game
+communications, and all of them must somehow address the problem
+of keeping each player's instance of the game synchronized with
+all others. You're going to focus on two basic types of network
+game synchronization strategies: state synchronization and input
+synchronization.
+<H3><A NAME="StateSynchronization"><B>State Synchronization</B></A>
+</H3>
+<P>
+<I>State synchronization</I> is a communication method by which
+each game instance communicates the current state of itself to
+the other instances.
+<P>
+The state synchronization method is very robust because there
+is no chance for information loss; everything regarding the current
+state of the game is sent to the other instances. In a two-player
+space battle game, for example, the position and speed of all
+the planets, asteroids, ships, and bullets would be sent as the
+current state of the game. Figure 17.5 shows a diagram of the
+information transfer for state synchronization in a two-player
+network game.
+<P>
+<A HREF="f17-5.gif" ><B>Figure 17.5 : </B><I>State synchronization information transfer in a two-player network game.</I></A>
+<P>
+Sounds good so far. But what about a more complex game such as
+a role-playing adventure game with entire virtual worlds that
+the players constantly are interacting with? Sending the state
+of the entire game starts looking a little more difficult because
+of the vast amounts of information required to model the game
+state. And don't forget about the bandwidth limitation you learned
+about earlier, which keeps you from being able to send loads of
+information between games. Knowing this, it's easy to see that
+state synchronization is a fairly messy network communication
+solution. Although state synchronization is functionally a very
+solid network solution, technically it's just not always feasible.
+<H3><A NAME="InputSynchronization"><B>Input Synchronization</B></A>
+</H3>
+<P>
+<I>Input synchronization</I> is a communication method in which
+each game communicates the input events of its player to the other
+game instances.
+<P>
+Using input synchronization, each time a player generates input
+events, such as moving the mouse or pressing keys, the game broadcasts
+these events to the other games. Using the space battle game example
+from before, instead of sending the state of all the objects,
+the game just sends the mouse and keyboard input events generated
+by the player. Each game then handles each remote (virtual) input
+from the other games in a similar manner as it handles its own
+local player's input. Figure 17.6 shows a diagram of the information
+transfer for input synchronization in a two-player network game.
+<P>
+<A HREF="f17-6.gif" ><B>Figure 17.6 : </B><I>Input synchronization in a two-player network game.</I></A>
+<P>
+There has to be a catch, right? Of course there's a catch; there's
+always a catch! Input synchronization works fine as long as all
+the changes in the game are dictated solely by the inputs of the
+players. Practically speaking, this rarely is the case. There
+are usually random effects in a game such as placement of background
+objects. These random effects wreak havoc on games relying on
+input synchronization because they aren't reflected by the player
+input and therefore are never communicated between games.
+<P>
+If you happen to have a game in which the entire play flow is
+dictated by the inputs of the players, input synchronization is
+for you. Otherwise, you'll have to come up with another solution.
+Can you think of any games that <I>are</I> dictated entirely by
+the user inputs? Give up? It ends up that most turn-based games
+are driven completely by the inputs of the users. So you usually
+can implement network support for turn-based games by using input
+synchronization.
+<H3><A NAME="AHybridSolution"><B>A Hybrid Solution</B></A></H3>
+<P>
+Now that I've painted a pretty bleak picture of network game design,
+I'll let you in on a practical reality in network game design:
+You usually will have to use some combination of the two methods
+mentioned. This hybrid solution would include elements of both
+state and input synchronization. Using the space battle game example
+again, you could send the user inputs back and forth using input
+synchronization, and then use state synchronization to send random
+events such as initial meteor positions. You still don't necessarily
+need to transmit the entire state of the game, just the aspects
+of the game state that can't be figured out by each instance on
+its own. In other words, random events need to be transmitted
+to each game instance.
+<P>
+If you run across a gaming scenario that doesn't fit well with
+any of these approaches, you might figure out a communication
+technique of your own to add to or replace one of these. As I
+said earlier today, network gaming is a unique area of programming
+that leaves room for very few general techniques. You usually
+have to come up with hybrid solutions that draw on what you've
+learned combined with new ideas you dream up along the way.
+<H2><A NAME="GameTheory"><B><FONT SIZE=5 COLOR=#FF0000>Game Theory</FONT></B></A>
+</H2>
+<P>
+Now that you understand the important aspects of handling communications
+between network game instances, let's shift gears a little and
+take a look at an area of theoretical research that impacts multiplayer
+games. An area of increasingly popular academic research, called
+game theory, can be used to shed light on how people interact
+with each other in a multiplayer computer game scenario. Applications
+of this information could breathe fresh insight into the design
+of multiplayer games. Game theory won't help you with synchronization
+problems, but it might help you figure out more creative approaches
+to the game strategy itself.
+<P>
+<I>Game theory</I> is a branch of mathematical analysis devoted
+to the study of decision making in conflict situations.
+<P>
+Such a situation exists when two or more decision makers, or players,
+with differing objectives act on the same system or share the
+same resources. Game theory provides a mathematical process for
+selecting an optimum strategy in the face of an opponent who has
+a strategy of his own. This mathematical process borders on issues
+related to both multiplayer computer game design and strategic
+AI.
+<P>
+In game theory, the following assumptions are usually made:
+<UL>
+<LI>Each player has available to her two or more well-specified
+choices or sequences of choices called <I>plays.</I>
+<LI>Every possible combination of plays available to the players
+leads to a well-defined end-state (win, loss, or draw) that terminates
+the game.
+<LI>A specified payoff for each player is associated with each
+end-state.
+<LI>Each decision maker has perfect knowledge of the game and
+of his opposition; that is, he knows in full detail the rules
+of the game as well as the payoffs for all other players.
+<LI>All decision makers are rational; that is, each player, given
+two alternatives, will select the one that yields the greater
+payoff.
+</UL>
+<P>
+Although general in scope and not originally directed at computer
+games, game theory touches on many of the same concerns that are
+raised when strategies for multiplayer computer games are being
+designed. Two players in a network multiplayer game often go through
+much of the same thought pattern as people engaged in a verbal
+conflict. Game theory applies equally well to both scenarios.
+<P>
+Because of its general nature, game theory has seen wide application
+in areas such as economics, international trade, labor, public
+policy, natural resources, and development. Individuals making
+use of game theory in their professions have included philosophers,
+political scientists, arms-control negotiators, and evolutionary
+biologists.
+<P>
+You can use game theory in your own multiplayer game designs to
+help determine how reactions between players impact the game.
+Game theory is also useful in determining computer player strategies
+based on the possible range of responses by a human player. It's
+all a matter of breaking a game down into a sequence of decisions
+that can be compared to other decisions and what reactions they
+provoke from other players.
+<P>
+One particular example that shows how game theory raises strategic
+questions applicable to multiplayer computer games is the Prisoners'
+Dilemma. The Prisoners' Dilemma is a game that has been, and continues
+to be, studied by people in various disciplines, ranging from
+biology to sociology and public policy. Among its interesting
+characteristics is that it is a &quot;non-zero-sum&quot; game,
+meaning that the best strategy for a given player is often one
+that increases the payoff to one's partner as well. It has also
+been shown that there is no single best strategy; maximizing one's
+own payoff depends on the strategy adopted by one's partner.
+<P>
+The game works like this: Imagine two criminals arrested under
+the suspicion of having committed a crime together. The police
+don't have enough evidence to convict them, so they are isolated
+from each other and separately offered a deal: The one who offers
+evidence against the other will be freed. If neither of them accepts
+the offer, they are effectively cooperating against the police,
+and both get only a small punishment because of lack of proof.
+Hence, they both gain. If, however, one of them betrays the other
+by confessing to the police, he is freed; the one who remained
+silent receives the full punishment because he did not help the
+police and because the police now have evidence against him provided
+by the other prisoner. If both betray each other, they both will
+be punished, but less severely than if either had refused to talk.
+The dilemma resides in the fact that each prisoner has a choice
+between only two options, but neither can make a good decision
+without knowing what the other one does.
+<P>
+The Prisoners' Dilemma raises some interesting questions regarding
+strategies involving multiple players competing for a common goal.
+To try your wits at the Prisoners' Dilemma, check out the online
+version at <TT><A HREF="http://serendip.brynmawr.edu/~ann/pd.html">http://serendip.brynmawr.edu/~ann/pd.html</A></TT>.
+Figure 17.7 shows what the Web site looks like with the interactive
+Prisoners' Dilemma.
+<P>
+<A HREF="f17-7.gif" ><B>Figure 17.7 : </B><I>The interactive Prisioners' Dilemma Web site.</I></A>
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+You should now have some idea about the general theory behind
+designing games for multiple players. I know that today's lesson
+didn't really present a rosy image of multiplayer game design,
+and for good reason; designing games for multiple players over
+a network is a difficult task that involves a lot of planning
+and creative design. On the other hand, the capability of supporting
+multiple human players can make any game orders of magnitude more
+fun. And with the Internet looming as the ultimate network for
+playing multiplayer games, it's only a matter of time before network
+gaming becomes the norm.
+<P>
+Fortunately, the Java language and class libraries provide many
+features to ease the pain in creating multiplayer games with network
+support. The task is not necessarily easy, but it's often easier
+than prior approaches at building Internet games. In tomorrow's
+lesson, you'll learn exactly what support Java provides for network
+game development.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>If multiplayer Internet games are so cool, why are there still so few of them?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>One of the main reasons there aren't many network games with full Internet support is that only recently has Internet usage started extending to the general game community. Another reason is that it has been 
+difficult at best to implement Internet communications in games. However, with the advent of Java and various third-party C and C++ libraries, along with a growing acceptance of the Internet among gamers, you should start seeing most new network games 
+sporting Internet support.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Is bandwidth always a concern when you're designing network games?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>It depends, but more often yes. The only time bandwidth isn't an issue in network games is when a very small amount of information is being transferred between instances. An example of this type of game would be 
+a network Connect4 game, in which the only information transferred would be the column of the move.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Does synchronization get more difficult to maintain when there are more players?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Usually not because the amount of synchronization information being sent is the same, regardless of how many players there are.
+</TD></TR>
+</TABLE>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least think about the exercises
+before moving on to tomorrow's lesson. You'll find the answers
+to the questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What are the two basic types of multiplayer games?
+<LI>What is the difference between a modem network connection
+and a physical network connection?
+<LI>What are the three types of network synchronization solutions?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Go to a software store and see whether you can find any games
+that support Internet network play.
+<LI>Of these games, see how many are turn-based and how many are
+event-based.
+<LI>Check out the Prisoners' Dilemma Web site, and try out your
+own strategy.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch16.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch18.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

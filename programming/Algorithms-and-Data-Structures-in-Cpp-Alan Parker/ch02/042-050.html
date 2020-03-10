@@ -1,0 +1,227 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Algorithms</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=2//-->
+<!--PAGES=042-050//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="037-042.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="051-053.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+</P>
+<H3><A NAME="Heading4"></A><FONT COLOR="#000077">2.2 Induction</FONT></H3>
+<P>Simple induction is a two step process:
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;Establish the result for the case <I>N</I> = 1
+<DD><B>&#149;</B>&nbsp;&nbsp;Show that if is true for the case <I>N</I> = <I>n</I> then it is true for the case <I>N</I> = <I>n</I>+1
+</DL>
+<P>This will establish the result for all <I>n</I> &gt; 1.</P>
+<P>Induction can be established for any set which is well ordered. A well-ordered set, <I>S</I>, has the property that if</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-09d.jpg"></P>
+<P>then either
+</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>x</I>&lt;<I>y</I>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>x</I>&gt;<I>y</I> or
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>x</I> = <I>y</I>
+</DL>
+<P><A NAME="Fig4"></A><A HREF="javascript:displayWindow('images/02-04.jpg',492,556)"><IMG SRC="images/02-04t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-04.jpg',492,556)"><FONT COLOR="#000077"><B>Example 2.4</B></FONT></A>&nbsp;&nbsp;Order</P>
+<P>Additionally, if <I>S</I>&#8242; is a nonempty subset of <I>S</I>:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-10d.jpg"></P>
+<P>then <I>S</I>&#8242; has a least element. An example of simple induction is shown in Example 2.5.</P>
+<P>The well-ordering property is required for the inductive property to work. For example consider the method of <I>infinite descent</I> which uses an inductive type approach. In this method it is required to demonstrate that a specific property cannot hold for a positive integer. The approach is as follows:</P>
+<P><A NAME="Fig5"></A><A HREF="javascript:displayWindow('images/02-05.jpg',494,820)"><IMG SRC="images/02-05t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/02-05.jpg',494,820)"><FONT COLOR="#000077"><B>Example 2.5</B></FONT></A>&nbsp;&nbsp;Induction</P>
+<DL>
+<DD><B>1.</B>&nbsp;&nbsp;Let <I>P</I> (<I>k</I>) = <I>TRUE</I> denote that a property holds for the value of <I>k</I>. Also assume that <I>P</I>(0) does not hold so <I>P</I>(0) = <I>FALSE</I>.
+<P>Let <I>S</I> be the set that
+<P ALIGN="CENTER"><IMG SRC="images/02-11d.jpg"></P>
+</P>
+<P>From the well-ordering principle it is true that if <I>S</I> is not empty then <I>S</I> has a smallest member. Let <I>j</I> be such a member:
+<P ALIGN="CENTER"><IMG SRC="images/02-12d.jpg"></P>
+</P>
+<DD><B>2.</B>&nbsp;&nbsp;Prove that <I>P</I>(<I>j</I>) implies <I>P</I>(<I>j</I>-1) and this will lead to a contradiction since <I>P</I>(0) is <I>FALSE</I> and <I>j</I> was assumed to be minimal so that <I>S</I> must be empty. This implies the property does not hold for any positive integer <I>k</I>. See Problem 2.1 for a demonstration of <I>infinite descent</I>.
+</DL>
+<H3><A NAME="Heading5"></A><FONT COLOR="#000077">2.3 Recursion</FONT></H3>
+<P>Recursion is a powerful technique for defining an algorithm.
+</P>
+<P><B>Definition 2.6</B></P>
+<P>A procedure is <I>recursive</I> if it is, whether directly or indirectly, defined in terms of itself.</P>
+<P><IMG SRC="images/02-06i.jpg"></P>
+<H4 ALIGN="LEFT"><A NAME="Heading6"></A><FONT COLOR="#000077">2.3.1 Factorial</FONT></H4>
+<P>One of the simplest examples of recursion is the factorial function <I>f</I>(<I>n</I>) = <I>n</I>!. This function can be defined recursively as</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-13d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/02-14d.jpg"></P>
+<P>A simple C++ program implementing the factorial function recursively is shown in Code List 2.1. The output of the program is shown in Code List 2.2.
+</P>
+<P><B>Code List 2.1</B> Factorial</P>
+<P><A NAME="Fig6"></A><A HREF="javascript:displayWindow('images/02-06.jpg',300,396)"><IMG SRC="images/02-06t.jpg"></A></P>
+<P><B>Code List 2.2</B> Output of Program in Code List 2.1</P>
+<P><A NAME="Fig7"></A><A HREF="javascript:displayWindow('images/02-07.jpg',55,150)"><IMG SRC="images/02-07t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading7"></A><FONT COLOR="#000077">2.3.2 Fibonacci Numbers</FONT></H4>
+<P>The Fibonacci sequence, <I>F</I>(<I>n</I>), is defined recursively by the recurrence relation</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-15d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/02-16d.jpg"></P>
+<P>A simple program which implements the Fibonacci sequence recursively is shown in Code List 2.3. The output of the program is shown in Code List 2.4.
+</P>
+<P><B>Code List 2.3</B> Fibonacci Sequence Generation</P>
+<P><A NAME="Fig8"></A><A HREF="javascript:displayWindow('images/02-08.jpg',400,458)"><IMG SRC="images/02-08t.jpg"></A></P>
+<P><B>Code List 2.4</B> Output of Program in Code List 2.3</P>
+<P><A NAME="Fig9"></A><A HREF="javascript:displayWindow('images/02-09.jpg',179,375)"><IMG SRC="images/02-09t.jpg"></A></P>
+<P>The recursive implementation need not be the only solution. For instance in looking for a closed solution to the relation if one assumes the form <I>F</I> (<I>n</I>) = &#955;<I><SUP><SMALL>n</SMALL></SUP></I> one has</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-17d.jpg"></P>
+<P>which assuming &#955; &#8800; 0
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-18d.jpg"></P>
+<P>The solution via the quadratic formula yields
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-19d.jpg"></P>
+<P>Because Eq. 2.7 is linear it admits solutions of the form
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-20d.jpg"></P>
+<P>To satisfy the boundary conditions in Eq. 2.8 one obtains the matrix form
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-21d.jpg"></P>
+<P>multiplying both sides by the 2 &#215; 2 matrix inverse
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-22d.jpg"></P>
+<P>which yields
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-23d.jpg"></P>
+<P ALIGN="CENTER"><IMG SRC="images/02-24d.jpg"></P>
+<P>resulting in the closed form solution
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-25d.jpg"></P>
+<P>A nonrecursive implementation of the Fibonacci series is shown in Code List 2.5. The output of the program is the same as the recursive program given in Code List 2.4.
+</P>
+<P><B>Code List 2.5</B> Fibonacci Program &#151; Non Recursive Solution</P>
+<P><A NAME="Fig10"></A><A HREF="javascript:displayWindow('images/02-10.jpg',500,217)"><IMG SRC="images/02-10t.jpg"></A></P>
+<P><A NAME="Fig11"></A><A HREF="javascript:displayWindow('images/02-11.jpg',500,164)"><IMG SRC="images/02-11t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading8"></A><FONT COLOR="#000077">2.3.3 General Recurrence Relations</FONT></H4>
+<P>This section presents the methodology to handle general 2nd order recurrence relations. The recurrence relation given by
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-26d.jpg"></P>
+<P>with initial conditions:
+</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-27d.jpg"></P>
+<P>can be solved by assuming a solution of the form <I>R</I> (<I>n</I>) = &#955;<I><SUP><SMALL>n</SMALL></SUP></I>. This yields</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-28d.jpg"></P>
+<P>If the equation has two distinct roots, &#955;<SUB><SMALL>1</SMALL></SUB>,&#955;<SUB><SMALL>2</SMALL></SUB>, then the solution is of the form</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-29d.jpg"></P>
+<P>where the constants, <I>C</I><SUB><SMALL>1</SMALL></SUB>, <I>C</I><SUB><SMALL>2</SMALL></SUB>, are chosen to enforce Eq. 2.19. If the roots, however, are not distinct then an alternate solution is sought:</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-30d.jpg"></P>
+<P>where &#955; is the double root of the equation. To see that the term <I>C</I><SUB><SMALL>1</SMALL></SUB><I>n</I>&#955;<I><SUP><SMALL>n</SMALL></SUP></I> satisfies the recurrence relation one should note that for the multiple root Eq. 2.18 can be written in the form</P>
+<P ALIGN="CENTER"><IMG SRC="images/02-31d.jpg"></P>
+<P>Substituting <I>C</I><SUB><SMALL>1</SMALL></SUB><I>n</I>&#955;<I><SUP><SMALL>n</SMALL></SUP></I> into Eq. 2.23 and simplifying verifies the solution.</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="037-042.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="051-053.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

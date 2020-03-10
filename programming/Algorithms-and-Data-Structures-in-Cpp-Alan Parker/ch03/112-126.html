@@ -1,0 +1,175 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=112-126//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="106-112.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="126-134.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H4 ALIGN="LEFT"><A NAME="Heading5"></A><FONT COLOR="#000077">3.1.3 Arrays</FONT></H4>
+<P>Sequential arrays stored in memory also rely on pointers for index calculations. The array example in Code List 3.8 demonstrates the differences between pointers and arrays for the case of the multidimensional array. The output of the program is shown for two different platforms. Code List 3.9 shows the output of the program for a DOS system while Code List 3.10 shows the output of the program on a Unix system. For this program two different methodologies are used for implementing the storage of four integers. The memory allocation is illustrated in Figure 3.3. The key difference between the implementation of the pointers and the multidimensional array is that the array <I>a[2][2]</I> is not a variable. As a result, operations such as <I>a=a+1</I> are invalid.</P>
+<P><A NAME="Fig13"></A><A HREF="javascript:displayWindow('images/03-13.jpg',480,347)"><IMG SRC="images/03-13t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-13.jpg',480,347)"><FONT COLOR="#000077"><B>Figure 3.3</B></FONT></A>&nbsp;&nbsp;Memory Organization for Code List 3.8</P>
+<P>Someone slightly familiar with C or C++ might be surprised to see that the output indicates that the values of <I>&amp;a</I>, <I>a</I>, and *<I>a</I> are all equal. While this looks unusual it is correct. The declaration <I>int a[2][2]</I> in C and C++ declares <I>a</I> to be an array of arrays. In this case there are two arrays each containing two integers. The first array is located at address A4 while the second array is located at the address A5.</P>
+<DL>
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>a</I> - returns the starting address of the array of arrays which is given as A4 in Figure 3.3.
+<DD><B>&#149;</B>&nbsp;&nbsp;*<I>a</I> - returns the starting address of the first array in the list which is also A4 in Figure 3.3
+<DD><B>&#149;</B>&nbsp;&nbsp;<I>&amp;a</I> - returns the starting address of the array a which is A4. This does not return the address of the element (if there is one) that actually points to <I>a</I>. When you declare an array via int <I>a[2][2]</I> there is no variable which points to the beginning of the array that the programmer can change. The compiler basically ignores the ampersand when the variable is declared as an array. Remember, this is the difference between pointers and arrays. The location where <I>a</I> points to cannot change during the program.
+</DL>
+<P>The output for <I>b</I> follows directly the addressing as illustrated in Figure 3.3</P>
+<P><B>Code List 3.8</B> Array Example</P>
+<P><A NAME="Fig14"></A><A HREF="javascript:displayWindow('images/03-14.jpg',388,652)"><IMG SRC="images/03-14t.jpg"></A></P>
+<P><A NAME="Fig15"></A><A HREF="javascript:displayWindow('images/03-15.jpg',404,490)"><IMG SRC="images/03-15t.jpg"></A></P>
+<P><B>Code List 3.9</B> Output of Code in Code List 3.8</P>
+<P><A NAME="Fig16"></A><A HREF="javascript:displayWindow('images/03-16.jpg',242,360)"><IMG SRC="images/03-16t.jpg"></A></P>
+<P><A NAME="Fig17"></A><A HREF="javascript:displayWindow('images/03-17.jpg',241,359)"><IMG SRC="images/03-17t.jpg"></A></P>
+<P><B>Code List 3.10</B> Output of Code in Code List 3.8</P>
+<P><A NAME="Fig18"></A><A HREF="javascript:displayWindow('images/03-18.jpg',240,486)"><IMG SRC="images/03-18t.jpg"></A></P>
+<P><A NAME="Fig19"></A><A HREF="javascript:displayWindow('images/03-19.jpg',243,167)"><IMG SRC="images/03-19t.jpg"></A></P>
+<H4 ALIGN="LEFT"><A NAME="Heading6"></A><FONT COLOR="#000077">3.1.4 Overloading in C++</FONT></H4>
+<P>An example of overloading in C++ is shown in Code List 3.11. The output of the program is shown in Code List 3.12. This program overloads the operator <I>()</I> which is used to index into a set of characters for a specific data bit. The packing is illustrated in Figure 3.4 for the variable e declared in the program.</P>
+<P><A NAME="Fig20"></A><A HREF="javascript:displayWindow('images/03-20.jpg',350,271)"><IMG SRC="images/03-20t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-20.jpg',350,271)"><FONT COLOR="#000077"><B>Figure 3.4</B></FONT></A>&nbsp;&nbsp;Packing Bits in Memory</P>
+<P><B>Code List 3.11</B> Operator Overloading Example</P>
+<P><A NAME="Fig21"></A><A HREF="javascript:displayWindow('images/03-21.jpg',398,143)"><IMG SRC="images/03-21t.jpg"></A></P>
+<P><A NAME="Fig22"></A><A HREF="javascript:displayWindow('images/03-22.jpg',339,649)"><IMG SRC="images/03-22t.jpg"></A></P>
+<P><A NAME="Fig23"></A><A HREF="javascript:displayWindow('images/03-23.jpg',400,443)"><IMG SRC="images/03-23t.jpg"></A></P>
+<P><B>Code List 3.12</B> Output of Program in Code List 3.11</P>
+<P><A NAME="Fig24"></A><A HREF="javascript:displayWindow('images/03-24.jpg',343,89)"><IMG SRC="images/03-24t.jpg"></A></P>
+<H3><A NAME="Heading7"></A><FONT COLOR="#000077">3.2 Arrays</FONT></H3>
+<P>This section demonstrates the creation of an array class in C++ using templates. The goal of the program is to demonstrate the implementation of a feature of C++ which is already built in; therefore, the code is for instructive purposes only. The code for a program to create an array class is illustrated in Code List 3.13, The output of the program is shown in Code List 3.14. The array class is declared in the program as a generic class with a type T which is specified later when an array variable is declared. As seen in the main function three arrays are declared: <I>a</I>, <I>b</I>, and <I>c</I>. The array <I>a</I> consists of ten integers. The array <I>b</I> consists of five doubles. The array c consists of 3 characters. The constructor function for the array initializes all the elements of the array to zero. The function <I>set_data</I> is used to assign a value to a specific element in the array. The function <I>print_data</I> is used to print a specific element in the array.</P>
+<P><B>Code List 3.13</B> Creating an Array Class in C++</P>
+<P><A NAME="Fig25"></A><A HREF="javascript:displayWindow('images/03-25.jpg',344,622)"><IMG SRC="images/03-25t.jpg"></A></P>
+<P><A NAME="Fig26"></A><A HREF="javascript:displayWindow('images/03-26.jpg',341,572)"><IMG SRC="images/03-26t.jpg"></A></P>
+<P><B>Code List 3.14</B> Output from Code List 3.13</P>
+<P><A NAME="Fig27"></A><A HREF="javascript:displayWindow('images/03-27.jpg',115,131)"><IMG SRC="images/03-27t.jpg"></A></P>
+<P><A NAME="Fig28"></A><A HREF="javascript:displayWindow('images/03-28.jpg',93,82)"><IMG SRC="images/03-28t.jpg"></A></P>
+<H3><A NAME="Heading8"></A><FONT COLOR="#000077">3.3 Stacks</FONT></H3>
+<P>A stack is a data structure used to store and retrieve data. The stack supports two operations <I>push</I> and <I>pop</I>. The <I>push</I> operation places data on the stack and the <I>pop</I> operation retrieves the data from the stack. The order in which data is retrieved from the stack determines the classification of the stack.</P>
+<P>A FIFO (First In First Out) stack retrieves data placed on the stack first. A LIFO (Last In First Out) stack retrieves data placed on the stack last. A LIFO stack <I>push</I> and <I>pop</I> operation is illustrated in Figure 3.5.</P>
+<P><A NAME="Fig29"></A><A HREF="javascript:displayWindow('images/03-29.jpg',380,439)"><IMG SRC="images/03-29t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-29.jpg',380,439)"><FONT COLOR="#000077"><B>Figure 3.5</B></FONT></A>&nbsp;&nbsp;Push and Pop in a LIFO Stack</P>
+<P>The source code to implement a LIFO stack class is shown in Code List 3.15. The output of the program is shown in Code List 3.16. Notice that templates are used again so the type used for the stack is defined at a later point.
+</P>
+<P><B>Code List 3.15</B> LIFO Stack Class</P>
+<P><A NAME="Fig30"></A><A HREF="javascript:displayWindow('images/03-30.jpg',445,363)"><IMG SRC="images/03-30t.jpg"></A></P>
+<P><A NAME="Fig31"></A><A HREF="javascript:displayWindow('images/03-31.jpg',450,164)"><IMG SRC="images/03-31t.jpg"></A></P>
+<P><A NAME="Fig32"></A><A HREF="javascript:displayWindow('images/03-32.jpg',439,736)"><IMG SRC="images/03-32t.jpg"></A></P>
+<P><A NAME="Fig33"></A><A HREF="javascript:displayWindow('images/03-33.jpg',445,724)"><IMG SRC="images/03-33t.jpg"></A></P>
+<P><B>Code List 3.16</B> Output of Program in Code List 3.15</P>
+<P><A NAME="Fig34"></A><A HREF="javascript:displayWindow('images/03-34.jpg',247,477)"><IMG SRC="images/03-34t.jpg"></A></P>
+<H3><A NAME="Heading9"></A><FONT COLOR="#000077">3.4 Linked Lists</FONT></H3>
+<P>This section presents the linked list data structures. This is one of the most common structures in program design.
+</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="106-112.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="126-134.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

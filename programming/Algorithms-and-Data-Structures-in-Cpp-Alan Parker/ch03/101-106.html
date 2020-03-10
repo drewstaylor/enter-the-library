@@ -1,0 +1,160 @@
+<HTML>
+<HEAD>
+<META name=vsisbn content="0849371716">
+<META name=vstitle content="Algorithms and Data Structures in C++">
+<META name=vsauthor content="Alan Parker">
+<META name=vsimprint content="CRC Press">
+<META name=vspublisher content="CRC Press LLC">
+<META name=vspubdate content="08/01/93">
+<META name=vscategory content="Web and Software Development: Programming, Scripting, and Markup Languages: C/C++">
+
+
+
+
+
+<TITLE>Algorithms and Data Structures in C++:Data Structures and Searching</TITLE>
+
+<!-- HEADER -->
+
+<STYLE type="text/css"> 
+ <!--
+ A:hover  {
+ 	color : Red;
+ }
+ -->
+</STYLE>
+
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<script>
+<!--
+function displayWindow(url, width, height) {
+         var Win = window.open(url,"displayWindow",'width=' + width +',height=' + height + ',resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</script>
+<SCRIPT>
+<!--
+function popUp(url) {
+        var Win = window.open(url,"displayWindow",'width=400,height=300,resizable=1,scrollbars=yes');
+	if (Win) {
+		Win.focus();
+	}
+}
+//-->
+</SCRIPT>
+
+<script language="JavaScript1.2">
+<!--
+function checkForQuery(fm) {
+  /* get the query value */
+  var i = escape(fm.query.value);
+  if (i == "") {
+      alert('Please enter a search word or phrase');
+      return false;
+  }                  /* query is blank, dont run the .jsp file */
+  else return true;  /* execute the .jsp file */
+}
+//-->
+</script>
+
+</HEAD>
+
+<BODY> 
+
+<TABLE border=0 cellspacing=0 cellpadding=0>
+<tr>
+<td width=75 valign=top>
+<img src="../0849371716.gif" width=60 height=73 alt="Algorithms and Data Structures in C++" border="1">
+</td>
+<td align="left">
+    <font face="arial, helvetica" size="-1" color="#336633"><b>Algorithms and Data Structures in C++</b></font>
+    <br>
+    <font face="arial, helvetica" size="-1"><i>by Alan Parker</i>
+    <br>
+    CRC Press,&nbsp;CRC Press LLC
+    <br>
+    <b>ISBN:</b>&nbsp;0849371716<b>&nbsp;&nbsp;&nbsp;Pub Date:</b>&nbsp;08/01/93</font>&nbsp;&nbsp;
+</td>
+</tr>
+</table>
+<P>
+
+<!--ISBN=0849371716//-->
+<!--TITLE=Algorithms and Data Structures in C++//-->
+<!--AUTHOR=Alan Parker//-->
+<!--PUBLISHER=CRC Press LLC//-->
+<!--IMPRINT=CRC press//-->
+<!--CHAPTER=3//-->
+<!--PAGES=101-106//-->
+<!--UNASSIGNED1//-->
+<!--UNASSIGNED2//-->
+
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ch02/097-100.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="106-112.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+<P><BR></P>
+<H2><A NAME="Heading1"></A><FONT COLOR="#000077">Chapter 3<BR>Data Structures and Searching
+</FONT></H2>
+<P>This chapter introduces data structures and presents algorithms for searching and sorting.
+</P>
+<H3><A NAME="Heading2"></A><FONT COLOR="#000077">3.1 Pointers and Dynamic Memory Allocation</FONT></H3>
+<P>This section investigates pointers and dynamic memory allocation in C++. As a first example consider the C++ source code in Code List 3.1.
+</P>
+<P><B>Code List 3.1</B> Integer Pointer Example</P>
+<P><A NAME="Fig1"></A><A HREF="javascript:displayWindow('images/03-01.jpg',498,316)"><IMG SRC="images/03-01t.jpg"></A></P>
+<P>At the beginning of the program there are two variables that are allocated. The first variable is a variable <I>p</I> which is declared as a pointer to an integer. The second variable, <I>k</I>, is declared as an integer. The variable <I>p</I> is stored at address A1. The address A1 will contain an address of a variable which will be interpreted as an integer. Initially this address is not assigned. The variable <I>k</I> is stored at address A3. Note that the addresses of <I>p</I> and <I>k</I> do not change during the execution of the program. These addresses are allocated initially and belong to the program for its execution life.</P>
+<P>The statement <I>p=new int</I> in the program allocates room for an integer in memory and makes the pointer <I>p</I> point to that location. It does not assign a value to the location that <I>p</I> points to. In this case <I>p</I> now contains the address A4. The memory location at address A4 will contain an integer. The <I>new</I> operator is a request for memory allocation. It returns a pointer to the memory type requested. In this example room is requested for an integer.</P>
+<P>The statement *<I>p=7</I> assigns the integer 7 to the location that <I>p</I> points to. In this case the address A4 will now contain a 7.</P>
+<P>The statement <I>k=3</I> assigns 3 to the address where <I>k</I> is located. In this case the address A3 will contain the integer 3.</P>
+<P>The statement <I>delete p</I> now requests to deallocate the memory granted to <I>p</I> with the <I>new</I> operator. In this case p will still point to the location but the data at the location is subject to change. It can be the case that *<I>p</I> is no longer 7. Note that once the memory is freed the program no longer may have a right to access the data. The memory location A4 is free to be assigned to any other program which requests memory space.</P>
+<P>The statement <I>p=&amp;k</I> assigns the address of <I>k</I> to <I>p</I>. The address of <I>k</I> is A3. For this case, <I>p</I>, located at A1 will now contain the address A3.</P>
+<P>The statement *<I>p=4</I> now assigns the integer 4 to the address that <I>p</I> points to. For this case the data at address A3 will now contain 4.</P>
+<P>This statement has changed the value of <I>k</I>. The flow for the memory is shown in Figure 3.1.</P>
+<P>There are a number of pitfalls to be concerned with pointers. The declaration <I>int *p</I> does not allocate room for the integer. It simply allocates room for a variable <I>p</I> which will point to an integer in memory. As a result the following code segment is invalid:</P>
+<DL>
+<DD>int *p;
+<DD>*p=7;
+</DL>
+<P>For this code segment the address that <I>p</I> contains is not valid. Unfortunately depending on the platform you are using to develop your programs this might not generate an error on compilation and in some operating systems even on execution.</P>
+<P><A NAME="Fig2"></A><A HREF="javascript:displayWindow('images/03-02.jpg',350,604)"><IMG SRC="images/03-02t.jpg"></A></P>
+<P><A NAME="Fig3"></A><A HREF="javascript:displayWindow('images/03-03.jpg',360,666)"><IMG SRC="images/03-03t.jpg"></A>
+<BR><A HREF="javascript:displayWindow('images/03-03.jpg',360,666)"><FONT COLOR="#000077"><B>Figure 3.1</B></FONT></A>&nbsp;&nbsp;Memory Layout for C++ Program</P>
+<P>The following code segment is acceptable
+</P>
+<DL>
+<DD>int *p, k;
+<DD>p=&amp;k;
+<DD>*p=4;
+</DL>
+<P>For this code segment, <I>p</I> points to the address of k which has been allocated memory for an integer.</P>
+<P>The code shown in Code List 3.2 is also valid. The output for the program is shown in Code List 3.3.</P>
+<P><B>Code List 3.2</B> Pointer Example</P>
+<P><A NAME="Fig4"></A><A HREF="javascript:displayWindow('images/03-04.jpg',490,337)"><IMG SRC="images/03-04t.jpg"></A></P>
+<P><B>Code List 3.3</B> Output of Program in Code List 3.2</P>
+<P><A NAME="Fig5"></A><A HREF="javascript:displayWindow('images/03-05.jpg',585,137)"><IMG SRC="images/03-05t.jpg"></A></P>
+<P>The style of the output will change dramatically depending on the operating system and platform used to develop the code. It is sufficient to note that for the code in Code List 3.2 <I>p</I> contains an address that points to a location that contains an address that points to a location that contains an integer.</P><P><BR></P>
+<CENTER>
+<TABLE BORDER>
+<TR>
+<TD><A HREF="../ch02/097-100.html">Previous</A></TD>
+<TD><A HREF="../ewtoc.html">Table of Contents</A></TD>
+<TD><A HREF="106-112.html">Next</A></TD>
+</TR>
+</TABLE>
+</CENTER>
+
+<hr width="90%" size="1" noshade>
+<div align="center">
+<font face="Verdana,sans-serif" size="1">Copyright &copy; <a href="/reference/crc00001.html">CRC Press LLC</a></font>
+</div>
+</BODY>
+

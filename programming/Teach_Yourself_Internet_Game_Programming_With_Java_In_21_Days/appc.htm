@@ -1,0 +1,278 @@
+<HTML>
+
+<HEAD>
+   <TITLE>appendix C -- Differences Between Java and C/C++</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>appendix C</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>Differences Between Java and C/C++</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#ThePreprocessor" >The Preprocessor</A>
+<LI><A HREF="#Pointers" >Pointers</A>
+<LI><A HREF="#StructuresandUnions" >Structures and Unions</A>
+<LI><A HREF="#Functions" >Functions</A>
+<LI><A HREF="#MultipleInheritance" >Multiple Inheritance</A>
+<LI><A HREF="#Strings" >Strings</A>
+<LI><A HREF="#ThegotoStatement" >The goto Statement</A>
+<LI><A HREF="#OperatorOverloading" >Operator Overloading</A>
+<LI><A HREF="#AutomaticCoercions" >Automatic Coercions</A>
+<LI><A HREF="#VariableArguments" >Variable Arguments</A>
+<LI><A HREF="#CommandLineArguments" >Command-Line Arguments</A>
+<LI><A HREF="#Summary" >Summary</A>
+</UL>
+<HR>
+<P>
+It is no secret that the Java language is highly derived from
+the C and C++ languages. Because C++ is currently one of the more
+popular game programming languages, it is important to understand
+the aspects of C++ that Java inherits. Of possibly even more importance
+are the aspects of C++ that Java doesn't support. Because Java
+is an entirely new language, it was possible for the language
+architects at Sun to pick and choose which features from C++ to
+implement in Java and how to implement them.
+<P>
+The focus of this appendix is to point out the differences between
+Java and C++. If you are a C++ programmer, you can appreciate
+the differences between Java and C++. Even if you don't have any
+C++ experience, you can gain some insight into the Java language
+by understanding the C++ discrepancies that it clears up in its
+implementation. If you have a C/C++ game you are thinking of porting
+to Java, this appendix will help you sort out the major areas
+to target in your porting efforts.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Because C++ backwardly supports C, many of the differences pointed out in this appendix refer to C++, but inherently apply to C as well.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H2><A NAME="ThePreprocessor"><B><FONT SIZE=5 COLOR=#FF0000>The
+Preprocessor</FONT></B></A></H2>
+<P>
+All C/C++ compilers implement a stage of compilation known as
+the preprocessor. Part of the responsibility of the C++ preprocessor
+is to perform an intelligent search and replace on identifiers
+that have been declared using the <TT><FONT FACE="Courier">#define</FONT></TT>
+or <TT><FONT FACE="Courier">#typedef</FONT></TT> directives. Although
+most advocators of C++ discourage this usage of the preprocessor,
+which was inherited from C, it is still widely used by most C++
+programmers. Most of the processor definitions in C++ are stored
+in header files, which complement the actual source code files.
+<P>
+The problem with the preprocessor approach is that it provides
+an easy way for programmers to inadvertently add unnecessary complexity
+to a program. Many programmers using the <TT><FONT FACE="Courier">#define</FONT></TT>
+and <TT><FONT FACE="Courier">#typedef</FONT></TT> directives end
+up inventing their own sublanguage within the confines of a particular
+project. This results in other programmers having to go through
+the header files and sort out all of the <TT><FONT FACE="Courier">#define</FONT></TT>
+and <TT><FONT FACE="Courier">#typedef</FONT></TT> information
+to understand a program, which makes code maintenance and reuse
+almost impossible. An additional problem with the preprocessor
+approach is that it is very weak when it comes to type checking
+and validation.
+<P>
+Java does not have a preprocessor. It provides similar functionality
+(<TT><FONT FACE="Courier">#define</FONT></TT>, <TT><FONT FACE="Courier">#typedef</FONT></TT>,
+and so on) to that provided by the C++ preprocessor, but with
+far more control. Constant data members are used in place of the
+<TT><FONT FACE="Courier">#define</FONT></TT> directive, and class
+definitions are used in lieu of the <TT><FONT FACE="Courier">#typedef</FONT></TT>
+directive. The end result is that Java source code is much more
+consistent and easier to read than C++ source code. Additionally,
+Java programs don't use header files; the Java compiler builds
+class definitions directly from the source code files, which contain
+both class definitions and method implementations.
+<H2><A NAME="Pointers"><B><FONT SIZE=5 COLOR=#FF0000>Pointers</FONT></B></A>
+</H2>
+<P>
+Most developers agree that the misuse of pointers causes the majority
+of bugs in C/C++ programming. Put simply, when you have pointers,
+you have the ability to trash memory. C++ programmers regularly
+use complex pointer arithmetic to create and maintain dynamic
+data structures. In return, C++ programmers spend a lot of time
+hunting down complex bugs caused by their complex pointer arithmetic.
+<P>
+The Java language does not support pointers. Java provides similar
+functionality by making heavy use of references. Java passes all
+arrays and objects by reference. This approach prevents common
+errors due to pointer mismanagement. It also makes programming
+easier in a lot of ways because the correct usage of pointers
+is easily misunderstood by all but the most seasoned programmers.
+<P>
+You might be thinking that the lack of pointers in Java will keep
+you from being able to implement many data structures such as
+dynamic arrays. The reality is that any pointer task can be carried
+out just as easily, and more reliably, with objects and arrays
+of objects. You then benefit from the security provided by the
+Java runtime system; it performs boundary checking on all array
+indexing operations.
+<H2><A NAME="StructuresandUnions"><B><FONT SIZE=5 COLOR=#FF0000>Structures
+and Unions</FONT></B></A></H2>
+<P>
+C++ has three types of complex data types: classes, structures,
+and unions. Java only implements one of these data types: classes.
+Java forces programmers to use classes when the functionality
+of structures and unions is desired. Although this sounds like
+more work for the programmer, it actually ends up being more consistent,
+because classes can imitate structures and unions with ease. The
+Java designers really wanted to keep the language simple, so it
+only made sense to eliminate aspects of the language that overlapped.
+<H2><A NAME="Functions"><B><FONT SIZE=5 COLOR=#FF0000>Functions</FONT></B></A>
+</H2>
+<P>
+In C, code is organized into functions, which are defaulted as
+global subroutines accessible to a program. C++ added classes
+and, in doing so, provided class methods, which are functions
+that are connected to classes. C++ class methods are very similar
+to Java class methods. However, because C++ still supports C,
+nothing is discouraging C++ programmers from using functions.
+This results in a mixture of function and method use that makes
+for confusing programs.
+<P>
+Java has no functions. Being a more pure object-oriented language
+than C++, Java forces programmers to bundle all routines into
+class methods. No limitation is imposed by forcing programmers
+to use methods instead of functions. As a matter of fact, implementing
+routines as methods encourages programmers to better organize
+code. Keep in mind that, strictly speaking, nothing is wrong with
+the procedural approach of using functions; it just doesn't mix
+well with the object-oriented paradigm that defines the core of
+Java.
+<H2><A NAME="MultipleInheritance"><B><FONT SIZE=5 COLOR=#FF0000>Multiple
+Inheritance</FONT></B></A></H2>
+<P>
+Multiple inheritance is a feature of C++ that enables you to derive
+a class from multiple parent classes. Although multiple inheritance
+is indeed powerful, it is complicated to use correctly and causes
+lots of problems otherwise. It is also very complicated to implement
+from the compiler perspective.
+<P>
+Java takes the high road and provides no direct support for multiple
+inheritance. You can implement functionality similar to multiple
+inheritance by using interfaces in Java. Java interfaces provide
+object method descriptions, but contain no implementations.
+<H2><A NAME="Strings"><B><FONT SIZE=5 COLOR=#FF0000>Strings</FONT></B></A>
+</H2>
+<P>
+C and C++ have no built-in support for text strings. The standard
+technique adopted among C and C++ programmers is that of using
+null-terminated arrays of characters to represent strings.
+<P>
+In Java, strings are implemented as first class objects (<TT><FONT FACE="Courier">String</FONT></TT>
+and <TT><FONT FACE="Courier">StringBuffer</FONT></TT>), meaning
+that they are at the core of the Java language. Java's implementation
+of strings as objects provides several advantages:
+<UL>
+<LI>The manner in which you create strings and access the elements
+of strings is consistent across all strings on all systems.
+<LI>Because the Java string classes are defined as part of the
+Java language, and not part of some extraneous extension, Java
+strings function predictably every time.
+<LI>The Java string classes perform extensive runtime checking,
+which helps eliminate troublesome runtime errors.
+</UL>
+<H2><A NAME="ThegotoStatement"><B><FONT SIZE=5 COLOR=#FF0000>The
+</FONT></B><TT><B><FONT SIZE=5 COLOR=#FF0000 FACE="Courier">goto</FONT></B></TT><B><FONT SIZE=5 COLOR=#FF0000>
+Statement</FONT></B></A></H2>
+<P>
+The dreaded <TT><FONT FACE="Courier">goto</FONT></TT> statement
+is pretty much a relic these days even in C and C++, but it is
+technically a legal part of the languages. The <TT><FONT FACE="Courier">goto</FONT></TT>
+statement has historically been cited as the cause for messy,
+impossible to understand, and sometimes even impossible to predict
+code known as &quot;spaghetti code.&quot; The primary usage of
+the <TT><FONT FACE="Courier">goto</FONT></TT> statement has merely
+been as a convenience to substitute not thinking through an alternative,
+more structured branching technique.
+<P>
+For all of these reasons and more, Java does not provide a <TT><FONT FACE="Courier">goto</FONT></TT>
+statement. The Java language specifies <TT><FONT FACE="Courier">goto</FONT></TT>
+as a keyword, but its usage is not supported. I suppose the Java
+designers wanted to eliminate the possibility of even using <TT><FONT FACE="Courier">goto</FONT></TT>
+as an identifier! Not including <TT><FONT FACE="Courier">goto</FONT></TT>
+in the Java language simplifies the language and helps eliminate
+the option of writing messy code.
+<H2><A NAME="OperatorOverloading"><B><FONT SIZE=5 COLOR=#FF0000>Operator
+Overloading</FONT></B></A></H2>
+<P>
+Operator overloading, which is considered a prominent feature
+in C++, is not supported in Java. Although roughly the same functionality
+can be implemented by classes in Java, the convenience of operator
+overloading is still missing. However, in defense of Java, operator
+overloading can sometimes become very tricky. Undoubtedly the
+Java developers decided not to support operator overloading in
+order to keep the Java language as simple as possible.
+<H2><A NAME="AutomaticCoercions"><B><FONT SIZE=5 COLOR=#FF0000>Automatic
+Coercions</FONT></B></A></H2>
+<P>
+<I>Automatic coercion</I> refers to the implicit casting of data
+types that sometimes occurs in C and C++. For example, in C++
+you are allowed to assign a <TT><FONT FACE="Courier">float</FONT></TT>
+value to an <TT><FONT FACE="Courier">int</FONT></TT> variable,
+which can result in a loss of information. Java does not support
+C++ style automatic coercions. In Java, if a coercion will result
+in a loss of data, you must always explicitly cast the data element
+to the new type.
+<H2><A NAME="VariableArguments"><B><FONT SIZE=5 COLOR=#FF0000>Variable
+Arguments</FONT></B></A></H2>
+<P>
+C and C++ allow you to declare functions that take a variable
+number of arguments, such as <TT><FONT FACE="Courier">printf</FONT></TT>.
+Although this is a convenient feature, it is impossible for the
+compiler to thoroughly type check the arguments, which means problems
+can arise at runtime without you knowing it. Again, Java takes
+the high road and doesn't support variable arguments at all.
+<H2><A NAME="CommandLineArguments"><B><FONT SIZE=5 COLOR=#FF0000>Command-Line
+Arguments</FONT></B></A></H2>
+<P>
+The command-line arguments passed from the system into a Java
+program differ in a couple of ways from the command-line arguments
+passed into a C++ program. First, the number of parameters passed
+differs between the two languages. In C and C++, the system passes
+two arguments to a program: <TT><FONT FACE="Courier">argc</FONT></TT>
+and <TT><FONT FACE="Courier">argv</FONT></TT>. <TT><FONT FACE="Courier">argc</FONT></TT>
+specifies the number of arguments stored in <TT><FONT FACE="Courier">argv</FONT></TT>.
+<TT><FONT FACE="Courier">argv</FONT></TT> is a pointer to an array
+of characters containing the actual arguments. In Java, the system
+passes a single value to a program: <TT><FONT FACE="Courier">args</FONT></TT>.
+<TT><FONT FACE="Courier">args</FONT></TT> is an array of <TT><FONT FACE="Courier">Strings</FONT></TT>
+that contains the command-line arguments.
+<P>
+In C and C++, the command-line arguments passed into a program
+include the name used to invoke the program. This name always
+appears as the first argument, and it is rarely ever used. In
+Java, you already know the name of the program because it is the
+same name as the class, so there is no need to pass this information
+as a command-line argument. Therefore, the Java runtime system
+only passes the arguments following the name that invoked the
+program.
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+You learned in this appendix about the differences between Java
+and C++. Although no knowledge of C++ is required for Java game
+programming, it can certainly be beneficial to understand where
+Java inherits many of its features.
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="appb.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>

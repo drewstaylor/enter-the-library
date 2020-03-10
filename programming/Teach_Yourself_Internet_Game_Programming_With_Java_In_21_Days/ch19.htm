@@ -1,0 +1,1420 @@
+<HTML>
+
+<HEAD>
+   <TITLE>Chapter 19 -- NetConnect4: Human versus Human</TITLE>
+   <META>
+</HEAD>
+<BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000EE" VLINK="#551A8B" ALINK="#CE2910">
+<H1><FONT COLOR=#FF0000>Chapter 19</FONT></H1>
+<H1><B><FONT SIZE=5 COLOR=#FF0000>NetConnect4: Human versus Human</FONT></B>
+</H1>
+<P>
+<HR WIDTH="100%"></P>
+<P>
+<H3 ALIGN=CENTER><FONT COLOR="#000000"><FONT SIZE=+2>CONTENTS<A NAME="CONTENTS"></A>
+</FONT></FONT></H3>
+
+
+<UL>
+<LI><A HREF="#DesigningNetConnect4" >Designing NetConnect4</A>
+<UL>
+<LI><A HREF="#TheServer" >The Server</A>
+<LI><A HREF="#TheClient" >The Client</A>
+<LI><A HREF="#PuttingThemTogether" >Putting Them Together</A>
+</UL>
+<LI><A HREF="#SampleAppletNetConnect4" >Sample Applet: NetConnect4</A>
+<UL>
+<LI><A HREF="#RunningNetConnect4" >Running NetConnect4</A>
+<LI><A HREF="#DevelopingNetConnect4" >Developing NetConnect4</A>
+</UL>
+<LI><A HREF="#Summary" >Summary</A>
+<LI><A HREF="#QA" >Q&amp;A</A>
+<LI><A HREF="#Workshop" >Workshop</A>
+<UL>
+<LI><A HREF="#Quiz" >Quiz</A>
+<LI><A HREF="#Exercises" >Exercises</A>
+</UL>
+</UL>
+<HR>
+<P>
+In yesterday's lesson, you learned how Java supports network communications
+through a client/server model. You even built a simple socket
+class to help make network communications a little easier. In
+today's lesson, you carry the client/server approach a step forward
+and build a complete network game supporting multiple players.
+Actually, instead of writing a whole new game, you modify a game
+you already wrote to support network play. By the end of today's
+lesson, you'll have the skills necessary to begin developing your
+own network games.
+<P>
+Today you take the Connect4 game you wrote on <A HREF="ch16.htm" >Day 16</A>
+and adapt it to network play between two players. In doing so,
+you put the socket class developed yesterday to good use; you
+use the socket class as a basis for implementing a complete network
+game protocol facilitating game communication between multiple
+clients and a server. Sounds like fun, right? You bet!
+<P>
+The following topics are covered in today's lesson:
+<UL>
+<LI>Designing NetConnect4
+<LI>Sample applet: NetConnect4
+</UL>
+<H2><A NAME="DesigningNetConnect4"><B><FONT SIZE=5 COLOR=#FF0000>Designing
+NetConnect4</FONT></B></A></H2>
+<P>
+If you recall, the Connect4 game you wrote in <A HREF="ch16.htm" >Day 16's</A>
+lesson was a single-player game utilizing artificial intelligence
+to simulate an intelligent computer player. The goal now is to
+take that game and adapt it for two human players playing the
+game over the Web. This task might sound a little daunting, but
+keep in mind that the game itself is already written; you're just
+adding the network support code.
+<P>
+As you learned yesterday, the core of Java network game programming
+revolves around a client/server communication strategy. Knowing
+this, you've probably guessed that a Java network game design
+will involve some type of client/server arrangement. In fact,
+the design of the NetConnect4 game can be divided cleanly into
+the client side and the server side. These two components are
+logically separate, communicating entirely through a game protocol
+defined between them. Let's take a look at what each of these
+pieces is responsible for.
+<H3><A NAME="TheServer"><B>The Server</B></A></H3>
+<P>
+In any Java game, the server side of the game acts almost like
+a referee, managing the different players and helping them communicate
+effectively. More specifically, a game server takes on the role
+of handling the network connection for each player, along with
+querying for and responding to events for the players. The role
+of a generic game server can be broken down into the following
+actions:
+<OL>
+<LI>Initialize the server socket.
+<LI>Wait for a client to connect.
+<LI>Accept the client connection.
+<LI>Create a daemon thread to support the client.
+<LI>Go back to step 2.
+</OL>
+<P>
+The most crucial aspect of this series of events is step 4, when
+the server creates a daemon thread to support the client. You're
+probably wondering what I mean by &quot;support.&quot; Well, in
+a generic sense, I don't know what I mean. The reason is that
+the daemon thread is where the applet-specific code goes. So a
+generic server only knows that it needs to create a daemon thread;
+it doesn't know or care about what that thread actually does.
+You'll learn more about daemon threads a little later today when
+you actually get into the code for NetConnect4.
+<P>
+A <I>daemon</I> is a process that runs in the background of a
+system performing some type of support function.
+<P>
+You now have an idea about the role a generic game server plays
+in the context of a network game. The question, then, is what
+role does such a server play in the context of a specific game,
+namely NetConnect4? The role of the NetConnect4 server ends up
+being not much different from that of the generic server, but
+it is important that you understand exactly what it needs to do
+differently.
+<P>
+Because Connect4 is a two-player game, the first job of the server
+is to pair up players (clients) as they connect to the game. A
+more limited approach would be to permit only the first two players
+who connect to play the game. But you're smarter than that and
+hopefully demand a more powerful game server. Your game server
+enables multiple games to be played at once simply by pairing
+additional client players together for each game. In this way,
+a typical NetConnect4 server session might have six or eight players
+playing at once. Of course, the players know only about the other
+player in their immediate game.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B> </TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+To keep things a little simpler, don't worry about players choosing who they play against; in other words, just pair players on a first-come first-served basis.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+After the server has detected two players and paired them up for
+a game, it becomes the responsibility of the server's daemon thread
+to dictate the flow of the game between the players. The daemon
+accomplishes this by informing each player of the state of the
+game, while also modifying the state according to each player's
+turn. The responsibilities of the NetConnect4 server and daemon
+can be summarized as shown here:
+<UL>
+<LI>Accept client player connections.
+<LI>Pair up players to form separate games.
+<LI>Manage the flow of the game.
+<LI>Communicate each player's move to the other player.
+<LI>Notify the players of the state of the game.
+</UL>
+<H3><A NAME="TheClient"><B>The Client</B></A></H3>
+<P>
+The other side of a Java network game is the client. The client
+portion of a network game corresponds to the applet being run
+by each player. Because game players interact with the client,
+the client program is usually much fancier than the server in
+regard to how information is displayed. As a matter of fact, game
+servers typically don't even have user interfaces; they crank
+away entirely behind-the-scenes doing all the dirty work while
+the client applets dazzle the users.
+<P>
+The basic responsibility of a game client is to connect to the
+server and communicate the user's actions, along with receiving
+game state information from the server and updating itself accordingly.
+Of course, along with this comes the responsibility of displaying
+the game graphics and managing the entire game interface for the
+user. You can probably already see that game clients tend to require
+the most work, at least from a strictly design perspective.
+<P>
+The good news is that you've already written most of the client
+for NetConnect4. The Connect4 game you wrote on <A HREF="ch16.htm" >Day 16</A>
+is essentially a non-networking game client in that it handles
+all the work of managing a game with a user; it displays the graphics,
+interfaces with the user, and keeps up with the state of the game.
+The focus of building a NetConnect4 client then becomes modifying
+the original Connect4 code to transform it into a full-blown client
+that can communicate with the NetConnect4 server. The following
+is a summary of what functionality the NetConnect4 client needs
+to provide:
+<UL>
+<LI>Connect to the server.
+<LI>Notify the player of the connection/game state.
+<LI>Communicate the player's move to the server.
+<LI>Receive the other player's move from the server.
+<LI>Update the game with the state received from the server.
+</UL>
+<H3><A NAME="PuttingThemTogether"><B>Putting Them Together</B></A>
+</H3>
+<P>
+You might be wondering how this whole client/server game scenario
+works in regard to a Web server, because it's apparent that the
+game server must be running at all times. For a network game to
+work, you must have the game server always running in the background,
+meaning that it must somehow be launched by the Web server or
+by some type of system startup feature. This makes it available
+to connect clients who come along wanting to play.
+<P>
+When a Web client shows up to play a game, the game server accepts
+the client's connection and then takes on the role of hooking
+the client up with another client to play a game. The game server
+is entirely responsible for detecting when clients arrive as well
+as when they leave, creating and canceling game sessions along
+the way. Because the game server is being run in the background
+all the time, it must be extremely robust.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B> </B> </TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Because the game server is responsible for detecting and pairing clients, it is imperative that the server be running at all times. Without the server, you have no knowledge of or communication between clients.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<H2><A NAME="SampleAppletNetConnect4"><B><FONT SIZE=5 COLOR=#FF0000>Sample
+Applet: NetConnect4</FONT></B></A></H2>
+<P>
+The NetConnect4 sample applet demonstrates all the details of
+using Internet network communication to develop a multiplayer
+Java game. Even though the focus of today's lesson is on the actual
+programming involved in making NetConnect4 a reality, you'll probably
+find the code a little easier to follow if you run the finished
+product first. Knowing that, let's put NetConnect4 through its
+paces and see how to use it. By the way, the complete source code,
+executable, images, and sounds for the NetConnect4 game are located
+on the accompanying CD-ROM.
+<H3><A NAME="RunningNetConnect4"><B>Running NetConnect4</B></A>
+</H3>
+<P>
+This discussion on running the NetConnect4 sample game assumes
+that you either have access to a Web server or can simulate a
+network connection on your local machine. When I refer to running
+the server side of the game, you need to run it in the way that
+you typically execute a program based on your Web server configuration.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+I tested the game myself by simulating a network connection on my local Windows 95 machine. I did this by changing the TCP/IP configuration on my machine so that it used a specific IP address; I just made up an address. If you make this change to your 
+network configuration, you won't be able to access a real network using TCP/IP until you set it back, so don't forget to restore things when you're finished testing the game.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+As you already know, the NetConnect4 game is composed of two parts:
+a client and a server. The NetConnect4 server is the core of the
+game and must be running in order for the clients to work. So
+to get the game running, you must first run the server by using
+the Java interpreter (<TT><FONT FACE="Courier">java</FONT></TT>).
+You do this from a command line, like this:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">java NetConnect4Server</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The other half of NetConnect4 is the client, which is an applet
+that runs from within a browser such as Netscape Navigator. Incidentally,
+the NetConnect4 client applet is called Connect4, to keep the
+name consistent with the original single-player game. After you
+have the server up and running, fire up a Java-compatible browser,
+and load an HTML document including the NetConnect4 client applet.
+On the CD-ROM, this HTML document is called <TT><FONT FACE="Courier">Example1.html</FONT></TT>,
+in keeping with the standard JDK demo applets. After running the
+Connect4 client applet, you should see something similar to what's
+shown in Figure 19.1.
+<P>
+<A HREF="f19-1.gif" ><B>Figure 19.1 : </B><I>The NetConnect4 game with a single clients player.</I></A>
+<P>
+At this point, you have the server up and running with a single
+client attached to it. Because two players are required to start
+a game, the client is in a wait state until another player comes
+along. Now, load a second instance of the Web browser with the
+same <TT><FONT FACE="Courier">Example1.html</FONT></TT> document;
+this is your second player. When the server detects this player,
+it pairs the two players and starts the game. Figure 19.2 shows
+this scenario.
+<P>
+<A HREF="f19-2.gif" ><B>Figure 19.2 : </B><I>The NetConnect4 game with two client players in a new game.</I></A>
+<P>
+By switching between the Web browsers, you can simulate a network
+game between the two players. Go ahead and outwit yourself so
+that you can see what happens when one of the players wins. This
+situation is shown in Figure 19.3.
+<P>
+<A HREF="f19-3.gif" ><B>Figure 19.3 : </B><I>The NetConnect4 game with two client players in a finished game.</I></A>
+<P>
+For another game to start between the same two players, each player
+just needs to click once in the applet window. You can see now
+how two players interact together in a game of NetConnect4. Now,
+if you really want to test the game, try loading two more instances
+of the Web browser and starting another game between two new players.
+In this scenario, you have a total of four players involved in
+two separate games, all running off the same server. The game
+server supports an unlimited number of players and games, although
+at some point it might be wise to impose a limit so that performance
+doesn't start dragging. A couple of hundred players banging away
+at your game server might tend to slow things down!
+<P>
+You now understand how the game plays, along with the roles of
+the client and server, so you're ready to actually dig into the
+source code and really see how things work. You've come to the
+right place.
+<H3><A NAME="DevelopingNetConnect4"><B>Developing NetConnect4</B></A>
+</H3>
+<P>
+The client/server nature of NetConnect4 doesn't just apply at
+the conceptual level, it also plays a role in how the code is
+laid out for the game. Because the client and server components
+function as separate programs, it makes sense to develop the code
+for them as two different efforts. With that in mind, let's tackle
+each part separately.
+<H4><B>The Server</B></H4>
+<P>
+The NetConnect4 server is composed of four classes:
+<UL>
+<LI><TT><FONT FACE="Courier">Connect4Server</FONT></TT>
+<LI><TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+<LI><TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+<LI><TT><FONT FACE="Courier">Game</FONT></TT>
+</UL>
+<P>
+The <TT><FONT FACE="Courier">Connect4Server</FONT></TT> class
+serves as a stub program to get the server started. Check out
+the source code for it:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">class Connect4Server {<BR>
+&nbsp;&nbsp;public static void main(String args[]) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;NetConnect4 server
+up and running...&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;new Connect4Daemon().start();<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+As you can see, the <TT><FONT FACE="Courier">Connect4Server</FONT></TT>
+class contains only one method, <TT><FONT FACE="Courier">main</FONT></TT>,
+which prints a message and creates a <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+object. The <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+class is where the server is actually created and initialized.
+The <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT> class
+is responsible for creating the server socket and handling client
+connections. Take a look at the member variables defined in the
+<TT><FONT FACE="Courier">Connect4Daemon</FONT></TT> class:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static final int PORTNUM = 1234;
+<BR>
+private ServerSocket&nbsp;&nbsp;&nbsp;&nbsp;port;<BR>
+private Connect4Player&nbsp;&nbsp;playerWaiting = null;<BR>
+private Game&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thisGame
+= null;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Other than the constant port number, <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+defines three member variables consisting of a <TT><FONT FACE="Courier">ServerSocket</FONT></TT>
+object, a <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+object, and a <TT><FONT FACE="Courier">Game</FONT></TT> object.
+The <TT><FONT FACE="Courier">Connect4Player</FONT></TT> and <TT><FONT FACE="Courier">Game</FONT></TT>
+classes are covered a little later in the lesson. The <TT><FONT FACE="Courier">ServerSocket</FONT></TT>
+member object, <TT><FONT FACE="Courier">port</FONT></TT>, is created
+using an arbitrary port number above 1024. If you recall from
+yesterday's lesson, all ports below 1024 are reserved for standard
+system services, so you must use one above 1024. More specifically,
+I chose 1234 as the port number, which is represented by the <TT><FONT FACE="Courier">PORTNUM</FONT></TT>
+constant.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Warning</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Using a port number greater than 1024 doesn't guarantee that the port will be available. It does guarantee, however, that the port isn't already assigned to a common service. Nevertheless, any other extended services, such as game servers, could 
+potentially conflict with your port number. If your port number conflicts with another server, just try a different one.</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">run</FONT></TT> method in <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+is where the details of connecting clients are handled:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void run() {<BR>
+&nbsp;&nbsp;Socket clientSocket;<BR>
+&nbsp;&nbsp;while (true) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (port == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Sorry,
+the port disappeared.&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;clientSocket = port.accept();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new Connect4Player(this, clientSocket).start();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Couldn't
+connect player: &quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">run</FONT></TT> method first retrieves
+the socket for a connecting client via a call to the <TT><FONT FACE="Courier">ServerSocket</FONT></TT>
+class's <TT><FONT FACE="Courier">accept</FONT></TT> method. If
+you recall from yesterday's lesson, the <TT><FONT FACE="Courier">accept</FONT></TT>
+method waits until a client connects and then returns a socket
+for the client. After a client connects, a <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+object is created using the client socket.
+<P>
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Note</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+Even though the <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT> class functions very much like a daemon thread, you don't specify it as a Java daemon thread because you don't want it to be destroyed by the runtime system. You might be wondering why the 
+Java runtime system would go around killing innocent threads. Because daemon threads always run as support for other non-daemon threads or programs, the Java runtime system kills them if there are no non-daemon threads executing.
+</BLOCKQUOTE>
+
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">waitForGame</FONT></TT> method is
+where players are paired up with each other. Listing 19.1 contains
+the source code for the <TT><FONT FACE="Courier">waitForGame</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.1. The </B><TT><B><FONT FACE="Courier">Connect4Daemon</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">waitForGame</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public synchronized Game waitForGame(Connect4Player
+p) {<BR>
+&nbsp;&nbsp;Game retval = null;<BR>
+&nbsp;&nbsp;if (playerWaiting == null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;playerWaiting = p;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thisGame = null;&nbsp;&nbsp;&nbsp;&nbsp;//
+just in case!<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;p.send(&quot;PLSWAIT&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;while (playerWaiting != null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wait();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;catch (InterruptedException
+e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Error:
+&quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return thisGame;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thisGame = new Game(playerWaiting, p);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;retval = thisGame;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;playerWaiting = null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;notify();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return retval;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">waitForGame</FONT></TT> method is
+called from within the <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+class, which you'll learn about in a moment. <TT><FONT FACE="Courier">waitForGame</FONT></TT>
+is passed a <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+object as its only parameter. If no player is waiting to play,
+this player is flagged as a waiting player, and a loop is entered
+that waits until another player connects. A null <TT><FONT FACE="Courier">Game</FONT></TT>
+object is then returned to indicate that only one player is present.
+When another player connects and <TT><FONT FACE="Courier">waitForGame</FONT></TT>
+is called, things happen a little differently. Because a player
+is now waiting, a <TT><FONT FACE="Courier">Game</FONT></TT> object
+is created using the two players. This <TT><FONT FACE="Courier">Game</FONT></TT>
+object is then returned to indicate that the game is ready to
+begin.
+<P>
+The <TT><FONT FACE="Courier">finalize</FONT></TT> method in <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+is simply an added measure to help clean up the server socket
+when the daemon dies:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">protected void finalize() {<BR>
+&nbsp;&nbsp;if (port != null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try { <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;port.close(); <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Error
+closing port: &quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;port = null;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+To clean up the server socket, <TT><FONT FACE="Courier">finalize</FONT></TT>
+simply calls the <TT><FONT FACE="Courier">close</FONT></TT> method
+on the port.
+<P>
+The <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT> class
+made a few references to the <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+class, which logically represents a player in the game. Listing
+19.2 contains the source code for the <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+class.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.2. The </B><TT><B><FONT FACE="Courier">Connect4Player</FONT></B></TT><B>
+class.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">class Connect4Player extends SocketAction
+{<BR>
+&nbsp;&nbsp;private Connect4Daemon daemon = null;<BR>
+<BR>
+&nbsp;&nbsp;public Connect4Player(Connect4Daemon server, Socket
+sock) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super(sock);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;daemon = server;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void run() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;daemon.waitForGame(this).playGame(this);
+<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;public void closeConnections() {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;super.closeConnections();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (outStream != null) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;send(&quot;GAMEOVER&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">Connect4Player</FONT></TT> class
+represents a player from the server's perspective. <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+is derived from <TT><FONT FACE="Courier">SocketAction</FONT></TT>,
+which is the generic socket class you developed yesterday. I told
+you it would come in handy. The only member variable defined in
+<TT><FONT FACE="Courier">Connect4Player</FONT></TT> is <TT><FONT FACE="Courier">daemon</FONT></TT>,
+which holds the <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+object associated with the player.
+<P>
+The constructor for <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+takes <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT> and
+<TT><FONT FACE="Courier">Socket</FONT></TT> objects as its two
+parameters. The <TT><FONT FACE="Courier">Connect4Daemon</FONT></TT>
+object is used to initialize the <TT><FONT FACE="Courier">daemon</FONT></TT>
+member variable, and the <TT><FONT FACE="Courier">Socket</FONT></TT>
+object is passed on to the parent constructor in <TT><FONT FACE="Courier">SocketAction</FONT></TT>.
+<P>
+The <TT><FONT FACE="Courier">run</FONT></TT> method for <TT><FONT FACE="Courier">Connect4Player</FONT></TT>
+calls back to the daemon's <TT><FONT FACE="Courier">waitForGame</FONT></TT>
+method to get a <TT><FONT FACE="Courier">Game</FONT></TT> object
+for the player. The <TT><FONT FACE="Courier">playGame</FONT></TT>
+method is then called on the <TT><FONT FACE="Courier">Game</FONT></TT>
+object to get the game underway. The <TT><FONT FACE="Courier">closeConnections</FONT></TT>
+method closes the client connection and is typically used to end
+the game.
+<P>
+The last class the NetConnect4 server comprises is the <TT><FONT FACE="Courier">Game</FONT></TT>
+class, which handles the details associated with managing the
+game logic and the communication between players. The <TT><FONT FACE="Courier">Game</FONT></TT>
+class takes on the bulk of the work involved in maintaining the
+state of the game, as well as communicating that state between
+the players. The <TT><FONT FACE="Courier">Game</FONT></TT> class
+contains a group of member constants that define the different
+states in the game:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public static final int ERROR = -1;<BR>
+public static final int IWON = -2;<BR>
+public static final int IQUIT = -3;<BR>
+public static final int ITIED = -4;<BR>
+public static final int YOURTURN = -5;<BR>
+public static final int SENTSTRING = -6;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Along with the constants, the <TT><FONT FACE="Courier">Game</FONT></TT>
+class has member variables representing each player, along with
+an event queue for each player and a string used to send messages
+to the other player:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private Connect4Player&nbsp;&nbsp;player1
+= null;<BR>
+private Connect4Player&nbsp;&nbsp;player2 = null;<BR>
+private Vector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1Queue
+= null;<BR>
+private Vector&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2Queue
+= null;<BR>
+private String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+An <I>event queue</I> is a list of events that take place within
+a particular context.
+<P>
+In the case of NetConnect4, an event consists of player moves
+and related game states. So the event queue is used to keep up
+with the latest player moves and game states.
+<P>
+The workhorse method in the <TT><FONT FACE="Courier">Game</FONT></TT>
+class is <TT><FONT FACE="Courier">playGame</FONT></TT>, which
+essentially manages the game flow and logic for each player. Listing
+19.3 contains the source code for the <TT><FONT FACE="Courier">playGame</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.3. The </B><TT><B><FONT FACE="Courier">Game</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">playGame</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void playGame(Connect4Player me)
+{<BR>
+&nbsp;&nbsp;String instr;<BR>
+&nbsp;&nbsp;boolean playgame = true;<BR>
+&nbsp;&nbsp;boolean theirturn = false;<BR>
+<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (me == player2) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theirturn = true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;else if (me != player1) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Illegal
+call to playGame!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;while (playgame) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!theirturn) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(&quot;YOURTURN&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instr = me.receive();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instr = instr.toUpperCase();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;instr = instr.trim();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (instr.startsWith(&quot;IQUIT&quot;))
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendStatus(me,
+IQUIT);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playgame
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (instr.startsWith(&quot;IWON&quot;))
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString
+= me.receive();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString
+= sentString.toUpperCase();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString
+= sentString.trim();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendStatus(me,
+IWON);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendStatus(me,
+SENTSTRING);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playgame
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (instr.startsWith(&quot;ITIED&quot;))
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString
+= me.receive();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString
+= sentString.toUpperCase();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString
+= sentString.trim();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendStatus(me,
+ITIED);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendStatus(me,
+SENTSTRING);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sentString
+= instr;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendStatus(me,
+SENTSTRING);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;theirturn = false;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (playgame) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(&quot;THEIRTURN&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int stat = getStatus(me);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (stat == IWON)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(&quot;THEYWON&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(getStatus(me) != SENTSTRING) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Received
+Bad Status&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.closeConnections();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(sentString);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playgame
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (stat
+== ITIED) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(&quot;THEYTIED&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if
+(getStatus(me) != SENTSTRING) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Received
+Bad Status&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.closeConnections();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(sentString);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playgame
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (stat
+== IQUIT) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(&quot;THEYQUIT&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playgame
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (stat
+== SENTSTRING) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(sentString);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (stat
+== ERROR) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.send(&quot;ERROR&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.closeConnections();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playgame
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Received
+Bad Status&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sendStatus(me,ERROR);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;me.closeConnections();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;playgame
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;me.closeConnections();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;I/O Error: &quot;
++ e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The logic used in <TT><FONT FACE="Courier">playGame</FONT></TT>
+is fairly simple in that it models the way a game of Connect4
+takes place; basically, each player waits while the other takes
+her turn. The only potentially confusing aspect of <TT><FONT FACE="Courier">playGame</FONT></TT>
+is the mechanism it uses to communicate between the players. Each
+player has an event queue, which contains game information sent
+by the other player. The players communicate with each other in
+an indirect fashion by using the event queue. The state of the
+game is encoded into event messages using the state constants,
+along with strings. The <TT><FONT FACE="Courier">playGame</FONT></TT>
+method interprets this information for each player.
+<P>
+The <TT><FONT FACE="Courier">getStatus</FONT></TT> method gets
+the status of the game for the player passed in the <TT><FONT FACE="Courier">me</FONT></TT>
+parameter. Listing 19.4 contains the source code for the <TT><FONT FACE="Courier">getStatus</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.4. The </B><TT><B><FONT FACE="Courier">Game</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">getStatus</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private synchronized int getStatus(Connect4Player
+me) {<BR>
+&nbsp;&nbsp;Vector ourVector = ((me == player1) ? p1Queue : p2Queue);
+<BR>
+&nbsp;&nbsp;while (ourVector.isEmpty()) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wait();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Error:
+&quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Integer retval = (Integer)(ourVector.firstElement());
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ourVector.removeElementAt(0);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (ArrayIndexOutOfBoundsException
+e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Array
+index out of bounds: &quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return retval.intValue();<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (NoSuchElementException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Couldn't get
+first element: &quot; + e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return 0; // never reached, just there
+to appease compiler<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">getStatus</FONT></TT> method waits
+until the player's event queue contains status information, and
+then it grabs the information and returns it.
+<P>
+The <TT><FONT FACE="Courier">sendStatus</FONT></TT> method is
+the complement of <TT><FONT FACE="Courier">getStatus</FONT></TT>;
+it's used to update a player's event queue with status information:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private synchronized void sendStatus(Connect4Player
+me, int message) {<BR>
+&nbsp;&nbsp;Vector theirVector = ((me == player1) ?&nbsp;&nbsp;p2Queue
+: p1Queue);<BR>
+&nbsp;&nbsp;theirVector.addElement(new Integer(message));<BR>
+&nbsp;&nbsp;notify();<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The integer status message passed in as the second parameter to
+<TT><FONT FACE="Courier">sendStatus</FONT></TT> is added to the
+player's event queue. The <TT><FONT FACE="Courier">notify</FONT></TT>
+method is then called, which causes the <TT><FONT FACE="Courier">wait</FONT></TT>
+call in <TT><FONT FACE="Courier">getStatus</FONT></TT> to return.
+This shows the synchronized nature of these two methods: <TT><FONT FACE="Courier">getStatus</FONT></TT>
+waits until <TT><FONT FACE="Courier">sendStatus</FONT></TT> provides
+the information it needs.
+<P>
+That sums up the code for the server. At this point, you have
+half a game. Too bad you can't do much with it yet; you still
+need a client. Knowing that, let's take a look at the code involved
+in making the client side work.
+<H4><B>The Client</B></H4>
+<P>
+The client side of NetConnect4 consists of four classes, three
+of which you've seen before:
+<UL>
+<LI><TT><FONT FACE="Courier">Connect4State</FONT></TT>
+<LI><TT><FONT FACE="Courier">Connect4Engine</FONT></TT>
+<LI><TT><FONT FACE="Courier">Connect4</FONT></TT>
+<LI><TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+</UL>
+<P>
+The first two classes, <TT><FONT FACE="Courier">Connect4State</FONT></TT>
+and <TT><FONT FACE="Courier">Connect4Engine</FONT></TT>, come
+directly from the original Connect4 game. They provide the core
+logic for establishing the rules of the game and determining whether
+the game has been won, lost, or tied. These two classes require
+no modification for NetConnect4, so refer to <A HREF="ch16.htm" >Day 16</A>
+if you need to refresh your memory on how they work.
+<P>
+The <TT><FONT FACE="Courier">Connect4</FONT></TT> applet class
+should also be familiar from the original game. A few modifications
+have been made to this version of <TT><FONT FACE="Courier">Connect4</FONT></TT>
+to accommodate the fact that the game is running over a network.
+The primary changes to the <TT><FONT FACE="Courier">Connect4</FONT></TT>
+class are in the <TT><FONT FACE="Courier">run</FONT></TT> method,
+which handles establishing a server connection and coordinating
+the state of the game with the graphics and user interface. Listing
+19.5 contains the source code for the <TT><FONT FACE="Courier">run</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.5. The </B><TT><B><FONT FACE="Courier">Connect4</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">run</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void run() {<BR>
+&nbsp;&nbsp;// Track the images<BR>
+&nbsp;&nbsp;int gameState = 0;<BR>
+&nbsp;&nbsp;newGame();<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;tracker.waitForID(0);<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (InterruptedException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;}<BR>
+<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Create the connection<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;connection = new Connect4ClientConnection(this);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;while (connection.isConnected()) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int istatus = connection.getTheirMove();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (istatus == Connect4ClientConnection.GAMEOVER)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove = false;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState = 0;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// Wait for the other player
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (istatus == Connect4ClientConnection.PLSWAIT)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (gameState
+== 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState
+= Connect4ClientConnection.PLSWAIT;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;Wait for player&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Gameflow
+error!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (istatus == Connect4ClientConnection.THEIRTURN)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = new String(&quot;Their
+turn.&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove = false;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState = Connect4ClientConnection.THEIRTURN;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (istatus == Connect4ClientConnection.YOURTURN)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState = Connect4ClientConnection.YOURTURN;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = new String(&quot;Your
+turn.&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove = true;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (istatus == Connect4ClientConnection.THEYWON)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState = Connect4ClientConnection.THEYWON;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (istatus == Connect4ClientConnection.THEYQUIT)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState = Connect4ClientConnection.THEYQUIT;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = new String(&quot;Opponent
+Quit!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove = false;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (istatus == Connect4ClientConnection.THEYTIED)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState = Connect4ClientConnection.THEYTIED;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (istatus == Connect4ClientConnection.ERROR)
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;error!&quot;);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameState = Connect4ClientConnection.ERROR;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = new String(&quot;Error!
+Game Over&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove = false;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (gameState
+== Connect4ClientConnection.THEIRTURN) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+Note that we make the move, but wait for the *server*<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+to say YOURTURN before we change the status. Otherwise,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+we have a race condition - if the player moves before<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+the server says YOURTURN, we go back into that mode,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//
+allowing the player to make two turns in a row!<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Point
+pos = gameEngine.makeMove(1, istatus);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blueSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (gameState
+== Connect4ClientConnection.THEYWON) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;Sorry, you lose!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sadSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else if (gameState
+== Connect4ClientConnection.THEYTIED) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;Tie game!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sadSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Gameflow
+error!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return;
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;IOException:
+&quot;+e);<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The logic used in the <TT><FONT FACE="Courier">run</FONT></TT>
+method flows directly from the logic you just learned about in
+the <TT><FONT FACE="Courier">Game</FONT></TT> class. This logic
+revolves around handling whose turn it is, along with communicating
+whether a game has been won, lost, or tied.
+<P>
+The <TT><FONT FACE="Courier">mouseDown</FONT></TT> method also
+has been modified a little to accommodate sending game information
+to the server. Listing 19.6 shows the source code for the <TT><FONT FACE="Courier">mouseDown</FONT></TT>
+method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.6. The </B><TT><B><FONT FACE="Courier">Connect4</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">mouseDown</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public boolean mouseDown(Event evt, int
+x, int y) {<BR>
+&nbsp;&nbsp;if (gameOver) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thread = null;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thread = new Thread(this);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;thread.start();<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;else if (myMove) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;// Make sure the move is valid<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;Point pos = gameEngine.makeMove(0, x /
+28);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (pos.y &gt;= 0) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!gameEngine.isWinner(0))
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (!gameEngine.isTie())
+{<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;redSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;Their turn.&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connection.sendMove(pos.x);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myMove
+= false;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sadSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;It's a tie!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connection.sendITIED();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connection.sendMove(pos.x);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;applauseSnd.play();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status
+= new String(&quot;You won!&quot;);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gameOver
+= true;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connection.sendIWON();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connection.sendMove(pos.x);
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repaint();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;else<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;badMoveSnd.play();<BR>
+&nbsp;&nbsp;return true;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">mouseDown</FONT></TT> method is actually
+where each player's physical move is sent to the server. Notice
+that this information is sent using the <TT><FONT FACE="Courier">client</FONT></TT>
+member variable, which is a <TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+object. This brings up a neat aspect of the design of the Connect4
+client: The client communication details in the <TT><FONT FACE="Courier">Connect4</FONT></TT>
+class are hidden in the <TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+class.
+<P>
+The <TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+class is in charge of managing the client socket and ensuring
+that information is sent back and forth to the server correctly.
+<TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+is derived from <TT><FONT FACE="Courier">SocketAction</FONT></TT>,
+which is another good example of code reuse. The constructor for
+<TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+takes an <TT><FONT FACE="Courier">Applet</FONT></TT> object as
+its only parameter:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">Connect4ClientConnection(Applet a) throws
+IOException {<BR>
+&nbsp;&nbsp;super(new Socket(a.getCodeBase().getHost(), PORTNUM));
+<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+The <TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+constructor creates a socket connection based on the applet parameter
+and a port number. Note that this port number must match the port
+number used by the server.
+<P>
+
+<CENTER><TABLE BORDERCOLOR=#000000 BORDER=1 WIDTH=80%>
+<TR><TD><B>Warning</B></TD></TR>
+<TR><TD>
+<BLOCKQUOTE>
+If the port numbers for the client and server don't match, none of the socket communication will be able to take place. In other words, the game won't run if the port numbers don't match.</BLOCKQUOTE>
+</TD></TR>
+</TABLE></CENTER>
+<P>
+<P>
+The <TT><FONT FACE="Courier">getTheirMove</FONT></TT> method in
+<TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+is used to get the other player's move so that the client game
+can be updated. Listing 19.7 contains the source code for the
+<TT><FONT FACE="Courier">getTheirMove</FONT></TT> method.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.7. The Connect4ClientConnection class's getTheirMove
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public int getTheirMove() {<BR>
+&nbsp;&nbsp;// Make sure we're still connected<BR>
+&nbsp;&nbsp;if (!isConnected()) <BR>
+&nbsp;&nbsp;&nbsp;&nbsp;throw new NullPointerException(&quot;Attempted
+to read closed socket!&quot;);<BR>
+<BR>
+&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;String s = receive();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;Received: &quot;
++ s);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;if (s == null)<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return GAMEOVER;<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;s = s.trim();<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;try {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return (new Integer(s)).intValue();
+<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;catch (NumberFormatException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// It was probably a status
+report error<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return getStatus(s);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;}<BR>
+&nbsp;&nbsp;catch (IOException e) {<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(&quot;I/O Error: &quot;
++ e);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;System.exit(1);<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return 0;<BR>
+&nbsp;&nbsp;}<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">getTheirMove</FONT></TT> method basically
+just receives a string from the server and resolves it down to
+an integer, which is then returned. The integer it receives is
+a game state constant as defined in <TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>.
+The following are the game state constants defined in <TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">static final int ERROR = -1;<BR>
+static final int PLSWAIT = -2;<BR>
+static final int YOURTURN = -3;<BR>
+static final int THEIRTURN = -4;<BR>
+static final int THEYWON = -5;<BR>
+static final int THEYQUIT = -6;<BR>
+static final int THEYTIED = -7;<BR>
+static final int GAMEOVER = -8;</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Although these game state constants are similar in function to
+the ones defined on the server side in the <TT><FONT FACE="Courier">Game</FONT></TT>
+class, keep in mind that they are client-specific and make sense
+only in the context of a client. The constants are all negative,
+which is based on the fact that the integer state constant is
+also used to convey the location of a player's move; all moves
+are in the range 0 through 6, which corresponds to the column
+into which a piece is being dropped.
+<P>
+The <TT><FONT FACE="Courier">getStatus</FONT></TT> method resolves
+a string status message into an integer game state constant. Listing
+19.8 contains the source code for <TT><FONT FACE="Courier">getStatus</FONT></TT>.
+<HR>
+<BLOCKQUOTE>
+<B>Listing 19.8. The </B><TT><B><FONT FACE="Courier">Connect4ClientConnection</FONT></B></TT><B>
+class's </B><TT><B><FONT FACE="Courier">getStatus</FONT></B></TT><B>
+method.<BR>
+</B>
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">private int getStatus(String s) {<BR>
+&nbsp;&nbsp;s = s.trim();<BR>
+&nbsp;&nbsp;if (s.startsWith(&quot;PLSWAIT&quot;))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return PLSWAIT;<BR>
+&nbsp;&nbsp;if (s.startsWith(&quot;THEIRTURN&quot;))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return THEIRTURN;<BR>
+&nbsp;&nbsp;if (s.startsWith(&quot;YOURTURN&quot;))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return YOURTURN;<BR>
+&nbsp;&nbsp;if (s.startsWith(&quot;THEYWON&quot;))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return THEYWON;<BR>
+&nbsp;&nbsp;if (s.startsWith(&quot;THEYQUIT&quot;))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return THEYQUIT;<BR>
+&nbsp;&nbsp;if (s.startsWith(&quot;THEYTIED&quot;))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return THEYTIED;<BR>
+&nbsp;&nbsp;if (s.startsWith(&quot;GAMEOVER&quot;))<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;return GAMEOVER;<BR>
+<BR>
+&nbsp;&nbsp;// Something has gone horribly wrong!<BR>
+&nbsp;&nbsp;System.out.println(&quot;received invalid status from
+server: &quot; + s);<BR>
+&nbsp;&nbsp;return ERROR;<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<HR>
+<P>
+The <TT><FONT FACE="Courier">getStatus</FONT></TT> method is used
+by <TT><FONT FACE="Courier">getTheirMove</FONT></TT> to convert
+incoming text messages to their integer equivalent.
+<P>
+The <TT><FONT FACE="Courier">sendMove</FONT></TT> method is pretty
+straightforward; it simply sends the player's move to the server:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void sendMove(int col) {<BR>
+&nbsp;&nbsp;String s = (new Integer(col)).toString();<BR>
+&nbsp;&nbsp;send(s);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+Likewise, the <TT><FONT FACE="Courier">sendIQUIT</FONT></TT>,
+<TT><FONT FACE="Courier">sendIWON</FONT></TT>, and <TT><FONT FACE="Courier">sendITIED</FONT></TT>
+methods are used to send the corresponding messages <TT><FONT FACE="Courier">IQUIT</FONT></TT>,
+<TT><FONT FACE="Courier">IWON</FONT></TT>, and <TT><FONT FACE="Courier">ITIED</FONT></TT>
+to the server:
+<BLOCKQUOTE>
+<TT><FONT FACE="Courier">public void sendIQUIT() {<BR>
+&nbsp;&nbsp;send(&quot;IQUIT&quot;);<BR>
+}<BR>
+<BR>
+public void sendIWON() {<BR>
+&nbsp;&nbsp;send(&quot;IWON&quot;);<BR>
+}<BR>
+<BR>
+public void sendITIED() {<BR>
+&nbsp;&nbsp;send(&quot;ITIED&quot;);<BR>
+}</FONT></TT>
+</BLOCKQUOTE>
+<P>
+That wraps up the client side of NetConnect4. If you're still
+a little dizzy from all the code, feel free to go through it again
+and study the details until you feel comfortable with everything.
+Trust me, it's perfectly normal to get confused during your first
+dealings with network game programming-I sure did!
+<H2><A NAME="Summary"><B><FONT SIZE=5 COLOR=#FF0000>Summary</FONT></B></A>
+</H2>
+<P>
+Today you wrote your fourth complete Java game. Well, you actually
+modified one of the games you had already written. However, turning
+a single-player game into a two-player game that can be played
+over the Web might as well constitute a whole new game. In learning
+how the game was implemented, you saw how the client/server architecture
+and Java socket services are used in a practical scenario. You
+also reused the generic socket class you developed yesterday,
+thereby reinforcing the values of applying OOP techniques to Java
+game programming.
+<P>
+With four complete Java games under your belt, you're probably
+ready to chart some new territory in regard to Java game development.
+That's a good thing, because tomorrow's lesson focuses on a subject
+that has long been crucial to successful game programming: optimization.
+Tomorrow's lesson guides you through some tricks and techniques
+for speeding up your Java game code.
+<H2><A NAME="QA"><B><FONT SIZE=5 COLOR=#FF0000>Q&amp;A</FONT></B></A>
+<BR>
+</H2>
+
+<TABLE>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>I still don't follow the whole client/server strategy as it applies to NetConnect4. Can you briefly explain it again?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Of course. The game server sits around in a never-ending loop waiting for client players to show up. When a player connects to the server, the server spawns a daemon thread to manage the communications necessary 
+to support a single game. This daemon serves as a communication channel between the two clients (players) involved in the game, which is necessary because there is no facility to enable clients to communicate directly with each other.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>Would this same client/server strategy work for a game with more than two players?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD WIDTH=559>Absolutely. The code would get a little messier because the daemon would have to manage a group of clients rather than just two, but conceptually there is no problem with adding more client players to 
+the mix.
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>Q</B></TD><TD><B>How do I incorporate NetConnect4 into a Web site?</B>
+</TD></TR>
+<TR VALIGN=TOP><TD WIDTH=50><B>A</B></TD><TD>Beyond simply including the client applet in an HTML document that is served up by your Web server, you must also make sure that the NetConnect4 server (<TT><FONT FACE="Courier">NetConnect4Server</FONT></TT>) is 
+running on the Web server machine. Without the game server, the clients are worthless.
+</TD></TR>
+</TABLE>
+<P>
+<H2><A NAME="Workshop"><B><FONT SIZE=5 COLOR=#FF0000>Workshop</FONT></B></A>
+</H2>
+<P>
+The Workshop section provides questions and exercises to help
+you get a better feel for the material you learned today. Try
+to answer the questions and at least ponder the exercises before
+moving on to tomorrow's lesson. You'll find the answers to the
+questions in appendix A, &quot;Quiz Answers.&quot;
+<H3><A NAME="Quiz"><B>Quiz</B></A></H3>
+<OL>
+<LI>What is a daemon thread?
+<LI>What is the significance of the <TT><FONT FACE="Courier">Game</FONT></TT>
+class?
+<LI>What is the purpose of the <TT><FONT FACE="Courier">Connect4ClientConnection</FONT></TT>
+class?
+</OL>
+<H3><A NAME="Exercises"><B>Exercises</B></A></H3>
+<OL>
+<LI>Enhance the NetConnect4 game to display the name of each player
+as he is making his move. Hint: To get the name of a player, use
+the <TT><FONT FACE="Courier">getHostName</FONT></TT> method after
+getting an <TT><FONT FACE="Courier">InetAddress</FONT></TT> object
+for a socket using <TT><FONT FACE="Courier">getInetAddress</FONT></TT>.
+<LI>Modify the NetConnect4 game to enable players to choose who
+they want to play with. Admittedly, this is a pretty big modification,
+but I think you can handle it. Hint: This task involves modifying
+the client/server design so that clients connect and are added
+to a list of potential players. A player can then choose an opponent
+from the list, in which case they are paired together normally.
+</OL>
+<P>
+<HR WIDTH="100%"></P>
+
+<CENTER><P><A HREF="ch18.htm"><IMG SRC="pc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="index.htm"><IMG SRC="hb.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="#CONTENTS"><IMG SRC="cc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A><A HREF="ch20.htm"><IMG 
+SRC="nc.gif" BORDER=0 HEIGHT=88 WIDTH=140></A></P></CENTER>
+
+<P>
+<HR WIDTH="100%"></P>
+
+</BODY>
+</HTML>
